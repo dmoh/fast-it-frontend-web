@@ -1,0 +1,21 @@
+<header class="container-fluid home">
+    <h2 class="text-center">Vos restaurants préférés livrés, juste cliquez</h2>
+    <div class="wrapper">
+        <div class="content">
+            <label class="label-small" for="locate-me">Trouver des restaurants a proximité</label>
+            <div class="input-group mb-3">
+                <input style="height: 40px" type="text" id="locate-me" [(ngModel)]="findPlace" (keypress)="findThisPlace($event)" class="form-control" placeholder="Entrez votre adresse" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                <div  class="input-group-append">
+                    <label style="height: 40px" class="btn-primary" ngbButtonLabel>
+                        GO!
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<app-home-features></app-home-features>
+<app-footer>
+</app-footer>
+
+
