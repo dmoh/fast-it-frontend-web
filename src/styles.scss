@@ -7,3 +7,10 @@
 body {
   font-family: 'Roboto', sans-serif;
 }
+
+@media (min-width: 1248px) {
+  .wrapper-restaurants {
+    margin: 0 auto;
+    width: 1248px;
+  }
+}

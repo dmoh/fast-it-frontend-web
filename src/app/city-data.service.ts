@@ -7,7 +7,7 @@ import {CityDatas} from "./models/city-datas";
 })
 export class CityDataService {
 
-  private cityDataSubject = new BehaviorSubject<CityDatas>();
+  private cityDataSubject = new BehaviorSubject<CityDatas>(new CityDatas('Cluses, France', 'Cluses'));
   cityDataCurrent: CityDatas;
   constructor() { }
 

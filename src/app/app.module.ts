@@ -12,6 +12,8 @@ import { FooterComponent } from './footer/footer.component';
 import {CoreModule} from "./core/core.module";
 import { RestaurantsCityComponent } from './restaurants-city/restaurants-city.component';
 import {CityDataService} from "./city-data.service";
+import { LoginPageComponent } from './login-page/login-page.component';
+import {RestaurantsModule} from "./restaurants/restaurants.module";
 
 @NgModule({
   declarations: [
@@ -21,13 +23,15 @@ import {CityDataService} from "./city-data.service";
     HomeFeaturesComponent,
     CardComponent,
     FooterComponent,
-    RestaurantsCityComponent
+    RestaurantsCityComponent,
+    LoginPageComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
-    CoreModule
+    CoreModule,
+    RestaurantsModule
   ],
   providers: [CityDataService],
   bootstrap: [AppComponent],

@@ -1,0 +1,49 @@
+
+
+ul {
+  list-style: none;
+}
+
+.wrapper-restaurants {
+  font-family: 'Hind Vadodara', sans-serif;
+}
+
+.mini-card-restaurant {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border-radius: 3px;
+}
+.dimension-star {
+  color: #08c308;
+  font-size: unset;
+  padding-top: 4px;
+  padding-right: 1px;
+  /* margin-top: 0px; */
+  vertical-align: top;
+}
+
+.area-restaurants {
+  width: 100%;
+  padding: 3px;
+  text-transform: none;
+  text-align: justify;
+  font-family: 'Hind Vadodara', sans-serif;
+  font-size: smaller;
+  color: #3e3e3e;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+a:hover {
+  text-decoration: none;
+}
+
+.delivery-time {
+  position: absolute;
+  padding: 3px;
+  margin-top: -1.3rem;
+  background: #fff;
+  border-radius: 3px;
+  right: 0;
+  box-shadow: 1px 1px 1px rgba(0,0,0,0.3);
+}
