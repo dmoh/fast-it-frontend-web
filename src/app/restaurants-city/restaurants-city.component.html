@@ -1,0 +1,11 @@
+<app-navbar></app-navbar>
+<section class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <h5>SIdeBar</h5>
+        </div>
+        <div *ngIf="citySelected" class="col-md-9">
+            <h4>10 Restaurants en livraison à <b>{{ citySelected.name }}</b></h4>
+        </div>
+    </div>
+</section>

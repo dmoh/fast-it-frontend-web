@@ -10,6 +10,8 @@ import { HomeFeaturesComponent } from './home/home-features/home-features.compon
 import { CardComponent } from './home/home-features/card/card.component';
 import { FooterComponent } from './footer/footer.component';
 import {CoreModule} from "./core/core.module";
+import { RestaurantsCityComponent } from './restaurants-city/restaurants-city.component';
+import {CityDataService} from "./city-data.service";
 
 @NgModule({
   declarations: [
@@ -18,7 +20,8 @@ import {CoreModule} from "./core/core.module";
     NavbarComponent,
     HomeFeaturesComponent,
     CardComponent,
-    FooterComponent
+    FooterComponent,
+    RestaurantsCityComponent
   ],
   imports: [
     BrowserModule,
@@ -26,8 +29,8 @@ import {CoreModule} from "./core/core.module";
     NgbModule,
     CoreModule
   ],
-  providers: [],
+  providers: [CityDataService],
   bootstrap: [AppComponent],
-  exports: [CoreModule, HomeComponent, NavbarComponent]
+  exports: [CoreModule, HomeComponent, NavbarComponent, RestaurantsCityComponent]
 })
 export class AppModule { }
