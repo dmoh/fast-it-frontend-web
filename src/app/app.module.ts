@@ -14,6 +14,7 @@ import { RestaurantsCityComponent } from './restaurants-city/restaurants-city.co
 import {CityDataService} from "./city-data.service";
 import { LoginPageComponent } from './login-page/login-page.component';
 import {RestaurantsModule} from "./restaurants/restaurants.module";
+import { ProductModalComponent } from './product-modal/product-modal.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import {RestaurantsModule} from "./restaurants/restaurants.module";
     FooterComponent,
     RestaurantsCityComponent,
     LoginPageComponent,
+    ProductModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -35,6 +37,6 @@ import {RestaurantsModule} from "./restaurants/restaurants.module";
   ],
   providers: [CityDataService],
   bootstrap: [AppComponent],
-  exports: [CoreModule, HomeComponent, NavbarComponent, RestaurantsCityComponent]
+  exports: [CoreModule, HomeComponent, NavbarComponent, RestaurantsCityComponent, ProductModalComponent]
 })
 export class AppModule { }

@@ -1,7 +1,71 @@
 .header-top-restaurant {
   padding: .7rem;
-  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+  /*box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);*/
   border-radius: 4px;
   /*border: .0003rem solid #dfdfdf;*/
   background: #fcfcfc;
+}
+
+.image-menu {
+  position: relative;
+  flex-shrink: 0;
+  width: 96px;
+  height: 96px;
+  margin-top: 0;
+  margin-left: 16px;
+  background-position: center;
+  background-color: #e8ebeb;
+  background-size: cover;
+
+  > img {
+    border-radius: 3px;
+  }
+
+}
+.wrapper-menu {
+  margin-top: 2rem;
+  padding: .4rem;
+  background: #fafafa;
+  transition: box-shadow 0.2s ease-in-out;
+  border: 1px solid #bebebe12;
+  cursor: pointer;
+  height: 111px;
+
+  &:hover {
+    box-shadow: 0px 22px 24px 0px rgba(0,0,0,0.08);
+  }
+}
+
+
+
+.card-menu {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  list-style-type: none;
+}
+
+
+.info-ingredient {
+  font-size: smaller;
+  margin-bottom: .1rem !important;
+  color: #959595;
+  font-family: 'Hind Vadodara', sans-serif;
+}
+
+.infos-menu {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+
+
+.position-text-product {
+  position: relative;
+  flex-grow: 1;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
 }
