@@ -49,6 +49,7 @@
             <div class="col-md-4">
                  <!-- todo menuTitle-restaurants --->
                  <!-- todo panier --->
+                <app-cart></app-cart>
             </div>
         </div>
         <div class="row">
@@ -220,15 +221,15 @@
                                     <div class="infos-menu">
                                         <div class="position-text-product">
                                             <div>
-                                                <h6 style="margin-bottom: .1rem"><b>SUSHI TANDOORI</b></h6>
+                                                <h6 style="margin-bottom: .1rem"><b>{{ product.name }}</b></h6>
                                             </div>
-                                            <p class="info-ingredient">Ingrédients du sushi tandoori - poulet - carotte - oignon </p>
+                                            <p class="info-ingredient">{{ product.ingredients }}</p>
                                             <div class="bottom-info-menu">
-                                                <span>12,00€</span><span> Info lambda</span>
+                                                <span>{{ product.price }}€</span><span> Info lambda</span>
                                             </div>
                                         </div>
-                                        <div *ngIf="" class="image-menu">
-                                            <img src="" width="100%" height="100%" alt="Sushi">
+                                        <div *ngIf="product.urlPhoto" class="image-menu">
+                                            <img src="{{ product.urlPhoto }}" width="100%" height="100%" alt="Sushi">
                                         </div>
                                     </div>
                                 </div>

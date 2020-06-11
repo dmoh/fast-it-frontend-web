@@ -26,7 +26,7 @@ import { ProductModalComponent } from './product-modal/product-modal.component';
     FooterComponent,
     RestaurantsCityComponent,
     LoginPageComponent,
-    ProductModalComponent,
+    ProductModalComponent
   ],
   imports: [
     BrowserModule,
@@ -37,6 +37,12 @@ import { ProductModalComponent } from './product-modal/product-modal.component';
   ],
   providers: [CityDataService],
   bootstrap: [AppComponent],
-  exports: [CoreModule, HomeComponent, NavbarComponent, RestaurantsCityComponent, ProductModalComponent]
+  exports: [
+      CoreModule,
+      HomeComponent,
+      NavbarComponent,
+      RestaurantsCityComponent,
+      ProductModalComponent
+  ]
 })
 export class AppModule { }

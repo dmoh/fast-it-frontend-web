@@ -12,8 +12,14 @@
     <div>
         {{ product.price }}€
     </div>
+    <div style="text-align: center">
+        <button type="button" class="btn btn-sm btn-primary" (click)="updateQuantity('less')" ><i style="vertical-align:middle" class="material-icons">remove</i></button>
+        <span style="font-size: x-large; padding-left: 2rem; padding-right: 2rem" >{{ quantityCurrent }}</span>
+        <span class="btn btn-sm btn-primary" (click)="updateQuantity('more')"><i style="vertical-align:middle" class="material-icons">add</i></span>
+        <span *ngIf="infos"></span>
+    </div>
 </div>
 <div class="modal-footer">
     <!-- todo integrer le montant total de ce produit -->
-    <button type="button" class="btn btn-outline-dark" >Total {{ product.price }}€</button>
+    <button type="button" (click)="updateCart()" class="btn btn-outline-primary" >Total {{ product.price * quantityCurrent }}€</button>
 </div>

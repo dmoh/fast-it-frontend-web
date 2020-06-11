@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ProductModalComponent} from "../../product-modal/product-modal.component";
 import {Product} from "../../models/product";
+import {CartService} from "../../cart/service/cart.service";
+import {Cart} from "../../cart/model/cart";
 
 @Component({
   selector: 'app-restaurant-details',
@@ -10,15 +12,18 @@ import {Product} from "../../models/product";
 })
 export class RestaurantDetailsComponent implements OnInit {
 
+  cartCurrent: Cart;
   starsRestaurant: any[] = [];
   products: Product[] = [];
-  constructor(private modal: NgbModal) {
+  constructor(private modal: NgbModal,
+              private cartService: CartService
+              ) {
 
     this.products = [
         {
           name: 'Tacos',
           id: 1,
-          price: 2,
+          price: 5,
           quantity: 4,
           remainingQuantity: 23,
           ingredients: 'Salade, Tomate, Oignon',
@@ -55,5 +60,11 @@ export class RestaurantDetailsComponent implements OnInit {
   openModal(product: Product): void {
     const modal = this.modal.open(ProductModalComponent);
     modal.componentInstance.product = product;
+    modal.result.then((product: Product) => {
+      if(product) {
+          this.cartService.cartUpdated.subscribe((cart: Cart) => this.cartCurrent = cart);
+      }
+    });
   }
+
 }

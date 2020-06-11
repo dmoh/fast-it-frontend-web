@@ -4,6 +4,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import {RouterModule} from "@angular/router";
 import { GooglePlaceModule } from "ngx-google-places-autocomplete";
+import { CartModule } from '../cart/cart.module';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import { GooglePlaceModule } from "ngx-google-places-autocomplete";
       ReactiveFormsModule,
       RouterModule,
       GooglePlaceModule,
+      CartModule
   ],
   exports: [
       CommonModule,
@@ -22,7 +24,8 @@ import { GooglePlaceModule } from "ngx-google-places-autocomplete";
       HttpClientModule,
       ReactiveFormsModule,
       RouterModule,
-      GooglePlaceModule
+      GooglePlaceModule,
+      CartModule
   ],
   providers: []
 })
