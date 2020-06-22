@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Product} from "../models/product";
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 import {CartService} from "../cart/service/cart.service";
+import {Cart} from "../cart/model/cart";
 
 @Component({
   selector: 'app-product-modal',
@@ -11,6 +12,7 @@ import {CartService} from "../cart/service/cart.service";
 export class ProductModalComponent implements OnInit {
 
   quantityCurrent: number;
+  cartCurrent: Cart;
   infos: string;
   @Input() product: Product;
   constructor(private modalActive: NgbActiveModal,
@@ -18,7 +20,16 @@ export class ProductModalComponent implements OnInit {
               ) { }
 
   ngOnInit(): void {
-    this.quantityCurrent = 1;
+    this.cartService.cartUpdated.subscribe((cartUp: Cart) => {
+        this.cartCurrent = cartUp;
+        const index = this.cartCurrent.products.findIndex(prod => prod.id === this.product.id);
+        if(index !== -1) {
+            this.quantityCurrent = +this.cartCurrent.products[index].quantity;
+        }else  {
+            this.quantityCurrent = 1;
+        }
+    });
+
   }
 
  updateQuantity(type: string): void {
