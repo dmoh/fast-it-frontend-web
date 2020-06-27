@@ -1,6 +1,6 @@
 <section class="cart mt-3">
     <div>
-        <button [disabled]="cart.products.length == 0" class="btn btn-outline-primary">VOIR MON PANIER</button>
+        <button [disabled]="cart.products.length == 0" routerLink="/cart-detail" class="btn btn-outline-primary">VOIR MON PANIER</button>
     </div>
     <div class="cart-current pt-3">
         <div *ngIf="cart.products.length == 0">
@@ -9,10 +9,10 @@
         <div *ngIf="cart.products.length > 0">
             <div *ngFor="let product of cart.products" class="cart-product">
                 <div>{{ product.name }}</div>
-                <div>{{product.price}}€</div>
-                <div>{{product.quantity}}</div>
+                <div>{{ product.price }}€</div>
+                <div>{{ product.quantity }}</div>
             </div>
-            <div>TOTAL </div>
+            <div>TOTAL {{ cart.total ? cart.total : '' }}</div>
         </div>
     </div>
 </section>

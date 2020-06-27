@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {Cart} from "../cart/model/cart";
+import {CartService} from "../cart/service/cart.service";
 
 @Component({
   selector: 'app-navbar',
@@ -7,9 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() { }
+  cart: Cart;
+  constructor(private cartService: CartService) { }
 
   ngOnInit(): void {
+    this.cartService.cartUpdated.subscribe((cartUpdated: Cart) => this.cart = cartUpdated);
   }
 
 }

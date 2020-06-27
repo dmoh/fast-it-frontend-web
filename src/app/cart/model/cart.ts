@@ -5,4 +5,5 @@ export class Cart {
     deliveryCost: number = 0;
     tva: number = 0.19;
     total: number = 0;
+    serviceCharge?: number = 0.4;
 }

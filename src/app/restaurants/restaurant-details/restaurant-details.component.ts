@@ -45,11 +45,12 @@ export class RestaurantDetailsComponent implements OnInit {
           remainingQuantity: 23,
           ingredients: 'Salade, Tomate, Oignon'
         },
-    ]
+    ];
   }
 
   ngOnInit(): void {
     this.starsRestaurant = [1, 3, 4, 5, 4];
+
   }
 
   scroll(id) {
@@ -60,8 +61,8 @@ export class RestaurantDetailsComponent implements OnInit {
   openModal(product: Product): void {
     const modal = this.modal.open(ProductModalComponent);
     modal.componentInstance.product = product;
-    modal.result.then((product: Product) => {
-      if(product) {
+    modal.result.then((prod: Product) => {
+      if (prod) {
           this.cartService.cartUpdated.subscribe((cart: Cart) => this.cartCurrent = cart);
       }
     });

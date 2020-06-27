@@ -10,6 +10,7 @@ import {CartService} from "./service/cart.service";
 })
 export class CartComponent implements OnInit {
 
+
   cart: Cart;
   @Optional() products: Product[];
   hasProduct: boolean;
@@ -21,5 +22,11 @@ export class CartComponent implements OnInit {
       this.hasProduct = false;
     }
   }
+
+
+
+
+
+
 
 }

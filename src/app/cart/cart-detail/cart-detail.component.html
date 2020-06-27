@@ -1,0 +1,121 @@
+<section class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h3 style="padding: .5rem; background: #ffa217; font-size: larger; color: white;">Récapitulatif du panier</h3>
+    </div>
+    <hr>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div *ngFor="let product of cartCurrent.products">
+        <div style="display: flex; flex-direction: column" class="wrapper-card-product">
+          <div style="display: flex; flex-direction: row; ">
+            <div style="flex: auto;text-align: center;align-self: center;">
+               {{ product.quantity }}
+            </div>
+            <div style="display: flex;flex-direction: column;flex: 4;">
+              {{ product.name }}
+              <div class="product-ingredient">
+                {{ product.ingredients }}
+              </div>
+            </div>
+            <div style="align-self: center;">{{ product.price.toFixed(2) }} €</div>
+          </div>
+          <div>
+            <hr>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+    </div>
+    <div style="display: flex" class="col-md-6">
+      <div style="flex: 1">Frais de livraison</div>
+      <div>2,50 €</div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+    </div>
+    <hr>
+    <div style="display: flex" class="col-md-6">
+      <div style="flex: 1">Frais de service</div>
+      <div>0,40 €</div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+    </div>
+    <hr>
+    <div style="display: flex" class="col-md-6">
+      <div style="flex: 1">TOTAL</div>
+      <div>{{ (cartCurrent.total.toFixed(2)).replace('.', ',') }} €</div>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-md-12">
+      <h5>Paiement sécurisé
+      </h5>
+    </div>
+  </div>
+  <div class="row">
+    <div style="display: flex;margin-top: -.5rem;" class="col-md-12">
+        <div id="card-element" style="width: 100%">
+          <div style="display:flex;">
+            <div style="flex: 2; padding-right: 7px" class="form-group">
+              <label for="cardNumber">Numéro de carte</label>
+              <div id="cardNumber" class="field empty">
+              </div>
+            </div>
+
+            <div style="flex: auto; padding-right: 7px" class="">
+              <label style="display: block !important;" for="cardExpiry">Date d'expiration</label>
+              <div id="cardExpiry"  class="field empty">
+              </div>
+            </div>
+
+            <div style="flex: auto" class="">
+              <label style="display: block;" for="cardCvc">CVV</label>
+              <div id="cardCvc" class="field empty">
+              </div>
+              <p style="display: inline-block; font-size: smaller; font-style: italic"></p>
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+  <div class="row">
+    <div style="display: flex; justify-content: center" class="col-md-12">
+      <div style="">
+        <img style="height: 90px;margin-top: -2.5rem;right: 0; margin-bottom: 2rem" src="assets/stripe/stripe-payment-icon.png" alt="logo stripe">
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+    </div>
+      <div style="display: flex;text-align: right;justify-content: flex-end;margin-top: -2rem;" class="col-md-6">
+      <button (click)="onProceedCheckout($event)" style="align-self: flex-end" class="btn btn-success">VALIDER LE PAIEMENT</button>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <!--<form id="payment-form">
+        <div id="card-element">
+        </div>
+
+        <div id="card-errors" role="alert"></div>
+
+        <button id="submit">Livrez-moi!</button>
+      </form>-->
+    </div>
+  </div>
+
+
+
+</section>
