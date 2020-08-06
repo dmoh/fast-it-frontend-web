@@ -1,0 +1,48 @@
+<section>
+  <div style="width: 100%; padding: 1.5rem; display: flex; justify-content: space-between">
+    <div>
+      <h2>Confirmatiom</h2>
+    </div>
+    <div>
+    <span class="material-icons">
+      shopping_cart
+    </span>
+    </div>
+  </div>
+  <div>
+    <div class="form-group">
+      <p>
+        <mat-form-field style="width: 100%;" appearance="outline">
+          <mat-label>Email</mat-label>
+          <input matInput type="text" formControlName="email" placeholder="Placeholder">
+          <mat-icon matSuffix>credit card</mat-icon>
+        </mat-form-field>
+      </p>
+    </div>
+
+    <div style="display: flex;margin-top: -.5rem;" class="col-md-12">
+      <div id="card-element" style="width: 100%">
+        <div style="display:flex;">
+          <div style="flex: 2; padding-right: 7px" class="form-group">
+            <label for="cardNumber">Numéro de carte</label>
+            <div id="cardNumber" class="field empty">
+            </div>
+          </div>
+
+          <div style="flex: auto; padding-right: 7px" class="">
+            <label style="display: block !important;" for="cardExpiry">Date d'expiration</label>
+            <div id="cardExpiry"  class="field empty">
+            </div>
+          </div>
+
+          <div style="flex: auto" class="">
+            <label style="display: block;" for="cardCvc">CVV</label>
+            <div id="cardCvc" class="field empty">
+            </div>
+            <p style="display: inline-block; font-size: smaller; font-style: italic"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

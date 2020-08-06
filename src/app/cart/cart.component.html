@@ -1,18 +1,33 @@
 <section class="cart mt-3">
     <div>
-        <button [disabled]="cart.products.length == 0" routerLink="/cart-detail" class="btn btn-outline-primary">VOIR MON PANIER</button>
+        <button [disabled]="cart.products.length == 0" (click)="seeCart()" class="btn btn-outline-primary">VOIR MON PANIER</button>
     </div>
     <div class="cart-current pt-3">
         <div *ngIf="cart.products.length == 0">
-            <p>VOTRE PANIER EST VIDE</p>
+          <p>VOTRE PANIER EST VIDE</p>
         </div>
         <div *ngIf="cart.products.length > 0">
             <div *ngFor="let product of cart.products" class="cart-product">
-                <div>{{ product.name }}</div>
-                <div>{{ product.price }}€</div>
-                <div>{{ product.quantity }}</div>
+              <div style="display: flex;padding: .5rem 0;border-bottom: 1px solid #eaeaea69; font-size: small" class="product-row">
+                <div style="flex: auto">
+                  <select class="form-control" (change)="onUpdateCart($event, product)" name="product-quantity" style="width: auto" id="product-quantity">
+                    <option value="{{ product.quantity }}" selected>{{ product.quantity }}</option>
+                    <option *ngFor="let q of qMax"
+                            value="{{ q }}"
+                            [disabled]="q == product.quantity "
+                    >{{ q }}</option> <!-- todo liste en fonction de la quantité max -->
+                  </select>
+                </div>
+                <div class="mt-2 pl-2" style="flex: 2; text-align: left">
+                  <div style="font-size: small; margin-left: -3rem">{{ product.name }}</div>
+                  <div style="font-size: smaller; color: #ccc; margin-left: -3rem;">
+                    {{ product.ingredients }}
+                  </div>
+                </div>
+                <div class="mt-2 pl-2" style="flex: auto; line-height: 2.5">{{ (product.price).toFixed(2) }}€</div>
+              </div>
             </div>
-            <div>TOTAL {{ cart.total ? cart.total : '' }}</div>
+            <div style="color: #27b666; font-weight: bold" class="mt-2">TOTAL {{ cart.total ? (cart.total).toFixed(2) : '' }}€</div>
         </div>
     </div>
 </section>

@@ -1,5 +1,4 @@
 .home {
-  background: url(/assets/home_images/bg_image_header_home.jpg) no-repeat top left;
   background-size: cover;
   height: 400px;
   display: flex;
@@ -8,9 +7,11 @@
   justify-content: center;
 }
 .wrapper {
-  background: #fff;
-  width: 560px;
+  background: #ea7b1c75;
+  width: 40%;
   border-radius: 5px;
+  margin-bottom: .3rem;
+
 }
 .content {
   padding: 1rem;
@@ -20,4 +21,18 @@
   font-size: small;
   color: #a2a2a2;
   margin-bottom: 0 !important;
+}
+
+.home-section {
+  height: 420px;
+  background: url(/assets/home_images/bg_top.jpg) no-repeat top left;
+  background-size: cover;
+  background-position-y: -120px;
+}
+
+.content {
+  padding: 0.5rem;
+  margin: 0.2rem;
+  background: #fff;
+  border-radius: 3px;
 }

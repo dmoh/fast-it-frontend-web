@@ -62,7 +62,19 @@
     </div>
   </div>
   <div class="row">
+      <div style="display: flex; justify-content: center" class="col-md-12">
+
+      </div>
     <div style="display: flex;margin-top: -.5rem;" class="col-md-12">
+      <div style="width: 100%" class="checkout-stripe-form">
+        <div style="width: 100%;display: flex; justify-content: space-between; padding: .5rem">
+          <div>
+            <h5>Stripe</h5>
+          </div>
+          <div style="">
+            <img style="" src="assets/stripe/cards_logo.png" width="150" height="auto" alt="logo stripe">
+          </div>
+        </div>
         <div id="card-element" style="width: 100%">
           <div style="display:flex;">
             <div style="flex: 2; padding-right: 7px" class="form-group">
@@ -85,20 +97,15 @@
             </div>
           </div>
         </div>
-    </div>
-  </div>
-  <div class="row">
-    <div style="display: flex; justify-content: center" class="col-md-12">
-      <div style="">
-        <img style="height: 90px;margin-top: -2.5rem;right: 0; margin-bottom: 2rem" src="assets/stripe/stripe-payment-icon.png" alt="logo stripe">
       </div>
     </div>
   </div>
 
+
   <div class="row">
     <div class="col-md-6">
     </div>
-      <div style="display: flex;text-align: right;justify-content: flex-end;margin-top: -2rem;" class="col-md-6">
+      <div style="display: flex;text-align: right;justify-content: flex-end;margin-top: 2rem;" class="col-md-6">
       <button (click)="onProceedCheckout($event)" style="align-self: flex-end" class="btn btn-success">VALIDER LE PAIEMENT</button>
     </div>
   </div>

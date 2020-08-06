@@ -1,10 +1,25 @@
-import { NgModule } from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {HttpClientModule} from "@angular/common/http";
-import {RouterModule} from "@angular/router";
-import { GooglePlaceModule } from "ngx-google-places-autocomplete";
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import {RouterModule} from '@angular/router';
+import { GooglePlaceModule } from 'ngx-google-places-autocomplete';
 import { CartModule } from '../cart/cart.module';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatInputModule} from '@angular/material/input';
+import {MatCardModule} from '@angular/material/card';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogModule} from '@angular/material/dialog';
+import {MatChipsModule} from '@angular/material/chips';
+import {MatStepperModule} from '@angular/material/stepper';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatTableModule} from '@angular/material/table';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
+import {MatTabsModule} from '@angular/material/tabs';
+import {ErrorInterceptor} from '@app/_helpers/error.interceptor';
+import {JwtInterceptor} from '@app/_helpers/jwt.interceptor';
 
 
 @NgModule({
@@ -16,7 +31,20 @@ import { CartModule } from '../cart/cart.module';
       ReactiveFormsModule,
       RouterModule,
       GooglePlaceModule,
-      CartModule
+      CartModule,
+      MatFormFieldModule,
+      MatIconModule,
+      MatAutocompleteModule,
+      MatInputModule,
+      MatCardModule,
+      MatDialogModule,
+      MatProgressBarModule,
+      MatTableModule,
+      MatChipsModule,
+      MatStepperModule,
+      MatSlideToggleModule,
+      MatButtonModule,
+      MatTabsModule
   ],
   exports: [
       CommonModule,
@@ -25,8 +53,26 @@ import { CartModule } from '../cart/cart.module';
       ReactiveFormsModule,
       RouterModule,
       GooglePlaceModule,
-      CartModule
+      CartModule,
+      MatIconModule,
+      MatAutocompleteModule,
+      MatInputModule,
+      MatCardModule,
+      MatDialogModule,
+      MatProgressBarModule,
+      MatTableModule,
+      MatFormFieldModule,
+      MatChipsModule,
+      MatStepperModule,
+      MatSlideToggleModule,
+      MatButtonModule,
+      MatTabsModule
   ],
-  providers: []
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    MatDialog
+  ]
 })
 export class CoreModule { }

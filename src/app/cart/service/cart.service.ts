@@ -3,6 +3,8 @@ import {Product} from "../../models/product";
 import {Cart} from "../model/cart";
 import {BehaviorSubject, Observable} from "rxjs/index";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {AuthenticationService} from "@app/_services/authentication.service";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -12,19 +14,26 @@ export class CartService {
   cartCurrent: Cart = new Cart();
   cartSubject = new BehaviorSubject<Cart>(this.cartCurrent);
   cartUpdated = this.cartSubject.asObservable();
+  protected tokenUserCurrent: string;
   headers: any;
 
 
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private authenticate: AuthenticationService, private router: Router) {
     this.headers = new HttpHeaders({'Content-Type': 'application/json; charset=utf-8'});
     if (localStorage.getItem('cart_fast_eat')) {
       this.setCart(JSON.parse(localStorage.getItem('cart_fast_eat')));
     }
+    if (this.authenticate.tokenUserCurrent == null) {
+      this.router.navigate(['/login']);
+    }
+    if (this.authenticate.tokenUserCurrent) {
+     this.headers.append(`Authorization: Bearer ${this.authenticate.tokenUserCurrent}`) ;
+    }
   }
 
 
-  UpdateCart(type: string, product: Product): void {
+  UpdateCart(type: string, product: Product): void { // todo enlever majuscule de cette méthode
     if (type === 'add') {
         if (!this.cartCurrent) {
             this.cartCurrent = new Cart();
@@ -36,6 +45,12 @@ export class CartService {
         } else {
             this.cartCurrent.products.push(product);
         }
+        this.generateTotalCart();
+        this.emitCartSubject();
+    } else if (type === 'update') {
+        const arrayProductsCurrent = this.cartCurrent.products;
+        const index = arrayProductsCurrent.findIndex(prod => prod.id === product.id);
+        this.cartCurrent.products[index] = product;
         this.generateTotalCart();
         this.emitCartSubject();
     } else if (type === 'remove') {
@@ -71,8 +86,9 @@ export class CartService {
     return this.http.get<any>(`http://localhost:8000/payment/token-payment`, this.headers);
   }*/
 
-  getTokenPaymentIntent(amount: number, currency: string = 'EUR'): Observable<any> {
-    return this.http.post<any>(`http://localhost:8000/payment/token-payment`, { amount, currency}, this.headers);
+  getTokenPaymentIntent(amountCart: number, currencyCart: string = 'EUR'): Observable<any> {
+    return this.http.post<any>(`http://localhost:8000/payment/token-payment`,
+      { amount: amountCart, currency: currencyCart }, this.headers);
   }
 
 }

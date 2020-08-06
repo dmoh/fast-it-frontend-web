@@ -14,3 +14,34 @@ body {
     width: 1248px;
   }
 }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.mat-form-field-wrapper {
+  padding-bottom: .4375em !important;
+}
+
+
+.bg-light {
+  background-color: #ea7b1c !important;
+}
+
+.mat-raised-button.mat-primary, .mat-fab.mat-primary, .mat-mini-fab.mat-primary {
+  background-color: #ea7b1c;
+}
+
+div.input-group .mat-form-field-wrapper {
+  padding-bottom: 0 !important;
+}
+
+ul {
+  list-style: none;
+}
+
+.wrapper-form {
+  padding: 1rem;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  margin-top: 0.5rem;
+  box-shadow: 3px 6px 20px orangered;
+}
