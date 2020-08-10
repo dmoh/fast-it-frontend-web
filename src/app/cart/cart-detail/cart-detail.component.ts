@@ -4,6 +4,7 @@ import { Router} from "@angular/router";
 import {Cart} from "../model/cart";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ConfirmationCodePaymentModalComponent} from "../../confirmation-code-payment-modal/confirmation-code-payment-modal.component";
+import {AuthenticationService} from "@app/_services/authentication.service";
 
 @Component({
   selector: 'app-cart-detail',
@@ -34,11 +35,11 @@ export class CartDetailComponent implements OnInit {
   constructor(
     private cartService: CartService,
     private route: Router,
-    private codeConfirmationModal: NgbModal
+    private codeConfirmationModal: NgbModal,
+    private authenticationService: AuthenticationService
   ) {
     this.paymentValidated = false;
     this.loadStripe();
-
   }
 
   ngOnInit(): void {
@@ -47,9 +48,9 @@ export class CartDetailComponent implements OnInit {
       this.cartCurrent = cartUpdated;
       this.cartCurrent.total += +(this.SERVICE_CHARGE + this.DELIVERY_COST);
       if (this.cartCurrent.products.length < 1) {
-        this.route.navigate(['home']);
+         this.route.navigate(['home']);
       }
-      this.cartService.getTokenPaymentIntent(+(this.cartCurrent.total) * 100).subscribe((token: any) => {
+      this.cartService.getTokenPaymentIntent(+(this.cartCurrent.total) * 100).subscribe((token: any ) => {
           this.clientSecret = token.client_secret;
           console.log(this.clientSecret);
         }
@@ -105,7 +106,7 @@ export class CartDetailComponent implements OnInit {
       payment_method: {
         card: this.cardNumber,
         billing_details: {
-          name: 'Jenny Rosen'
+          name: 'Jenny Rosen' // TODO ADD REAL NAME
         }
       }
     }).then((result) => {
@@ -121,7 +122,11 @@ export class CartDetailComponent implements OnInit {
                { backdrop: 'static', keyboard: false, size: 'lg' });
              codeModal.componentInstance.code = CartDetailComponent.generateConfirmationCode();
              codeModal.result.then((response) => {
-               console.warn('respo', response);
+               if (response) {
+                    // send code to db
+                   this.cartService.saveCodeCustomerToDeliver({ responseCustomer: response, cartDetail: this.cartCurrent}).subscribe((responseServer) => {
+                   });
+               }
              });
           }
         }

@@ -4,11 +4,12 @@
   <div>
     <p style="color: black;font-style: italic; font-size: small" >Dans un souci de suivi et de traçabilité, pour vous, il est nécessaire de donner le code ci-dessous au livreur</p>
     <div style="text-align: center; color: red; font-size: x-large">
-      <span style="display: block">CODE POUR LIVREUR</span>
+      <span style="display: block">CODE POUR LE LIVREUR</span>
       <span>{{ code }}</span>
     </div>
     <div>
-      <button (click)="onValidatedInformation()" class="btn btn-primary">Bien reçu!</button>
+      <button (click)="onCheckResponseCustomer('ok')" class="btn btn-outline-primary">Bien reçu!</button>
+      <button (click)="onCheckResponseCustomer('no')" class="btn btn-outline-info">Bien reçu!</button>
     </div>
   </div>
 </section>

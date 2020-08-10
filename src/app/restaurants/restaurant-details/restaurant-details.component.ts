@@ -50,12 +50,11 @@ export class RestaurantDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.starsRestaurant = [1, 3, 4, 5, 4];
-
   }
 
   scroll(id) {
       const elmnt = document.getElementById(id);
-      elmnt.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+      elmnt.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'});
   }
 
   openModal(product: Product): void {

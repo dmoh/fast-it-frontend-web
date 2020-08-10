@@ -15,11 +15,15 @@ export class ConfirmationCodePaymentModalComponent implements OnInit {
   }
 
 
-  onValidatedInformation(): void {
+  onCheckResponseCustomer(response: string): void {
     // todo send to server with id customer
+    let responseCustomerModal = true;
+    if (response === 'no') {
+      responseCustomerModal = false;
+    }
     this.modal.close({
       code: this.code,
-      customerIsAgree: true
+      customerResponse: responseCustomerModal
     });
   }
 

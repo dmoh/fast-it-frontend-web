@@ -20,9 +20,9 @@ export class RestaurantsCityComponent implements OnInit{
     this.cityDataService.getCityData().subscribe((city: CityDatas) => {
 
         this.citySelected = city;
-        if(!this.citySelected) {
+        /*if( !this.citySelected) {
           this.route.navigate(['/home']);
-        }
+        }*/
       }
     );
 

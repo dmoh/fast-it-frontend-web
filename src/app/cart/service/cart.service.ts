@@ -16,7 +16,7 @@ export class CartService {
   cartUpdated = this.cartSubject.asObservable();
   protected tokenUserCurrent: string;
   headers: any;
-
+  urlApi: 'http://localhost:8000/';
 
 
   constructor(private http: HttpClient, private authenticate: AuthenticationService, private router: Router) {
@@ -25,7 +25,7 @@ export class CartService {
       this.setCart(JSON.parse(localStorage.getItem('cart_fast_eat')));
     }
     if (this.authenticate.tokenUserCurrent == null) {
-      this.router.navigate(['/login']);
+      // this.router.navigate(['/login']);
     }
     if (this.authenticate.tokenUserCurrent) {
      this.headers.append(`Authorization: Bearer ${this.authenticate.tokenUserCurrent}`) ;
@@ -91,4 +91,10 @@ export class CartService {
       { amount: amountCart, currency: currencyCart }, this.headers);
   }
 
+  // saveOrder()
+
+  saveCodeCustomerToDeliver(responseCustomer: {}): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}/order/save/delivery-code`,
+      responseCustomer, this.headers);
+  }
 }
