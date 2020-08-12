@@ -43,7 +43,6 @@ export class CartDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.cartService.cartUpdated.subscribe((cartUpdated: Cart) => {
       this.cartCurrent = cartUpdated;
       this.cartCurrent.total += +(this.SERVICE_CHARGE + this.DELIVERY_COST);
@@ -118,16 +117,21 @@ export class CartDetailComponent implements OnInit {
         if (result.paymentIntent.status === 'succeeded') {
           const responsePayment = result.paymentIntent;
           if (responsePayment.status === 'succeeded') {
-             const codeModal = this.codeConfirmationModal.open(ConfirmationCodePaymentModalComponent,
-               { backdrop: 'static', keyboard: false, size: 'lg' });
-             codeModal.componentInstance.code = CartDetailComponent.generateConfirmationCode();
-             codeModal.result.then((response) => {
-               if (response) {
-                    // send code to db
-                   this.cartService.saveCodeCustomerToDeliver({ responseCustomer: response, cartDetail: this.cartCurrent}).subscribe((responseServer) => {
-                   });
-               }
-             });
+             // save order payment succeeded
+             this.cartService.saveOrder({stripeResponse: responsePayment, cartDetail: this.cartCurrent })
+               .subscribe((confCode: string) => {
+                 const codeModal = this.codeConfirmationModal.open(ConfirmationCodePaymentModalComponent,
+                   { backdrop: 'static', keyboard: false, size: 'lg' });
+                 codeModal.componentInstance.code = confCode;
+                 codeModal.result.then((response) => {
+                   if (response) {
+                     // send code to db
+                     this.cartService.saveCodeCustomerToDeliver({ responseCustomer: response, cartDetail: this.cartCurrent})
+                       .subscribe((responseServer) => {
+                       });
+                   }
+                 });
+               });
           }
         }
       }
