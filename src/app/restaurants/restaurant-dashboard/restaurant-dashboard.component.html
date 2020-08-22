@@ -1,0 +1,80 @@
+<section class="wrapper-container">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-3">
+        <div  class="sidebar-left">
+          <div style="width: 100%; display: flex; flex-direction: column;justify-content: center" class="nav">
+            <div class="wrapper-link-sidebar">
+              <div>
+                Vue globale
+              </div>
+            </div>
+            <div class="wrapper-link-sidebar">
+              <div>
+                Commerce
+              </div>
+            </div>
+            <div class="wrapper-link-sidebar">
+              <a routerLink="/orders">
+                <div>
+                  Commandes
+                </div>
+              </a>
+            </div>
+            <div class="wrapper-link-sidebar">
+              <div>
+                Produits
+              </div>
+            </div>
+            <div class="wrapper-link-sidebar">
+              <div>
+                Contact
+              </div>
+            </div>
+            <div class="wrapper-link-sidebar">
+              <div>
+                Export
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-9">
+        <header>
+          <div style="width: 100%" class="top-bar-dashboard">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-md-3" style="display: flex;width: 100%">
+                  <div style="">
+                    <img class="wrapper-img" src="assets/home_images/sushi.jpg" alt="logo_business" width="60px" height="auto">
+                  </div>
+                  <div *ngIf="restaurant">
+                    <h4>{{ restaurant.name |  uppercase }}</h4>
+                  </div>
+                </div>
+                <div class="col-md-9">
+                  <div style="align-self: flex-end">
+                    <div class="pull-right">
+                      {{ restaurant.street }}
+                    </div>
+                    <div>
+                      {{restaurant.city}}, {{ restaurant.zipcode }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+        <section style="margin-top: 1rem" class="container-fluid">
+          <!-- 5 last orders -->
+          <div class="row">
+            <div class="col-md-12">
+              <router-outlet></router-outlet>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</section>

@@ -5,6 +5,7 @@ import {Cart} from "../model/cart";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ConfirmationCodePaymentModalComponent} from "../../confirmation-code-payment-modal/confirmation-code-payment-modal.component";
 import {AuthenticationService} from "@app/_services/authentication.service";
+import {ErrorInterceptor} from "@app/_helpers/error.interceptor";
 
 @Component({
   selector: 'app-cart-detail',
@@ -36,8 +37,7 @@ export class CartDetailComponent implements OnInit {
     private cartService: CartService,
     private route: Router,
     private codeConfirmationModal: NgbModal,
-    private authenticationService: AuthenticationService
-  ) {
+    private authenticationService: AuthenticationService) {
     this.paymentValidated = false;
     this.loadStripe();
   }
@@ -52,6 +52,10 @@ export class CartDetailComponent implements OnInit {
       this.cartService.getTokenPaymentIntent(+(this.cartCurrent.total) * 100).subscribe((token: any ) => {
           this.clientSecret = token.client_secret;
           console.log(this.clientSecret);
+        }, (error) => {
+          if (/Expired JWT/.test(error)) {
+              this.route.navigate(['/login']);
+          }
         }
       );
     });
