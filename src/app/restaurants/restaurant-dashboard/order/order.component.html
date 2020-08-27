@@ -1,25 +1,28 @@
-<h5>DERNIERES COMMANDES</h5>
-<div class="table-responsive">
-  <table class="table table-striped">
-    <thead>
-    <tr>
-      <th>Date</th>
-      <th>Produit</th>
-      <th>Qté</th>
-      <th>Montant</th>
-      <th>PartNet</th>
-      <th>Part Plateforme</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let p of products ">
-      <td>{{ p.product.amount}}</td>
-      <td>{{ p.product.name }}</td>
-      <td>{{ p.product.remaining_quantity }}</td>
-      <td>{{ +(p.product.amount) / 100 }}</td>
-      <td>{{ ((p.product.amount/ 100) - ((+(p.product.amount) / 100) * 0.23)).toFixed(2) + '€' }}</td>
-      <td>{{ (((+(p.product.amount) / 100) * 0.23)).toFixed(2) + '€' }}</td>
-    </tr>
-    </tbody>
-  </table>
+<div class="dashboard-component">
+  <h5>DERNIERES COMMANDES</h5>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th>Référence</th>
+        <th>Date</th>
+        <th>Heure</th>
+        <th>Montant Total</th>
+        <th>Part Commerce</th>
+        <th>Part Plateforme</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let o of orders ">
+        <td>{{ o.order.idReference }}</td>
+        <td>{{ o.order.payedAt.date | date: "dd/MM/yyyy" }}</td>
+        <td>{{ o.order.payedAt.date | date: "HH:mm:ss" }}</td>
+        <td>{{ (+(o.order.amount) / 100).toFixed(2) + '€' }}</td>
+        <td>{{ ((o.order.amount/ 100) - ((+(o.order.amount) / 100) * 0.23)).toFixed(2) + '€' }}</td>
+        <td>{{ (((+(o.order.amount) / 100) * 0.23)).toFixed(2) + '€' }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
+

@@ -21,9 +21,12 @@ export class RestaurantDashboardComponent implements OnInit {
         return arrRestaurant.length === 1 ? arrRestaurant[0].business : null;
       case 'product':
       return arrRestaurant.filter(elem => {
-        console.log(elem);
         return elem[typeData];
       });
+      case 'order':
+        return arrRestaurant.filter(elem => {
+          return elem[typeData];
+        });
     }
   }
   ngOnInit(): void {

@@ -24,6 +24,7 @@
     "@angular/router": "~9.1.9",
     "@ng-bootstrap/ng-bootstrap": "^6.1.0",
     "bootstrap": "^4.4.0",
+    "chart.js": "^2.9.3",
     "material-design-icons": "^3.0.1",
     "ngx-google-places-autocomplete": "^2.0.4",
     "rxjs": "~6.5.4",

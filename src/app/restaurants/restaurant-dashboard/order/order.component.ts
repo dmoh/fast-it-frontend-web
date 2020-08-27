@@ -10,28 +10,14 @@ import {RestaurantDashboardComponent} from '@app/restaurants/restaurant-dashboar
 export class OrderComponent implements OnInit {
   restaurantDatas: any;
   restaurant: any;
-  products: any[];
+  orders: any[];
   constructor(private restaurantService: RestaurantDashboardService) { }
 
-  static extractRestaurantData(typeData: string, arrayBusinessDatas: any[]) {
-    const arrRestaurant =  arrayBusinessDatas.filter((elem) => {
-      return elem[typeData];
-    });
-    switch (typeData) {
-      case 'business':
-        return arrRestaurant.length === 1 ? arrRestaurant[0].business : null;
-      case 'product':
-        return arrRestaurant.filter(elem => {
-          console.log(elem);
-          return elem[typeData];
-        });
-    }
-  }
   ngOnInit(): void {
-    this.restaurantService.getRestaurantDatas(1).subscribe((res) => {
+    this.restaurantService.getOrdersDatas(1).subscribe((res) => {
       this.restaurant = RestaurantDashboardComponent.extractRestaurantData('business', res);
-      this.products = RestaurantDashboardComponent.extractRestaurantData('product', res);
-      console.warn(this.products);
+      this.orders = RestaurantDashboardComponent.extractRestaurantData('order', res);
+      console.warn(this.orders);
     } );
   }
 

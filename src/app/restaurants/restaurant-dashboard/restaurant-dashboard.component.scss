@@ -1,8 +1,30 @@
-.sidebar-left {
-  margin: .3rem 1rem;
-  padding: 4rem 1rem;
-  box-shadow: 20px 20px 25px rgba(0,0,0,0.2);
+.dashboard-component {
+  font-family: Roboto,Helvetica,Arial,sans-serif;
 }
+
+.wrapper-container {
+  width: 100%;
+}
+.container-restaurant-dashboard {
+  width: 100% !important;
+  display: flex;
+}
+
+.sidebar-left {
+  padding: 4rem 1rem;
+  /*box-shadow: 20px 12px 15px rgba(0,0,0,0.2);*/
+  box-shadow: 1px 0 20px rgba(0,0,0,.08);
+  width: 250px;
+  position: fixed;
+}
+
+.content-restaurant-dashboard {
+  background-color: #fdfdfdf0;
+  margin-left: 250px;
+  width: calc(100% - 250px);
+}
+
+
 
 .wrapper-link-sidebar {
   width: 100%;
@@ -27,4 +49,13 @@
 
 .wrapper-img {
   border: 1px solid #cccccc;
+}
+
+a {
+  text-underline: none;
+  color: inherit;
+
+  &:hover {
+    text-decoration: none !important;
+  }
 }

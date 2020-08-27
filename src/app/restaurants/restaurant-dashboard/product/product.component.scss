@@ -1,0 +1,42 @@
+.card {
+  margin: 1rem 0;
+  background: white;
+  border: none;
+  box-shadow: 3px 3px 15px rgba(0,0,0,0.04);
+  position: relative;
+  width: 100%;
+}
+.delete-element {
+  position: absolute;
+  right: -.3rem;
+  top: -.3rem;
+  width: 30px;
+  height: 30px;
+  border-radius: 100px;
+  /*background-color: red;*/
+}
+.wrapper-img {
+  width: 100%;
+  height: 190px;
+  overflow: hidden;
+}
+
+.infos-product {
+  padding: 1rem;
+}
+
+.name-product {
+  font-size: 1rem;
+  color: #525252;
+  font-weight: 200;
+}
+
+.description-product {
+  font-size: small;
+  color: #cccccc;
+}
+
+.rating-stars {
+  color: #eaea2f;
+  font-size: 1rem;
+}
