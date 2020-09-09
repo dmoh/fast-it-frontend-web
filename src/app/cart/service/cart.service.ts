@@ -16,7 +16,7 @@ export class CartService {
   cartUpdated = this.cartSubject.asObservable();
   protected tokenUserCurrent: string;
   headers: any;
-  urlApi: 'http://localhost:8000/';
+  urlApi: string = 'http://localhost:8000/';
 
 
   constructor(private http: HttpClient, private authenticate: AuthenticationService, private router: Router) {
@@ -92,7 +92,10 @@ export class CartService {
   }
 
   // saveOrder()
-
+  saveOrder(cartOrder: {}): Observable<any> {
+    return this.http.post<any>(`${ this.urlApi }order/save`,
+      JSON.stringify(cartOrder), this.headers);
+  }
   saveCodeCustomerToDeliver(responseCustomer: {}): Observable<any> {
     return this.http.post<any>(`${this.urlApi}/order/save/delivery-code`,
       responseCustomer, this.headers);

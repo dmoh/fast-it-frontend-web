@@ -5,6 +5,7 @@ import {Cart} from "../model/cart";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ConfirmationCodePaymentModalComponent} from "../../confirmation-code-payment-modal/confirmation-code-payment-modal.component";
 import {AuthenticationService} from "@app/_services/authentication.service";
+import {ErrorInterceptor} from "@app/_helpers/error.interceptor";
 
 @Component({
   selector: 'app-cart-detail',
@@ -36,14 +37,12 @@ export class CartDetailComponent implements OnInit {
     private cartService: CartService,
     private route: Router,
     private codeConfirmationModal: NgbModal,
-    private authenticationService: AuthenticationService
-  ) {
+    private authenticationService: AuthenticationService) {
     this.paymentValidated = false;
     this.loadStripe();
   }
 
   ngOnInit(): void {
-
     this.cartService.cartUpdated.subscribe((cartUpdated: Cart) => {
       this.cartCurrent = cartUpdated;
       this.cartCurrent.total += +(this.SERVICE_CHARGE + this.DELIVERY_COST);
@@ -53,6 +52,10 @@ export class CartDetailComponent implements OnInit {
       this.cartService.getTokenPaymentIntent(+(this.cartCurrent.total) * 100).subscribe((token: any ) => {
           this.clientSecret = token.client_secret;
           console.log(this.clientSecret);
+        }, (error) => {
+          if (/Expired JWT/.test(error)) {
+              this.route.navigate(['/login']);
+          }
         }
       );
     });
@@ -118,16 +121,21 @@ export class CartDetailComponent implements OnInit {
         if (result.paymentIntent.status === 'succeeded') {
           const responsePayment = result.paymentIntent;
           if (responsePayment.status === 'succeeded') {
-             const codeModal = this.codeConfirmationModal.open(ConfirmationCodePaymentModalComponent,
-               { backdrop: 'static', keyboard: false, size: 'lg' });
-             codeModal.componentInstance.code = CartDetailComponent.generateConfirmationCode();
-             codeModal.result.then((response) => {
-               if (response) {
-                    // send code to db
-                   this.cartService.saveCodeCustomerToDeliver({ responseCustomer: response, cartDetail: this.cartCurrent}).subscribe((responseServer) => {
-                   });
-               }
-             });
+             // save order payment succeeded
+             this.cartService.saveOrder({stripeResponse: responsePayment, cartDetail: this.cartCurrent })
+               .subscribe((confCode: string) => {
+                 const codeModal = this.codeConfirmationModal.open(ConfirmationCodePaymentModalComponent,
+                   { backdrop: 'static', keyboard: false, size: 'lg' });
+                 codeModal.componentInstance.code = confCode;
+                 codeModal.result.then((response) => {
+                   if (response) {
+                     // send code to db
+                     this.cartService.saveCodeCustomerToDeliver({ responseCustomer: response, cartDetail: this.cartCurrent})
+                       .subscribe((responseServer) => {
+                       });
+                   }
+                 });
+               });
           }
         }
       }

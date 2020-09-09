@@ -1,0 +1,16 @@
+<h1 mat-dialog-title>Edition <b>{{product.name}}</b></h1>
+<div style="width: 100%" mat-dialog-content>
+  <p>Titre</p>
+  <p>
+    <mat-form-field appearance="outline">
+      <mat-label>Nom du produit</mat-label>
+      <input autocomplete="off" [(ngModel)]="product.name" matInput placeholder="Placeholder">
+      <!--<mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+      <mat-hint>Hint</mat-hint>-->
+    </mat-form-field>
+  </p>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button [mat-dialog-close]="product.name">Ok</button>
+</div>

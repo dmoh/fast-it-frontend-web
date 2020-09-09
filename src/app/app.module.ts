@@ -19,6 +19,7 @@ import { ConfirmationCodePaymentModalComponent } from './confirmation-code-payme
 import { LoginComponent } from './login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CheckoutComponent } from './checkout/checkout.component';
+import {RestaurantDashboardModule} from "@app/restaurants/restaurant-dashboard/restaurant-dashboard.module";
 import { DeliveryComponent } from './delivery/delivery.component';
 
 @NgModule({
@@ -43,7 +44,8 @@ import { DeliveryComponent } from './delivery/delivery.component';
     NgbModule,
     CoreModule,
     RestaurantsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    RestaurantDashboardModule
   ],
   providers: [CityDataService],
   bootstrap: [AppComponent],
