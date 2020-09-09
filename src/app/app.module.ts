@@ -19,6 +19,7 @@ import { ConfirmationCodePaymentModalComponent } from './confirmation-code-payme
 import { LoginComponent } from './login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CheckoutComponent } from './checkout/checkout.component';
+import { DeliveryComponent } from './delivery/delivery.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { CheckoutComponent } from './checkout/checkout.component';
     ProductModalComponent,
     ConfirmationCodePaymentModalComponent,
     LoginComponent,
-    CheckoutComponent
+    CheckoutComponent,
+    DeliveryComponent
   ],
   imports: [
     BrowserModule,
