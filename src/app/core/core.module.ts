@@ -20,10 +20,13 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatTabsModule} from '@angular/material/tabs';
 import {ErrorInterceptor} from '@app/_helpers/error.interceptor';
 import {JwtInterceptor} from '@app/_helpers/jwt.interceptor';
+import { AddressModalComponent } from '../address-modal/address-modal.component';
+import { GoogleMapsModule } from '@angular/google-maps'
+import {MatSelectModule} from '@angular/material/select';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [AddressModalComponent],
   imports: [
       CommonModule,
       FormsModule,
@@ -44,7 +47,9 @@ import {JwtInterceptor} from '@app/_helpers/jwt.interceptor';
       MatStepperModule,
       MatSlideToggleModule,
       MatButtonModule,
-      MatTabsModule
+      MatTabsModule,
+      GoogleMapsModule,
+      MatSelectModule
   ],
   exports: [
       CommonModule,
@@ -66,7 +71,10 @@ import {JwtInterceptor} from '@app/_helpers/jwt.interceptor';
       MatStepperModule,
       MatSlideToggleModule,
       MatButtonModule,
-      MatTabsModule
+      MatTabsModule,
+      AddressModalComponent,
+      GoogleMapsModule,
+      MatSelectModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [

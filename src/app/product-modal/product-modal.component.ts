@@ -15,6 +15,7 @@ export class ProductModalComponent implements OnInit {
   cartCurrent: Cart;
   infos: string;
   @Input() product: Product;
+  @Input() restaurant: any;
   constructor(private modalActive: NgbActiveModal,
               private cartService: CartService
               ) { }
@@ -23,7 +24,7 @@ export class ProductModalComponent implements OnInit {
     this.cartService.cartUpdated.subscribe((cartUp: Cart) => {
         this.cartCurrent = cartUp;
         const index = this.cartCurrent.products.findIndex(prod => prod.id === this.product.id);
-        if(index !== -1) {
+        if (index !== -1) {
             this.quantityCurrent = +this.cartCurrent.products[index].quantity;
         }else  {
             this.quantityCurrent = 1;
@@ -33,17 +34,17 @@ export class ProductModalComponent implements OnInit {
   }
 
  updateQuantity(type: string): void {
-    if(type === 'less'){
-        if(this.quantityCurrent > 1){
+    if (type === 'less') {
+        if (this.quantityCurrent > 1) {
             this.quantityCurrent--;
            // this.product.price -= this.product.price;
         }
     } else {
-      if(this.product.remainingQuantity > this.quantityCurrent){
+      if (this.product.remaining_quantity > this.quantityCurrent) {
           this.quantityCurrent++;
            // this.product.price += this.product.price;
       }else {
-          this.infos = ''
+          this.infos = '';
       }
     }
  }
@@ -51,8 +52,8 @@ export class ProductModalComponent implements OnInit {
 
  updateCart(): void {
       this.product.quantity = this.quantityCurrent;
-      this.product.remainingQuantity -= this.quantityCurrent;
-      this.cartService.UpdateCart('add', this.product);
+      this.product.remaining_quantity -= this.quantityCurrent;
+      this.cartService.UpdateCart('add', this.product, this.restaurant );
       this.modalActive.close(this.product);
  }
 

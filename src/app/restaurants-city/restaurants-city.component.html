@@ -1,6 +1,6 @@
 <section class="container-fluid wrapper-restaurants">
     <div class="row">
-        <div class="col-md-3">
+        <div class="col-md-2">
             <hr>
             <h6 style="font-weight: bold">En livraison ou à emporter</h6>
             <div class="mt-4 form-check">
@@ -80,261 +80,40 @@
                 </div>
             </div>
         </div>
-        <div *ngIf="citySelected" class="col-md-9">
-            <h4 class="mb-4">10 Restaurants en livraison à <b>{{ citySelected.name }}</b></h4>
-            <div class="container-fluid wrapper-area-restaurants">
+        <div *ngIf="citySelected" class="col-md-10">
+            <div *ngIf="restaurants && restaurants.length > 0" class="wrapper-restaurants-city">
+              <h4 class="mb-4"><b>{{ restaurants.length }}</b> Restaurant(s) en livraison à <b>{{ citySelected.city }}</b></h4>
+              <div class="container-fluid wrapper-area-restaurants">
                 <div class="row">
-                    <div class="col-md-4">
-                        <a >
-                            <div class="area-restaurants">
-                                <div class="mini-card-restaurant">
-                                    <div style="border-radius: 2px; height: 145px; overflow: hidden">
-                                        <img style="height: 100%; width: 100%" src="assets/home_images/sushi.jpg" alt="Sushi">
-                                    </div>
-                                    <div style="position: relative">
-                                        <div class="delivery-time">
-                                            <i style="font-size: small; " class="material-icons ">alarm</i>
-                                            <span class="pt-2">25 - 45 min</span>
-                                        </div>
-                                        <span style="color: #0a0a0a"><b>NEW ASIAN</b></span>
-                                        <p style="margin-bottom: 0 !important;"><i  class="material-icons dimension-star">star</i>4.8
-                                            Excellent(20)- coût raionnable - tacos - Halal - Chinois - rapide</p>
-                                        <span>3,50€ Livraison - Minimum 20€</span>
-                                    </div>
-                                </div>
+                  <div *ngFor="let restaurant of restaurants" class="col-md-6">
+                    <a routerLink="{{ '/restaurant/'+ restaurant.id }}">
+                      <div class="area-restaurants">
+                        <div class="mini-card-restaurant">
+                          <div style="width: 180px; overflow: hidden">
+                            <img style="height: 100%; width: 100%" src="assets/home_images/sushi.jpg" alt="Sushi">
+                          </div>
+                          <div style="position: relative">
+                            <div class="delivery-time">
+                              <i style="font-size: small; " class="material-icons ">alarm</i>
+                              <span class="pt-2">25 - 45 min</span>
                             </div>
-                        </a>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="area-restaurants">
-                            <div class="mini-card-restaurant">
-                                <div style="border-radius: 2px; height: 145px; overflow: hidden">
-                                    <img style="height: 100%; width: 100%" src="assets/home_images/sushi.jpg" alt="Sushi">
-                                </div>
-                                <div style="position: relative">
-                                    <div class="delivery-time">
-                                        <i style="font-size: small; " class="material-icons ">alarm</i>
-                                        <span class="pt-2">25 - 45 min</span>
-                                    </div>
-                                    <span style="color: #0a0a0a"><b>NEW ASIAN</b></span>
-                                    <p style="margin-bottom: 0 !important;"><i  class="material-icons dimension-star">star</i>4.8
-                                    Excellent(20)- coût raionnable - tacos - Halal - Chinois - rapide</p>
-                                    <span>3,50€ Livraison - Minimum 20€</span>
-                                </div>
-                            </div>
+                            <span style="color: #0a0a0a"><b>{{ restaurant.name }}</b></span>
+                            <p style="margin-bottom: 0 !important;"><i  class="material-icons dimension-star">star</i>4.8
+                              Excellent(20)- coût raisonnable
+                            </p>
+                            <p *ngIf="restaurant.tags.length > 0">
+                              <span *ngFor="let tag of restaurant.tags">
+                                {{' - ' + tag.name }}
+                              </span>
+                            </p>
+                            <span>Minimum 20€</span>
+                          </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="area-restaurants">
-                            <div class="mini-card-restaurant">
-                                <div style="border-radius: 2px; height: 145px; overflow: hidden">
-                                    <img style="height: 100%; width: 100%" src="assets/home_images/sushi.jpg" alt="Sushi">
-                                </div>
-                                <div style="position: relative">
-                                    <div class="delivery-time">
-                                        <i style="font-size: small; " class="material-icons ">alarm</i>
-                                        <span class="pt-2">25 - 45 min</span>
-                                    </div>
-                                    <span style="color: #0a0a0a"><b>NEW ASIAN</b></span>
-                                    <p style="margin-bottom: 0 !important;"><i  class="material-icons dimension-star">star</i>4.8
-                                    Excellent(20)- coût raionnable - tacos - Halal - Chinois - rapide</p>
-                                    <span>3,50€ Livraison - Minimum 20€</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="area-restaurants">
-                            <div class="mini-card-restaurant">
-                                <div style="border-radius: 2px; height: 145px; overflow: hidden">
-                                    <img style="height: 100%; width: 100%" src="assets/home_images/sushi.jpg" alt="Sushi">
-                                </div>
-                                <div style="position: relative">
-                                    <div class="delivery-time">
-                                        <i style="font-size: small; " class="material-icons ">alarm</i>
-                                        <span class="pt-2">25 - 45 min</span>
-                                    </div>
-                                    <span style="color: #0a0a0a"><b>NEW ASIAN</b></span>
-                                    <p style="margin-bottom: 0 !important;"><i  class="material-icons dimension-star">star</i>4.8
-                                    Excellent(20)- coût raionnable - tacos - Halal - Chinois - rapide</p>
-                                    <span>3,50€ Livraison - Minimum 20€</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="area-restaurants">
-                            <div class="mini-card-restaurant">
-                                <div style="border-radius: 2px; height: 145px; overflow: hidden">
-                                    <img style="height: 100%; width: 100%" src="assets/home_images/sushi.jpg" alt="Sushi">
-                                </div>
-                                <div style="position: relative">
-                                    <div class="delivery-time">
-                                        <i style="font-size: small; " class="material-icons ">alarm</i>
-                                        <span class="pt-2">25 - 45 min</span>
-                                    </div>
-                                    <span style="color: #0a0a0a"><b>NEW ASIAN</b></span>
-                                    <p style="margin-bottom: 0 !important;"><i  class="material-icons dimension-star">star</i>4.8
-                                    Excellent(20)- coût raionnable - tacos - Halal - Chinois - rapide</p>
-                                    <span>3,50€ Livraison - Minimum 20€</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="area-restaurants">
-                            <div class="mini-card-restaurant">
-                                <div style="border-radius: 2px; height: 145px; overflow: hidden">
-                                    <img style="height: 100%; width: 100%" src="assets/home_images/sushi.jpg" alt="Sushi">
-                                </div>
-                                <div style="position: relative">
-                                    <div class="delivery-time">
-                                        <i style="font-size: small; " class="material-icons ">alarm</i>
-                                        <span class="pt-2">25 - 45 min</span>
-                                    </div>
-                                    <span style="color: #0a0a0a"><b>NEW ASIAN</b></span>
-                                    <p style="margin-bottom: 0 !important;"><i  class="material-icons dimension-star">star</i>4.8
-                                    Excellent(20)- coût raionnable - tacos - Halal - Chinois - rapide</p>
-                                    <span>3,50€ Livraison - Minimum 20€</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="area-restaurants">
-                            <div class="mini-card-restaurant">
-                                <div style="border-radius: 2px; height: 145px; overflow: hidden">
-                                    <img style="height: 100%; width: 100%" src="assets/home_images/sushi.jpg" alt="Sushi">
-                                </div>
-                                <div style="position: relative">
-                                    <div class="delivery-time">
-                                        <i style="font-size: small; " class="material-icons ">alarm</i>
-                                        <span class="pt-2">25 - 45 min</span>
-                                    </div>
-                                    <span style="color: #0a0a0a"><b>NEW ASIAN</b></span>
-                                    <p style="margin-bottom: 0 !important;"><i  class="material-icons dimension-star">star</i>4.8
-                                    Excellent(20)- coût raionnable - tacos - Halal - Chinois - rapide</p>
-                                    <span>3,50€ Livraison - Minimum 20€</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="area-restaurants">
-                            <div class="mini-card-restaurant">
-                                <div style="border-radius: 2px; height: 145px; overflow: hidden">
-                                    <img style="height: 100%; width: 100%" src="assets/home_images/sushi.jpg" alt="Sushi">
-                                </div>
-                                <div style="position: relative">
-                                    <div class="delivery-time">
-                                        <i style="font-size: small; " class="material-icons ">alarm</i>
-                                        <span class="pt-2">25 - 45 min</span>
-                                    </div>
-                                    <span style="color: #0a0a0a"><b>NEW ASIAN</b></span>
-                                    <p style="margin-bottom: 0 !important;"><i  class="material-icons dimension-star">star</i>4.8
-                                    Excellent(20)- coût raionnable - tacos - Halal - Chinois - rapide</p>
-                                    <span>3,50€ Livraison - Minimum 20€</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="area-restaurants">
-                            <div class="mini-card-restaurant">
-                                <div style="border-radius: 2px; height: 145px; overflow: hidden">
-                                    <img style="height: 100%; width: 100%" src="assets/home_images/sushi.jpg" alt="Sushi">
-                                </div>
-                                <div style="position: relative">
-                                    <div class="delivery-time">
-                                        <i style="font-size: small; " class="material-icons ">alarm</i>
-                                        <span class="pt-2">25 - 45 min</span>
-                                    </div>
-                                    <span style="color: #0a0a0a"><b>NEW ASIAN</b></span>
-                                    <p style="margin-bottom: 0 !important;"><i  class="material-icons dimension-star">star</i>4.8
-                                    Excellent(20)- coût raionnable - tacos - Halal - Chinois - rapide</p>
-                                    <span>3,50€ Livraison - Minimum 20€</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="area-restaurants">
-                            <div class="mini-card-restaurant">
-                                <div style="border-radius: 2px; height: 145px; overflow: hidden">
-                                    <img style="height: 100%; width: 100%" src="assets/home_images/sushi.jpg" alt="Sushi">
-                                </div>
-                                <div style="position: relative">
-                                    <div class="delivery-time">
-                                        <i style="font-size: small; " class="material-icons ">alarm</i>
-                                        <span class="pt-2">25 - 45 min</span>
-                                    </div>
-                                    <span style="color: #0a0a0a"><b>NEW ASIAN</b></span>
-                                    <p style="margin-bottom: 0 !important;"><i  class="material-icons dimension-star">star</i>4.8
-                                    Excellent(20)- coût raionnable - tacos - Halal - Chinois - rapide</p>
-                                    <span>3,50€ Livraison - Minimum 20€</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="area-restaurants">
-                            <div class="mini-card-restaurant">
-                                <div style="border-radius: 2px; height: 145px; overflow: hidden">
-                                    <img style="height: 100%; width: 100%" src="assets/home_images/sushi.jpg" alt="Sushi">
-                                </div>
-                                <div style="position: relative">
-                                    <div class="delivery-time">
-                                        <i style="font-size: small; " class="material-icons ">alarm</i>
-                                        <span class="pt-2">25 - 45 min</span>
-                                    </div>
-                                    <span style="color: #0a0a0a"><b>NEW ASIAN</b></span>
-                                    <p style="margin-bottom: 0 !important;"><i  class="material-icons dimension-star">star</i>4.8
-                                    Excellent(20)- coût raionnable - tacos - Halal - Chinois - rapide</p>
-                                    <span>3,50€ Livraison - Minimum 20€</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="area-restaurants">
-                            <div class="mini-card-restaurant">
-                                <div style="border-radius: 2px; height: 145px; overflow: hidden">
-                                    <img style="height: 100%; width: 100%" src="assets/home_images/sushi.jpg" alt="Sushi">
-                                </div>
-                                <div style="position: relative">
-                                    <div class="delivery-time">
-                                        <i style="font-size: small; " class="material-icons ">alarm</i>
-                                        <span class="pt-2">25 - 45 min</span>
-                                    </div>
-                                    <span style="color: #0a0a0a"><b>NEW ASIAN</b></span>
-                                    <p style="margin-bottom: 0 !important;"><i  class="material-icons dimension-star">star</i>4.8
-                                    Excellent(20)- coût raionnable - tacos - Halal - Chinois - rapide</p>
-                                    <span>3,50€ Livraison - Minimum 20€</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="area-restaurants">
-                            <div class="mini-card-restaurant">
-                                <div style="border-radius: 2px; height: 145px; overflow: hidden">
-                                    <img style="height: 100%; width: 100%" src="assets/home_images/sushi.jpg" alt="Sushi">
-                                </div>
-                                <div style="position: relative">
-                                    <div class="delivery-time">
-                                        <i style="font-size: small; " class="material-icons ">alarm</i>
-                                        <span class="pt-2">25 - 45 min</span>
-                                    </div>
-                                    <span style="color: #0a0a0a"><b>NEW ASIAN</b></span>
-                                    <p style="margin-bottom: 0 !important;"><i  class="material-icons dimension-star">star</i>4.8
-                                    Excellent(20)- coût raionnable - tacos - Halal - Chinois - rapide</p>
-                                    <span>3,50€ Livraison - Minimum 20€</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
+                      </div>
+                    </a>
+                  </div>
                 </div>
+              </div>
             </div>
         </div>
     </div>

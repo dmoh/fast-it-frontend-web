@@ -11,6 +11,13 @@ import {Router} from "@angular/router";
 export class RestaurantsCityComponent implements OnInit{
 
   citySelected: CityDatas;
+  restaurants: any[];
+  static getCityFromStorage() {
+    if (localStorage.getItem('cityData')) {
+      return JSON.parse(localStorage.getItem('cityData'));
+    }
+    return {};
+  }
   constructor(
       private cityDataService: CityDataService,
       private route: Router
@@ -18,11 +25,21 @@ export class RestaurantsCityComponent implements OnInit{
 
   ngOnInit(): void {
     this.cityDataService.getCityData().subscribe((city: CityDatas) => {
-
         this.citySelected = city;
-        /*if( !this.citySelected) {
-          this.route.navigate(['/home']);
-        }*/
+        if (!this.citySelected.city && !this.citySelected.name ) {
+            this.citySelected = RestaurantsCityComponent.getCityFromStorage();
+            if (!this.citySelected.city && !this.citySelected.name ) {
+              this.route.navigate(['/home']);
+            }
+        }
+        if (this.citySelected.formattedAddress || this.citySelected.name) {
+          this.cityDataService.getRestaurants(JSON.stringify(this.citySelected))
+            .subscribe((result) => {
+              this.restaurants = result;
+            }, (error) => {
+            console.log(error);
+          });
+        }
       }
     );
 

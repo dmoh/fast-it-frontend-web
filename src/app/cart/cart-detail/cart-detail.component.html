@@ -5,8 +5,9 @@
     </div>
     <hr>
   </div>
-  <div class="row">
-    <div class="col-md-12">
+  <hr>
+  <div *ngIf="cartCurrent" class="row">
+    <div *ngIf="cartCurrent.products"  class="col-md-12">
       <div *ngFor="let product of cartCurrent.products">
         <div style="display: flex; flex-direction: column" class="wrapper-card-product">
           <div style="display: flex; flex-direction: row; ">
@@ -16,10 +17,10 @@
             <div style="display: flex;flex-direction: column;flex: 4;">
               {{ product.name }}
               <div class="product-ingredient">
-                {{ product.ingredients }}
+                {{ product.description }}
               </div>
             </div>
-            <div style="align-self: center;">{{ product.price.toFixed(2) }} €</div>
+            <div style="align-self: center;">{{ (+(product.amount)/ 100).toFixed(2) }} €</div>
           </div>
           <div>
             <hr>
@@ -28,12 +29,29 @@
       </div>
     </div>
   </div>
+  <hr>
+  <div class="row">
+    <div class="col-md-12">
+      <h4>Adresse de livraison</h4>
+      <div *ngFor="let address of userAddresses">
+        Rue: <b>{{ address.street }}</b>
+        <div>
+          Ville: <b>{{ address.city }}</b>
+        </div>
+        <div>
+          Code postale: <b>{{ address.zipcode }}</b>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
   <div class="row">
     <div class="col-md-6">
     </div>
     <div style="display: flex" class="col-md-6">
       <div style="flex: 1">Frais de livraison</div>
-      <div>2,50 €</div>
+      <div *ngIf="cartCurrent.deliveryCost"
+      >{{ cartCurrent.deliveryCost }} €</div>
     </div>
   </div>
   <div class="row">

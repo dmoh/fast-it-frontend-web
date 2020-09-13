@@ -1,0 +1,39 @@
+<section style="padding: 1rem">
+  <header><h1>Adresse de livraison</h1></header>
+  <hr>
+  <div *ngIf="address">
+    <h4>Adresse par défaut</h4>
+    <div>
+      Rue : <b>{{ address.street }}</b>
+    </div>
+    <div>
+      Code postale : <b>{{ address.zipcode }}</b>
+    </div>
+    <div>
+      Ville : <b>{{ address.city }}</b>
+    </div>
+    <div>
+      <button (click)="onChooseAddress('default')" class="btn btn-primary">
+        Je choisis cette adresse
+      </button>
+    </div>
+    <div>
+    </div>
+  </div>
+  <div *ngIf="!address">
+    <h4>On livre vos plats préférés à l'adresse suivante</h4>
+    <div *ngIf="addressForm">
+      <form [formGroup]="addressForm">
+        <div class="form-group">
+          <p>
+            <mat-form-field style="width: 100%;" appearance="outline">
+              <mat-label>Email</mat-label>
+              <input matInput type="text" formControlName="street" placeholder="Placeholder">
+              <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+            </mat-form-field>
+          </p>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
