@@ -1,23 +1,23 @@
 <section class="wrapper-container">
     <div class="container-dashboard">
       <div class="sidebar-left">
-        <div style="width: 100%; display: flex; flex-direction: column;justify-content: center" class="nav">
+        <div id="dashboard" class="nav">
           <div class="wrapper-link-sidebar">
-            <a routerLink="/infos/awaiting_delivery">
+            <a routerLink="/delivery/awaiting-delivery">
               <div>
                 Commandes en cours
               </div>
             </a>
           </div>
           <div class="wrapper-link-sidebar">
-            <a routerLink="/infos/delivery">
+            <a routerLink="/delivery/my-delivery">
               <div>
                 Mes courses
               </div>
             </a>
           </div>
           <div class="wrapper-link-sidebar">
-            <a routerLink="/infos/parameter">
+            <a routerLink="/delivery/parameter">
               <div>
                 Paramètres du profil
               </div>
@@ -26,34 +26,7 @@
         </div>
       </div>
       <div class="content-dashboard">
-        <header>
-          <div style="width: 100%" class="top-bar-dashboard">
-            <div class="container-fluid">
-              <div class="row">
-                <div class="col-md-12" style="display: flex;width: 100%">
-                  <div style="">
-                    <!-- <img class="wrapper-img" src="assets/home_images/sushi.jpg" alt="logo_business" width="100px" height="auto"> -->
-                  </div>
-                  <div class="w-100" *ngIf="null">
-                    <h4 style="margin-bottom: 0.2rem!important;font-size: xx-large;font-family: Oswald, sans-serif;padding-left: .5rem;">
-                        <!-- {{ restaurant.name |  uppercase }} -->
-                    </h4>
-                    <div style="align-self: flex-end">
-                      <div style="padding-left: .5rem;font-size: small; font-style: italic; color: grey" class="pull-right">
-                        <!-- {{ restaurant.street }}
-                        {{restaurant.city}}, {{ restaurant.zipcode }} -->
-                      </div>
-                      <div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-9">
-                </div>
-              </div>
-            </div>
-          </div>
-        </header>
+      <!-- HEADER -->
         <section style="margin-top: 1rem" class="container-fluid">
           <!-- 5 last orders -->
           <div class="row">
