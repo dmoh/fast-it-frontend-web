@@ -11,7 +11,7 @@ body {
 @media (min-width: 1248px) {
   .wrapper-restaurants {
     margin: 0 auto;
-    width: 1248px;
+    /*width: 1248px;*/
   }
 }
 html, body { height: 100%; }
@@ -21,13 +21,15 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   padding-bottom: .4375em !important;
 }
 
+$background-color-primary: #f1d723;
+$btn-color-primary: #dcc738;
 
 .bg-light {
-  background-color: #ea7b1c !important;
+  background-color: $background-color-primary !important;
 }
 
 .mat-raised-button.mat-primary, .mat-fab.mat-primary, .mat-mini-fab.mat-primary {
-  background-color: #ea7b1c;
+  background-color: $btn-color-primary;
 }
 
 div.input-group .mat-form-field-wrapper {
@@ -44,4 +46,9 @@ ul {
   border: 1px solid #ccc;
   margin-top: 0.5rem;
   box-shadow: 3px 6px 20px orangered;
+}
+
+
+.mat-form-field-appearance-legacy .mat-form-field-infix {
+  padding: 1.2375em 0 !important;
 }

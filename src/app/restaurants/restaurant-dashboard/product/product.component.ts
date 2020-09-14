@@ -14,6 +14,7 @@ export class ProductComponent implements OnInit {
   restaurantDatas: any;
   restaurant: any;
   products: any[];
+  productBeforeUpdate: any;
   constructor(private restaurantService: RestaurantDashboardService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -46,13 +47,34 @@ export class ProductComponent implements OnInit {
 
 
   openDialog(product: any): void {
+    // add business id to product
+    product = Object.assign({business_id: this.restaurant.id }, product);
+    this.productBeforeUpdate = Object.assign({}, product);
+    console.log(this.productBeforeUpdate);
     const dialogRef = this.dialog.open(UpdateDialogComponent, {
       width: '60%',
-      data: {name: product.name, amount: product.amount}
+      data: product
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      if (result === 'no-update') {
+        this.products = this.products.filter((prod) => {
+          if (prod.product.id === product.id) {
+            prod.product = this.productBeforeUpdate;
+          }
+          return prod.product;
+        });
+      } else {
+        result['business_id'] = this.restaurant.id;
+        this.restaurantService
+          .updateProduct(JSON.stringify(result))
+          .subscribe((resp) => {
+              console.log(resp);
+            }, (error) => {
+              console.warn(error);
+            }
+          );
+      }
     });
   }
 

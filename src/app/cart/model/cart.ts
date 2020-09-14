@@ -1,4 +1,4 @@
-import {Product} from "../../models/product";
+import {Product} from '@app/models/product';
 
 export class Cart {
     products: Product[] = [];
@@ -6,4 +6,5 @@ export class Cart {
     tva: number = 0.19;
     total: number = 0;
     serviceCharge?: number = 0.4;
+    restaurant?: any;
 }

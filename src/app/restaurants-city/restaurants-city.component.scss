@@ -11,8 +11,6 @@ ul {
 .mini-card-restaurant {
   overflow: hidden;
   display: flex;
-  flex-direction: column;
-  border-radius: 3px;
 }
 .dimension-star {
   color: #08c308;
@@ -25,7 +23,8 @@ ul {
 
 .area-restaurants {
   width: 100%;
-  padding: 3px;
+  /*padding: 3px;*/
+
   text-transform: none;
   text-align: justify;
   font-family: 'Hind Vadodara', sans-serif;

@@ -7,10 +7,10 @@
 <div class="modal-body">
     <p><b>{{ product.name | uppercase }}</b></p>
     <div>
-        <p>{{ product.ingredients }}</p>
+        <p>{{ product.description }}</p>
     </div>
     <div>
-        {{ product.price }}€
+        {{ (+(product.amount) / 100).toFixed(2) }}€
     </div>
     <div style="text-align: center">
         <button type="button" class="btn btn-sm btn-primary" (click)="updateQuantity('less')" ><i style="vertical-align:middle" class="material-icons">remove</i></button>
@@ -21,5 +21,5 @@
 </div>
 <div class="modal-footer">
     <!-- todo integrer le montant total de ce produit -->
-    <button type="button" (click)="updateCart()" class="btn btn-outline-primary" >Total {{ product.price * quantityCurrent }}€</button>
+    <button type="button" (click)="updateCart()" class="btn btn-outline-primary" >Total {{ (+(product.amount) / 100 * quantityCurrent).toFixed(2) }} €</button>
 </div>

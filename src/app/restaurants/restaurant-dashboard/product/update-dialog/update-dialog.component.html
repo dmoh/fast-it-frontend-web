@@ -1,16 +1,53 @@
-<h1 mat-dialog-title>Edition <b>{{product.name}}</b></h1>
+<h1 mat-dialog-title>Edition </h1>
 <div style="width: 100%" mat-dialog-content>
-  <p>Titre</p>
+  <div style="width: 150px; height: auto" >
+    <img width="100%" src="assets/home_images/sushi.jpg" alt="sushi">
+  </div>
+  <p><b>{{product.name}}</b></p>
   <p>
     <mat-form-field appearance="outline">
       <mat-label>Nom du produit</mat-label>
-      <input autocomplete="off" [(ngModel)]="product.name" matInput placeholder="Placeholder">
+      <input style="width: 100%" autocomplete="off" [(ngModel)]="product.name" matInput placeholder="Placeholder">
       <!--<mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
       <mat-hint>Hint</mat-hint>-->
     </mat-form-field>
   </p>
+  <p>
+    <mat-form-field appearance="outline">
+      <mat-label>Nom du produit</mat-label>
+      <input style="width: 100%" autocomplete="off" [(ngModel)]="product.amount" matInput placeholder="Placeholder">
+      <!--<mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+      <mat-hint>Hint</mat-hint>-->
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field appearance="outline">
+      <mat-label>Quantité restante</mat-label>
+      <input style="width: 100%" autocomplete="off" [(ngModel)]="product.remaining_quantity" matInput placeholder="Quantité restante">
+      <!--<mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+      <mat-hint>Hint</mat-hint>-->
+    </mat-form-field>
+  </p>
+  <div *ngFor="let sup of product.supplmentsProduct " class="supplement">
+    <p>
+      <mat-form-field appearance="outline">
+        <mat-label>Nom du supplément</mat-label>
+        <input style="width: 100%" autocomplete="off" [(ngModel)]="sup.name" matInput placeholder="Supplément">
+        <!--<mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+        <mat-hint>Hint</mat-hint>-->
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field appearance="outline">
+        <mat-label>Prix du supplément</mat-label>
+        <input style="width: 100%" autocomplete="off" [(ngModel)]="sup.amount" matInput placeholder="Supplément">
+        <!--<mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+        <mat-hint>Hint</mat-hint>-->
+      </mat-form-field>
+    </p>
+  </div>
 </div>
 <div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">No Thanks</button>
-  <button mat-button [mat-dialog-close]="product.name">Ok</button>
+  <button mat-button (click)="onNoClick()">Annuler</button>
+  <button mat-raised-button color="primary" (click)="onSaveProduct(product)" [mat-dialog-close]="product.name">Ok</button>
 </div>

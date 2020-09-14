@@ -30,7 +30,7 @@ export class CartComponent implements OnInit {
   }
 
   onUpdateCart(event, product: Product): void {
-    if (product.remainingQuantity >=  +(event.target.value)) {
+    if (product.remaining_quantity >=  +(event.target.value)) {
         product.quantity = +(event.target.value);
         this.cartService.UpdateCart('update', product);
     }

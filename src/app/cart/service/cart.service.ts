@@ -33,7 +33,7 @@ export class CartService {
   }
 
 
-  UpdateCart(type: string, product: Product): void { // todo enlever majuscule de cette méthode
+  UpdateCart(type: string, product: Product, restaurant?: any): void { // todo enlever majuscule de cette méthode
     if (type === 'add') {
         if (!this.cartCurrent) {
             this.cartCurrent = new Cart();
@@ -45,6 +45,7 @@ export class CartService {
         } else {
             this.cartCurrent.products.push(product);
         }
+        this.cartCurrent.restaurant = restaurant;
         this.generateTotalCart();
         this.emitCartSubject();
     } else if (type === 'update') {
@@ -58,6 +59,12 @@ export class CartService {
         this.generateTotalCart();
         this.emitCartSubject();
     }
+  }
+
+  setDeliveryCost(deliveryCost: number) {
+    this.cartCurrent.deliveryCost = deliveryCost;
+    this.generateTotalCart();
+    this.emitCartSubject();
   }
 
   setCart(cart: Cart): void {
@@ -74,8 +81,9 @@ export class CartService {
   private generateTotalCart(): void {
     this.cartCurrent.total = 0;
     this.cartCurrent.products.forEach((prod: Product) => {
-      this.cartCurrent.total += +(prod.quantity * prod.price);
+      this.cartCurrent.total += +(prod.quantity * prod.amount) / 100;
     });
+    this.cartCurrent.total += +(this.cartCurrent.deliveryCost);
     // if (this.cartCurrent.serviceCharge === 0.4)
     // this.cartCurrent.total  += (!!this.cartCurrent.serviceCharge ? 0.4 :
     // this.cartCurrent.serviceCharge)  + this.cartCurrent.deliveryCost;
@@ -95,6 +103,11 @@ export class CartService {
   saveOrder(cartOrder: {}): Observable<any> {
     return this.http.post<any>(`${ this.urlApi }order/save`,
       JSON.stringify(cartOrder), this.headers);
+  }
+
+  getCostDelivery(dataDistance: any): Observable<any> {
+    return this.http.post<any>(`${ this.urlApi }delivery/cost`,
+      JSON.stringify(dataDistance), this.headers);
   }
   saveCodeCustomerToDeliver(responseCustomer: {}): Observable<any> {
     return this.http.post<any>(`${this.urlApi}/order/save/delivery-code`,

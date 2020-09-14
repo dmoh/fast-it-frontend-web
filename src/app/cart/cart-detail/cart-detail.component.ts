@@ -1,11 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import {CartService} from "../service/cart.service";
-import { Router} from "@angular/router";
-import {Cart} from "../model/cart";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {ConfirmationCodePaymentModalComponent} from "../../confirmation-code-payment-modal/confirmation-code-payment-modal.component";
-import {AuthenticationService} from "@app/_services/authentication.service";
-import {ErrorInterceptor} from "@app/_helpers/error.interceptor";
+import {CartService} from '../service/cart.service';
+import { Router} from '@angular/router';
+import {Cart} from '../model/cart';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {ConfirmationCodePaymentModalComponent} from '@app/confirmation-code-payment-modal/confirmation-code-payment-modal.component';
+import {AuthenticationService} from '@app/_services/authentication.service';
+import {ErrorInterceptor} from '@app/_helpers/error.interceptor';
+import {UserService} from '@app/_services/user.service';
+import { AgmCoreModule } from '@agm/core';            // @agm/core
+import { AgmDirectionModule } from 'agm-direction';
+import {AddressModalComponent} from '@app/address-modal/address-modal.component';
 
 @Component({
   selector: 'app-cart-detail',
@@ -17,11 +21,12 @@ export class CartDetailComponent implements OnInit {
   elementStripe: any;
   cardNumber: any;
   cartCurrent: Cart;
+  userAddresses: any[] = [];
   clientSecret: string;
   // todo declare constante frais de service
   SERVICE_CHARGE: number = 0.40;
-  DELIVERY_COST: number = 2.50;
   paymentValidated: boolean;
+  canBeDeliver: boolean = false;
 
   static generateConfirmationCode(length: number = 4): string {
     const randomChars = '0123456789';
@@ -35,29 +40,78 @@ export class CartDetailComponent implements OnInit {
 
   constructor(
     private cartService: CartService,
+    private userService: UserService,
     private route: Router,
     private codeConfirmationModal: NgbModal,
+    private addressConfirmationModal: NgbModal,
     private authenticationService: AuthenticationService) {
     this.paymentValidated = false;
     this.loadStripe();
+
   }
 
   ngOnInit(): void {
+    // Choix de l'adresse
     this.cartService.cartUpdated.subscribe((cartUpdated: Cart) => {
       this.cartCurrent = cartUpdated;
-      this.cartCurrent.total += +(this.SERVICE_CHARGE + this.DELIVERY_COST);
+      this.cartCurrent.total += +(this.SERVICE_CHARGE);
       if (this.cartCurrent.products.length < 1) {
-         this.route.navigate(['home']);
+        this.route.navigate(['home']);
       }
-      this.cartService.getTokenPaymentIntent(+(this.cartCurrent.total) * 100).subscribe((token: any ) => {
-          this.clientSecret = token.client_secret;
-          console.log(this.clientSecret);
-        }, (error) => {
-          if (/Expired JWT/.test(error)) {
-              this.route.navigate(['/login']);
+    });
+    this.userService.getUserAddresses().subscribe((result) => {
+      this.userAddresses = result.data[0].addresses;
+      const modalRef = this.addressConfirmationModal.open(AddressModalComponent, {
+        backdrop: 'static',
+        keyboard: false,
+      });
+      modalRef.componentInstance.address = this.userAddresses[0];
+      modalRef.result.then((res) => {
+        const origin = `${this.cartCurrent.restaurant.street},
+         ${this.cartCurrent.restaurant.city},
+         ${this.cartCurrent.restaurant.zipcode}`
+        ;
+        const addressChoosen = `${res.street}, ${res.city}, ${res.zipcode}`;
+        // send result google for calculate backend side
+        const directionsService = new google.maps.DistanceMatrixService();
+        directionsService.getDistanceMatrix({
+          origins: [origin],
+          destinations: [addressChoosen],
+          travelMode: google.maps.TravelMode.DRIVING,
+        }, (response, status) => {
+          if (response.rows[0].elements[0].status === 'OK') {
+            const responseDistance = response.rows[0].elements[0];
+            this.cartService.getCostDelivery(responseDistance)
+              .subscribe((resp) => {
+                const pro = new Promise((resolve, rej) => {
+                  this.cartService.setDeliveryCost(resp.deliveryInfos);
+                  resolve('ok');
+                });
+                pro.then((respPro) => {
+                  console.log(respPro);
+                  this.cartService.cartUpdated.subscribe((cartUpdated: Cart) => {
+                    this.cartCurrent = cartUpdated;
+                    this.cartCurrent.total += +(this.SERVICE_CHARGE);
+                    this.cartService.getTokenPaymentIntent(+(this.cartCurrent.total) * 100).subscribe((token: any ) => {
+                        this.clientSecret = token.client_secret;
+                        console.log(this.clientSecret);
+                      }, (error) => {
+                        if (/Expired JWT/.test(error)) {
+                          this.route.navigate(['/login']);
+                        }
+                      }
+                    );
+                  });
+                });
+              });
+            // stocker en db
+            // calcule frais de livraison
+            // calcule temps estimate en fonction du resto
+
+
           }
-        }
-      );
+        });
+      });
     });
   }
 
