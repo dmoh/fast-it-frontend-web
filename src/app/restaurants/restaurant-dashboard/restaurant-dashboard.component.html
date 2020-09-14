@@ -51,11 +51,13 @@
         <div style="width: 100%" class="top-bar-dashboard">
           <div class="container-fluid">
             <div class="row">
-              <div class="col-md-12" style="display: flex;width: 100%">
-                <div style="">
-                  <img class="wrapper-img" src="assets/home_images/sushi.jpg" alt="logo_business" width="100px" height="auto">
+              <div *ngIf="restaurant" class="col-md-12" style="display: flex;width: 100%">
+                <div *ngIf="restaurant.medias" style="">
+                  <div *ngFor="let logo of restaurant.medias">
+                    <img  *ngIf="logo.type_media == 'logo'" class="wrapper-img" src="{{ logo.path_file + '/' + logo.filename_unique  }}" alt="logo_business" width="100px" height="auto">
+                  </div>
                 </div>
-                <div class="w-100" *ngIf="restaurant">
+                <div class="w-100" >
                   <h4 style="margin-bottom: 0.2rem!important;font-size: xx-large;font-family: Oswald, sans-serif;padding-left: .5rem;">{{ restaurant.name |  uppercase }}</h4>
                   <div style="align-self: flex-end">
                     <div style="padding-left: .5rem;font-size: small; font-style: italic; color: grey" class="pull-right">

@@ -1,5 +1,5 @@
-<div class="dashboard-component">
-  <h5 style="font-size: 1.4rem">PRODUITS ({{ products.length }}) <span style="float: right"><button mat-raised-button color="primary">Ajouter</button></span></h5>
+<div *ngIf="productsResto" class="dashboard-component">
+  <h5 style="font-size: 1.4rem">PRODUITS ({{ productsResto.length }}) <span style="float: right"><button (click)="openDialog()" mat-raised-button color="primary">Ajouter</button></span></h5>
   <h6><mat-slide-toggle>Vue Tableau</mat-slide-toggle></h6>
   <div class="table-responsive">
     <table class="table table-striped">
@@ -15,8 +15,8 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let p of products">
-        <td>{{ p.product.created_at.date | date: "dd/MM/yyyy" }}</td>
+      <tr *ngFor="let p of productsResto">
+        <td>{{ p.product.created_at.date | date: 'dd/mm/yyyy' }}</td>
         <td>{{ p.product.name }}</td>
         <td>{{ p.product.name }}</td>
         <td>{{ p.product.remaining_quantity }}</td>
@@ -29,9 +29,9 @@
 
   </div>
   <div class="row">
-    <div *ngFor="let p of  products" class="col-md-3">
+    <div *ngFor="let p of  productsResto" class="col-md-3">
       <div style="margin: 1rem 0; background: white; border: none " class="card">
-        <div (click)="onDelete('product', {product:p.product, supplement:'' })" class="delete-element" style="padding-top:.3rem; /*text-align: center; vertical-align:middle;font-size: x-large; color: white; */">
+        <div (click)="onDelete('product', {product: p.product, supplement:'' })" class="delete-element" style="padding-top:.3rem; /*text-align: center; vertical-align:middle;font-size: x-large; color: white; */">
           <span style="color: white; font-size: x-large; cursor:pointer; " class="material-icons">
             cancel
           </span>

@@ -5,6 +5,9 @@ export class Product {
     quantity: number = 0; // Quantity chosen by customer
     // tslint:disable-next-line:variable-name
     remaining_quantity: number = 0;
+    created_at: {date};
+    updated_at: {date};
+    supplmentsProduct: any[];
     description = '';
     urlPhoto?: string = '';
     additionalInformations?: string = '';
