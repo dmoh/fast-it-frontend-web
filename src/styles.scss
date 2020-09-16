@@ -21,8 +21,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   padding-bottom: .4375em !important;
 }
 
-$background-color-primary: #f1d723;
-$btn-color-primary: #dcc738;
+$background-color-primary: #c823f1;
+/*$background-color-primary: #f1d723;
+$btn-color-primary: #dcc738;*/
+$btn-color-primary: #d840ff;
 
 .bg-light {
   background-color: $background-color-primary !important;
