@@ -20,6 +20,7 @@ import { LoginComponent } from './login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CheckoutComponent } from './checkout/checkout.component';
 import {RestaurantDashboardModule} from "@app/restaurants/restaurant-dashboard/restaurant-dashboard.module";
+import { DeliveryComponent } from './delivery/delivery.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import {RestaurantDashboardModule} from "@app/restaurants/restaurant-dashboard/r
     ProductModalComponent,
     ConfirmationCodePaymentModalComponent,
     LoginComponent,
-    CheckoutComponent
+    CheckoutComponent,
+    DeliveryComponent
   ],
   imports: [
     BrowserModule,
