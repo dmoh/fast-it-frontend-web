@@ -23,10 +23,14 @@ import {JwtInterceptor} from '@app/_helpers/jwt.interceptor';
 import { AddressModalComponent } from '../address-modal/address-modal.component';
 import { GoogleMapsModule } from '@angular/google-maps'
 import {MatSelectModule} from '@angular/material/select';
+import {MatBadgeModule} from "@angular/material/badge";
+import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {MatBottomSheet, MatBottomSheetModule} from '@angular/material/bottom-sheet';
+import { NotificationsComponent } from '../notifications/notifications.component';
 
 
 @NgModule({
-  declarations: [AddressModalComponent],
+  declarations: [AddressModalComponent, NotificationsComponent],
   imports: [
       CommonModule,
       FormsModule,
@@ -49,7 +53,10 @@ import {MatSelectModule} from '@angular/material/select';
       MatButtonModule,
       MatTabsModule,
       GoogleMapsModule,
-      MatSelectModule
+      MatSelectModule,
+      MatBadgeModule,
+      MatSnackBarModule,
+      MatBottomSheetModule
   ],
   exports: [
       CommonModule,
@@ -74,13 +81,20 @@ import {MatSelectModule} from '@angular/material/select';
       MatTabsModule,
       AddressModalComponent,
       GoogleMapsModule,
-      MatSelectModule
+      MatSelectModule,
+      MatBadgeModule,
+      MatSnackBarModule,
+      MatBottomSheetModule,
+      NotificationsComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    MatDialog
+    MatDialog, MatBottomSheet
+  ],
+  entryComponents: [
+    NotificationsComponent
   ]
 })
 export class CoreModule { }

@@ -44,7 +44,9 @@ export class CartDetailComponent implements OnInit {
     private route: Router,
     private codeConfirmationModal: NgbModal,
     private addressConfirmationModal: NgbModal,
-    private authenticationService: AuthenticationService) {
+    private authenticationService: AuthenticationService,
+    private router: Router
+  ) {
     this.paymentValidated = false;
     this.loadStripe();
 
@@ -163,7 +165,7 @@ export class CartDetailComponent implements OnInit {
       payment_method: {
         card: this.cardNumber,
         billing_details: {
-          name: 'Jenny Rosen' // TODO ADD REAL NAME
+          name: 'Customer' // TODO ADD REAL NAME
         }
       }
     }).then((result) => {
@@ -177,16 +179,19 @@ export class CartDetailComponent implements OnInit {
           if (responsePayment.status === 'succeeded') {
              // save order payment succeeded
              this.cartService.saveOrder({stripeResponse: responsePayment, cartDetail: this.cartCurrent })
-               .subscribe((confCode: string) => {
+               .subscribe((confCode) => {
                  const codeModal = this.codeConfirmationModal.open(ConfirmationCodePaymentModalComponent,
                    { backdrop: 'static', keyboard: false, size: 'lg' });
-                 codeModal.componentInstance.code = confCode;
+                 codeModal.componentInstance.infos = confCode;
                  codeModal.result.then((response) => {
                    if (response) {
                      // send code to db
-                     this.cartService.saveCodeCustomerToDeliver({ responseCustomer: response, cartDetail: this.cartCurrent})
+                     this.cartService.saveCodeCustomerToDeliver({ responseCustomer: response})
                        .subscribe((responseServer) => {
-                       });
+                         if (responseServer.ok) {
+                           this.router.navigate(['customer']);
+                         }
+                     });
                    }
                  });
                });

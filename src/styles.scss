@@ -54,3 +54,8 @@ ul {
 .mat-form-field-appearance-legacy .mat-form-field-infix {
   padding: 1.2375em 0 !important;
 }
+
+
+.mat-badge-medium.mat-badge-after .mat-badge-content {
+  right: -9px;
+}
