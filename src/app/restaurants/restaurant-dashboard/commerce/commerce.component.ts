@@ -12,7 +12,6 @@ import {UploadService} from "@app/_services/upload.service";
 })
 export class CommerceComponent implements OnInit, AfterViewInit {
   commerceForm: FormGroup;
-  commerceGroup: FormGroup;
   commerce: Restaurant;
   error: string;
   uploadResponse = { status: '', message: '', filePath: '' };
@@ -44,7 +43,7 @@ export class CommerceComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.restaurantService.getOrdersDatas(1).subscribe((res) => {
+    this.restaurantService.getRestaurantDatas(1).subscribe((res) => {
       this.commerce = RestaurantDashboardComponent.extractRestaurantData('business', res);
       console.warn(this.commerce);
       this.commerceForm = this.formBuilder.group({
@@ -97,10 +96,4 @@ export class CommerceComponent implements OnInit, AfterViewInit {
 
     }
   }
-
-
-  onSelectedPrep(event) {
-    console.log(event);
-  }
-
 }

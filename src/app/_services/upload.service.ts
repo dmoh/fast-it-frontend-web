@@ -11,8 +11,11 @@ export class UploadService {
   constructor(private httpClient: HttpClient) { }
 
 
-  public upload(data, userId) {
-    const uploadURL = `${this.SERVER_URL}/business/edit`;
+  public upload(data, userId, isProduct?: boolean) {
+    let uploadURL = `${this.SERVER_URL}/business/edit`;
+    if (isProduct) {
+      uploadURL = `${this.SERVER_URL}/product/update`;
+    }
 
     return this.httpClient.post<any>(uploadURL, data, {
       reportProgress: true,

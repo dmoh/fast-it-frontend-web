@@ -3,11 +3,12 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {AuthenticationService} from "@app/_services/authentication.service";
 import {Router} from "@angular/router";
 import {Observable} from "rxjs";
+import {stringify} from "querystring";
 
 @Injectable({
   providedIn: 'root'
 })
-export class RestaurantDashboardService {
+export class CustomerService {
   headers: any;
   urlApi: string = 'http://localhost:8000/';
 
@@ -23,28 +24,20 @@ export class RestaurantDashboardService {
     }
   }
 
-  getProductsByRestaurantId(restaurantId: number): Observable<any> {
-    return this.http.get<any>(`${this.urlApi}product/list/business/${restaurantId}`,
+  getInfosCustomer(): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}customer/show`,
       this.headers);
   }
 
-  getRestaurantDatas(restaurantId: number): Observable<any> {
-    return this.http.get<any>(`${this.urlApi}business/products/${restaurantId}`,
-      this.headers);
-  }
-  getRestaurantProductsDatas(restaurantId: number): Observable<any> {
-    return this.http.get<any>(`${this.urlApi}business/${restaurantId}/categories/products`,
+  getNotificationsCustomer(): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}notification/list`,
       this.headers);
   }
 
-  getOrdersDatas(restaurantId: number): Observable<any> {
-    return this.http.get<any>(`${this.urlApi}business/orders/${restaurantId}`,
+  sendNotificationsRead(notifications: any[], entity): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}notification/read`, { notif: JSON.stringify(notifications), entity: entity },
       this.headers);
   }
-  updateProduct(product: any): Observable<any> {
-    return this.http.post<any>(`${this.urlApi}product/update`, product,
-      this.headers);
-  }
-
 
 }
+

@@ -8,6 +8,7 @@ export class Restaurant {
   city: string = '';
   description: string = '';
   emailContact: string = '';
+  medias: Media[] = [];
   logo: Media = new Media();
   backgroundImg: Media = new Media();
   estimatedPreparationTime: string = '';

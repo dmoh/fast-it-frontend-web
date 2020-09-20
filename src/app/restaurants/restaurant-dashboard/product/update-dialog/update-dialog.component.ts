@@ -9,6 +9,7 @@ import {RestaurantDashboardService} from '@app/restaurants/restaurant-dashboard/
 })
 export class UpdateDialogComponent implements OnInit {
 
+  photo: any;
   constructor(
     private restaurantDashboardService: RestaurantDashboardService,
     public dialogRef: MatDialogRef<UpdateDialogComponent>,
@@ -22,5 +23,12 @@ export class UpdateDialogComponent implements OnInit {
 
   onSaveProduct(product: any): void {
     this.dialogRef.close(product);
+  }
+
+
+  onFileChange(event) {
+    if (event.target.files.length > 0) {
+      this.product.photo = event.target.files[0];
+    }
   }
 }

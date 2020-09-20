@@ -1,0 +1,18 @@
+<div class="table-responsive">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Prix</th>
+        <th>Date</th>
+        <th>Livré</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of customer.orders">
+        <td>{{ order.amount / 100 }}</td>
+        <td>{{ order.date.date | date: 'dd/MM/yyyy' }}</td>
+        <td>{{ order.date_delivered.date | date: 'dd/MM/yyyy' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

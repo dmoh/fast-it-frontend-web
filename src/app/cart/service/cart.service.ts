@@ -109,8 +109,8 @@ export class CartService {
     return this.http.post<any>(`${ this.urlApi }delivery/cost`,
       JSON.stringify(dataDistance), this.headers);
   }
-  saveCodeCustomerToDeliver(responseCustomer: {}): Observable<any> {
-    return this.http.post<any>(`${this.urlApi}/order/save/delivery-code`,
+  saveCodeCustomerToDeliver(responseCustomer): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}order/save/delivery-code`,
       responseCustomer, this.headers);
   }
 }

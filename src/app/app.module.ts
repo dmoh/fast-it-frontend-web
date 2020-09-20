@@ -21,6 +21,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CheckoutComponent } from './checkout/checkout.component';
 import {RestaurantDashboardModule} from "@app/restaurants/restaurant-dashboard/restaurant-dashboard.module";
 import { DeliveryComponent } from './delivery/delivery.component';
+import { CustomerModule } from './customer/customer.module';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { DeliveryComponent } from './delivery/delivery.component';
     CoreModule,
     RestaurantsModule,
     BrowserAnimationsModule,
-    RestaurantDashboardModule
+    RestaurantDashboardModule,
+    CustomerModule
   ],
   providers: [CityDataService],
   bootstrap: [AppComponent],

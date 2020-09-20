@@ -3,6 +3,8 @@ import {RestaurantDashboardService} from '@app/restaurants/restaurant-dashboard/
 import {RestaurantDashboardComponent} from '@app/restaurants/restaurant-dashboard/restaurant-dashboard.component';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {UpdateDialogComponent} from '@app/restaurants/restaurant-dashboard/product/update-dialog/update-dialog.component';
+import {Product} from "@app/models/product";
+import {UploadService} from "@app/_services/upload.service";
 
 @Component({
   selector: 'app-product',
@@ -13,14 +15,17 @@ export class ProductComponent implements OnInit {
 
   restaurantDatas: any;
   restaurant: any;
-  products: any[];
+  productsResto: any[];
   productBeforeUpdate: any;
-  constructor(private restaurantService: RestaurantDashboardService, public dialog: MatDialog) { }
+  constructor(private restaurantService: RestaurantDashboardService,
+              public dialog: MatDialog,
+              public uploadService: UploadService  ) { }
 
   ngOnInit(): void {
     this.restaurantService.getRestaurantDatas(1).subscribe((res) => {
       this.restaurant = RestaurantDashboardComponent.extractRestaurantData('business', res);
-      this.products = RestaurantDashboardComponent.extractRestaurantData('product', res);
+      this.productsResto = RestaurantDashboardComponent.extractRestaurantData('product', res);
+      console.log(this.productsResto);
     });
   }
 
@@ -28,9 +33,9 @@ export class ProductComponent implements OnInit {
   onDelete(type: string, {product, supplement}): void {
     switch (type) {
       case 'supplement':
-        this.products = this.products.filter((prod) => {
-           if (+(prod.product.id) === product.id) {
-             prod.product.supplmentsProduct = prod.product.supplmentsProduct.filter((elem) => {
+        this.productsResto = this.productsResto.filter((prod) => {
+           if (+(prod.id) === product.id) {
+             prod.supplmentsProduct = prod.supplmentsProduct.filter((elem) => {
                return elem.id !== supplement;
              });
            }
@@ -38,15 +43,18 @@ export class ProductComponent implements OnInit {
         });
         break;
         case 'product':
-        this.products = this.products.filter((prod) => {
-           return prod.product.id !== product.id;
+        this.productsResto = this.productsResto.filter((prod) => {
+           return prod.id !== product.id;
         });
         break;
     }
   }
 
 
-  openDialog(product: any): void {
+  openDialog(product?: any): void {
+    if (!product) {
+      product = new Product();
+    }
     // add business id to product
     product = Object.assign({business_id: this.restaurant.id }, product);
     this.productBeforeUpdate = Object.assign({}, product);
@@ -58,22 +66,37 @@ export class ProductComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result === 'no-update') {
-        this.products = this.products.filter((prod) => {
-          if (prod.product.id === product.id) {
-            prod.product = this.productBeforeUpdate;
+        this.productsResto = this.productsResto.filter((prod) => {
+          if (prod.id === product.id) {
+            prod = this.productBeforeUpdate;
           }
-          return prod.product;
+          return prod;
         });
       } else {
+        console.warn(result);
         result['business_id'] = this.restaurant.id;
-        this.restaurantService
-          .updateProduct(JSON.stringify(result))
+        const formData = new FormData();
+        formData.append('product', JSON.stringify(result));
+        console.warn(result);
+        if (result.photo) {
+          formData.append('photo', result.photo);
+          delete result.photo;
+        }
+        this.uploadService.upload(formData, 0, true)
           .subscribe((resp) => {
               console.log(resp);
             }, (error) => {
               console.warn(error);
             }
           );
+        /*this.restaurantService
+          .updateProduct(JSON.stringify(result))
+          .subscribe((resp) => {
+              console.log(resp);
+            }, (error) => {
+              console.warn(error);
+            }
+          );*/
       }
     });
   }

@@ -8,19 +8,25 @@
         {{ uploadResponse.message }}
       </div>
       <div *ngIf="uploadResponse.status === 'progress'">
-
-
         <div role="progressbar" [style.width.%]="uploadResponse.message" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
           {{uploadResponse.message}}%
         </div>
-
       </div>
     </div>
-
-    <input type="file" name="logo" (change)="onFileChange($event, 'logo')" />
-    <input type="file" name="backgroundImg" (change)="onFileChange($event, 'backgroundImg')" />
-
-
+    <div class="mt-2 mb-2">
+      <label for="logo">Logo</label><br>
+      <input type="file" id="logo" name="logo" (change)="onFileChange($event, 'logo')" />
+    </div>
+    <div class="mt-2 mb-2">
+      <label for="backgroundImg">Entête Restaurant</label><br>
+      <input type="file" id="backgroundImg" name="backgroundImg" (change)="onFileChange($event, 'backgroundImg')" />
+    </div>
+    <div class="mt-3 mb-3" *ngFor="let media of commerce.medias">
+      <div>
+        <h6 style="font-size: large">{{ media.type_media == 'logo' ? 'Logo actuel' : 'Image entête du restaurant' }}</h6>
+        <img src="{{ media.path_file + '/' + media.filename_unique }}" alt="{{ media.filename_original }}" width="65px" height="65px">
+      </div>
+    </div>
     <div class="form-group">
       <p>
         <mat-form-field style="width: 100%;" appearance="outline">
@@ -30,8 +36,6 @@
         </mat-form-field>
       </p>
     </div>
-
-
       <h4>Temps moyen de préparation</h4>
       <mat-form-field>
         <mat-label>Sélectionner</mat-label>

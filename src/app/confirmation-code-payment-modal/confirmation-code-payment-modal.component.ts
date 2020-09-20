@@ -8,7 +8,7 @@ import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 })
 export class ConfirmationCodePaymentModalComponent implements OnInit {
 
-  @Input() code: string;
+  @Input() infos: any;
   constructor(private modal: NgbActiveModal) { }
 
   ngOnInit(): void {
@@ -22,8 +22,8 @@ export class ConfirmationCodePaymentModalComponent implements OnInit {
       responseCustomerModal = false;
     }
     this.modal.close({
-      code: this.code,
-      customerResponse: responseCustomerModal
+      infos: this.infos,
+      customerResponse: responseCustomerModal,
     });
   }
 

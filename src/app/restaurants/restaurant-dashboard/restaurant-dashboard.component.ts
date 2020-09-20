@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {RestaurantDashboardService} from '@app/restaurants/restaurant-dashboard/services/restaurant-dashboard.service';
+import {Restaurant} from "@app/_models/restaurant";
 
 @Component({
   selector: 'app-restaurant-dashboard',
@@ -8,7 +9,7 @@ import {RestaurantDashboardService} from '@app/restaurants/restaurant-dashboard/
 })
 export class RestaurantDashboardComponent implements OnInit {
   restaurantDatas: any;
-  restaurant: any;
+  restaurant: Restaurant;
   products: any[];
   constructor(private restaurantService: RestaurantDashboardService) { }
 
@@ -18,10 +19,16 @@ export class RestaurantDashboardComponent implements OnInit {
     });
     switch (typeData) {
       case 'business':
+        if (typeof arrRestaurant[0].product !== 'undefined') {
+          if (typeof arrRestaurant[0].product.medias !== 'undefined' ) {
+            arrRestaurant[0].business.medias = arrRestaurant[0].product.medias;
+          }
+        }
         return arrRestaurant.length === 1 ? arrRestaurant[0].business : null;
       case 'product':
       return arrRestaurant.filter(elem => {
-        return elem[typeData];
+        console.log(elem.product);
+        return typeof elem.product.tags === 'undefined' ? elem.product : '';
       });
       case 'order':
         return arrRestaurant.filter(elem => {

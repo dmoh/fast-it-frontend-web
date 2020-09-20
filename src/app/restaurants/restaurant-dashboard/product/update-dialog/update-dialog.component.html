@@ -4,6 +4,10 @@
     <img width="100%" src="assets/home_images/sushi.jpg" alt="sushi">
   </div>
   <p><b>{{product.name}}</b></p>
+  <div class="mt-2 mb-2">
+    <label for="logo">Photo</label><br>
+    <input type="file" id="logo" name="logo" (change)="onFileChange($event)" />
+  </div>
   <p>
     <mat-form-field appearance="outline">
       <mat-label>Nom du produit</mat-label>
@@ -14,7 +18,7 @@
   </p>
   <p>
     <mat-form-field appearance="outline">
-      <mat-label>Nom du produit</mat-label>
+      <mat-label>Prix</mat-label>
       <input style="width: 100%" autocomplete="off" [(ngModel)]="product.amount" matInput placeholder="Placeholder">
       <!--<mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
       <mat-hint>Hint</mat-hint>-->
