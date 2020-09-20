@@ -23,11 +23,6 @@ export class DeliveryService {
     }
   }
 
-  getProductsByRestaurantId(restaurantId: number): Observable<any> {
-    return this.http.get<any>(`${this.urlApi}product/list/business/${restaurantId}`,
-      this.headers);
-  }
-
   getRestaurantDatas(restaurantId: number): Observable<any> {
     return this.http.get<any>(`${this.urlApi}business/products/${restaurantId}`,
       this.headers);
@@ -35,6 +30,11 @@ export class DeliveryService {
 
   getOrdersDatas(restaurantId: number): Observable<any> {
     return this.http.get<any>(`${this.urlApi}business/orders/${restaurantId}`,
+      this.headers);
+  }
+
+  getOrders(): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}business/orders/`,
       this.headers);
   }
 

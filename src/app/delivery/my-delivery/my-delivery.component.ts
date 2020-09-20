@@ -21,8 +21,7 @@ export class MyDeliveryComponent implements OnInit, AfterViewInit {
   schedulePrepartionTimes: any[] = [];
 
 
-  constructor(private formBuilder: FormBuilder,
-              private restaurantService: RestaurantDashboardService,
+  constructor(private restaurantService: RestaurantDashboardService,
               private uploadService: UploadService
   ) {
     this.schedulePrepartionTimes = [
@@ -49,19 +48,8 @@ export class MyDeliveryComponent implements OnInit, AfterViewInit {
     console.warn('get my deliveries', this.delivery);
     
     this.restaurantService.getOrdersDatas(1).subscribe((res) => {
-      this.commerce = RestaurantDashboardComponent.extractRestaurantData('business', res);
+      this.commerce = RestaurantDashboardComponent.extractRestaurantData('order', res);
       console.warn(this.commerce);
-      this.commerceForm = this.formBuilder.group({
-        name: [this.commerce.name, Validators.required],
-        description: this.commerce.description,
-        street: [this.commerce.street, Validators.required],
-        emailContact: [this.commerce.emailContact, Validators.required],
-        zipcode: [this.commerce.zipcode, Validators.required],
-        city: [this.commerce.city, Validators.required],
-        logo: [this.commerce.logo],
-        backgroundImg: [this.commerce.backgroundImg],
-        estimatedPreparationTime: [this.commerce.estimatedPreparationTime, Validators.required],
-      });
     });
   }
 
@@ -70,7 +58,6 @@ export class MyDeliveryComponent implements OnInit, AfterViewInit {
   }
 
   onSubmit() {
-    const formData = new FormData();
     this.commerce = Object.assign(this.commerce, this.commerceForm.value);
     if (this.commerce.logo) {
       delete(this.commerce.logo);
@@ -78,7 +65,8 @@ export class MyDeliveryComponent implements OnInit, AfterViewInit {
     if (this.commerce.backgroundImg) {
       delete(this.commerce.backgroundImg);
     }
-
+    
+    const formData = new FormData();
     formData.append('business', JSON.stringify(this.commerce));
     formData.append('logo', this.commerceForm.get('logo').value);
     formData.append('backgroundImg', this.commerceForm.get('backgroundImg').value);
@@ -88,20 +76,6 @@ export class MyDeliveryComponent implements OnInit, AfterViewInit {
     );
 
   }
-
-  onFileChange(event, type) {
-    if (event.target.files.length > 0) {
-      if ( type === 'logo') {
-        const file = event.target.files[0];
-        this.commerceForm.get('logo').setValue(file);
-      } else {
-        const file = event.target.files[0];
-        this.commerceForm.get('backgroundImg').setValue(file);
-      }
-
-    }
-  }
-
 
   onSelectedPrep(event) {
     console.log(event);
