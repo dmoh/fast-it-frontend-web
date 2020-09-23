@@ -12,14 +12,13 @@
 
   .sidebar-left {
     padding: 4rem 1rem;
-    /*box-shadow: 20px 12px 15px rgba(0,0,0,0.2);*/
     box-shadow: 1px 0 20px rgba(0,0,0,.08);
     width: 250px;
     position: fixed;
   }
 
   .content-dashboard {
-    background-color: #fdfdfdf0;
+    background-color: #c823f1 !important;
     margin-left: 250px;
     width: calc(100% - 250px);
   }
@@ -42,7 +41,7 @@
     transition: all 0.5s;
 
     &:hover {
-      background: #f1d723 !important;
+      background: #c823f1 !important;
       color: white;
     }
   }

@@ -41,6 +41,8 @@ export class LoginComponent implements OnInit {
 
     this.registerForm = this.formBuilder.group({
       username: ['', Validators.required],
+      phone: ['', Validators.required],
+      address: ['', Validators.required],
       registerPassword: ['', Validators.required],
       confirmPassword: ['', Validators.required]
     });
