@@ -1,0 +1,39 @@
+.alert.alert-with-icon i {
+  font-size: 30px;
+  display: block;
+  left: 15px;
+  position: absolute;
+  top: 50%;
+  margin-top: -15px;
+  color: #fff;
+}
+
+.alert.alert-with-icon {
+  padding-left: 66px;
+}
+.alert.alert-info {
+  box-shadow: 0 4px 20px 0 rgba(0,0,0,.14), 0 7px 10px -5px rgba(0,188,212,.4);
+}
+.alert.alert-info {
+  background-color: #00cae3;
+  color: #fff;
+}
+.alert-danger, .alert-info, .alert-rose, .alert-success, .alert-warning, .alert.alert-rose .alert-link, .alert.alert-rose a {
+  color: #fff;
+}
+.alert, .alert.alert-default {
+  background-color: #fff;
+  color: #555;
+}
+.alert {
+  border: 0;
+  border-radius: 3px;
+  position: relative;
+  padding: 20px 15px;
+  line-height: 20px;
+}
+
+.alert span {
+  vertical-align: super;
+  font-weight: 300;
+}

@@ -27,6 +27,7 @@ export class CartDetailComponent implements OnInit {
   SERVICE_CHARGE: number = 0.40;
   paymentValidated: boolean;
   canBeDeliver: boolean = false;
+  hasAddressSelected: boolean = false;
 
   static generateConfirmationCode(length: number = 4): string {
     const randomChars = '0123456789';
@@ -49,7 +50,6 @@ export class CartDetailComponent implements OnInit {
   ) {
     this.paymentValidated = false;
     this.loadStripe();
-
   }
 
   ngOnInit(): void {
@@ -90,6 +90,7 @@ export class CartDetailComponent implements OnInit {
                   resolve('ok');
                 });
                 pro.then((respPro) => {
+                  this.hasAddressSelected = true;
                   console.log(respPro);
                   this.cartService.cartUpdated.subscribe((cartUpdated: Cart) => {
                     this.cartCurrent = cartUpdated;

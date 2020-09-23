@@ -29,12 +29,20 @@
           </a>
         </div>
         <div class="wrapper-link-sidebar">
-          <a routerLink="/infos/products">
+          <a routerLink="/customer/notification">
             <div>
               Notifications
             </div>
           </a>
-        </div><!--
+        </div>
+        <div class="wrapper-link-sidebar">
+          <a routerLink="/customer/comment">
+            <div>
+              Commentaires
+            </div>
+          </a>
+        </div>
+        <!--
         <div class="wrapper-link-sidebar">
           <a routerLink="/infos/contact">
             <div>
@@ -64,17 +72,22 @@
           </div>
         </div>
       </header>
-      <section style="margin-top: 1rem" class="container-fluid">
+      <section style="margin-top: 1rem; height: 100vh" class="container-fluid">
         <!-- 5 last orders -->
         <div class="row">
           <div class="col-md-12">
             <h3 class="">{{ customer.firstname | titlecase }}</h3>
             <h3 class="">
               {{ customer.email }}
-              <span style="cursor: pointer" (click)="openSnackBar()" matBadge="{{ notifications.length > 0 ? notifications.length : '' }}" matBadgeOverlap="false" matBadgeColor="warn" class="float-right material-icons">
-              chat_bubble
-                <span class="count-notification"></span>
-              </span>
+              <span style="cursor: pointer"
+                    (click)="openSnackBar()"
+                    matBadge="{{ notifications.length > 0 ? notifications.length : '' }}"
+                    matBadgeOverlap="false"
+                    matBadgeColor="warn"
+                    class="float-right material-icons"
+              >
+                notifications</span>
+              <span class="float-right mr-3 material-icons">person</span>
             </h3>
           </div>
         </div>

@@ -23,11 +23,15 @@ export class RestaurantDashboardComponent implements OnInit {
           if (typeof arrRestaurant[0].product.medias !== 'undefined' ) {
             arrRestaurant[0].business.medias = arrRestaurant[0].product.medias;
           }
+
+          if (typeof arrRestaurant[0].product.opinions !== 'undefined' ) {
+            arrRestaurant[0].business.opinions = arrRestaurant[0].product.opinions;
+          }
         }
-        return arrRestaurant.length === 1 ? arrRestaurant[0].business : null;
+        console.log(arrRestaurant[0].business);
+        return arrRestaurant.length >= 1 ? arrRestaurant[0].business : null;
       case 'product':
       return arrRestaurant.filter(elem => {
-        console.log(elem.product);
         return typeof elem.product.tags === 'undefined' ? elem.product : '';
       });
       case 'order':

@@ -1,7 +1,24 @@
 <section *ngIf="restaurantDatas" class="wrapper-restaurants">
-  <div style="height: 150px;object-position: 10% -25% ; overflow: hidden" class="wrapper-img-header">
-    <img src="http://localhost:8000/upload/restaurant/header_top.jpg" width="100%" alt="">
+  <div class="header-restaurant">
+    <div class="card-facade">
+      <div style="" class="wrapper-card-header"></div>
+        <div class="logo-wrapper">
+          <img src="assets/home_images/sushi.jpg" alt="">
+        </div>
+        <div class="mt-5">
+          <h1 class="text-center" style="font-family: 'Oswald', sans-serif"><b>{{ restaurant.name  }}</b></h1>
+        </div>
+        <div class="w-100 text-center">
+          <span *ngFor="let i of starsRestaurant">
+              <i style="font-size: medium; vertical-align: sub; color: gold " class="material-icons ">grade</i>
+          </span>
+        </div>
+        <span style="display: block" class="text-center">{{ restaurant.address }}</span>
+    </div>
   </div>
+  <!--<div style="height: 150px;object-position: 10% -25% ; overflow: hidden" class="wrapper-img-header">
+    <img src="http://localhost:8000/upload/restaurant/header_top.jpg" width="100%" alt="">
+  </div>-->
   <p></p><!-- todo breadcrumb -->
     <div class="container-fluid">
         <div style="" class="row header-top-restaurant">
@@ -39,9 +56,9 @@
             </div>
         </div>
     </div>
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-9">
                 <div style="display: flex" class="navbar-restaurant">
                     <nav style="flex: 1;display: flex;flex-direction: row;justify-content: space-around;margin-top: 2rem;padding-bottom: 2rem;border-bottom: 1px solid #cccccc52;" role="navigation">
                         <div *ngFor="let category of categories">
@@ -61,13 +78,13 @@
                       <div *ngFor="let product of category.category_products" class="col-md-6 card-menu">
                         <div (click)="openModal(product)" class="wrapper-menu">
                           <div style="display: flex; flex-direction: row;" class="infos-menu">
-                            <div style="position: relative; flex-grow: 1; align-self: center;">
+                            <div style="justify-content: space-between;position: relative;flex-grow: 1;display: flex;align-self: ;flex-direction: column;">
                               <div>
-                                <h6 style="margin-bottom: .1rem"><b>{{ product.name | uppercase }}</b></h6>
+                                <h6 style="margin-bottom: .1rem"><b style="font-size: medium; font-weight: 300">{{ product.name | titlecase }}</b></h6>
                               </div>
                               <p class="info-ingredient">Ingrédients du sushi tandoori - poulet - carotte - oignon </p>
                               <div class="bottom-info-menu">
-                                <span>{{ (+(product.amount)/ 100).toFixed(2)  }}€</span><span> Info lambda</span>
+                                <span style="font-size: small">{{ (+(product.amount)/ 100).toFixed(2)  }}€</span><span style="font-size: small"> Info lambda</span>
                               </div>
                             </div>
                             <div class="image-menu">
@@ -296,7 +313,7 @@
 
               </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                  <!-- todo menuTitle-restaurants --->
                  <!-- todo panier --->
                 <app-cart></app-cart>

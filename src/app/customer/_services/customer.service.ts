@@ -34,6 +34,11 @@ export class CustomerService {
       this.headers);
   }
 
+  getCommentCustomer(id: number): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}opinion/customer/${id}/list`,
+      this.headers);
+  }
+
   sendNotificationsRead(notifications: any[], entity): Observable<any> {
     return this.http.post<any>(`${this.urlApi}notification/read`, { notif: JSON.stringify(notifications), entity: entity },
       this.headers);
