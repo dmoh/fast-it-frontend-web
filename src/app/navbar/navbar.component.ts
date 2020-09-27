@@ -22,4 +22,7 @@ export class NavbarComponent implements OnInit {
     this.user = !this.authentication.currentUserValue ? new User() : this.authentication.currentUserValue;
   }
 
+  onLogout(){
+    this.authentication.logout();
+  }
 }

@@ -84,5 +84,46 @@
     </div>
     <button mat-raised-button type="submit" color="primary">Valider</button>
   </form>
+  <hr>
+  <h2>Horaires</h2>
+  <form *ngIf="scheduleForm" [formGroup]="scheduleForm">
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Jours</th>
+            <th>Matin</th>
+            <th>Aprés-midi</th>
+            <th>Soir</th>
+            <th>Tte la journée</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Lundi</td>
+            <td>
+              <div class="form-group">
+                <p>
+                  <mat-form-field style="width: 100%;" appearance="outline">
+                    <mat-label>Lundi</mat-label>
+                    <input matInput type="number" formControlName="mondayMorning" placeholder="Placeholder">
+                    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                  </mat-form-field>
+                </p>
+                <span> - </span>
+                <p>
+                  <mat-form-field style="width: 100%;" appearance="outline">
+                    <mat-label>Lundi</mat-label>
+                    <input matInput type="number" formControlName="mondayMorning" placeholder="Placeholder">
+                    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                  </mat-form-field>
+                </p>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </form>
 </div>
 

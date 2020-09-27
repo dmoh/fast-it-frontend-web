@@ -5,26 +5,28 @@ import { ParameterComponent } from './parameter/parameter.component';
 import { DeliveryComponent } from './delivery.component';
 import { MyDeliveryComponent } from './my-delivery/my-delivery.component';
 import { AwaitingDeliveryComponent } from './awaiting-delivery/awaiting-delivery.component';
-
+import { DetailDeliveryComponent } from './detail-delivery/detail-delivery.component';
 
 @NgModule({
   declarations: [
-      ParameterComponent,
       DeliveryComponent,
-      CoreModule,
+      ParameterComponent,
       MyDeliveryComponent,
-      AwaitingDeliveryComponent
+      AwaitingDeliveryComponent,
+      DetailDeliveryComponent
   ],
   imports: [
     CoreModule,
-    DeliveryRoutingModule
+    DeliveryRoutingModule,
   ],
-  exports: [
+    exports: [
       CoreModule,
       DeliveryComponent,
       MyDeliveryComponent,
       AwaitingDeliveryComponent,
+      DetailDeliveryComponent,
       ParameterComponent
+
   ]
 })
 export class DeliveryModule { }

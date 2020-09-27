@@ -27,36 +27,39 @@ import {MatBadgeModule} from "@angular/material/badge";
 import {MatSnackBarModule} from "@angular/material/snack-bar";
 import {MatBottomSheet, MatBottomSheetModule} from '@angular/material/bottom-sheet';
 import { NotificationsComponent } from '../notifications/notifications.component';
+import {MatRadioModule} from "@angular/material/radio";
+import {FooterComponent} from "@app/footer/footer.component";
 
 
 @NgModule({
-  declarations: [AddressModalComponent, NotificationsComponent],
+  declarations: [AddressModalComponent, NotificationsComponent, FooterComponent],
   imports: [
-      CommonModule,
-      FormsModule,
-      HttpClientModule,
-      ReactiveFormsModule,
-      RouterModule,
-      GooglePlaceModule,
-      CartModule,
-      MatFormFieldModule,
-      MatIconModule,
-      MatAutocompleteModule,
-      MatInputModule,
-      MatCardModule,
-      MatDialogModule,
-      MatProgressBarModule,
-      MatTableModule,
-      MatChipsModule,
-      MatStepperModule,
-      MatSlideToggleModule,
-      MatButtonModule,
-      MatTabsModule,
-      GoogleMapsModule,
-      MatSelectModule,
-      MatBadgeModule,
-      MatSnackBarModule,
-      MatBottomSheetModule
+    CommonModule,
+    FormsModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    RouterModule,
+    GooglePlaceModule,
+    CartModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatAutocompleteModule,
+    MatInputModule,
+    MatCardModule,
+    MatDialogModule,
+    MatProgressBarModule,
+    MatTableModule,
+    MatChipsModule,
+    MatStepperModule,
+    MatSlideToggleModule,
+    MatButtonModule,
+    MatTabsModule,
+    GoogleMapsModule,
+    MatSelectModule,
+    MatBadgeModule,
+    MatSnackBarModule,
+    MatBottomSheetModule,
+    MatRadioModule
   ],
   exports: [
       CommonModule,
@@ -85,7 +88,8 @@ import { NotificationsComponent } from '../notifications/notifications.component
       MatBadgeModule,
       MatSnackBarModule,
       MatBottomSheetModule,
-      NotificationsComponent
+      NotificationsComponent,
+      FooterComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
@@ -94,7 +98,8 @@ import { NotificationsComponent } from '../notifications/notifications.component
     MatDialog, MatBottomSheet
   ],
   entryComponents: [
-    NotificationsComponent
+    NotificationsComponent,
+    FooterComponent
   ]
 })
 export class CoreModule { }

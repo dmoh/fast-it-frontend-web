@@ -14,6 +14,7 @@ export class CommerceComponent implements OnInit, AfterViewInit {
   commerceForm: FormGroup;
   commerce: Restaurant;
   error: string;
+  scheduleForm: FormGroup;
   uploadResponse = { status: '', message: '', filePath: '' };
   schedulePrepartionTimes: any[] = [];
 
@@ -56,6 +57,9 @@ export class CommerceComponent implements OnInit, AfterViewInit {
         logo: [this.commerce.logo],
         backgroundImg: [this.commerce.backgroundImg],
         estimatedPreparationTime: [this.commerce.estimatedPreparationTime, Validators.required],
+      });
+      this.scheduleForm = this.formBuilder.group({
+        mondayMorning: ['', Validators.required]
       });
     });
   }

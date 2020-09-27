@@ -1,7 +1,20 @@
 <section style="padding: 1rem">
   <header><h1>Adresse de livraison</h1></header>
   <hr>
-  <div *ngIf="address">
+  <label class="example-margin">Color:</label>
+  <mat-radio-group [(ngModel)]="selectedAddress">
+    <mat-radio-button class="example-margin" value="primary">
+      Primary
+    </mat-radio-button>
+    <mat-radio-button class="example-margin" value="accent">
+      Accent
+    </mat-radio-button>
+    <mat-radio-button class="example-margin" value="warn">
+      Warn
+    </mat-radio-button>
+  </mat-radio-group>
+  <h6><mat-slide-toggle >Vue Tableau</mat-slide-toggle></h6>
+  <div *ngIf="selectedAddress">
     <h4>Adresse par défaut</h4>
     <div>
       Rue : <b>{{ address.street }}</b>
@@ -13,25 +26,40 @@
       Ville : <b>{{ address.city }}</b>
     </div>
     <div>
-      <button (click)="onChooseAddress('default')" class="btn btn-primary">
+      <button (click)="onChooseAddress('default')" mat-raised-button color="primary">
         Je choisis cette adresse
       </button>
     </div>
     <div>
     </div>
   </div>
-  <div *ngIf="!address">
+  <div >
     <h4>On livre vos plats préférés à l'adresse suivante</h4>
     <div *ngIf="addressForm">
       <form [formGroup]="addressForm">
         <div class="form-group">
           <p>
             <mat-form-field style="width: 100%;" appearance="outline">
-              <mat-label>Email</mat-label>
-              <input matInput type="text" formControlName="street" placeholder="Placeholder">
+              <mat-label>Nom (Facultatif)</mat-label>
+              <input [disabled]="!selectedAddress" matInput type="text" formControlName="street" placeholder="Placeholder">
               <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
             </mat-form-field>
           </p>
+        </div>
+        <div class="input-group">
+          <mat-form-field style="width: 100%;" appearance="outline">
+            <mat-label>1 rue de la place</mat-label>
+            <input matInput
+                   autocomplete="off"
+                   type="text"
+                   id="locate-me"
+                   ngx-google-places-autocomplete
+                   [options]='options'
+                   #placesRef="ngx-places"
+                   (onAddressChange)="handleAddressChange($event)"
+            >
+            <mat-icon matSuffix></mat-icon>
+          </mat-form-field>
         </div>
       </form>
     </div>

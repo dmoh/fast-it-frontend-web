@@ -46,5 +46,10 @@ export class RestaurantDashboardService {
       this.headers);
   }
 
+  getOpinionByBusinessId(restaurantId: number): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}opinion/business/${restaurantId}`,
+      this.headers);
+  }
+
 
 }

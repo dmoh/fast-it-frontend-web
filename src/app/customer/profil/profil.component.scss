@@ -1,0 +1,43 @@
+.card-profile .card-avatar {
+  margin: -50px auto 0;
+  border-radius: 50%;
+  overflow: hidden;
+  padding: 0;
+  box-shadow: 0 16px 38px -12px rgba(0,0,0,.56), 0 4px 25px 0 rgba(0,0,0,.12), 0 8px 10px -5px rgba(0,0,0,.2);
+  max-width: 130px;
+  max-height: 130px;
+  background: #fff;
+}
+
+
+.card-profile {
+  margin-top: 30px;
+  text-align: center;
+}
+.card {
+  border: 0;
+  margin-bottom: 30px;
+  margin-top: 30px;
+  border-radius: 6px;
+  color: #333;
+  background: #fff;
+  width: 100%;
+  box-shadow: 0 1px 4px 0 rgba(0,0,0,.14);
+}
+
+.card-profile .card-avatar+.card-body {
+  margin-top: 15px;
+}
+.card .card-body {
+  padding: .9375rem 20px;
+  position: relative;
+}
+.card-body {
+  flex: 1 1 auto;
+  padding: 1.25rem;
+}
+
+.card-profile .card-avatar img {
+  width: 100%;
+  height: auto;
+}

@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { DeliveryService } from './services/delivery.service';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
+import {MatBottomSheet, MatBottomSheetRef} from '@angular/material/bottom-sheet';
 
 @Component({
   selector: 'app-delivery',
@@ -10,19 +16,9 @@ export class DeliveryComponent implements OnInit {
 
   orders: any;
 
-  constructor(private deliveryService: DeliveryService) { }
-
-  // static getData(typeData: string, arrayDeliveryDatas: any[]) {
-  //   const arrRestaurant =  arrayDeliveryDatas.filter((elem) => {
-  //     return elem[typeData];
-  //   });
-  //   switch (typeData) {
-  //     case 'order':
-  //       return arrRestaurant.filter(elem => {
-  //         return elem[typeData];
-  //       });
-  //   }
-  // }
+  constructor(private deliveryService: DeliveryService,
+    private snackBar: MatSnackBar,
+    private bottomSheet: MatBottomSheet) { }
 
   ngOnInit(): void {
     console.log('delivery service', this.deliveryService)
@@ -32,11 +28,6 @@ export class DeliveryComponent implements OnInit {
     } else {
       // Pas de support, proposer une alternative ?
     }
-
-    // this.deliveryService.getOrdersDatas(1).subscribe((res) => {
-    //   this.orders = DeliveryComponent.getData('order', res);
-    //   console.warn(this.orders);
-    // } );
   }
   
 }

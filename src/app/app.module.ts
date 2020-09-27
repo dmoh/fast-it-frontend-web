@@ -8,7 +8,6 @@ import { HomeComponent } from './home/home.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { HomeFeaturesComponent } from './home/home-features/home-features.component';
 import { CardComponent } from './home/home-features/card/card.component';
-import { FooterComponent } from './footer/footer.component';
 import {CoreModule} from './core/core.module';
 import { RestaurantsCityComponent } from './restaurants-city/restaurants-city.component';
 import {CityDataService} from './city-data.service';
@@ -20,8 +19,8 @@ import { LoginComponent } from './login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CheckoutComponent } from './checkout/checkout.component';
 import {RestaurantDashboardModule} from "@app/restaurants/restaurant-dashboard/restaurant-dashboard.module";
-import { DeliveryComponent } from './delivery/delivery.component';
 import { CustomerModule } from './customer/customer.module';
+import {DeliveryModule} from "@app/delivery/delivery.module";
 
 @NgModule({
   declarations: [
@@ -30,14 +29,12 @@ import { CustomerModule } from './customer/customer.module';
     NavbarComponent,
     HomeFeaturesComponent,
     CardComponent,
-    FooterComponent,
     RestaurantsCityComponent,
     LoginPageComponent,
     ProductModalComponent,
     ConfirmationCodePaymentModalComponent,
     LoginComponent,
-    CheckoutComponent,
-    DeliveryComponent
+    CheckoutComponent
   ],
   imports: [
     BrowserModule,
@@ -47,18 +44,19 @@ import { CustomerModule } from './customer/customer.module';
     RestaurantsModule,
     BrowserAnimationsModule,
     RestaurantDashboardModule,
-    CustomerModule
+    CustomerModule,
+    DeliveryModule
   ],
   providers: [CityDataService],
   bootstrap: [AppComponent],
-  exports: [
-      CoreModule,
-      HomeComponent,
-      NavbarComponent,
-      RestaurantsCityComponent,
-      ProductModalComponent,
-      ConfirmationCodePaymentModalComponent,
-      CheckoutComponent
-  ]
+    exports: [
+        CoreModule,
+        HomeComponent,
+        NavbarComponent,
+        RestaurantsCityComponent,
+        ProductModalComponent,
+        ConfirmationCodePaymentModalComponent,
+        CheckoutComponent
+    ]
 })
 export class AppModule { }

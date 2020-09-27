@@ -7,6 +7,8 @@ export class User {
   street: string;
   zipcode: string;
   city: string;
+  email?: string;
   token?: string;
   orders?: any[];
+  addresses: any[];
 }

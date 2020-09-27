@@ -1,52 +1,48 @@
-<div>
-  <form formGroup="">
-    <p>
-      <mat-form-field style="width: 100%;" appearance="outline">
-        <mat-label>Email</mat-label>
-        <input matInput type="text" formControlName="username" placeholder="Placeholder">
-        <mat-icon matSuffix>alternate_email</mat-icon>
-      </mat-form-field>
-    </p><p>
-    <mat-form-field style="width: 100%;" appearance="outline">
-      <mat-label>Email</mat-label>
-      <input matInput type="text" formControlName="username" placeholder="Placeholder">
-      <mat-icon matSuffix>alternate_email</mat-icon>
-    </mat-form-field>
-  </p>
-    <p>
-      <mat-form-field style="width: 100%;" appearance="outline">
-        <mat-label>Email</mat-label>
-        <input matInput type="text" formControlName="username" placeholder="Placeholder">
-        <mat-icon matSuffix>alternate_email</mat-icon>
-      </mat-form-field>
-    </p>
-    <p>
-      <mat-form-field style="width: 100%;" appearance="outline">
-        <mat-label>Email</mat-label>
-        <input matInput type="text" formControlName="username" placeholder="Placeholder">
-        <mat-icon matSuffix>alternate_email</mat-icon>
-      </mat-form-field>
-    </p>
-    <p>
-      <mat-form-field style="width: 100%;" appearance="outline">
-        <mat-label>Email</mat-label>
-        <input matInput type="text" formControlName="username" placeholder="Placeholder">
-        <mat-icon matSuffix>alternate_email</mat-icon>
-      </mat-form-field>
-    </p>
-    <p>
-      <mat-form-field style="width: 100%;" appearance="outline">
-        <mat-label>Email</mat-label>
-        <input matInput type="text" formControlName="username" placeholder="Placeholder">
-        <mat-icon matSuffix>alternate_email</mat-icon>
-      </mat-form-field>
-    </p>
-    <p>
-      <mat-form-field style="width: 100%;" appearance="outline">
-        <mat-label>Email</mat-label>
-        <input matInput type="text" formControlName="username" placeholder="Placeholder">
-        <mat-icon matSuffix>alternate_email</mat-icon>
-      </mat-form-field>
-    </p>
-  </form>
-</div>
+<section class="container-fluid">
+  <div class="row">
+    <div *ngIf="customerForm" style="padding-top: 2rem" class="col-md-8 card">
+      <form [formGroup]="customerForm">
+        <p>
+          <mat-form-field style="width: 100%;" appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" formControlName="email" placeholder="Placeholder">
+            <mat-icon matSuffix>alternate_email</mat-icon>
+          </mat-form-field>
+        </p>
+        <h2>Adresse de livraison (par défaut)</h2>
+        <p>
+          <mat-form-field style="width: 100%;" appearance="outline">
+            <mat-label>Rue</mat-label>
+            <input matInput type="text" formControlName="street" placeholder="Placeholder">
+            <mat-icon matSuffix>room</mat-icon>
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field style="width: 100%;" appearance="outline">
+            <mat-label>Ville</mat-label>
+            <input matInput type="text" formControlName="city" placeholder="Placeholder">
+            <mat-icon matSuffix>alternate_email</mat-icon>
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field style="width: 100%;" appearance="outline">
+            <mat-label>Code postal</mat-label>
+            <input matInput type="text" formControlName="zipcode" placeholder="Placeholder">
+            <mat-icon matSuffix>alternate_email</mat-icon>
+          </mat-form-field>
+        </p>
+        <div class="mb-3">
+          <button class="float-right mb-3" mat-raised-button type="submit" color="primary">Enregistrer</button>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-4">
+      <div class="card card-profile">
+        <div class="card-avatar">
+          <img src="assets/home_images/user.png" alt="">
+        </div>
+        <div class="card-body"></div>
+      </div>
+    </div>
+  </div>
+</section>

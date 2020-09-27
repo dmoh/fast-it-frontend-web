@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Chart } from 'chart.js';
 import {RestaurantDashboardService} from "@app/restaurants/restaurant-dashboard/services/restaurant-dashboard.service";
 import {RestaurantDashboardComponent} from "@app/restaurants/restaurant-dashboard/restaurant-dashboard.component";
+import {Restaurant} from "@app/_models/restaurant";
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
@@ -10,11 +11,17 @@ import {RestaurantDashboardComponent} from "@app/restaurants/restaurant-dashboar
 export class OverviewComponent implements OnInit {
   chart = [];
   orders: any[];
+  opinions: any[];
+  restaurant: Restaurant;
   constructor(private restaurantService: RestaurantDashboardService) { }
 
   ngOnInit(): void {
     this.restaurantService.getOrdersDatas(1).subscribe((res) => {
       this.orders = RestaurantDashboardComponent.extractRestaurantData('order', res);
+      this.restaurantService.getOpinionByBusinessId(1)
+        .subscribe((re) => {
+          this.opinions = re;
+        });
     });
     const ctx = document.getElementById('myChart');
     this.chart = new Chart(ctx, {

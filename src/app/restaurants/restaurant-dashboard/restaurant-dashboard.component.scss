@@ -16,6 +16,8 @@
   box-shadow: 1px 0 20px rgba(0,0,0,.08);
   width: 250px;
   position: fixed;
+  top: 0;
+  bottom: 0;
 }
 
 .content-restaurant-dashboard {
@@ -37,7 +39,7 @@
   transition: all 0.5s;
 
   &:hover {
-    background: #ea7b1c;
+    background: #c823f1 !important;
     color: white;
   }
 }

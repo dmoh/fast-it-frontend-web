@@ -2,35 +2,33 @@
     <div class="container-dashboard">
       <div class="sidebar-left">
         <div id="dashboard" class="nav">
-          <div class="wrapper-link-sidebar">
-            <a routerLink="/delivery/awaiting-delivery">
+          <a routerLink="/delivery/awaiting-delivery">
+            <div class="wrapper-link-sidebar">
               <div>
                 Commandes en cours
               </div>
-            </a>
-          </div>
-          <div class="wrapper-link-sidebar">
-            <a routerLink="/delivery/my-delivery">
+            </div>
+          </a>
+          <a routerLink="/delivery/my-delivery">
+            <div class="wrapper-link-sidebar">
               <div>
                 Mes courses
               </div>
-            </a>
-          </div>
-          <div class="wrapper-link-sidebar">
-            <a routerLink="/delivery/parameter">
+            </div>
+          </a>
+          <a routerLink="/delivery/parameter">
+            <div class="wrapper-link-sidebar">
               <div>
                 Paramètres du profil
               </div>
-            </a>
-          </div>
+            </div>
+          </a>
         </div>
       </div>
+
       <div class="content-dashboard">
-      <!-- HEADER -->
         <section style="margin-top: 1rem" class="container-fluid">
-          <!-- 5 last orders -->
           <div class="row">
-            <div></div>
             <div class="col-md-12">
               <router-outlet></router-outlet>
             </div>
