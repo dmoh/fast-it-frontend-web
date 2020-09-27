@@ -37,7 +37,7 @@ export class DetailDeliveryComponent implements OnInit {
         code: ["", Validators.required],
         notCode: false
       });
-      this.order = this.deliverer.orders.filter(order => order.id = this.orderId);
+      this.order = this.deliverer.orders.filter(order => order.id == this.orderId)[0];
       console.log("order", this.order);
       this.hasDeliveryCode = this.order.deliverCode != null;
       });
@@ -56,7 +56,7 @@ export class DetailDeliveryComponent implements OnInit {
       // order validate 
       // return at awaiting
       this.finalizeDelivery() ;
-      //this.location.back();
+      this.location.back();
     }
     else {
       return;
