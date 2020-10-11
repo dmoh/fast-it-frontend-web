@@ -24,19 +24,10 @@ export class CartDetailComponent implements OnInit {
   userAddresses: any[] = [];
   clientSecret: string;
   // todo declare constante frais de service
-  SERVICE_CHARGE: number = 0.40;
+  SERVICE_CHARGE: number = 0.55;
   paymentValidated: boolean;
   canBeDeliver: boolean = false;
   hasAddressSelected: boolean = false;
-
-  static generateConfirmationCode(length: number = 4): string {
-    const randomChars = '0123456789';
-    let result = '';
-    for ( let i = 0; i < length; i++ ) {
-      result += randomChars.charAt(Math.floor(Math.random() * randomChars.length));
-    }
-    return result;
-  }
 
 
   constructor(
@@ -56,7 +47,11 @@ export class CartDetailComponent implements OnInit {
     // Choix de l'adresse
     this.cartService.cartUpdated.subscribe((cartUpdated: Cart) => {
       this.cartCurrent = cartUpdated;
-      this.cartCurrent.total += +(this.SERVICE_CHARGE);
+      console.warn(this.cartCurrent);
+      if (this.cartCurrent.hasServiceCharge === false) {
+        this.cartCurrent.total += +(this.SERVICE_CHARGE);
+        // this.cartCurrent = true;
+      }
       if (this.cartCurrent.products.length < 1) {
         this.route.navigate(['home']);
       }

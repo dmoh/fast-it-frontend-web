@@ -3,8 +3,10 @@ import {RestaurantDashboardService} from '@app/restaurants/restaurant-dashboard/
 import {RestaurantDashboardComponent} from '@app/restaurants/restaurant-dashboard/restaurant-dashboard.component';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {UpdateDialogComponent} from '@app/restaurants/restaurant-dashboard/product/update-dialog/update-dialog.component';
-import {Product} from "@app/models/product";
-import {UploadService} from "@app/_services/upload.service";
+import {Product} from '@app/models/product';
+import {UploadService} from '@app/_services/upload.service';
+import {CategoryProductComponent} from '@app/restaurants/restaurant-dashboard/category-product/category-product.component';
+import {AddProductDialogComponent} from "@app/restaurants/restaurant-dashboard/category-product/add-product-dialog/add-product-dialog.component";
 
 @Component({
   selector: 'app-product',
@@ -16,19 +18,26 @@ export class ProductComponent implements OnInit {
   restaurantDatas: any;
   restaurant: any;
   productsResto: any[];
+  categories: any[];
   productBeforeUpdate: any;
   constructor(private restaurantService: RestaurantDashboardService,
               public dialog: MatDialog,
               public uploadService: UploadService  ) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void { // todo changer id restau
+    this.updateProductList();
+  }
+
+  updateProductList() {
     this.restaurantService.getRestaurantDatas(1).subscribe((res) => {
       this.restaurant = RestaurantDashboardComponent.extractRestaurantData('business', res);
       this.productsResto = RestaurantDashboardComponent.extractRestaurantData('product', res);
-      console.log(this.productsResto);
+      this.restaurantService.getCategoriesByBusinessId(this.restaurant.id)
+        .subscribe((cat) => {
+          this.categories = cat;
+        });
     });
   }
-
 
   onDelete(type: string, {product, supplement}): void {
     switch (type) {
@@ -51,14 +60,13 @@ export class ProductComponent implements OnInit {
   }
 
 
-  openDialog(product?: any): void {
+  openDialog(product?: Product): void {
     if (!product) {
       product = new Product();
     }
     // add business id to product
     product = Object.assign({business_id: this.restaurant.id }, product);
     this.productBeforeUpdate = Object.assign({}, product);
-    console.log(this.productBeforeUpdate);
     const dialogRef = this.dialog.open(UpdateDialogComponent, {
       width: '60%',
       data: product
@@ -73,7 +81,6 @@ export class ProductComponent implements OnInit {
           return prod;
         });
       } else {
-        console.warn(result);
         result['business_id'] = this.restaurant.id;
         const formData = new FormData();
         formData.append('product', JSON.stringify(result));
@@ -84,21 +91,65 @@ export class ProductComponent implements OnInit {
         }
         this.uploadService.upload(formData, 0, true)
           .subscribe((resp) => {
-              console.log(resp);
+              this.updateProductList();
             }, (error) => {
               console.warn(error);
             }
           );
-        /*this.restaurantService
-          .updateProduct(JSON.stringify(result))
-          .subscribe((resp) => {
-              console.log(resp);
-            }, (error) => {
-              console.warn(error);
-            }
-          );*/
       }
     });
+  }
+
+  onGetProductByCategory(categoryId: number): void {
+    this.restaurantService.getProductByCategoryId(categoryId)
+      .subscribe((prod) => {
+        this.categories.forEach((cat, index) => {
+          if (cat.id === categoryId) {
+            this.categories[index].products = prod;
+          }
+        });
+      });
+  }
+
+
+  onAddProductToCategory(category): void {
+    const dialogRef = this.dialog.open(AddProductDialogComponent, {
+      width: '60%',
+      data: category
+    });
+
+    dialogRef.afterClosed()
+      .subscribe((res) => {
+        if (res) {
+          this.restaurantService.addCategoryToRestaurant(res)
+            .subscribe((response) => {
+              if (response.ok) {
+                this.categories = [...this.categories, response.category];
+              }
+            });
+        }
+      });
+   /// this.restaurantService.addProductToCategory(categoryId: number)
+  }
+
+  addCategory(): void {
+    const dialogRef = this.dialog.open(CategoryProductComponent, {
+      width: '60%',
+      data: this.restaurant
+    });
+    dialogRef.afterClosed()
+      .subscribe((res) => {
+        if (res) {
+          this.restaurantService.addCategoryToRestaurant(res)
+            .subscribe((response) => {
+              if (response.ok) {
+                console.log(response);
+                this.categories = [...this.categories, response.category];
+              }
+            });
+        }
+      });
+    // this.restaurantService.addCategoryToRestaurant()
   }
 
 }

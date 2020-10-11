@@ -13,5 +13,6 @@ export class Order {
   orderAcceptedByMerchant?: boolean;
   idReference?: string = null; // AAAAMMNUMID EXemple: 20200800000001
   cartDetail: Cart;
+  status: number;
 }
 

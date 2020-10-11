@@ -92,12 +92,12 @@
                           <div style="width: 180px; overflow: hidden">
                             <img style="height: 100%; width: 100%" src="assets/home_images/sushi.jpg" alt="Sushi">
                           </div>
-                          <div style="position: relative">
+                          <div class="pl-2" style="position: relative; flex: 1">
                             <div class="delivery-time">
                               <i style="font-size: small; " class="material-icons ">alarm</i>
                               <span class="pt-2">25 - 45 min</span>
                             </div>
-                            <span style="color: #0a0a0a"><b>{{ restaurant.name }}</b></span>
+                            <span style="color: #0a0a0a; font-size: large"><b>{{ restaurant.name }}</b></span>
                             <p style="margin-bottom: 0 !important;"><i  class="material-icons dimension-star">star</i>4.8
                               Excellent(20)- coût raisonnable
                             </p>
@@ -106,7 +106,7 @@
                                 {{' - ' + tag.name }}
                               </span>
                             </p>
-                            <span>Minimum 20€</span>
+                            <span class="info-minimum-accepted">Minimum 20€</span>
                           </div>
                         </div>
                       </div>

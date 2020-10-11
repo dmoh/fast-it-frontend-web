@@ -59,3 +59,13 @@ ul {
 .mat-badge-medium.mat-badge-after .mat-badge-content {
   right: -9px;
 }
+
+.mat-typography h1 {
+  font: 400 24px/32px Roboto, "Helvetica Neue", sans-serif;
+  letter-spacing: normal;
+  margin: 0 0 0 !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}

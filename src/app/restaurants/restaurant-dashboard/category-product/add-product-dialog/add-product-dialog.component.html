@@ -1,0 +1,12 @@
+<section>
+  <div>
+    <h2>{{ category.name | titlecase }}</h2>
+  </div>
+  <div>
+    <mat-selection-list >
+      <mat-list-option *ngFor="let prod of productsWithoutCategory" (change)="onChange()" [(ngModel)]="selectedProductId">
+        {{ prod.name }}
+      </mat-list-option>
+    </mat-selection-list>
+  </div>
+</section>

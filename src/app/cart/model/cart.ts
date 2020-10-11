@@ -7,5 +7,5 @@ export class Cart {
     total: number = 0;
     serviceCharge?: number = 0.4;
     restaurant?: any;
-    hasServiceCharge: boolean;
+    hasServiceCharge: boolean = false;
 }

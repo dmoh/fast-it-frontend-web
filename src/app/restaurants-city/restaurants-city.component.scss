@@ -11,6 +11,8 @@ ul {
 .mini-card-restaurant {
   overflow: hidden;
   display: flex;
+  border: 1px solid #df5cff4a;
+  box-shadow: 10px 10px 20px rgba(0,0,0,0.07);
 }
 .dimension-star {
   color: #08c308;
@@ -40,9 +42,17 @@ a:hover {
 .delivery-time {
   position: absolute;
   padding: 3px;
-  margin-top: -1.3rem;
+  margin-top: .3rem;
   background: #fff;
   border-radius: 3px;
   right: 0;
   box-shadow: 1px 1px 1px rgba(0,0,0,0.3);
+}
+
+.info-minimum-accepted {
+  display: block;
+  position: absolute;
+  bottom: 0;
+  right: .3rem;
+  font-style: italic;
 }

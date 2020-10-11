@@ -11,7 +11,7 @@ import {Router} from "@angular/router";
 })
 export class CartService {
 
-  cartCurrent: Cart = new Cart();
+  cartCurrent: Cart;
   cartSubject = new BehaviorSubject<Cart>(this.cartCurrent);
   cartUpdated = this.cartSubject.asObservable();
   protected tokenUserCurrent: string;
@@ -61,6 +61,9 @@ export class CartService {
     }
   }
 
+  setHasServiceCharge() {
+    this.cartCurrent.hasServiceCharge = true;
+  }
   setDeliveryCost(deliveryCost: number) {
     this.cartCurrent.deliveryCost = deliveryCost;
     this.generateTotalCart();

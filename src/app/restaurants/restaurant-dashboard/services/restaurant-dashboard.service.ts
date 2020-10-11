@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {AuthenticationService} from "@app/_services/authentication.service";
 import {Router} from "@angular/router";
 import {Observable} from "rxjs";
+import {CategoryProduct} from "@app/_models/category-product";
 
 @Injectable({
   providedIn: 'root'
@@ -51,5 +52,38 @@ export class RestaurantDashboardService {
       this.headers);
   }
 
+  getScheduleByBusinessId(restaurantId: number): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}business/${restaurantId}/schedule`,
+      this.headers);
+  }
 
+  getCategoriesByBusinessId(restaurantId: number): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}business/${restaurantId}/categories-product`,
+      this.headers);
+  }
+
+  updateScheduleBusiness(restaurantId: number): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}product/update`, restaurantId,
+      this.headers);
+  }
+
+  addCategoryToRestaurant(category: CategoryProduct): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}business/${category.business_id}/add/category`, JSON.stringify(category),
+      this.headers);
+  }
+
+  addProductToCategory(categoryId: CategoryProduct) {
+    // return this.http.post<any>(`${this.urlApi}business/${categoryId}/add/category`, ,
+     // this.headers);
+  }
+
+  getProductByCategoryId(categoryId: number): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}business/category/${categoryId}/product/list`,
+      this.headers);
+  }
+
+  getProductListWithoutCategory(restaurantId: number): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}business/${restaurantId}/no-category/products`,
+      this.headers);
+  }
 }

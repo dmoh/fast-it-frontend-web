@@ -29,6 +29,11 @@ export class CustomerService {
       this.headers);
   }
 
+  getOrdersCustomer(): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}customer/order/list`,
+      this.headers);
+  }
+
   getNotificationsCustomer(): Observable<any> {
     return this.http.get<any>(`${this.urlApi}notification/list`,
       this.headers);

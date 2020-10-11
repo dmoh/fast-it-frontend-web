@@ -38,3 +38,12 @@
   background: #fff;
   border-radius: 3px;
 }
+
+@media (min-width: 250px) and (max-width: 968px) {
+  .wrapper {
+    width: 90%;
+  }
+  .home-section {
+    background-position-y: 0;
+  }
+}

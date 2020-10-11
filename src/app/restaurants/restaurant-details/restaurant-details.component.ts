@@ -44,15 +44,15 @@ export class RestaurantDetailsComponent implements OnInit {
                 this.restaurant.tags = restau.product.tags;
               }
             } else {
-              if (restau.product.category) {
+              if (restau.product.categoryProduct) {
                 const prod = restau.product;
                 const categoryProduct = {
-                  category_name: prod.category.name,
-                  category_id: prod.category.id,
-                  category_label: prod.category.name,
+                  category_name: prod.categoryProduct.name,
+                  category_id: prod.categoryProduct.id,
+                  category_label: prod.categoryProduct.name,
                   category_products: []
                 };
-                const category = restau.product.category;
+                const category = restau.product.categoryProduct;
                 const isCategorySet = this.categoryExistArray(category.id);
                 if (isCategorySet === -1) {
                   categoryProduct.category_products = [restau.product, ...categoryProduct.category_products];

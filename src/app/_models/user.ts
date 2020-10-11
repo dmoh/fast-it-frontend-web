@@ -9,6 +9,6 @@ export class User {
   city: string;
   email?: string;
   token?: string;
-  orders?: any[];
+  orders?: any[] = [];
   addresses: any[];
 }

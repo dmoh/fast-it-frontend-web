@@ -1,6 +1,7 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnInit, Optional} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {RestaurantDashboardService} from '@app/restaurants/restaurant-dashboard/services/restaurant-dashboard.service';
+import {Product} from "@app/models/product";
 
 @Component({
   selector: 'app-update-dialog',
@@ -10,19 +11,27 @@ import {RestaurantDashboardService} from '@app/restaurants/restaurant-dashboard/
 export class UpdateDialogComponent implements OnInit {
 
   photo: any;
+  categories: any[] = [];
+  @Optional() restaurantId: number;
   constructor(
     private restaurantDashboardService: RestaurantDashboardService,
     public dialogRef: MatDialogRef<UpdateDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public product: any) {}
+    @Inject(MAT_DIALOG_DATA) public product: Product) {}
 
   ngOnInit(): void {
+    this.restaurantDashboardService.getCategoriesByBusinessId(this.product.business_id)
+      .subscribe((cats) => {
+        this.categories = cats;
+        console.log(this.categories);
+      });
   }
   onNoClick(): void {
     this.dialogRef.close('no-update');
   }
 
   onSaveProduct(product: any): void {
-    this.dialogRef.close(product);
+    console.log(this.product);
+    this.dialogRef.close(this.product);
   }
 
 

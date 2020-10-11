@@ -5,6 +5,7 @@ export class Restaurant {
   name: string = '';
   street: string = '';
   zipcode: string = '';
+  number: string = '';
   city: string = '';
   description: string = '';
   emailContact: string = '';

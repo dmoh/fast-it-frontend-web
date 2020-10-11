@@ -1,5 +1,12 @@
 <h1 mat-dialog-title>Edition </h1>
 <div style="width: 100%" mat-dialog-content>
+
+  <div class="mb-3" *ngIf="categories">
+    <label for="categories">Sélectionner une catégorie</label>
+    <select class="form-control" name="cats" id="categories" [(ngModel)]="product.category" >
+      <option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</option>
+    </select>
+  </div>
   <div style="width: 150px; height: auto" >
     <img width="100%" src="assets/home_images/sushi.jpg" alt="sushi">
   </div>
@@ -53,5 +60,5 @@
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Annuler</button>
-  <button mat-raised-button color="primary" (click)="onSaveProduct(product)" [mat-dialog-close]="product.name">Ok</button>
+  <button mat-raised-button color="primary" (click)="onSaveProduct(product)" >Ok</button>
 </div>

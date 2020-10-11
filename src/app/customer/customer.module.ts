@@ -9,14 +9,16 @@ import {CoreModule} from "@app/core/core.module";
 import {NotificationsComponent} from "@app/notifications/notifications.component";
 import { NotificationCustomerComponent } from '../notification-customer/notification-customer.component';
 import { CommentComponent } from './comment/comment.component';
+import {MatMenuModule} from "@angular/material/menu";
 
 
 @NgModule({
   declarations: [CustomerComponent, OrderComponent, ProfilComponent, NotificationCustomerComponent, CommentComponent],
-  imports: [
-    CoreModule,
-    CustomerRoutingModule,
-  ],
+    imports: [
+        CoreModule,
+        CustomerRoutingModule,
+        MatMenuModule,
+    ],
   exports: [CustomerComponent, OrderComponent, ProfilComponent, CoreModule, NotificationCustomerComponent, CommentComponent]
 })
 export class CustomerModule { }

@@ -40,3 +40,12 @@
   color: #eaea2f;
   font-size: 1rem;
 }
+
+
+.category {
+  transition: border ease 300ms;
+  border-radius: 0;
+  &:hover {
+    border: 2px solid violet;
+  }
+}
