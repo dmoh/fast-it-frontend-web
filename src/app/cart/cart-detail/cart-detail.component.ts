@@ -10,6 +10,7 @@ import {UserService} from '@app/_services/user.service';
 import { AgmCoreModule } from '@agm/core';            // @agm/core
 import { AgmDirectionModule } from 'agm-direction';
 import {AddressModalComponent} from '@app/address-modal/address-modal.component';
+import {ToastService} from "@app/_services/toast.service";
 
 @Component({
   selector: 'app-cart-detail',
@@ -37,8 +38,10 @@ export class CartDetailComponent implements OnInit {
     private codeConfirmationModal: NgbModal,
     private addressConfirmationModal: NgbModal,
     private authenticationService: AuthenticationService,
-    private router: Router
+    private router: Router,
+    private toastService: ToastService
   ) {
+
     this.paymentValidated = false;
     this.loadStripe();
   }
@@ -47,13 +50,13 @@ export class CartDetailComponent implements OnInit {
     // Choix de l'adresse
     this.cartService.cartUpdated.subscribe((cartUpdated: Cart) => {
       this.cartCurrent = cartUpdated;
-      console.warn(this.cartCurrent);
+      if (this.cartCurrent.products.length < 1) {
+        this.route.navigate(['home']);
+        return;
+      }
       if (this.cartCurrent.hasServiceCharge === false) {
         this.cartCurrent.total += +(this.SERVICE_CHARGE);
         // this.cartCurrent = true;
-      }
-      if (this.cartCurrent.products.length < 1) {
-        this.route.navigate(['home']);
       }
     });
     this.userService.getUserAddresses().subscribe((result) => {
@@ -173,6 +176,12 @@ export class CartDetailComponent implements OnInit {
         if (result.paymentIntent.status === 'succeeded') {
           const responsePayment = result.paymentIntent;
           if (responsePayment.status === 'succeeded') {
+              this.toastService.show('Paiement accepté', {
+                classname: 'bg-success text-light',
+                delay: 4000,
+                autohide: true,
+                headertext: 'Votre commande est en cours de validation'
+              });
              // save order payment succeeded
              this.cartService.saveOrder({stripeResponse: responsePayment, cartDetail: this.cartCurrent })
                .subscribe((confCode) => {
@@ -185,6 +194,7 @@ export class CartDetailComponent implements OnInit {
                      this.cartService.saveCodeCustomerToDeliver({ responseCustomer: response})
                        .subscribe((responseServer) => {
                          if (responseServer.ok) {
+                           this.cartService.emptyCart();
                            this.router.navigate(['customer']);
                          }
                      });

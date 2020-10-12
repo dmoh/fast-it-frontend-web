@@ -11,7 +11,7 @@ import {Router} from "@angular/router";
 })
 export class CartService {
 
-  cartCurrent: Cart;
+  cartCurrent: Cart = new Cart();
   cartSubject = new BehaviorSubject<Cart>(this.cartCurrent);
   cartUpdated = this.cartSubject.asObservable();
   protected tokenUserCurrent: string;
@@ -75,9 +75,14 @@ export class CartService {
     this.emitCartSubject();
   }
 
-  emitCartSubject(){
+  emitCartSubject(empty?: string){
+    if (empty) {
+      localStorage.removeItem('cart_fast_eat');
+    } else {
+      localStorage.setItem('cart_fast_eat', JSON.stringify(this.cartCurrent));
+    }
     // todo voir si autre solution avec Elhad save on DB temporairement ??? le panier
-    localStorage.setItem('cart_fast_eat', JSON.stringify(this.cartCurrent));
+
     this.cartSubject.next(this.cartCurrent);
   }
 
@@ -100,6 +105,12 @@ export class CartService {
   getTokenPaymentIntent(amountCart: number, currencyCart: string = 'EUR'): Observable<any> {
     return this.http.post<any>(`http://localhost:8000/payment/token-payment`,
       { amount: amountCart, currency: currencyCart }, this.headers);
+  }
+
+
+  emptyCart() {
+    this.cartCurrent = new Cart();
+    this.emitCartSubject('empty');
   }
 
   // saveOrder()

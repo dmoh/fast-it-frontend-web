@@ -7,6 +7,7 @@ import {
 } from '@angular/material/snack-bar';
 import {MatBottomSheet, MatBottomSheetRef} from '@angular/material/bottom-sheet';
 import {NotificationsComponent} from "@app/notifications/notifications.component";
+import {User} from "@app/_models/user";
 
 
 
@@ -17,7 +18,7 @@ import {NotificationsComponent} from "@app/notifications/notifications.component
 })
 export class CustomerComponent implements OnInit {
 
-  customer: any;
+  customer: User;
   notifications: any[];
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';

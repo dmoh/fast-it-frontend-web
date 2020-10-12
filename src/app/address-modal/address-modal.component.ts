@@ -12,12 +12,13 @@ export class AddressModalComponent implements OnInit {
   addressForm: FormGroup;
   place: any;
   options;
-  selectedAddress: boolean = true;
+  selectedAddress: boolean;
   constructor(private fb: FormBuilder,
               private modal: NgbActiveModal
   ) { }
 
   ngOnInit(): void {
+    this.selectedAddress = false;
     this.options = {
       types: [],
       componentRestrictions: { country: 'FR' }
@@ -30,6 +31,9 @@ export class AddressModalComponent implements OnInit {
       });
     }
   }
+  toggle() {
+    this.selectedAddress = !this.selectedAddress;
+  }
 
   onChooseAddress(type: string): void {
     if ('default' === type) {
@@ -37,6 +41,9 @@ export class AddressModalComponent implements OnInit {
     }
   }
 
+  onSubmit() {
+
+  }
 
   handleAddressChange(event) {
     if (!!event.formatted_address) {

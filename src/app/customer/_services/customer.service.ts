@@ -49,5 +49,10 @@ export class CustomerService {
       this.headers);
   }
 
+
+  editCustomer(fd: FormData): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}user/edit`, fd,
+      this.headers);
+  }
 }
 

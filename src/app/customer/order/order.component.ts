@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {User} from "@app/_models/user";
-import {CustomerService} from "@app/customer/_services/customer.service";
-import status from "@app/_util/fastEatConstants";
+import {User} from '@app/_models/user';
+import {CustomerService} from '@app/customer/_services/customer.service';
+import * as fasteatconst from "@app/_util/fasteat-constants";
 @Component({
   selector: 'app-order',
   templateUrl: './order.component.html',
@@ -10,7 +10,7 @@ import status from "@app/_util/fastEatConstants";
 export class OrderComponent implements OnInit {
 
   customer: User = new User();
-  s: status;
+  fastEatConst = fasteatconst;
   constructor(private customerService: CustomerService) { }
 
   ngOnInit(): void {

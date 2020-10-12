@@ -1,9 +1,9 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {Restaurant} from "@app/_models/restaurant";
-import {CategoryProduct} from "@app/_models/category-product";
-import {Product} from "@app/models/product";
-import {RestaurantDashboardService} from "@app/restaurants/restaurant-dashboard/services/restaurant-dashboard.service";
+import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {Restaurant} from '@app/_models/restaurant';
+import {CategoryProduct} from '@app/_models/category-product';
+import {Product} from '@app/models/product';
+import {RestaurantDashboardService} from '@app/restaurants/restaurant-dashboard/services/restaurant-dashboard.service';
 
 @Component({
   selector: 'app-add-product-dialog',
