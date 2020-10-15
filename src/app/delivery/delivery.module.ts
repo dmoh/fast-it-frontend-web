@@ -1,29 +1,32 @@
 import { NgModule } from '@angular/core';
 import { DeliveryRoutingModule } from './delivery-routing.module';
 import {CoreModule} from "../core/core.module";
-import { DeliveryComponent } from './delivery.component';
 import { ParameterComponent } from './parameter/parameter.component';
-import {AwaitingDeliveryComponent} from "@app/delivery/awaiting-delivery/awaiting-delivery.component";
-import {MyDeliveryComponent} from "@app/delivery/my-delivery/my-delivery.component";
-
+import { DeliveryComponent } from './delivery.component';
+import { MyDeliveryComponent } from './my-delivery/my-delivery.component';
+import { AwaitingDeliveryComponent } from './awaiting-delivery/awaiting-delivery.component';
+import { DetailDeliveryComponent } from './detail-delivery/detail-delivery.component';
 
 @NgModule({
   declarations: [
       DeliveryComponent,
       ParameterComponent,
+      MyDeliveryComponent,
       AwaitingDeliveryComponent,
-      MyDeliveryComponent
+      DetailDeliveryComponent
   ],
   imports: [
     CoreModule,
-    DeliveryRoutingModule
+    DeliveryRoutingModule,
   ],
-  exports: [
+    exports: [
       CoreModule,
       DeliveryComponent,
-      ParameterComponent,
+      MyDeliveryComponent,
       AwaitingDeliveryComponent,
-      MyDeliveryComponent
+      DetailDeliveryComponent,
+      ParameterComponent
+
   ]
 })
 export class DeliveryModule { }

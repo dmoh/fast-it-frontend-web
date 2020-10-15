@@ -23,19 +23,39 @@ export class DeliveryService {
     }
   }
 
-  getProductsByRestaurantId(restaurantId: number): Observable<any> {
-    return this.http.get<any>(`${this.urlApi}product/list/business/${restaurantId}`,
-      this.headers);
-  }
-
-  getRestaurantDatas(restaurantId: number): Observable<any> {
-    return this.http.get<any>(`${this.urlApi}business/products/${restaurantId}`,
-      this.headers);
-  }
-
   getOrdersDatas(restaurantId: number): Observable<any> {
     return this.http.get<any>(`${this.urlApi}business/orders/${restaurantId}`,
       this.headers);
+  }
+
+  getCurrentOrders(): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}deliverer/current_orders`,
+      this.headers);
+  }
+
+  getInfosDeliverer(): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}deliverer/show`,
+      this.headers);
+  }
+
+  getNotificationsDelivery(): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}notification/list`,
+      this.headers);
+  }
+
+  sendNotificationsRead(notifications: any[], entity): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}notification/read`, { notif: JSON.stringify(notifications), entity: entity },
+      this.headers);
+  }
+
+  sendNotificationsDeliverer(): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}deliverer/notif`, this.headers);
+  }
+
+  sendDelivererCode(request: any[]){
+    console.warn(JSON.stringify(request));
+    console.warn(request);
+    return this.http.post<any>(`${this.urlApi}order/save/final`, request, this.headers);
   }
 
 }

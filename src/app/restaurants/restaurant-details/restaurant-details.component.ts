@@ -82,6 +82,7 @@ export class RestaurantDetailsComponent implements OnInit {
   }
   openModal(product: Product): void {
     console.log(product);
+    
     const modal = this.modal.open(ProductModalComponent);
     modal.componentInstance.product = product;
     modal.componentInstance.restaurant = this.restaurant;

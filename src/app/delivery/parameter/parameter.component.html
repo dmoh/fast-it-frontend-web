@@ -1,1 +1,57 @@
-<p>Liste des parametres</p>
+<h2>
+    Parametre
+</h2>
+
+<section class="container-fluid">
+    <div class="row">
+       <div *ngIf="delivererForm" style="padding-top: 2rem" class="col-md-8 card">
+        <form [formGroup]="delivererForm">
+        <h2>Adresse de livraison (par défaut)</h2>
+          <p>
+            <mat-form-field style="width: 100%;" appearance="outline">
+              <mat-label>Email</mat-label>
+              <input matInput type="email" formControlName="email" placeholder="Placeholder">
+              <mat-icon matSuffix>alternate_email</mat-icon>
+            </mat-form-field>
+          </p>
+          <p>
+            <mat-form-field style="width: 100%;" appearance="outline">
+              <mat-label>Rue</mat-label>
+              <input matInput type="text" formControlName="street" placeholder="Placeholder">
+              <mat-icon matSuffix>room</mat-icon>
+            </mat-form-field>
+          </p>
+          <p>
+            <mat-form-field style="width: 100%;" appearance="outline">
+              <mat-label>Ville</mat-label>
+              <input matInput type="text" formControlName="city" placeholder="Placeholder">
+              <mat-icon matSuffix>alternate_email</mat-icon>
+            </mat-form-field>
+          </p>
+          <p>
+            <mat-form-field style="width: 100%;" appearance="outline">
+              <mat-label>Code postal</mat-label>
+              <input matInput type="text" formControlName="zipcode" placeholder="Placeholder">
+              <mat-icon matSuffix></mat-icon>
+            </mat-form-field>
+          </p>
+          <p>
+            <mat-form-field style="width: 50%;" appearance="outline">
+              <mat-label>Horaire</mat-label>
+              <input matInput type="text" formControlName="workinTime" placeholder="Placeholder">
+              <mat-icon matSuffix>date</mat-icon>
+            </mat-form-field>
+            <mat-form-field style="width: 50%;" appearance="outline">
+                <mat-label>Horaire</mat-label>
+                <input matInput type="date" formControlName="workinTimeTwo" placeholder="Placeholder">
+                <mat-icon matSuffix>date</mat-icon>
+              </mat-form-field>
+          </p>
+          <div class="mb-3">
+            <button class="float-right mb-3" mat-raised-button type="submit" color="primary">Enregistrer</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+  
