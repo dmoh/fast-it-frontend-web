@@ -46,6 +46,11 @@ export class Schedule {
   sundayEndAllDay: string = '';
   dayByDay: boolean = true;
   byWeek: boolean = false;
-  allDaysStart: string = '';
-  allDaysEnd: string = '';
+  allDaysStartMorning: string = '';
+  allDaysEndMorning: string = '';
+  allDaysStartNight: string = '';
+  allDaysEndNight: string = '';
+  allDaysStartAllDay: string = '';
+  allDaysEndAllDay: string = '';
+
 }

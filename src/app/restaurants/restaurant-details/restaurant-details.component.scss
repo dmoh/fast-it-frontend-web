@@ -123,3 +123,31 @@
 }
 
 
+
+.nav-menu {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-top: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #cccccc52;
+}
+
+@media (max-width: 768px) {
+  .header-restaurant {
+    height: auto;
+  }
+
+
+  .card-facade {
+    width: 90%;
+    margin-bottom: 1.2rem;
+  }
+
+  .nav-menu {
+    margin-top: 0;
+    padding-bottom: .8rem;
+    border-bottom: 1px solid #c823f142;
+  }
+}

@@ -54,5 +54,10 @@ export class CustomerService {
     return this.http.post<any>(`${this.urlApi}user/edit`, fd,
       this.headers);
   }
+
+  addNewAddress(address: {}) {
+    return this.http.post<any>(`${this.urlApi}user/add/address`, address,
+      this.headers);
+  }
 }
 

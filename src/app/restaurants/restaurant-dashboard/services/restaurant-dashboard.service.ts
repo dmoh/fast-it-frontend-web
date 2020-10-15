@@ -72,9 +72,9 @@ export class RestaurantDashboardService {
       this.headers);
   }
 
-  addProductToCategory(categoryId: CategoryProduct) {
-    // return this.http.post<any>(`${this.urlApi}business/${categoryId}/add/category`, ,
-     // this.headers);
+  addProductToCategory(categoryId: number, product: any[]) {
+      return this.http.post<any>(`${this.urlApi}business/category/${categoryId}/add/product`, { products: JSON.stringify(product)},
+      this.headers);
   }
 
   getProductByCategoryId(categoryId: number): Observable<any> {

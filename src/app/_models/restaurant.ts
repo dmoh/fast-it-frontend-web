@@ -1,4 +1,5 @@
 import {Media} from "@app/_models/media";
+import {User} from "@app/_models/user";
 
 export class Restaurant {
   id: number = 0;
@@ -15,4 +16,5 @@ export class Restaurant {
   backgroundImg: Media = new Media();
   estimatedPreparationTime: string = '';
   tags: any[] = [];
+  managers: User[] = [];
 }

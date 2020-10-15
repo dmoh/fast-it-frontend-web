@@ -52,12 +52,12 @@ export class CartDetailComponent implements OnInit {
       this.cartCurrent = cartUpdated;
       if (this.cartCurrent.products.length < 1) {
         this.route.navigate(['home']);
-        return;
       }
       if (this.cartCurrent.hasServiceCharge === false) {
         this.cartCurrent.total += +(this.SERVICE_CHARGE);
         // this.cartCurrent = true;
       }
+
     });
     this.userService.getUserAddresses().subscribe((result) => {
       this.userAddresses = result.data[0].addresses;

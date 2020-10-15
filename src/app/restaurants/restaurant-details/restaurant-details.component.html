@@ -60,9 +60,9 @@
         <div class="row">
             <div class="col-md-9">
                 <div style="display: flex" class="navbar-restaurant">
-                    <nav style="flex: 1;display: flex;flex-direction: row;justify-content: space-around;margin-top: 2rem;padding-bottom: 2rem;border-bottom: 1px solid #cccccc52;" role="navigation">
+                    <nav class="nav-menu" role="navigation">
                         <div *ngFor="let category of categories">
-                          <p style="cursor: pointer" (click)="scroll( category.category_name )">{{ category.category_name }}</p>
+                          <a (click)="scroll( category.category_name )">{{ category.category_name }}</a>
                         </div>
                         <!--<div><p style="cursor: pointer" (click)="scroll('tacos')">Tacos</p></div>
                         <div><a href="">Kebab</a></div>

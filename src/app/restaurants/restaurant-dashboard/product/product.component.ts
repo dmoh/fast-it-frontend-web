@@ -6,7 +6,7 @@ import {UpdateDialogComponent} from '@app/restaurants/restaurant-dashboard/produ
 import {Product} from '@app/models/product';
 import {UploadService} from '@app/_services/upload.service';
 import {CategoryProductComponent} from '@app/restaurants/restaurant-dashboard/category-product/category-product.component';
-import {AddProductDialogComponent} from "@app/restaurants/restaurant-dashboard/category-product/add-product-dialog/add-product-dialog.component";
+import {AddProductDialogComponent} from '@app/restaurants/restaurant-dashboard/category-product/add-product-dialog/add-product-dialog.component';
 
 @Component({
   selector: 'app-product',
@@ -120,16 +120,10 @@ export class ProductComponent implements OnInit {
 
     dialogRef.afterClosed()
       .subscribe((res) => {
-        if (res) {
-          this.restaurantService.addCategoryToRestaurant(res)
-            .subscribe((response) => {
-              if (response.ok) {
-                this.categories = [...this.categories, response.category];
-              }
-            });
+        if (typeof res !== 'undefined') {
+          this.onGetProductByCategory(res.ok);
         }
       });
-   /// this.restaurantService.addProductToCategory(categoryId: number)
   }
 
   addCategory(): void {
@@ -149,7 +143,6 @@ export class ProductComponent implements OnInit {
             });
         }
       });
-    // this.restaurantService.addCategoryToRestaurant()
   }
 
 }

@@ -68,7 +68,7 @@
       </p>
     </div>
     <hr>
-    <h2>Horaires</h2>
+    <h2>Infos Commerce</h2>
     <hr>
     <div class="form-group">
       <p>
@@ -104,8 +104,8 @@
   <hr>
   <div *ngIf="scheduleRestaurant">
     <mat-radio-group (change)="onChangeSchedule()" aria-label="Select an option">
-      <mat-radio-button [value]="!showScheduleByWeek">Jours par jours</mat-radio-button>
-      <mat-radio-button [value]="2">Toute la semaine</mat-radio-button>
+      <mat-radio-button [checked]="showScheduleByWeek == false">Jours par jours</mat-radio-button>
+      <mat-radio-button [checked]="showScheduleByWeek == true">Toute la semaine</mat-radio-button>
     </mat-radio-group>
   </div>
   <form *ngIf="scheduleForm" [formGroup]="scheduleForm">
@@ -1051,38 +1051,38 @@
               <h4 class="text-center">Service Midi</h4>
               <mat-form-field style="width: 48%" appearance="outline">
                 <mat-label>Heure début (midi)</mat-label>
-                <input formControlName="mondayStartMorning"
+                <input formControlName="allDaysStartMorning"
                        matInput [format]="24"
                        placeholder="Editable dial"
                        aria-label="Editable dial"
-                       [ngxTimepicker]="mondayStartMorning"
+                       [ngxTimepicker]="allDaysStartMorning"
                        readonly>
-                <ngx-material-timepicker #mondayStartMorning
+                <ngx-material-timepicker #allDaysStartMorning
                                          [theme]="darkTheme"
-                                         [editableHintTmpl]="mondayStartMorningHint"
+                                         [editableHintTmpl]="allDaysStartMorningHint"
                                          [minutesGap]="5"
                                          [enableKeyboardInput]="true">
                 </ngx-material-timepicker>
-                <ng-template #mondayStartMorningHint>
+                <ng-template #allDaysStartMorningHint>
                   <p></p>
                 </ng-template>
               </mat-form-field>
               <span class="pr-1 pl-1">-</span>
               <mat-form-field style="width: 48%" appearance="outline">
                 <mat-label>Heure fin (midi)</mat-label>
-                <input formControlName="mondayEndMorning"
+                <input formControlName="allDaysEndMorning"
                        matInput [format]="24"
                        placeholder="Editable dial"
                        aria-label="Editable dial"
-                       [ngxTimepicker]="mondayEndMorning"
+                       [ngxTimepicker]="allDaysEndMorning"
                        readonly>
-                <ngx-material-timepicker #mondayEndMorning
+                <ngx-material-timepicker #allDaysEndMorning
                                          [theme]="darkTheme"
-                                         [editableHintTmpl]="mondayEndMorningHint"
+                                         [editableHintTmpl]="allDaysEndMorningHint"
                                          [minutesGap]="5"
                                          [enableKeyboardInput]="true">
                 </ngx-material-timepicker>
-                <ng-template #mondayEndMorningHint>
+                <ng-template #allDaysEndMorningHint>
                   <p></p>
                 </ng-template>
               </mat-form-field>
@@ -1091,38 +1091,38 @@
               <h4 class="text-center">Service Soir</h4>
               <mat-form-field style="width: 48%" appearance="outline">
                 <mat-label>Heure début (soir)</mat-label>
-                <input formControlName="mondayStartNight"
+                <input formControlName="allDaysStartNight"
                        matInput [format]="24"
                        placeholder="Editable dial"
                        aria-label="Editable dial"
-                       [ngxTimepicker]="mondayStartNight"
+                       [ngxTimepicker]="allDaysStartNight"
                        readonly>
-                <ngx-material-timepicker #mondayStartNight
+                <ngx-material-timepicker #allDaysStartNight
                                          [theme]="darkTheme"
-                                         [editableHintTmpl]="mondayStartNightHint"
+                                         [editableHintTmpl]="allDaysStartNightHint"
                                          [minutesGap]="5"
                                          [enableKeyboardInput]="true">
                 </ngx-material-timepicker>
-                <ng-template #mondayStartNightHint>
+                <ng-template #allDaysStartNightHint>
                   <p></p>
                 </ng-template>
               </mat-form-field>
               <span class="pr-1 pl-1">-</span>
               <mat-form-field style="width: 48%" appearance="outline">
                 <mat-label>Heure fin (soir)</mat-label>
-                <input formControlName="mondayEndNight"
+                <input formControlName="allDaysEndNight"
                        matInput [format]="24"
                        placeholder="Editable dial"
                        aria-label="Editable dial"
-                       [ngxTimepicker]="mondayEndNight"
+                       [ngxTimepicker]="allDaysEndNight"
                        readonly>
-                <ngx-material-timepicker #mondayEndNight
+                <ngx-material-timepicker #allDaysEndNight
                                          [theme]="darkTheme"
-                                         [editableHintTmpl]="mondayEndNightHint"
+                                         [editableHintTmpl]="allDaysEndNightHint"
                                          [minutesGap]="5"
                                          [enableKeyboardInput]="true">
                 </ngx-material-timepicker>
-                <ng-template #mondayEndNightHint>
+                <ng-template #allDaysEndNightHint>
                   <p></p>
                 </ng-template>
               </mat-form-field>
@@ -1131,38 +1131,38 @@
               <h4 class="text-center">Service Tte la journée</h4>
               <mat-form-field style="width: 48%" appearance="outline">
                 <mat-label>Heure début</mat-label>
-                <input formControlName="mondayStartAllDay"
+                <input formControlName="allDaysStartAllDay"
                        matInput [format]="24"
                        placeholder="Editable dial"
                        aria-label="Editable dial"
-                       [ngxTimepicker]="mondayStartAllDay"
+                       [ngxTimepicker]="allDaysStartAllDay"
                        readonly>
-                <ngx-material-timepicker #mondayStartAllDay
+                <ngx-material-timepicker #allDaysStartAllDay
                                          [theme]="darkTheme"
-                                         [editableHintTmpl]="mondayStartAllDayHint"
+                                         [editableHintTmpl]="allDaysStartAllDayHint"
                                          [minutesGap]="5"
                                          [enableKeyboardInput]="true">
                 </ngx-material-timepicker>
-                <ng-template #mondayStartAllDayHint>
+                <ng-template #allDaysStartAllDayHint>
                   <p></p>
                 </ng-template>
               </mat-form-field>
               <span class="pr-1 pl-1">-</span>
               <mat-form-field style="width: 48%" appearance="outline">
                 <mat-label>Heure fin</mat-label>
-                <input formControlName="mondayEndAllDay"
+                <input formControlName="allDaysEndAllDay"
                        matInput [format]="24"
                        placeholder="Editable dial"
                        aria-label="Editable dial"
-                       [ngxTimepicker]="mondayEndAllDay"
+                       [ngxTimepicker]="allDaysEndAllDay"
                        readonly>
-                <ngx-material-timepicker #mondayEndAllDay
+                <ngx-material-timepicker #allDaysEndAllDay
                                          [theme]="darkTheme"
-                                         [editableHintTmpl]="mondayEndAllDayHint"
+                                         [editableHintTmpl]="allDaysEndAllDayHint"
                                          [minutesGap]="5"
                                          [enableKeyboardInput]="true">
                 </ngx-material-timepicker>
-                <ng-template #mondayEndAllDayHint>
+                <ng-template #allDaysEndAllDayHint>
                   <p></p>
                 </ng-template>
               </mat-form-field>
@@ -1301,6 +1301,9 @@
           </div>
         </mat-expansion-panel>
       </mat-accordion>
+    </div>
+    <div class="mt-2">
+      <button mat-raised-button [disabled]="!scheduleForm.invalid" type="submit" color="primary">Valider les Horaires</button>
     </div>
   </form>
 </div>

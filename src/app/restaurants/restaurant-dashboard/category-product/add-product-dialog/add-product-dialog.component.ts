@@ -26,8 +26,21 @@ export class AddProductDialogComponent implements OnInit {
       });
   }
 
-  onChange() {
+  onChange(event) {
     console.warn(this.selectedProductId);
+    console.warn(event);
+    console.log(this.category);
+  }
+
+  onValidate() {
+    if (this.selectedProductId.length > 0) {
+      this.restaurantDashboardService.addProductToCategory(this.category.id, this.selectedProductId)
+        .subscribe((response) => {
+          if (response) {
+            this.dialogRef.close({ok: this.category.id});
+          }
+        });
+    }
   }
 
 

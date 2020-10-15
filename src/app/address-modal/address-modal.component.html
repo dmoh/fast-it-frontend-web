@@ -2,14 +2,14 @@
   <header><h1>Adresse de livraison</h1></header>
   <hr>
   <mat-radio-group class="">
-    <mat-radio-button (click)="toggle()" class="example-margin mr-5" value="primary">
+    <mat-radio-button (click)="toggle()" [checked]="addressByDefault" class="example-margin mr-5" value="primary">
       Adresse par (défaut)
     </mat-radio-button>
-    <mat-radio-button (click)="toggle()" class="example-margin" value="accent">
+    <mat-radio-button (click)="toggle()" [checked]="!addressByDefault" class="example-margin" value="accent">
       Nouvelle adresse
     </mat-radio-button>
   </mat-radio-group>
-  <div *ngIf="selectedAddress">
+  <div *ngIf="addressByDefault">
     <h4>Adresse par défaut</h4>
     <div>
       Rue : <b>{{ address.street }}</b>
@@ -28,7 +28,7 @@
     <div>
     </div>
   </div>
-  <div *ngIf="!selectedAddress" >
+  <div *ngIf="!addressByDefault">
     <h4>On livre vos plats préférés à l'adresse suivante</h4>
     <div >
       <form [formGroup]="addressForm" (ngSubmit)="onSubmit()">
@@ -36,19 +36,18 @@
           <p>
             <mat-form-field style="width: 100%;" appearance="outline">
               <mat-label>Nom (Facultatif)</mat-label>
-              <input [disabled]="!selectedAddress" matInput type="text" formControlName="street" placeholder="Placeholder">
+              <input matInput type="text" formControlName="street" placeholder="Placeholder">
               <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
             </mat-form-field>
           </p>
         </div>
-      </form>
         <div class="input-group">
           <mat-form-field style="width: 100%;" appearance="outline">
             <mat-label>1 rue de la place</mat-label>
             <input matInput
                    autocomplete="off"
                    type="text"
-                   id="locate-me"
+                   id="find-me"
                    ngx-google-places-autocomplete
                    [options]='options'
                    #placesRef="ngx-places"
@@ -57,6 +56,10 @@
             <mat-icon matSuffix></mat-icon>
           </mat-form-field>
         </div>
+        <div>
+          <button mat-raised-button (click)="onSaveNewAddress()" color="primary">Valider</button>
+        </div>
+      </form>
     </div>
   </div>
 </section>

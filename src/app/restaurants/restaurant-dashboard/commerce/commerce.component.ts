@@ -41,7 +41,6 @@ export class CommerceComponent implements OnInit, AfterViewInit {
               private restaurantService: RestaurantDashboardService,
               private uploadService: UploadService
   ) {
-    this.showScheduleByWeek = false;
     this.schedulePrepartionTimes = [
       {
         value: '20,30',
@@ -63,6 +62,7 @@ export class CommerceComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.showScheduleByWeek = false;
     this.restaurantService.getRestaurantDatas(1).subscribe((res) => {
       this.commerce = RestaurantDashboardComponent.extractRestaurantData('business', res);
       console.warn(this.commerce);
@@ -120,7 +120,13 @@ export class CommerceComponent implements OnInit, AfterViewInit {
         sundayStartNight: [this.scheduleRestaurant.sundayStartNight],
         sundayEndNight: [this.scheduleRestaurant.sundayEndNight],
         sundayStartAllDay: [this.scheduleRestaurant.sundayStartAllDay],
-        sundayEndAllDay: [this.scheduleRestaurant.sundayEndAllDay]
+        sundayEndAllDay: [this.scheduleRestaurant.sundayEndAllDay],
+        allDaysStartMorning: [this.scheduleRestaurant.allDaysStartMorning],
+        allDaysEndMorning:   [this.scheduleRestaurant.allDaysEndMorning],
+        allDaysStartNight:   [this.scheduleRestaurant.allDaysStartNight],
+        allDaysEndNight:     [this.scheduleRestaurant.allDaysEndNight],
+        allDaysStartAllDay:  [this.scheduleRestaurant.allDaysStartAllDay],
+        allDaysEndAllDay:    [this.scheduleRestaurant.allDaysEndAllDay]
       });
     });
   }
@@ -130,7 +136,6 @@ export class CommerceComponent implements OnInit, AfterViewInit {
   }
 
   onChangeSchedule() {
-    console.warn(this.showScheduleByWeek);
     this.showScheduleByWeek = !this.showScheduleByWeek;
   }
   onSubmit() {
@@ -142,7 +147,10 @@ export class CommerceComponent implements OnInit, AfterViewInit {
     if (this.commerce.backgroundImg) {
       delete(this.commerce.backgroundImg);
     }
-
+    if (this.scheduleForm.valid) {
+      this.scheduleRestaurant = Object.assign(this.scheduleRestaurant, this.scheduleForm.value);
+      formData.append('schedule', JSON.stringify(this.scheduleRestaurant));
+    }
     formData.append('business', JSON.stringify(this.commerce));
     formData.append('logo', this.commerceForm.get('logo').value);
     formData.append('backgroundImg', this.commerceForm.get('backgroundImg').value);

@@ -1,6 +1,7 @@
 import {Component, Input, OnInit, Optional} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {CustomerService} from "@app/customer/_services/customer.service";
 
 @Component({
   selector: 'app-address-modal',
@@ -12,13 +13,15 @@ export class AddressModalComponent implements OnInit {
   addressForm: FormGroup;
   place: any;
   options;
-  selectedAddress: boolean;
+  selectedAddress: any;
+  addressByDefault: boolean;
   constructor(private fb: FormBuilder,
-              private modal: NgbActiveModal
+              private modal: NgbActiveModal,
+              private customerService: CustomerService
   ) { }
 
   ngOnInit(): void {
-    this.selectedAddress = false;
+    this.addressByDefault = true;
     this.options = {
       types: [],
       componentRestrictions: { country: 'FR' }
@@ -32,7 +35,7 @@ export class AddressModalComponent implements OnInit {
     }
   }
   toggle() {
-    this.selectedAddress = !this.selectedAddress;
+    this.addressByDefault = !this.addressByDefault;
   }
 
   onChooseAddress(type: string): void {
@@ -51,4 +54,13 @@ export class AddressModalComponent implements OnInit {
     }
   }
 
+
+  onSaveNewAddress() {
+    if (this.selectedAddress) {
+      this.customerService.addNewAddress(JSON.stringify(this.selectedAddress))
+        .subscribe((res) => {
+          console.warn(res);
+        });
+    }
+  }
 }
