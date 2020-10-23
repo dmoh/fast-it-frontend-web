@@ -13,11 +13,23 @@ export class ParameterComponent implements OnInit {
   deliverer: Delivery;
   constructor(private fb: FormBuilder, private deliveryService: DeliveryService) { }
 
+  userName: string;
+  lastName: string;
+  phone: string;
+
   ngOnInit(): void {
+    this.userName = "Mohamed";
+    this.lastName = "Kanoute";
+    this.phone = "0661234567";
+
     this.deliveryService.getInfosDeliverer()
       .subscribe((delivererCurrent) => {
+        console.warn("deliv before", delivererCurrent);
         this.deliverer = delivererCurrent[0];
         this.delivererForm = this.fb.group({
+          userName: [this.userName, Validators.required],
+          lastName: [this.lastName, Validators.required],
+          phone: [this.phone, Validators.required],
           email: [this.deliverer.email, Validators.required],
           city: [this.deliverer.addresses[0].city, Validators.required],
           zipcode: [this.deliverer.addresses[0].zipcode, Validators.required],

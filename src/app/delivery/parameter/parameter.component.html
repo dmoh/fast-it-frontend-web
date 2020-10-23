@@ -1,17 +1,38 @@
 <h2>
-    Parametre
+    Parametres du profil
 </h2>
 
 <section class="container-fluid">
     <div class="row">
        <div *ngIf="delivererForm" style="padding-top: 2rem" class="col-md-8 card">
         <form [formGroup]="delivererForm">
-        <h2>Adresse de livraison (par défaut)</h2>
+          <h2>Information</h2>
+          <p>
+            <mat-form-field style="width: 100%;" appearance="outline">
+              <mat-label>Nom</mat-label>
+              <input matInput type="text" formControlName="userName" placeholder="Placeholder">
+              <mat-icon matSuffix>account_circle</mat-icon>
+            </mat-form-field>
+          </p>            
+          <p>
+            <mat-form-field style="width: 100%;" appearance="outline">
+              <mat-label>Prenom</mat-label>
+              <input matInput type="text" formControlName="lastName" placeholder="Placeholder">
+              <mat-icon matSuffix>account_circle</mat-icon>
+            </mat-form-field>
+          </p>         
           <p>
             <mat-form-field style="width: 100%;" appearance="outline">
               <mat-label>Email</mat-label>
               <input matInput type="email" formControlName="email" placeholder="Placeholder">
               <mat-icon matSuffix>alternate_email</mat-icon>
+            </mat-form-field>
+          </p>
+          <p>
+            <mat-form-field style="width: 100%;" appearance="outline">
+              <mat-label>Téléphone</mat-label>
+              <input matInput type="number" formControlName="phone" placeholder="Placeholder">
+              <mat-icon matSuffix>phone</mat-icon>
             </mat-form-field>
           </p>
           <p>
@@ -25,14 +46,14 @@
             <mat-form-field style="width: 100%;" appearance="outline">
               <mat-label>Ville</mat-label>
               <input matInput type="text" formControlName="city" placeholder="Placeholder">
-              <mat-icon matSuffix>alternate_email</mat-icon>
+              <mat-icon matSuffix>room</mat-icon>
             </mat-form-field>
           </p>
           <p>
             <mat-form-field style="width: 100%;" appearance="outline">
               <mat-label>Code postal</mat-label>
               <input matInput type="text" formControlName="zipcode" placeholder="Placeholder">
-              <mat-icon matSuffix></mat-icon>
+              <mat-icon matSuffix>room</mat-icon>
             </mat-form-field>
           </p>
           <p>
@@ -47,6 +68,15 @@
                 <mat-icon matSuffix>date</mat-icon>
               </mat-form-field>
           </p>
+
+          <p>
+            <mat-form-field style="width: 100%;" appearance="outline">
+              <mat-label>Kbis</mat-label>
+              <input matInput type="number" formControlName="" placeholder="Placeholder">
+              <mat-icon matSuffix>business</mat-icon>
+            </mat-form-field>
+          </p>
+
           <div class="mb-3">
             <button class="float-right mb-3" mat-raised-button type="submit" color="primary">Enregistrer</button>
           </div>
