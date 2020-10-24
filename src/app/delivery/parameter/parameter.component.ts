@@ -22,19 +22,22 @@ export class ParameterComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.userName = "Mohamed";
-    this.lastName = "Kanoute";
-    this.phone = "0661234567";
     this.isKbis = true;
     this.isSave = false;
 
     this.deliveryService.getInfosDeliverer()
       .subscribe((delivererCurrent) => {
         this.deliverer = delivererCurrent[0];
+        if ( this.deliverer.email == "mkanoute74@gmail.com") {
+          this.deliverer.firstName = "Mohamed";
+          this.deliverer.lastName = "Kanoute";
+          this.deliverer.phone = "0661234567";
+        }
+
         this.delivererForm = this.fb.group({
-          userName: [this.userName, Validators.required],
-          lastName: [this.lastName, Validators.required],
-          phone: [this.phone, Validators.required],
+          userName: [this.deliverer.firstName, Validators.required],
+          lastName: [this.deliverer.lastName, Validators.required],
+          phone: [this.deliverer.phone, Validators.required],
           email: [this.deliverer.email, Validators.required],
           city: [this.deliverer.addresses[0].city, Validators.required],
           zipcode: [this.deliverer.addresses[0].zipcode, Validators.required],
@@ -54,14 +57,14 @@ export class ParameterComponent implements OnInit {
       (res) => {
         console.warn("response", res);
         this.isKbis = (res.etablissement.siret == this.delivererForm.value.siret.toString());
+        this.isSave = (true && this.isKbis);
       },
       (err) => {
-        console.log(err);
+        console.log("errrrrr", err);
         this.isKbis = false;
       }
     );
 
-    this.isSave = true && this.isKbis;
 
     // this.deliveryService.saveDeliverer().subscribe();      
 
