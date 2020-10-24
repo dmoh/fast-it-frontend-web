@@ -13,19 +13,60 @@ export class ParameterComponent implements OnInit {
   deliverer: Delivery;
   constructor(private fb: FormBuilder, private deliveryService: DeliveryService) { }
 
+  userName: string;
+  lastName: string;
+  phone: string;
+  siret: string;
+  isKbis: boolean;
+  isSave : boolean;
+
+
   ngOnInit(): void {
+    this.isKbis = true;
+    this.isSave = false;
+
     this.deliveryService.getInfosDeliverer()
       .subscribe((delivererCurrent) => {
         this.deliverer = delivererCurrent[0];
+        if ( this.deliverer.email == "mkanoute74@gmail.com") {
+          this.deliverer.firstName = "Mohamed";
+          this.deliverer.lastName = "Kanoute";
+          this.deliverer.phone = "0661234567";
+        }
+
         this.delivererForm = this.fb.group({
+          userName: [this.deliverer.firstName, Validators.required],
+          lastName: [this.deliverer.lastName, Validators.required],
+          phone: [this.deliverer.phone, Validators.required],
           email: [this.deliverer.email, Validators.required],
           city: [this.deliverer.addresses[0].city, Validators.required],
           zipcode: [this.deliverer.addresses[0].zipcode, Validators.required],
           street: [this.deliverer.addresses[0].street, Validators.required],
           workingTime: [this.deliverer.workingTime, Validators.required],
           workingTimeTwo: [this.deliverer.workingTimeTwo, Validators.required],
+          siret: [this.siret, Validators.required],
         });
       });
+
+  }
+
+  async saveDelivererInfo() {
+    // https://entreprise.data.gouv.fr/api/sirene/v1/siret/
+    console.warn("Await ", await this.delivererForm.value.siret);
+    this.deliveryService.getKbis(this.delivererForm.value.siret).subscribe(
+      (res) => {
+        console.warn("response", res);
+        this.isKbis = (res.etablissement.siret == this.delivererForm.value.siret.toString());
+        this.isSave = (true && this.isKbis);
+      },
+      (err) => {
+        console.log("error", err);
+        this.isKbis = false;
+      }
+    );
+
+
+    // this.deliveryService.saveDeliverer().subscribe();      
 
   }
 
