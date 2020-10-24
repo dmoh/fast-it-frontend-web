@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {CartService} from '../service/cart.service';
 import { Router} from '@angular/router';
 import {Cart} from '../model/cart';
@@ -17,10 +17,11 @@ import {ToastService} from "@app/_services/toast.service";
   templateUrl: './cart-detail.component.html',
   styleUrls: ['./cart-detail.component.scss']
 })
-export class CartDetailComponent implements OnInit {
+export class CartDetailComponent implements OnInit, AfterViewInit {
   stripe: any;
   elementStripe: any;
   cardNumber: any;
+  card: any;
   cartCurrent: Cart;
   userAddresses: any[] = [];
   clientSecret: string;
@@ -43,7 +44,6 @@ export class CartDetailComponent implements OnInit {
   ) {
 
     this.paymentValidated = false;
-    this.loadStripe();
   }
 
   ngOnInit(): void {
@@ -116,9 +116,12 @@ export class CartDetailComponent implements OnInit {
     });
   }
 
+  ngAfterViewInit() {
+    this.loadStripe();
+  }
 
   private loadStripe(): void {
-    if (window.document.getElementById('stripe-script')) {
+    /*if (window.document.getElementById('stripe-script')) {
       const child = window.document.getElementById('stripe-script');
       child.parentNode.removeChild(child);
     }
@@ -133,7 +136,8 @@ export class CartDetailComponent implements OnInit {
         this.loadStripeElements();
         clearInterval(inter);
       }
-    }, 200);
+    }, 200);*/
+    this.loadStripeElements();
   }
 
 
@@ -143,18 +147,39 @@ export class CartDetailComponent implements OnInit {
     const style = {
       base: {
         color: '#32325d',
-        fontSize: '14px',
-        ':focus': {
-          borderColor: '#00969e',
-        },
+        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+        fontSmoothing: 'antialiased',
+        fontSize: '16px',
+        '::placeholder': {
+          color: '#aab7c4'
+        }
+      },
+      invalid: {
+        color: '#fa755a',
+        iconColor: '#fa755a'
       }
     };
-    this.cardNumber = this.elementStripe.create('cardNumber', {style: style});
-    const cardExpiry = this.elementStripe.create('cardExpiry', {style: style});
+    // this.cardNumber = this.elementStripe.create('card', {style: style});
+    this.card = this.elementStripe.create('card', { style: style });
+    this.card.mount('#card-element');
+    // Add an instance of the card Element into the `card-element` <div>.
+    this.card.mount('#card-element');
+
+// Handle real-time validation errors from the card Element.
+    this.card.on('change', (event) => {
+      const  displayError = document.getElementById('card-errors');
+      if (event.error) {
+        displayError.textContent = event.error.message;
+      } else {
+        displayError.textContent = '';
+      }
+    });
+
+    /*const cardExpiry = this.elementStripe.create('cardExpiry', {style: style});
     const cardCvc = this.elementStripe.create('cardCvc', {style: style});
     this.cardNumber.mount('#cardNumber');
     cardExpiry.mount('#cardExpiry');
-    cardCvc.mount('#cardCvc');
+    cardCvc.mount('#cardCvc');*/
   }
 
 
@@ -162,7 +187,7 @@ export class CartDetailComponent implements OnInit {
     event.preventDefault();
     this.stripe.confirmCardPayment(this.clientSecret, {
       payment_method: {
-        card: this.cardNumber,
+        card: this.card,
         billing_details: {
           name: 'Customer' // TODO ADD REAL NAME
         }
