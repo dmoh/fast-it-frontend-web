@@ -5,77 +5,79 @@
 <section class="container-fluid">
     <div class="row">
        <div *ngIf="delivererForm" style="padding-top: 2rem" class="col-md-8 card">
-        <form [formGroup]="delivererForm">
-          <h2>Information</h2>
+        <form [formGroup]="delivererForm" (ngSubmit)="saveDelivererInfo()">
+          <h2>Informations détaillées</h2>
           <p>
             <mat-form-field style="width: 100%;" appearance="outline">
               <mat-label>Nom</mat-label>
-              <input matInput type="text" formControlName="userName" placeholder="Placeholder">
+              <input matInput type="text" formControlName="userName" placeholder="Nom">
               <mat-icon matSuffix>account_circle</mat-icon>
             </mat-form-field>
           </p>            
           <p>
             <mat-form-field style="width: 100%;" appearance="outline">
               <mat-label>Prenom</mat-label>
-              <input matInput type="text" formControlName="lastName" placeholder="Placeholder">
+              <input matInput type="text" formControlName="lastName" placeholder="Prenom">
               <mat-icon matSuffix>account_circle</mat-icon>
             </mat-form-field>
           </p>         
           <p>
             <mat-form-field style="width: 100%;" appearance="outline">
               <mat-label>Email</mat-label>
-              <input matInput type="email" formControlName="email" placeholder="Placeholder">
+              <input matInput type="email" formControlName="email" placeholder="Email">
               <mat-icon matSuffix>alternate_email</mat-icon>
             </mat-form-field>
           </p>
           <p>
             <mat-form-field style="width: 100%;" appearance="outline">
               <mat-label>Téléphone</mat-label>
-              <input matInput type="number" formControlName="phone" placeholder="Placeholder">
+              <input matInput type="number" formControlName="phone" placeholder="Téléphone">
               <mat-icon matSuffix>phone</mat-icon>
             </mat-form-field>
           </p>
           <p>
             <mat-form-field style="width: 100%;" appearance="outline">
               <mat-label>Rue</mat-label>
-              <input matInput type="text" formControlName="street" placeholder="Placeholder">
+              <input matInput type="text" formControlName="street" placeholder="Rue">
               <mat-icon matSuffix>room</mat-icon>
             </mat-form-field>
           </p>
           <p>
             <mat-form-field style="width: 100%;" appearance="outline">
               <mat-label>Ville</mat-label>
-              <input matInput type="text" formControlName="city" placeholder="Placeholder">
+              <input matInput type="text" formControlName="city" placeholder="Ville">
               <mat-icon matSuffix>room</mat-icon>
             </mat-form-field>
           </p>
           <p>
             <mat-form-field style="width: 100%;" appearance="outline">
               <mat-label>Code postal</mat-label>
-              <input matInput type="text" formControlName="zipcode" placeholder="Placeholder">
+              <input matInput type="text" formControlName="zipcode" placeholder="Code postal">
               <mat-icon matSuffix>room</mat-icon>
             </mat-form-field>
           </p>
           <p>
             <mat-form-field style="width: 50%;" appearance="outline">
               <mat-label>Horaire</mat-label>
-              <input matInput type="text" formControlName="workinTime" placeholder="Placeholder">
+              <input matInput type="text" formControlName="workinTime" placeholder="Horaire">
               <mat-icon matSuffix>date</mat-icon>
             </mat-form-field>
             <mat-form-field style="width: 50%;" appearance="outline">
                 <mat-label>Horaire</mat-label>
-                <input matInput type="date" formControlName="workinTimeTwo" placeholder="Placeholder">
+                <input matInput type="date" formControlName="workinTimeTwo" placeholder="Horaire">
                 <mat-icon matSuffix>date</mat-icon>
               </mat-form-field>
           </p>
-
           <p>
             <mat-form-field style="width: 100%;" appearance="outline">
               <mat-label>Kbis</mat-label>
-              <input matInput type="number" formControlName="" placeholder="Placeholder">
+              <input matInput type="text" formControlName="siret" placeholder="Kbis">
               <mat-icon matSuffix>business</mat-icon>
             </mat-form-field>
           </p>
+          <div *ngIf="!isKbis" class="alert alert-danger">Siret non valide</div>
+          <div *ngIf="isSave" class="alert alert-success">Informations enregistrées</div>
+          
 
           <div class="mb-3">
             <button class="float-right mb-3" mat-raised-button type="submit" color="primary">Enregistrer</button>

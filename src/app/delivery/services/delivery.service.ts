@@ -38,6 +38,11 @@ export class DeliveryService {
       this.headers);
   }
 
+  getKbis(noKbis: string): Observable<any> {
+    return this.http.get<any>(`https://entreprise.data.gouv.fr/api/sirene/v1/siret/` + noKbis);
+      this.headers;
+  }
+
   getNotificationsDelivery(): Observable<any> {
     return this.http.get<any>(`${this.urlApi}notification/list`,
       this.headers);
