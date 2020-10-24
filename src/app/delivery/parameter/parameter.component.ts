@@ -60,7 +60,7 @@ export class ParameterComponent implements OnInit {
         this.isSave = (true && this.isKbis);
       },
       (err) => {
-        console.log("errrrrr", err);
+        console.log("error", err);
         this.isKbis = false;
       }
     );
