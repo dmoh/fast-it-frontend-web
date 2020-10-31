@@ -16,7 +16,7 @@
     <tbody>
       <tr *ngFor="let order of deliverer.orders" >
         <td>{{ order.id }}</td>
-        <td> MisterFoodNight</td>
+        <td> {{commerce.name}}</td>
         <td>{{ order.date.date | date: 'dd/MM/yyyy' }}</td>
         <td>{{ order.delivery_cost / 100 }}</td>
       </tr>

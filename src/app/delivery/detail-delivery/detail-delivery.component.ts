@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RestaurantDashboardService } from '@app/restaurants/restaurant-dashboard/services/restaurant-dashboard.service';
 import { Delivery } from '@app/_models/delivery';
 import { DeliveryService } from '../services/delivery.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RouterState } from '@angular/router';
 import { Location } from '@angular/common';
 import { Order } from '@app/_models/order';
 
@@ -24,6 +24,7 @@ export class DetailDeliveryComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private deliveryService: DeliveryService,
     private location: Location,
+    private router: Router,
     private route: ActivatedRoute) { }
 
   ngOnInit(): void {
@@ -56,7 +57,7 @@ export class DetailDeliveryComponent implements OnInit {
       // order validate 
       // return at awaiting
       this.finalizeDelivery() ;
-      this.location.back();
+      this.router.navigate(['/delivery/awaiting-delivery']);
     }
     else {
       return;
@@ -70,13 +71,13 @@ export class DetailDeliveryComponent implements OnInit {
   finalizeDelivery() {
     let order: any;
     let dateDelivered = Date.now();
-    order = { order : {
-      order_id: this.orderId,
-      deliverer_id: this.deliverer.id,
-      date_delivered: dateDelivered,
-    }
-  };
-    console.log(order);
+    order = { 
+      order : {
+        order_id: this.orderId,
+        deliverer_id: this.deliverer.id,
+        date_delivered: dateDelivered,
+      }
+    };
     this.deliveryService.sendDelivererCode(order).subscribe();
   }
 

@@ -11,6 +11,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { DeliveryService } from '../services/delivery.service';
 import { Order } from '@app/_models/order';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-my-delivery',
@@ -44,11 +45,10 @@ export class MyDeliveryComponent implements OnInit, AfterViewInit {
     this.deliverer = new Delivery();
     this.deliverer.orders = new Array();
     this.deliveryService.getInfosDeliverer().subscribe((response) => {
-      console.log("Elh response #1: ", response);
-      this.deliverer = response[0];
+    this.deliverer = response[0];
     });
 
-    
+
     this.deliveryService.getOrdersDatas(1).subscribe((res) => {
       console.log("Elh response #2: ", res);
       this.commerce = RestaurantDashboardComponent.extractRestaurantData('order', res);

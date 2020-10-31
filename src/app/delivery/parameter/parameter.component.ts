@@ -53,6 +53,8 @@ export class ParameterComponent implements OnInit {
   async saveDelivererInfo() {
     // https://entreprise.data.gouv.fr/api/sirene/v1/siret/
     console.warn("Await ", await this.delivererForm.value.siret);
+    
+    // todo kbis a sauvegarder
     this.deliveryService.getKbis(this.delivererForm.value.siret).subscribe(
       (res) => {
         console.warn("response", res);

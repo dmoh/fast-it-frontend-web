@@ -28,6 +28,11 @@ export class DeliveryService {
       this.headers);
   }
 
+  getOrderById(orderId: number): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}order/${orderId}`,
+      this.headers);
+  }
+
   getCurrentOrders(): Observable<any> {
     return this.http.get<any>(`${this.urlApi}deliverer/current_orders`,
       this.headers);
@@ -61,6 +66,10 @@ export class DeliveryService {
     console.warn(JSON.stringify(request));
     console.warn(request);
     return this.http.post<any>(`${this.urlApi}order/save/final`, request, this.headers);
+  }
+
+  saveOrderDeliverer(request: any[]){
+    return this.http.post<any>(`${this.urlApi}order/save_deliverer`, request, this.headers);
   }
 
 }
