@@ -78,19 +78,11 @@ export class AwaitingDeliveryComponent implements OnInit {
           this.deliveryService.getOrderById(order.id).subscribe( orderById=> {
             // let order: Order = new Order();
           this.orders.push(orderById);
-          console.log('array', this.orders); 
           });
         });
       }
-
-
-    })
+    });
   }
-
-
-  // setNotif() {
-  //   this.deliveryService.sendNotificationsDeliverer().subscribe();
-  // }
 
   saveOrderDeliverer() {
     let order: any;
