@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Product} from "../models/product";
-import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import {CartService} from "../cart/service/cart.service";
-import {Cart} from "../cart/model/cart";
+import {Product} from '../models/product';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {CartService} from '../cart/service/cart.service';
+import {Cart} from '../cart/model/cart';
 
 @Component({
   selector: 'app-product-modal',
@@ -16,7 +16,7 @@ export class ProductModalComponent implements OnInit {
   infos: string;
   @Input() product: Product;
   @Input() restaurant: any;
-  constructor(private modalActive: NgbActiveModal,
+  constructor(public modalActive: NgbActiveModal,
               private cartService: CartService
               ) { }
 

@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {AuthenticationService} from "@app/_services/authentication.service";
 import {Observable} from "rxjs";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   headers: any;
-  urlApi: string = 'http://localhost:8000/';
+  urlApi: string = environment.apiUrl;
   constructor(private http: HttpClient,  private authenticate: AuthenticationService) {
     this.headers = new HttpHeaders({'Content-Type': 'application/json; charset=utf-8'});
     if (this.authenticate.tokenUserCurrent) {
@@ -18,6 +19,6 @@ export class UserService {
 
 
   getUserAddresses(): Observable<any> {
-    return this.http.get<any>(`${this.urlApi}user/address`, this.headers);
+    return this.http.get<any>(`${this.urlApi}/user/address`, this.headers);
   }
 }

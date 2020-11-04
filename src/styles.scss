@@ -69,3 +69,13 @@ ul {
 .cursor-pointer {
   cursor: pointer;
 }
+
+
+.pac-container {
+  z-index: 99999 !important;
+}
+
+.modal-backdrop.show {
+  opacity: 0.9;
+}
+

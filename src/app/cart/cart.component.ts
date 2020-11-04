@@ -10,8 +10,6 @@ import { Router} from "@angular/router";
   styleUrls: ['./cart.component.scss']
 })
 export class CartComponent implements OnInit {
-
-
   qMax: number[];
   cart: Cart;
   @Optional() products: Product[];

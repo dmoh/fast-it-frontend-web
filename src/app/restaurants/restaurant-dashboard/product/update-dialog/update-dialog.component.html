@@ -1,6 +1,8 @@
 <h1 mat-dialog-title>Edition </h1>
 <div style="width: 100%" mat-dialog-content>
-
+  <div>
+    <mat-slide-toggle (change)="onChange($event)" [(ngModel)]="product.isAvailable">Produit disponible</mat-slide-toggle>
+  </div>
   <div class="mb-3" *ngIf="categories">
     <label for="categories">Sélectionner une catégorie</label>
     <select class="form-control" name="cats" id="categories" [(ngModel)]="product.category" >
@@ -26,9 +28,15 @@
   <p>
     <mat-form-field appearance="outline">
       <mat-label>Prix</mat-label>
-      <input style="width: 100%" autocomplete="off" [(ngModel)]="product.amount" matInput placeholder="Placeholder">
-      <!--<mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-      <mat-hint>Hint</mat-hint>-->
+      <input style="width: 100%" type="text" autocomplete="off" (keypress)="onChangeAmount()" [(ngModel)]="product.amount" matInput placeholder="Placeholder">
+      <!--<mat-icon matSuffix>sentiment_very_satisfied</mat-icon>-->
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field appearance="outline">
+      <mat-label>Description</mat-label>
+      <input style="width: 100%" autocomplete="off" [(ngModel)]="product.description" matInput placeholder="Placeholder">
+      <mat-hint></mat-hint>
     </mat-form-field>
   </p>
   <p>

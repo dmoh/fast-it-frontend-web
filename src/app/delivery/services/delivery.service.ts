@@ -3,13 +3,14 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {AuthenticationService} from "@app/_services/authentication.service";
 import {Router} from "@angular/router";
 import {Observable} from "rxjs";
+import {environment} from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class DeliveryService {
   headers: any;
-  urlApi: string = 'http://localhost:8000/';
+  urlApi: string = environment.apiUrl;
 
   constructor(private http: HttpClient, private authenticate: AuthenticationService, private router: Router) {
     this.headers = new HttpHeaders({'Content-Type': 'application/json; charset=utf-8'});
@@ -24,17 +25,17 @@ export class DeliveryService {
   }
 
   getOrdersDatas(restaurantId: number): Observable<any> {
-    return this.http.get<any>(`${this.urlApi}business/orders/${restaurantId}`,
+    return this.http.get<any>(`${this.urlApi}/business/orders/${restaurantId}`,
       this.headers);
   }
 
   getCurrentOrders(): Observable<any> {
-    return this.http.get<any>(`${this.urlApi}deliverer/current_orders`,
+    return this.http.get<any>(`${this.urlApi}/deliverer/current_orders`,
       this.headers);
   }
 
   getInfosDeliverer(): Observable<any> {
-    return this.http.get<any>(`${this.urlApi}deliverer/show`,
+    return this.http.get<any>(`${this.urlApi}/deliverer/show`,
       this.headers);
   }
 
@@ -44,23 +45,23 @@ export class DeliveryService {
   }
 
   getNotificationsDelivery(): Observable<any> {
-    return this.http.get<any>(`${this.urlApi}notification/list`,
+    return this.http.get<any>(`${this.urlApi}/notification/list`,
       this.headers);
   }
 
   sendNotificationsRead(notifications: any[], entity): Observable<any> {
-    return this.http.post<any>(`${this.urlApi}notification/read`, { notif: JSON.stringify(notifications), entity: entity },
+    return this.http.post<any>(`${this.urlApi}/notification/read`, { notif: JSON.stringify(notifications), entity: entity },
       this.headers);
   }
 
   sendNotificationsDeliverer(): Observable<any> {
-    return this.http.post<any>(`${this.urlApi}deliverer/notif`, this.headers);
+    return this.http.post<any>(`${this.urlApi}/deliverer/notif`, this.headers);
   }
 
   sendDelivererCode(request: any[]){
     console.warn(JSON.stringify(request));
     console.warn(request);
-    return this.http.post<any>(`${this.urlApi}order/save/final`, request, this.headers);
+    return this.http.post<any>(`${this.urlApi}/order/save/final`, request, this.headers);
   }
 
 }

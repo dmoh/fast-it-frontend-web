@@ -6,9 +6,10 @@ import {Restaurant} from "@app/_models/restaurant";
 import {UploadService} from "@app/_services/upload.service";
 import {NgxMaterialTimepickerTheme} from "ngx-material-timepicker";
 import {Schedule} from "@app/_models/schedule";
+import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-commerce',
+  selector: 'app-commerce-restaurant',
   templateUrl: './commerce.component.html',
   styleUrls: ['./commerce.component.scss']
 })
@@ -39,7 +40,8 @@ export class CommerceComponent implements OnInit, AfterViewInit {
 
   constructor(private formBuilder: FormBuilder,
               private restaurantService: RestaurantDashboardService,
-              private uploadService: UploadService
+              private uploadService: UploadService,
+              private router: Router
   ) {
     this.schedulePrepartionTimes = [
       {
@@ -65,20 +67,21 @@ export class CommerceComponent implements OnInit, AfterViewInit {
     this.showScheduleByWeek = false;
     this.restaurantService.getRestaurantDatas(1).subscribe((res) => {
       this.commerce = RestaurantDashboardComponent.extractRestaurantData('business', res);
-      console.warn(this.commerce);
       this.commerceForm = this.formBuilder.group({
         name: [this.commerce.name, Validators.required],
         number: [this.commerce.number, [Validators.required, Validators.minLength(10)]],
         description: this.commerce.description,
         street: [this.commerce.street, Validators.required],
         emailContact: [this.commerce.emailContact, Validators.required],
+        numSiret: [this.commerce.numSiret],
+        numSiren: [this.commerce.numSiren],
         zipcode: [this.commerce.zipcode, Validators.required],
         city: [this.commerce.city, Validators.required],
         logo: [this.commerce.logo],
         backgroundImg: [this.commerce.backgroundImg],
         estimatedPreparationTime: [this.commerce.estimatedPreparationTime, Validators.required],
       });
-      this.scheduleForm = this.formBuilder.group({
+      /*this.scheduleForm = this.formBuilder.group({
         mondayStartMorning: [this.scheduleRestaurant.mondayStartMorning],
         mondayEndMorning: [this.scheduleRestaurant.mondayEndMorning],
         mondayStartNight: [this.scheduleRestaurant.mondayStartNight],
@@ -127,7 +130,7 @@ export class CommerceComponent implements OnInit, AfterViewInit {
         allDaysEndNight:     [this.scheduleRestaurant.allDaysEndNight],
         allDaysStartAllDay:  [this.scheduleRestaurant.allDaysStartAllDay],
         allDaysEndAllDay:    [this.scheduleRestaurant.allDaysEndAllDay]
-      });
+      });*/
     });
   }
 
@@ -147,15 +150,18 @@ export class CommerceComponent implements OnInit, AfterViewInit {
     if (this.commerce.backgroundImg) {
       delete(this.commerce.backgroundImg);
     }
-    if (this.scheduleForm.valid) {
+    /*if (this.scheduleForm.valid) {
       this.scheduleRestaurant = Object.assign(this.scheduleRestaurant, this.scheduleForm.value);
       formData.append('schedule', JSON.stringify(this.scheduleRestaurant));
-    }
+    }*/
     formData.append('business', JSON.stringify(this.commerce));
     formData.append('logo', this.commerceForm.get('logo').value);
     formData.append('backgroundImg', this.commerceForm.get('backgroundImg').value);
     this.uploadService.upload(formData, this.commerce.id).subscribe(
-      (res) => this.uploadResponse = res,
+      (res) => {
+         this.uploadResponse = res;
+         this.router.navigate(['infos/commerce']);
+      },
       (err) => this.error = err
     );
 

@@ -63,7 +63,7 @@
         </div>
         <div style="padding: 0" class="card-body">
           <div style="padding: 0" class="wrapper-img">
-            <img src="assets/home_images/sushi.jpg" alt="" width="100%" height="auto">
+            <img src="{{ p.product.photo }}" alt="" width="100%" height="auto">
           </div>
           <div class="infos-product">
             <div class="mt-1 name-product">
@@ -71,7 +71,7 @@
               <span style="float: right">{{ (+(p.product.amount)/100).toFixed(2) +'€'}}</span>
             </div>
             <div class="mt-1 mb-2 description-product">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+              {{ p.product.description }}
             </div>
             <div *ngIf="p.product.supplmentsProduct.length > 0">
               <h6 style="font-size: .8rem">Suppléments éventuelles</h6>

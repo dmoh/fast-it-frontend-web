@@ -19,6 +19,9 @@ export class UpdateDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public product: Product) {}
 
   ngOnInit(): void {
+    if (this.product.amount && +(this.product.amount) > 0) {
+      this.product.amount = +(this.product.amount) / 100;
+    }
     this.restaurantDashboardService.getCategoriesByBusinessId(this.product.business_id)
       .subscribe((cats) => {
         this.categories = cats;
@@ -34,6 +37,17 @@ export class UpdateDialogComponent implements OnInit {
     this.dialogRef.close(this.product);
   }
 
+  onChange(event) {
+    console.log(this.product.isAvailable);
+    console.log(this.product);
+  }
+
+  onChangeAmount() {
+    // display prix affiché
+    if (this.product.amount > 10 ) {
+
+    }
+  }
 
   onFileChange(event) {
     if (event.target.files.length > 0) {

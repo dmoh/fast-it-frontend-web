@@ -11,6 +11,7 @@ import { AgmCoreModule } from '@agm/core';            // @agm/core
 import { AgmDirectionModule } from 'agm-direction';
 import {AddressModalComponent} from '@app/address-modal/address-modal.component';
 import {ToastService} from "@app/_services/toast.service";
+import {OrderModalComponent} from "@app/restaurants/order-modal/order-modal.component";
 
 @Component({
   selector: 'app-cart-detail',
@@ -26,10 +27,11 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
   userAddresses: any[] = [];
   clientSecret: string;
   // todo declare constante frais de service
-  SERVICE_CHARGE: number = 0.55;
   paymentValidated: boolean;
   canBeDeliver: boolean = false;
   hasAddressSelected: boolean = false;
+  showLoader: boolean;
+  addressChose: any;
 
 
   constructor(
@@ -40,9 +42,9 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
     private addressConfirmationModal: NgbModal,
     private authenticationService: AuthenticationService,
     private router: Router,
-    private toastService: ToastService
+    private toastService: ToastService,
   ) {
-
+    this.showLoader = true;
     this.paymentValidated = false;
   }
 
@@ -53,13 +55,10 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
       if (this.cartCurrent.products.length < 1) {
         this.route.navigate(['home']);
       }
-      if (this.cartCurrent.hasServiceCharge === false) {
-        this.cartCurrent.total += +(this.SERVICE_CHARGE);
-        // this.cartCurrent = true;
-      }
 
     });
     this.userService.getUserAddresses().subscribe((result) => {
+      this.showLoader = false;
       this.userAddresses = result.data[0].addresses;
       const modalRef = this.addressConfirmationModal.open(AddressModalComponent, {
         backdrop: 'static',
@@ -67,10 +66,12 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
       });
       modalRef.componentInstance.address = this.userAddresses[0];
       modalRef.result.then((res) => {
+        this.showLoader = true;
         const origin = `${this.cartCurrent.restaurant.street},
          ${this.cartCurrent.restaurant.city},
          ${this.cartCurrent.restaurant.zipcode}`
         ;
+        this.addressChose = res;
         const addressChoosen = `${res.street}, ${res.city}, ${res.zipcode}`;
         // send result google for calculate backend side
         const directionsService = new google.maps.DistanceMatrixService();
@@ -79,23 +80,26 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
           destinations: [addressChoosen],
           travelMode: google.maps.TravelMode.DRIVING,
         }, (response, status) => {
+          if (response.rows === null) {
+            this.showLoader = false;
+            this.router.navigate(['cart-detail']);
+            return;
+          }
           if (response.rows[0].elements[0].status === 'OK') {
             const responseDistance = response.rows[0].elements[0];
             this.cartService.getCostDelivery(responseDistance)
               .subscribe((resp) => {
                 const pro = new Promise((resolve, rej) => {
                   this.cartService.setDeliveryCost(resp.deliveryInfos);
+                  this.hasAddressSelected = true;
                   resolve('ok');
                 });
                 pro.then((respPro) => {
-                  this.hasAddressSelected = true;
-                  console.log(respPro);
                   this.cartService.cartUpdated.subscribe((cartUpdated: Cart) => {
                     this.cartCurrent = cartUpdated;
-                    this.cartCurrent.total += +(this.SERVICE_CHARGE);
                     this.cartService.getTokenPaymentIntent(+(this.cartCurrent.total) * 100).subscribe((token: any ) => {
                         this.clientSecret = token.client_secret;
-                        console.log(this.clientSecret);
+                        this.showLoader = false;
                       }, (error) => {
                         if (/Expired JWT/.test(error)) {
                           this.route.navigate(['/login']);
@@ -201,12 +205,12 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
         if (result.paymentIntent.status === 'succeeded') {
           const responsePayment = result.paymentIntent;
           if (responsePayment.status === 'succeeded') {
-              this.toastService.show('Paiement accepté', {
+              /*this.toastService.show('Paiement accepté', {
                 classname: 'bg-success text-light',
                 delay: 4000,
                 autohide: true,
                 headertext: 'Votre commande est en cours de validation'
-              });
+              });*/
              // save order payment succeeded
              this.cartService.saveOrder({stripeResponse: responsePayment, cartDetail: this.cartCurrent })
                .subscribe((confCode) => {
@@ -219,8 +223,12 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
                      this.cartService.saveCodeCustomerToDeliver({ responseCustomer: response})
                        .subscribe((responseServer) => {
                          if (responseServer.ok) {
-                           this.cartService.emptyCart();
-                           this.router.navigate(['customer']);
+                           this.cartCurrent.isValidate = true;
+                           this.cartService.UpdateCart('empty-cart');
+                           this.cartService.cartUpdated.subscribe((cartUpdated: Cart) => {
+                             this.cartCurrent = cartUpdated;
+                             this.router.navigate(['customer']);
+                           });
                          }
                      });
                    }
@@ -233,6 +241,13 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
   }
 
 
+  onShowModalOrder() {
+    const modalRef = this.addressConfirmationModal.open(OrderModalComponent, {
+      backdrop: 'static',
+      keyboard: false,
+      size: 'lg'
+    });
+  }
 
 
   onSubmit(event: Event): void {

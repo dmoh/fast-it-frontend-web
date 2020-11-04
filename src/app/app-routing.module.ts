@@ -6,6 +6,8 @@ import {LoginComponent} from '@app/login/login.component';
 import {AuthGuard} from '@app/_helpers/auth.guard';
 import {RestaurantDashboardComponent} from '@app/restaurants/restaurant-dashboard/restaurant-dashboard.component';
 import { DeliveryComponent } from './delivery/delivery.component';
+import {ShowOrderComponent} from "@app/restaurants/show-order/show-order.component";
+import {AdminComponent} from "@app/admin/admin.component";
 
 
 const routes: Routes = [
@@ -14,7 +16,9 @@ const routes: Routes = [
     {path: 'restaurants-city', component: RestaurantsCityComponent},
     {path: 'login', component: LoginComponent},
     {path: 'delivery', component: DeliveryComponent},
-    { path: 'restaurant-dashboard/:id', component: RestaurantDashboardComponent, canActivate: [AuthGuard]  } //
+    { path: 'restaurant-dashboard/:id', component: RestaurantDashboardComponent, canActivate: [AuthGuard]  },
+    { path: 'admin', component: AdminComponent, canActivate: [AuthGuard]  },
+    { path: 'show-order', component: ShowOrderComponent }//
 ];
 
 @NgModule({

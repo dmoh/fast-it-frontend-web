@@ -1,5 +1,10 @@
 <section style="padding: 1rem">
-  <header><h1>Adresse de livraison</h1></header>
+  <header>
+    <h1>Adresse de livraison</h1>
+    <span *ngIf="showErrorAddress" class="error">
+      Cette adresse est incorrect.
+    </span>
+  </header>
   <hr>
   <mat-radio-group class="">
     <mat-radio-button (click)="toggle()" [checked]="addressByDefault" class="example-margin mr-5" value="primary">
@@ -9,42 +14,56 @@
       Nouvelle adresse
     </mat-radio-button>
   </mat-radio-group>
-  <div *ngIf="addressByDefault">
-    <h4>Adresse par défaut</h4>
-    <div>
+  <div class="mt-4" *ngIf="addressByDefault">
+    <h4 class="font-weight-light">Adresse par défaut</h4>
+    <div class="">
       Rue : <b>{{ address.street }}</b>
     </div>
-    <div>
+    <div class="">
       Code postale : <b>{{ address.zipcode }}</b>
     </div>
-    <div>
+    <div class="">
       Ville : <b>{{ address.city }}</b>
     </div>
-    <div>
-      <button (click)="onChooseAddress('default')" mat-raised-button color="primary">
-        Je choisis cette adresse
-      </button>
+    <div class="mt-2">
+      <div class="modal-footer">
+        <button (click)="onChooseAddress('default')" mat-raised-button color="primary">
+          Je choisis cette adresse
+        </button>
+      </div>
     </div>
     <div>
     </div>
   </div>
-  <div *ngIf="!addressByDefault">
-    <h4>On livre vos plats préférés à l'adresse suivante</h4>
+  <div class="mt-3" *ngIf="!addressByDefault">
+    <h4 class="font-weight-light ">On livre vos plats préférés à l'adresse suivante</h4>
     <div >
-      <form [formGroup]="addressForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
           <p>
             <mat-form-field style="width: 100%;" appearance="outline">
               <mat-label>Nom (Facultatif)</mat-label>
-              <input matInput type="text" formControlName="street" placeholder="Placeholder">
+              <input matInput type="text" [(ngModel)]="addressName" placeholder="Placeholder">
               <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
             </mat-form-field>
           </p>
         </div>
+      <div class="form-group">
+        <p>
+          <mat-form-field style="width: 100%;" appearance="outline">
+            <mat-label>Numéro</mat-label>
+            <input matInput type="text" [(ngModel)]="numNewAddress" placeholder="Placeholder">
+            <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+          </mat-form-field>
+        </p>
+      </div>
         <div class="input-group">
           <mat-form-field style="width: 100%;" appearance="outline">
-            <mat-label>1 rue de la place</mat-label>
+            <mat-label>Rue</mat-label>
             <input matInput
+                   [(ngModel)]="street"
+            >
+            <!--<input matInput
+                   [(ngModel)]="street"
                    autocomplete="off"
                    type="text"
                    id="find-me"
@@ -52,14 +71,42 @@
                    [options]='options'
                    #placesRef="ngx-places"
                    (onAddressChange)="handleAddressChange($event)"
-            >
+            >-->
             <mat-icon matSuffix></mat-icon>
           </mat-form-field>
         </div>
-        <div>
-          <button mat-raised-button (click)="onSaveNewAddress()" color="primary">Valider</button>
+      <div class="form-group">
+        <p>
+          <mat-form-field style="width: 100%;" appearance="outline">
+            <mat-label>Code Postal</mat-label>
+            <input matInput type="text" [(ngModel)]="zipcode" placeholder="Placeholder">
+            <mat-icon matSuffix></mat-icon>
+          </mat-form-field>
+        </p>
+      </div>
+      <div class="form-group">
+        <p>
+          <mat-form-field style="width: 100%;" appearance="outline">
+            <mat-label>Ville</mat-label>
+            <input matInput type="text" [(ngModel)]="city" placeholder="Placeholder">
+            <mat-icon matSuffix></mat-icon>
+          </mat-form-field>
+        </p>
+      </div>
+      <div class="form-group">
+        <p>
+          <mat-form-field style="width: 100%;" appearance="outline">
+            <mat-label>Commentaire(s)</mat-label>
+            <input matInput type="text" [(ngModel)]="this.commentAddress" placeholder="Placeholder">
+            <mat-icon matSuffix>masks</mat-icon>
+          </mat-form-field>
+        </p>
+      </div>
+        <div class="mt-2 modal-footer">
+          <div>
+            <button mat-raised-button type="button" (click)="onSaveNewAddress()"  color="primary">Valider</button>
+          </div>
         </div>
-      </form>
     </div>
   </div>
 </section>

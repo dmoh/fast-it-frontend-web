@@ -10,6 +10,12 @@ export class Restaurant {
   city: string = '';
   description: string = '';
   emailContact: string = '';
+  enabled: boolean = true;
+  phone:string = '';
+  deleted: boolean = false;
+  closed: boolean = false;
+  numSiret: string = '';
+  numSiren: string = '';
   opinions: any[] = [];
   medias: Media[] = [];
   logo: Media = new Media();

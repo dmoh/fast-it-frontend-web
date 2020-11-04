@@ -56,3 +56,15 @@ a:hover {
   right: .3rem;
   font-style: italic;
 }
+
+
+.img-left {
+  width: 180px; overflow: hidden
+}
+
+
+@media (max-width: 768px) {
+  .img-left {
+    width: 80px;
+  }
+}

@@ -17,4 +17,5 @@ export class Product {
     photo?: string = '';
     urlPhoto?: string = '';
     additionalInformations?: string = '';
+    isAvailable?: boolean = true;
 }

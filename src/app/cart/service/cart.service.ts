@@ -5,6 +5,7 @@ import {BehaviorSubject, Observable} from "rxjs/index";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {AuthenticationService} from "@app/_services/authentication.service";
 import {Router} from "@angular/router";
+import {environment} from "../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class CartService {
   cartUpdated = this.cartSubject.asObservable();
   protected tokenUserCurrent: string;
   headers: any;
-  urlApi: string = 'http://localhost:8000/';
+  urlApi: string = environment.apiUrl + '/';
 
 
   constructor(private http: HttpClient, private authenticate: AuthenticationService, private router: Router) {
@@ -33,7 +34,7 @@ export class CartService {
   }
 
 
-  UpdateCart(type: string, product: Product, restaurant?: any): void { // todo enlever majuscule de cette méthode
+  UpdateCart(type: string, product?: Product, restaurant?: any): void { // todo enlever majuscule de cette méthode
     if (type === 'add') {
         if (!this.cartCurrent) {
             this.cartCurrent = new Cart();
@@ -58,6 +59,9 @@ export class CartService {
         this.cartCurrent.products = this.cartCurrent.products.filter((prod: Product) => product.id !== prod.id);
         this.generateTotalCart();
         this.emitCartSubject();
+    }else if (type === 'empty-cart') {
+      this.cartCurrent = new Cart();
+      this.emitCartSubject('empty');
     }
   }
 
@@ -76,8 +80,9 @@ export class CartService {
   }
 
   emitCartSubject(empty?: string){
-    if (empty) {
+    if (empty === 'empty') {
       localStorage.removeItem('cart_fast_eat');
+      this.cartCurrent = new Cart();
     } else {
       localStorage.setItem('cart_fast_eat', JSON.stringify(this.cartCurrent));
     }
@@ -88,6 +93,10 @@ export class CartService {
 
   private generateTotalCart(): void {
     this.cartCurrent.total = 0;
+    if (this.cartCurrent.hasServiceCharge === false) {
+      this.cartCurrent.total += 0.80;
+      this.cartCurrent.hasServiceCharge = true;
+    }
     this.cartCurrent.products.forEach((prod: Product) => {
       this.cartCurrent.total += +(prod.quantity * prod.amount) / 100;
     });
@@ -103,7 +112,7 @@ export class CartService {
   }*/
 
   getTokenPaymentIntent(amountCart: number, currencyCart: string = 'EUR'): Observable<any> {
-    return this.http.post<any>(`http://localhost:8000/payment/token-payment`,
+    return this.http.post<any>(`${this.urlApi}payment/token-payment`,
       { amount: amountCart, currency: currencyCart }, this.headers);
   }
 

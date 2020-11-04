@@ -8,16 +8,17 @@
         </div>
         <div style="">
           <div>
-            <span>Trier par</span>
+            <span *ngIf="dateDisplay" style="font-style: italic;color: darkgrey;
+">{{ dateDisplay }}</span>
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-lg-4">
-          <h1 class="mb-0 mt-4 font-xx-large">6 890,68 €</h1>
-          <h6 class="font-light text-muted">Montant total des ventes</h6>
-          <h3 class="mt-4 mb-0 font-x-large">203</h3>
-          <h6 class="font-light text-muted">Commandes du mois en cours</h6>
+          <h1 *ngIf="amountOrderCurrentMonth" class="mb-0 mt-4 font-xx-large">{{ amountOrderCurrentMonth }} €</h1>
+          <h6 class="font-light text-muted">Montant total des ventes (du mois)</h6>
+          <h3 *ngIf="countOrderCurrentMonth" class="mt-4 mb-0 font-x-large">{{ countOrderCurrentMonth }}</h3>
+          <h6 class="font-light text-muted">Commandes du mois (en cours)</h6>
         </div>
         <div  class="col-lg-8">
           <canvas id="myChart" style="width: 100%; height: 250px !important;">{{ chart }}</canvas>
@@ -82,7 +83,7 @@
       </div>
     </div>
   </div>
-  <div class="row">
+  <!--<div class="row">
     <div class="col-md-6">
       <div style="margin: 2rem 0" class="card">
         <div class="card-body">
@@ -170,5 +171,5 @@
         </div>
       </div>
     </div>
-  </div>
+  </div>-->
 </div>

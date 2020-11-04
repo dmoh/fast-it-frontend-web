@@ -1,9 +1,11 @@
 <section *ngIf="restaurantDatas" class="wrapper-restaurants">
-  <div class="header-restaurant">
+  <div *ngIf="urlBackgroundRestaurant && urlLogoRestaurant"
+       [ngStyle]="{background: 'url(' + urlBackgroundRestaurant + ')', 'background-size': 'cover', 'background-position': 'center' }"
+       class="header-restaurant">
     <div class="card-facade">
       <div style="" class="wrapper-card-header"></div>
         <div class="logo-wrapper">
-          <img src="assets/home_images/sushi.jpg" alt="">
+          <img src="{{ urlLogoRestaurant }}" alt="">
         </div>
         <div style="margin-top: 2rem" class="">
           <h1 class="text-center" style="font-size: xx-large;font-family: 'Oswald', sans-serif"><b>{{ restaurant.name  }}</b></h1>
@@ -16,65 +18,20 @@
         <span style="display: block; color: #969696" class="text-center font-italic">{{ restaurant.street }}</span>
     </div>
   </div>
-  <!--<div style="height: 150px;object-position: 10% -25% ; overflow: hidden" class="wrapper-img-header">
-    <img src="http://localhost:8000/upload/restaurant/header_top.jpg" width="100%" alt="">
-  </div>-->
-  <p></p><!-- todo breadcrumb
-    <div class="container-fluid">
-        <div style="" class="row header-top-restaurant">
-            <div class="col-md-8">
-                <div *ngIf="restaurant" style="font-family: 'Hind Vadodara', sans-serif; " class="restaurant-name">
-                    <h1 style="font-family: 'Oswald', sans-serif"><b>{{ restaurant.name  }}</b></h1>
-                    <span *ngFor="let i of starsRestaurant">
-                        <i style="font-size: medium; vertical-align: sub; color: limegreen " class="material-icons ">grade</i>
-                    </span>
-                    <span style="">4,9 (20 avis) </span>
-                    <div *ngIf="restaurant.tags">
-                      <p *ngIf="restaurant.tags.length > 0">
-                      <span *ngFor="let tag of restaurant.tags">
-                        {{ tag.name + ' - ' }}
-                      </span>
-                      </p>
-                    </div>
-                    <span style="display: block"></span>
-                    <span style="display: block">{{ restaurant.estimated_preparation_time }}</span>
-                    <span style="display: block" class="mt-4">{{ restaurant.address }}</span>
-                    <span style="display: block" class="mt-4">
-                        <i style="font-size: medium; vertical-align: sub; color: cornflowerblue" class="material-icons ">info</i> Des détails sur le restaurant
-                    </span>
-                    <span class="badge badge-warning">Warning</span>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div style="text-align: center" class="restaurant-sidebar">
-                    <img style="border-radius: 4px" src="assets/home_images/sushi.jpg" width="100%" height="100%" alt="">
-                    <span class="mt-2" style="display: block; font-family: 'Hind Vadodara', sans-serif; font-size: medium">
-                        <i style="font-size: large; vertical-align: sub; color: orangered" class="material-icons ">moped</i>
-                        Livré entre 13h00 et 13h45
-                    </span>
-                </div>
-            </div>
-        </div>
-    </div> -->
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-9">
                 <div style="display: flex" class="navbar-restaurant">
-                    <nav class="nav-menu" role="navigation">
+                    <nav class="nav-menu" id="nav-menu-product" style="background: #fff" role="navigation">
                         <div *ngFor="let category of categories">
-                          <a (click)="scroll( category.category_name )">{{ category.category_name }}</a>
+                          <a (click)="scroll( category.category_name )" class="menu-title cursor-pointer">{{ category.category_name }}</a>
                         </div>
-                        <!--<div><p style="cursor: pointer" (click)="scroll('tacos')">Tacos</p></div>
-                        <div><a href="">Kebab</a></div>
-                        <div><a href="">Plats cuisinés</a></div>
-                        <div><a href="">Burger</a></div>
-                        <div><a href="">Pizza</a></div>-->
                     </nav>
                 </div>
-                <div class="container">
+                <div class="mt-4 container">
                 <div *ngIf="categories">
-                  <div *ngFor="let category of categories " style="margin-top: 1rem;" id="{{ category.category_name }}">
-                    <h4><b>{{ category.category_name }}</b></h4>
+                  <div *ngFor="let category of categories " style="" class="menu-title mt-5" id="{{ category.category_name }}">
+                    <h4 class="mt-2 mb-0" style="font-size: large; color: #d840ff; text-transform: uppercase"><b>{{ category.category_name }}</b></h4>
                     <div class="row">
                       <div *ngFor="let product of category.category_products" class="col-md-6 card-menu">
                         <div (click)="openModal(product)" class="wrapper-menu">
@@ -83,13 +40,13 @@
                               <div>
                                 <h6 style="margin-bottom: .1rem"><b style="font-size: medium; font-weight: 300">{{ product.name | titlecase }}</b></h6>
                               </div>
-                              <p class="info-ingredient">Ingrédients du sushi tandoori - poulet - carotte - oignon </p>
+                              <p class="info-ingredient">{{ product.description | titlecase }}</p>
                               <div class="bottom-info-menu">
                                 <span style="font-size: small">{{ (+(product.amount)/ 100).toFixed(2)  }}€</span><span style="font-size: small"> Info lambda</span>
                               </div>
                             </div>
                             <div class="image-menu">
-                              <img src="assets/home_images/sushi.jpg" width="100%" height="100%" alt="Sushi">
+                              <img src="assets/sushi.jpg" width="100%" height="100%" alt="Sushi">
                             </div>
                           </div>
                         </div>
@@ -128,9 +85,9 @@
               </div>
             </div>
             <div class="col-md-3">
-                 <!-- todo menuTitle-restaurants --->
-                 <!-- todo panier --->
-                <app-cart></app-cart>
+              <div style="" id="container-app-cart">
+                <app-cart class="container-app-cart"></app-cart>
+              </div>
             </div>
         </div>
         <div class="row">

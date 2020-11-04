@@ -49,3 +49,15 @@ a {
 .reduce-padding {
   padding: .4rem !important;
 }
+
+@media (max-width: 768px) {
+  .wrap-burger {
+    height: 350px;
+    margin-bottom: 1rem;
+  }
+
+  .mini-card-restaurant {
+    height: 95px;
+  }
+}
+

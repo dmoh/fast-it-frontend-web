@@ -1,6 +1,6 @@
 <div class="modal-header">
     <h4 class="modal-title">Menu</h4>
-    <button type="button" class="close" aria-label="Close" >
+    <button type="button" class="close" (click)="modalActive.close()" aria-label="Close" >
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
@@ -13,9 +13,9 @@
         {{ (+(product.amount) / 100).toFixed(2) }}€
     </div>
     <div style="text-align: center">
-        <button type="button" class="btn btn-sm btn-primary" (click)="updateQuantity('less')" ><i style="vertical-align:middle" class="material-icons">remove</i></button>
+        <button type="button" mat-raised-button color="primary" (click)="updateQuantity('less')" ><i style="vertical-align:middle" class="material-icons">remove</i></button>
         <span style="font-size: x-large; padding-left: 2rem; padding-right: 2rem" >{{ quantityCurrent }}</span>
-        <span class="btn btn-sm btn-primary" (click)="updateQuantity('more')"><i style="vertical-align:middle" class="material-icons">add</i></span>
+        <button type="button" mat-raised-button color="primary" (click)="updateQuantity('more')"><i style="vertical-align:middle" class="material-icons">add</i></button>
         <span *ngIf="infos"></span>
     </div>
 </div>

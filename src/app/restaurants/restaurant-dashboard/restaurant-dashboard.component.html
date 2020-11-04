@@ -54,7 +54,7 @@
               <div *ngIf="restaurant" class="col-md-12" style="display: flex;width: 100%">
                 <div *ngIf="restaurant.medias" style="">
                   <div *ngFor="let logo of restaurant.medias">
-                    <img  *ngIf="logo.type_media == 'logo'" class="wrapper-img" src="{{ logo.path_file + '/' + logo.filename_unique  }}" alt="logo_business" width="100px" height="auto">
+                    <img  *ngIf="logo.type_media == 'logo'" class="wrapper-img" src="{{ logo.path_file }}" alt="logo_business" width="100px" height="auto">
                   </div>
                 </div>
                 <div class="w-100" >
