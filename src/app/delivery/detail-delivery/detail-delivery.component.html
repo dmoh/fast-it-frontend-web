@@ -5,9 +5,17 @@
 <section class="container-fluid">
 
     <div class="row">
-        <div class="col-md-8 card">
-            <div class="col-md-6">Detail Business</div>
-            <div class="col-md-6">Detail Customer</div> 
+        <div class="col-md-8 card businessCard">
+            <div class="col-md-4 float-md-left"> 
+              <p>
+              Commerçant    
+              </p>
+              <div><b>{{order.business.name}}</b></div>
+              <div><b>Adresse:</b> {{order.business.address}}</div>
+              <div><b>Ville:</b> {{order.business.city}}</div>
+              <div> <b>Code postal:</b> {{order.business.zipCode}}</div>
+          </div>
+          <!-- <div class="col-md-4 float-md-right">Detail Customer</div>  -->
         </div>
     </div>
     <div class="row">

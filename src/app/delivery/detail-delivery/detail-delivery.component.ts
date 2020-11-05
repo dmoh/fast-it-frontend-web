@@ -4,7 +4,6 @@ import { RestaurantDashboardService } from '@app/restaurants/restaurant-dashboar
 import { Delivery } from '@app/_models/delivery';
 import { DeliveryService } from '../services/delivery.service';
 import { ActivatedRoute, Router, RouterState } from '@angular/router';
-import { Location } from '@angular/common';
 import { Order } from '@app/_models/order';
 
 @Component({
@@ -23,39 +22,32 @@ export class DetailDeliveryComponent implements OnInit {
 
   constructor(private fb: FormBuilder,
     private deliveryService: DeliveryService,
-    private location: Location,
     private router: Router,
     private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.isValid = true;
     this.orderId = this.route.snapshot.paramMap.get('id');
-    this.deliveryService.getCurrentOrders()
-    .subscribe((delivererCurrent) => {
-      console.warn('delivererCurrent', delivererCurrent);
-      this.deliverer = delivererCurrent[0];
+
+    this.deliveryService.getOrderById(+this.orderId).subscribe( order => {
+      // let order: Order = new Order();
+      this.order = order;
+        
+      this.hasDeliveryCode = this.order.deliverCode != null;
+      
       this.delivererForm = this.fb.group({
         code: ["", Validators.required],
         notCode: false
       });
-      this.order = this.deliverer.orders.filter(order => order.id == this.orderId)[0];
-      console.log("order", this.order);
-      this.hasDeliveryCode = this.order.deliverCode != null;
-      });
-
+    });    
   }
 
   validateDelivery(): void {
-    console.warn("form values", this.delivererForm.value);
-    
     if (this.hasDeliveryCode) {
       this.isValid = this.delivererForm.value.code === this.order.deliverCode;
-      console.log(this.isValid)
     }
 
     if (this.delivererForm.value.notCode || this.isValid) {
-      // order validate 
-      // return at awaiting
       this.finalizeDelivery() ;
       this.router.navigate(['/delivery/awaiting-delivery']);
     }

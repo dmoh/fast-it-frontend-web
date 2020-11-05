@@ -47,12 +47,6 @@ export class MyDeliveryComponent implements OnInit, AfterViewInit {
     this.deliveryService.getInfosDeliverer().subscribe((response) => {
     this.deliverer = response[0];
     });
-
-
-    this.deliveryService.getOrdersDatas(1).subscribe((res) => {
-      console.log("Elh response #2: ", res);
-      this.commerce = RestaurantDashboardComponent.extractRestaurantData('order', res);
-    });
     
   }
 

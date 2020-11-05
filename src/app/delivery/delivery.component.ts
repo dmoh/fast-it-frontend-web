@@ -6,6 +6,7 @@ import {
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
 import {MatBottomSheet, MatBottomSheetRef} from '@angular/material/bottom-sheet';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-delivery',
@@ -18,10 +19,12 @@ export class DeliveryComponent implements OnInit {
 
   constructor(private deliveryService: DeliveryService,
     private snackBar: MatSnackBar,
-    private bottomSheet: MatBottomSheet) { }
+    private router: Router,
+    private bottomSheet: MatBottomSheet) { 
+      this.router.navigate(['/delivery/awaiting-delivery']);
+    }
 
   ngOnInit(): void {
-    console.log('delivery service', this.deliveryService)
     // recuperer la geoloc
     if(navigator.geolocation) {
       // L'API est disponible
