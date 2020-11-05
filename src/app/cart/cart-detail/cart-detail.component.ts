@@ -97,9 +97,9 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
                 pro.then((respPro) => {
                   this.cartService.cartUpdated.subscribe((cartUpdated: Cart) => {
                     this.cartCurrent = cartUpdated;
+                    this.showLoader = false;
                     this.cartService.getTokenPaymentIntent(+(this.cartCurrent.total) * 100).subscribe((token: any ) => {
                         this.clientSecret = token.client_secret;
-                        this.showLoader = false;
                       }, (error) => {
                         if (/Expired JWT/.test(error)) {
                           this.route.navigate(['/login']);

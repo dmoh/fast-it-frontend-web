@@ -56,8 +56,6 @@ export class AddressModalComponent implements OnInit {
 
   handleAddressChange(event) {
     if (!!event.formatted_address) {
-      console.log(event.formatted_address);
-      console.log(event);
       this.selectedAddress = event.formatted_address;
       this.street = event.formatted_address;
     }

@@ -29,8 +29,8 @@ export class ShowOrderComponent implements OnInit {
                 localStorage.setItem('currentUser', '{ "token":"' + decodeURI(res.c) + '"}');
                 this.router.navigate(['restaurant-dashboard', res.restoId ], {
                   queryParams: {
+                    orderId: decodeURI(res.orderId),
                     products: decodeURI(res.p),
-                    orderId: decodeURI(res.restoId),
                   }
                 });
               } else {

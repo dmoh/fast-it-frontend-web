@@ -95,6 +95,13 @@ export class RestaurantDashboardService {
       this.headers);
   }
 
+
+  getOrderById(orderId: number): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}/order/show/${orderId}`,
+      this.headers);
+  }
+
+
   getProductListWithoutCategory(restaurantId: number): Observable<any> {
     return this.http.get<any>(`${this.urlApi}/business/${restaurantId}/no-category/products`,
       this.headers);
