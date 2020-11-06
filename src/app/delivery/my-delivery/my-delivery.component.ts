@@ -42,7 +42,6 @@ export class MyDeliveryComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.deliverer = new Delivery();
-    this.deliverer.orders = new Array();
     this.deliveryService.getInfosDeliverer().subscribe((response) => {
       this.deliverer = response[0];
     });

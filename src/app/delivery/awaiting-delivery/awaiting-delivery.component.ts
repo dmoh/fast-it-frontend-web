@@ -72,7 +72,7 @@ export class AwaitingDeliveryComponent implements OnInit {
     this.deliveryService.getCurrentOrders().subscribe((delivererCurrent)=>{
       this.delivery = delivererCurrent[0]; 
       this.orders = new Array();
-      if (this.delivery.orders != null) {
+      if (this.delivery != null) {
         this.delivery.orders.forEach( order => {
           this.deliveryService.getOrderById(order.id).subscribe( orderById=> {
             // let order: Order = new Order();
