@@ -14,7 +14,7 @@
         <!-- <th>Notification</th> -->
       </tr>
     </thead>
-    <tbody>
+    <tbody  *ngIf="delivery">
       <tr class="order" *ngFor="let order of orders" routerLink="/delivery/detail-delivery/{{order.id}}" >
         <td>{{ order.id }}</td>
         <td>{{ order.business.name }}</td>
@@ -24,9 +24,6 @@
           <span matBadge="8" matBadgePosition="before" matBadgeColor="accent">
           </span>
         </td>
-        <!-- <td>
-          <button (click)="setNotif()" mat-raised-button color="second">Notif Livreur</button>
-        </td> -->
       </tr>
     </tbody>
   </table>

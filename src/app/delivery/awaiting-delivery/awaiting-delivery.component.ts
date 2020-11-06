@@ -17,7 +17,6 @@ import { DeliveryService } from '../services/delivery.service';
 export class AwaitingDeliveryComponent implements OnInit {
 
   uploadResponse = { status: '', message: '', filePath: '' };
-  urlApi: string = 'http://localhost:8000/';
   schedulePrepartionTimes: any[] = [];
   commerce: Restaurant;
   delivery: Delivery;

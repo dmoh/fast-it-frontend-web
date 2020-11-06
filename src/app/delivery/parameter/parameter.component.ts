@@ -24,6 +24,7 @@ export class ParameterComponent implements OnInit {
   ngOnInit(): void {
     this.isKbis = true;
     this.isSave = false;
+    this.deliverer = new Delivery();
 
     this.deliveryService.getInfosDeliverer()
       .subscribe((delivererCurrent) => {
@@ -51,17 +52,13 @@ export class ParameterComponent implements OnInit {
   }
 
   async saveDelivererInfo() {
-    // https://entreprise.data.gouv.fr/api/sirene/v1/siret/
-<<<<<<< HEAD
-    console.warn("Await ", await this.delivererForm.value.siret);
+    // // https://entreprise.data.gouv.fr/api/sirene/v1/siret/
+    // console.warn("Await ", await this.delivererForm.value.siret);
     
     // todo kbis a sauvegarder
-=======
-    console.warn('Await ', await this.delivererForm.value.siret);
->>>>>>> master
     this.deliveryService.getKbis(this.delivererForm.value.siret).subscribe(
       (res) => {
-        console.warn('response', res);
+        // console.warn('response', res);
         this.isKbis = (res.etablissement.siret === this.delivererForm.value.siret.toString());
         this.isSave = (true && this.isKbis);
       },

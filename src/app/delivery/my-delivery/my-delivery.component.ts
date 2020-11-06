@@ -21,7 +21,6 @@ import { ThrowStmt } from '@angular/compiler';
 
 export class MyDeliveryComponent implements OnInit, AfterViewInit {
   uploadResponse = { status: '', message: '', filePath: '' };
-  urlApi: string = 'http://localhost:8000/';
   schedulePrepartionTimes: any[] = [];
   commerce: Restaurant;
   deliverer: Delivery;
@@ -45,7 +44,7 @@ export class MyDeliveryComponent implements OnInit, AfterViewInit {
     this.deliverer = new Delivery();
     this.deliverer.orders = new Array();
     this.deliveryService.getInfosDeliverer().subscribe((response) => {
-    this.deliverer = response[0];
+      this.deliverer = response[0];
     });
     
   }
