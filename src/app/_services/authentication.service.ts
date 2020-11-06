@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {User} from '@app/_models/user';
@@ -27,7 +27,12 @@ export class AuthenticationService {
     return; // this.currentUserSubject.value.token;
   }
   login(email: string, password: string) {
-    return this.http.post<any>(`${environment.apiUrl}/authentication_token`, { email, password })
+    const optionRequete = {
+      headers: new HttpHeaders({
+        'Access-Control-Allow-Origin': '*'
+      })
+    };
+    return this.http.post<any>(`${environment.apiUrl}/authentication_token`, { email, password }, optionRequete)
       .pipe(map(user => {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         localStorage.setItem('currentUser', JSON.stringify(user));
@@ -41,5 +46,17 @@ export class AuthenticationService {
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
     this.router.navigate(['home']);
+  }
+
+  public checkIsAdmin() {
+    const optionRequete = {
+      headers: new HttpHeaders({
+        'Access-Control-Allow-Origin': '*'
+      })
+    };
+    const user = JSON.parse(localStorage.getItem('currentUser'));
+    return this.http.post<any>(`${environment.apiUrl}/is-admin`, {tokenUser: user.token },
+      optionRequete
+      );
   }
 }

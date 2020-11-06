@@ -18,7 +18,7 @@ export class ParameterComponent implements OnInit {
   phone: string;
   siret: string;
   isKbis: boolean;
-  isSave : boolean;
+  isSave: boolean;
 
 
   ngOnInit(): void {
@@ -28,15 +28,15 @@ export class ParameterComponent implements OnInit {
     this.deliveryService.getInfosDeliverer()
       .subscribe((delivererCurrent) => {
         this.deliverer = delivererCurrent[0];
-        if ( this.deliverer.email == "mkanoute74@gmail.com") {
-          this.deliverer.firstName = "Mohamed";
-          this.deliverer.lastName = "Kanoute";
-          this.deliverer.phone = "0661234567";
+        if ( this.deliverer.email === 'mkanoute74@gmail.com') {
+          this.deliverer.firstname = 'Mohamed';
+          this.deliverer.lastname = 'Kanoute';
+          this.deliverer.phone = '0661234567';
         }
 
         this.delivererForm = this.fb.group({
-          userName: [this.deliverer.firstName, Validators.required],
-          lastName: [this.deliverer.lastName, Validators.required],
+          userName: [this.deliverer.firstname, Validators.required],
+          lastName: [this.deliverer.lastname, Validators.required],
           phone: [this.deliverer.phone, Validators.required],
           email: [this.deliverer.email, Validators.required],
           city: [this.deliverer.addresses[0].city, Validators.required],
@@ -52,24 +52,24 @@ export class ParameterComponent implements OnInit {
 
   async saveDelivererInfo() {
     // https://entreprise.data.gouv.fr/api/sirene/v1/siret/
+<<<<<<< HEAD
     console.warn("Await ", await this.delivererForm.value.siret);
     
     // todo kbis a sauvegarder
+=======
+    console.warn('Await ', await this.delivererForm.value.siret);
+>>>>>>> master
     this.deliveryService.getKbis(this.delivererForm.value.siret).subscribe(
       (res) => {
-        console.warn("response", res);
-        this.isKbis = (res.etablissement.siret == this.delivererForm.value.siret.toString());
+        console.warn('response', res);
+        this.isKbis = (res.etablissement.siret === this.delivererForm.value.siret.toString());
         this.isSave = (true && this.isKbis);
       },
       (err) => {
-        console.log("error", err);
+        console.log('error', err);
         this.isKbis = false;
       }
     );
-
-
-    // this.deliveryService.saveDeliverer().subscribe();      
-
   }
 
 }

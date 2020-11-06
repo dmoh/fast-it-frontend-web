@@ -1,13 +1,16 @@
-<section *ngIf="hasAddressSelected" class="container">
+<div *ngIf="showLoader" class="wrapper-loader">
+  <div class="loader"></div>
+</div>
+<section class="container">
   <div class="row">
     <div class="col-md-12">
+      <button (click)="onShowModalOrder()">Modal</button>
       <h3 style="padding: .5rem; background: #ffa217; font-size: larger; color: white;">Récapitulatif du panier</h3>
     </div>
-    <hr>
   </div>
   <hr>
   <div *ngIf="cartCurrent" class="row">
-    <div *ngIf="cartCurrent.products"  class="col-md-12">
+    <div *ngIf="cartCurrent.products"  class="col-md-8">
       <div *ngFor="let product of cartCurrent.products">
         <div style="display: flex; flex-direction: column" class="wrapper-card-product">
           <div style="display: flex; flex-direction: row; ">
@@ -28,24 +31,69 @@
         </div>
       </div>
     </div>
-  </div>
-  <hr>
-  <div class="row">
-    <div class="col-md-12">
-      <h4>Adresse de livraison</h4>
-      <div *ngFor="let address of userAddresses">
-        Rue: <b>{{ address.street }}</b>
-        <div>
-          Ville: <b>{{ address.city }}</b>
+    <div class="col-md-4">
+      <div style="width: 100%" class="checkout-stripe-form">
+        <div style="width: 100%;display: flex; justify-content: space-between; padding: .5rem">
+          <div>
+            <h5>Stripe</h5>
+          </div>
+          <div style="">
+            <img style="" src="../../../assets/cards_logo.png" width="150" height="auto" alt="logo stripe">
+          </div>
         </div>
-        <div>
-          Code postale: <b>{{ address.zipcode }}</b>
+        <div class="form-row">
+          <label for="card-element">
+            Credit or debit card
+          </label>
+          <div id="card-element">
+            <!-- A Stripe Element will be inserted here. -->
+          </div>
+
+          <!-- Used to display form errors. -->
+          <div id="card-errors" role="alert"></div>
         </div>
+        <!--<div id="card-element" style="width: 100%">
+          <div style="display:flex;">
+            <div style="flex: 2; padding-right: 7px" class="form-group">
+              <label for="cardNumber">Numéro de carte</label>
+              <div id="cardNumber" class="field empty">
+              </div>
+            </div>
+
+            <div style="flex: auto; padding-right: 7px" class="">
+              <label style="display: block !important;" for="cardExpiry">Date d'expiration</label>
+              <div id="cardExpiry"  class="field empty">
+              </div>
+            </div>
+
+            <div style="flex: auto" class="">
+              <label style="display: block;" for="cardCvc">CVV</label>
+              <div id="cardCvc" class="field empty">
+              </div>
+              <p style="display: inline-block; font-size: smaller; font-style: italic"></p>
+            </div>
+          </div>
+        </div>-->
       </div>
     </div>
   </div>
   <hr>
   <div class="row">
+    <div class="col-md-12">
+      <h4>Adresse de livraison</h4>
+      <div *ngIf="addressChose">
+        Rue: <b>{{ addressChose.street }}</b>
+        <div>
+          Ville: <b>{{ addressChose.city }}</b>
+        </div>
+        <div>
+          Code postale: <b>{{ addressChose.zipcode }}</b>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div *ngIf="hasAddressSelected" class="row">
     <div class="col-md-6">
     </div>
     <div style="display: flex" class="col-md-6">
@@ -60,7 +108,7 @@
     <hr>
     <div style="display: flex" class="col-md-6">
       <div style="flex: 1">Frais de service</div>
-      <div>0,40 €</div>
+      <div>0,55 €</div>
     </div>
   </div>
   <div class="row">
@@ -84,38 +132,7 @@
 
       </div>
     <div style="display: flex;margin-top: -.5rem;" class="col-md-12">
-      <div style="width: 100%" class="checkout-stripe-form">
-        <div style="width: 100%;display: flex; justify-content: space-between; padding: .5rem">
-          <div>
-            <h5>Stripe</h5>
-          </div>
-          <div style="">
-            <img style="" src="assets/stripe/cards_logo.png" width="150" height="auto" alt="logo stripe">
-          </div>
-        </div>
-        <div id="card-element" style="width: 100%">
-          <div style="display:flex;">
-            <div style="flex: 2; padding-right: 7px" class="form-group">
-              <label for="cardNumber">Numéro de carte</label>
-              <div id="cardNumber" class="field empty">
-              </div>
-            </div>
 
-            <div style="flex: auto; padding-right: 7px" class="">
-              <label style="display: block !important;" for="cardExpiry">Date d'expiration</label>
-              <div id="cardExpiry"  class="field empty">
-              </div>
-            </div>
-
-            <div style="flex: auto" class="">
-              <label style="display: block;" for="cardCvc">CVV</label>
-              <div id="cardCvc" class="field empty">
-              </div>
-              <p style="display: inline-block; font-size: smaller; font-style: italic"></p>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 

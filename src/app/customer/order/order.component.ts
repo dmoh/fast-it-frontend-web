@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {User} from "@app/_models/user";
-import {CustomerService} from "@app/customer/_services/customer.service";
-
+import {User} from '@app/_models/user';
+import {CustomerService} from '@app/customer/_services/customer.service';
+import * as fasteatconst from "@app/_util/fasteat-constants";
 @Component({
   selector: 'app-order',
   templateUrl: './order.component.html',
@@ -9,14 +9,14 @@ import {CustomerService} from "@app/customer/_services/customer.service";
 })
 export class OrderComponent implements OnInit {
 
-  customer: User;
+  customer: User = new User();
+  fastEatConst = fasteatconst;
   constructor(private customerService: CustomerService) { }
 
   ngOnInit(): void {
-    this.customerService.getInfosCustomer()
+    this.customerService.getOrdersCustomer()
       .subscribe((response) => {
-        console.warn(response);
-        this.customer = response[0];
+        this.customer.orders = response;
       });
   }
 

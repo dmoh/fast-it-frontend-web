@@ -1,6 +1,6 @@
 <section class="cart mt-3">
     <div>
-        <button [disabled]="cart.products.length == 0" (click)="seeCart()" class="btn btn-outline-primary">VOIR MON PANIER</button>
+        <button [disabled]="cart.products.length == 0" mat-raised-button [color]="cart.products.length > 0 ? 'primary' : 'danger'" (click)="seeCart()" >VOIR MON PANIER</button>
     </div>
     <div class="cart-current pt-3">
         <div *ngIf="cart.products.length == 0">
@@ -22,6 +22,7 @@
                   <div style="font-size: small; margin-left: -3rem">{{ product.name }}</div>
                   <div style="font-size: smaller; color: #ccc; margin-left: -3rem;">
                     {{ product.description }}
+                    Description du produit s'affiche ici!
                   </div>
                 </div>
                 <div class="mt-2 pl-2" style="flex: auto; line-height: 2.5">{{ (product.amount / 100).toFixed(2) }}€</div>

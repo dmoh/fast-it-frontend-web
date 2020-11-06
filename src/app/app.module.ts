@@ -21,6 +21,7 @@ import { CheckoutComponent } from './checkout/checkout.component';
 import {RestaurantDashboardModule} from "@app/restaurants/restaurant-dashboard/restaurant-dashboard.module";
 import { CustomerModule } from './customer/customer.module';
 import {DeliveryModule} from "@app/delivery/delivery.module";
+import { AdminModule } from './admin/admin.module';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import {DeliveryModule} from "@app/delivery/delivery.module";
     BrowserAnimationsModule,
     RestaurantDashboardModule,
     CustomerModule,
-    DeliveryModule
+    DeliveryModule,
+    AdminModule
   ],
   providers: [CityDataService],
   bootstrap: [AppComponent],

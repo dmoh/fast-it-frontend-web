@@ -1,6 +1,33 @@
 <div *ngIf="productsResto" class="dashboard-component">
+  <div class="w-100">
+    <h5 style="font-size: 1.4rem; text-transform: uppercase">Catégories de produits</h5>
+    <button mat-raised-button (click)="addCategory()" color="primary">Ajouter une catégorie</button>
+  </div>
+  <div *ngIf="categories">
+    <div *ngFor="let category of categories ">
+      <div class="card category">
+        <div  class="card-body">
+          <div class="cursor-pointer" (click)="onGetProductByCategory(category.id)">
+            {{ category.name }}
+          </div>
+          <span class="text-danger float-right "><i class="material-icons">delete</i></span>
+          <span (click)="onAddProductToCategory(category)" class="text-success float-right mr-2"><i class="material-icons">library_add</i></span>
+        </div>
+      </div>
+      <div *ngIf="category.products">
+        <div>
+          <mat-selection-list>
+            <mat-list-option *ngFor="let prod of category.products">
+              {{ prod.name }}
+            </mat-list-option>
+          </mat-selection-list>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
   <h5 style="font-size: 1.4rem">PRODUITS ({{ productsResto.length }}) <span style="float: right"><button (click)="openDialog()" mat-raised-button color="primary">Ajouter</button></span></h5>
-  <h6><mat-slide-toggle>Vue Tableau</mat-slide-toggle></h6>
+  <h5><mat-slide-toggle>Vue Tableau</mat-slide-toggle></h5>
   <div class="table-responsive">
     <table class="table table-striped">
       <thead>
@@ -10,8 +37,6 @@
         <th>Produit</th>
         <th>Qté</th>
         <th>Montant (unitaire)</th>
-        <th>Total</th>
-        <th>Part Plateforme</th>
       </tr>
       </thead>
       <tbody>
@@ -20,9 +45,9 @@
         <td>{{ p.product.name }}</td>
         <td>{{ p.product.name }}</td>
         <td>{{ p.product.remaining_quantity }}</td>
-        <td>{{ +(p.product.amount) / 100 }}</td>
-        <td>{{ ((p.product.amount/ 100) - ((+(p.product.amount) / 100) * 0.23)).toFixed(2) + '€' }}</td>
-        <td>{{ (((+(p.product.amount) / 100) * 0.23)).toFixed(2) + '€' }}</td>
+        <td>{{ ((+(p.product.amount) / 100).toFixed(2)).replace('.', ',') + '€' }}</td>
+        <!--<td>{{ ((p.product.amount/ 100) - ((+(p.product.amount) / 100) * 0.23)).toFixed(2) + '€' }}</td>
+        <td>{{ (((+(p.product.amount) / 100) * 0.23)).toFixed(2) + '€' }}</td>-->
       </tr>
       </tbody>
     </table>
@@ -38,7 +63,7 @@
         </div>
         <div style="padding: 0" class="card-body">
           <div style="padding: 0" class="wrapper-img">
-            <img src="assets/home_images/sushi.jpg" alt="" width="100%" height="auto">
+            <img src="{{ p.product.photo }}" alt="" width="100%" height="auto">
           </div>
           <div class="infos-product">
             <div class="mt-1 name-product">
@@ -46,7 +71,7 @@
               <span style="float: right">{{ (+(p.product.amount)/100).toFixed(2) +'€'}}</span>
             </div>
             <div class="mt-1 mb-2 description-product">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+              {{ p.product.description }}
             </div>
             <div *ngIf="p.product.supplmentsProduct.length > 0">
               <h6 style="font-size: .8rem">Suppléments éventuelles</h6>

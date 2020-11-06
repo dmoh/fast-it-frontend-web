@@ -7,6 +7,9 @@
       <div *ngIf="uploadResponse.status === 'error'">
         {{ uploadResponse.message }}
       </div>
+      <div>
+        <p>(2Mo max) Par Image</p>
+      </div>
       <div *ngIf="uploadResponse.status === 'progress'">
         <div role="progressbar" [style.width.%]="uploadResponse.message" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
           {{uploadResponse.message}}%
@@ -23,15 +26,27 @@
     </div>
     <div class="mt-3 mb-3" *ngFor="let media of commerce.medias">
       <div>
-        <h6 style="font-size: large">{{ media.type_media == 'logo' ? 'Logo actuel' : 'Image entête du restaurant' }}</h6>
-        <img src="{{ media.path_file + '/' + media.filename_unique }}" alt="{{ media.filename_original }}" width="65px" height="65px">
+        <h6 *ngIf="media.type_media == 'logo' || media.type_media == 'background_img' "
+          style="font-size: large">{{ media.type_media == 'logo' ? 'Logo actuel' : 'Image entête du restaurant' }}</h6>
+        <img *ngIf="media.type_media == 'logo' ||
+             media.type_media == 'background_img' "
+             src="{{ media.path_file }}" alt="{{ media.filename_original }}" width="65px" height="65px">
       </div>
     </div>
     <div class="form-group">
       <p>
         <mat-form-field style="width: 100%;" appearance="outline">
           <mat-label>Restaurant</mat-label>
-          <input matInput type="text" formControlName="name" placeholder="Placeholder">
+          <input matInput type="text" disabled formControlName="name" placeholder="Placeholder">
+          <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+        </mat-form-field>
+      </p>
+    </div>
+    <div class="form-group">
+      <p>
+        <mat-form-field style="width: 100%;" appearance="outline">
+          <mat-label>Description</mat-label>
+          <input matInput type="text" disabled formControlName="description" placeholder="Placeholder">
           <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
         </mat-form-field>
       </p>
@@ -49,18 +64,46 @@
     <div class="form-group">
       <p>
         <mat-form-field style="width: 100%;" appearance="outline">
-          <mat-label>Email de contact</mat-label>
-          <input matInput type="text" formControlName="emailContact" placeholder="Placeholder">
-          <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+          <mat-label>Numéro de téléphone</mat-label>
+          <input matInput type="text" formControlName="number" placeholder="Placeholder">
+          <mat-icon matSuffix>phone</mat-icon>
         </mat-form-field>
       </p>
     </div>
     <div class="form-group">
       <p>
         <mat-form-field style="width: 100%;" appearance="outline">
+          <mat-label>Numéro de Siret</mat-label>
+          <input matInput type="text" formControlName="numSiret" placeholder="Placeholder">
+        </mat-form-field>
+      </p>
+    </div>
+    <div class="form-group">
+      <p>
+        <mat-form-field style="width: 100%;" appearance="outline">
+          <mat-label>Numéro de Siren</mat-label>
+          <input matInput type="text" formControlName="numSiren" placeholder="Placeholder">
+        </mat-form-field>
+      </p>
+    </div>
+    <div class="form-group">
+      <p>
+        <mat-form-field style="width: 100%;" appearance="outline">
+          <mat-label>Email de contact</mat-label>
+          <input matInput type="text" formControlName="emailContact" placeholder="Placeholder">
+          <mat-icon matSuffix>send</mat-icon>
+        </mat-form-field>
+      </p>
+    </div>
+    <hr>
+    <h2>Infos Commerce</h2>
+    <hr>
+    <div class="form-group">
+      <p>
+        <mat-form-field style="width: 100%;" appearance="outline">
           <mat-label>Adresse</mat-label>
           <input matInput type="text" formControlName="street" placeholder="Placeholder">
-          <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+          <mat-icon matSuffix>place</mat-icon>
         </mat-form-field>
       </p>
     </div>
@@ -85,45 +128,1211 @@
     <button mat-raised-button type="submit" color="primary">Valider</button>
   </form>
   <hr>
-  <h2>Horaires</h2>
+  <!--<h2>Horaires</h2>
+  <hr>
+  <div *ngIf="scheduleRestaurant">
+    <mat-radio-group (change)="onChangeSchedule()" aria-label="Select an option">
+      <mat-radio-button [checked]="showScheduleByWeek == false">Jours par jours</mat-radio-button>
+      <mat-radio-button [checked]="showScheduleByWeek == true">Toute la semaine</mat-radio-button>
+    </mat-radio-group>
+  </div>
   <form *ngIf="scheduleForm" [formGroup]="scheduleForm">
-    <div class="table-responsive">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Jours</th>
-            <th>Matin</th>
-            <th>Aprés-midi</th>
-            <th>Soir</th>
-            <th>Tte la journée</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Lundi</td>
-            <td>
-              <div class="form-group">
-                <p>
-                  <mat-form-field style="width: 100%;" appearance="outline">
-                    <mat-label>Lundi</mat-label>
-                    <input matInput type="number" formControlName="mondayMorning" placeholder="Placeholder">
-                    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-                  </mat-form-field>
-                </p>
-                <span> - </span>
-                <p>
-                  <mat-form-field style="width: 100%;" appearance="outline">
-                    <mat-label>Lundi</mat-label>
-                    <input matInput type="number" formControlName="mondayMorning" placeholder="Placeholder">
-                    <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-                  </mat-form-field>
-                </p>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <div *ngIf="scheduleRestaurant && showScheduleByWeek == false">
+      <h3 class="text-center">Jours par Jours</h3>
+      <mat-accordion>
+        <mat-expansion-panel style="margin-bottom: .3rem">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Lundi
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="row">
+            <div class="col-md-4">
+              <h4 class="text-center">Service Midi</h4>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure début (midi)</mat-label>
+                <input formControlName="mondayStartMorning"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="mondayStartMorning"
+                       readonly>
+                <ngx-material-timepicker #mondayStartMorning
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="mondayStartMorningHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #mondayStartMorningHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+              <span class="pr-1 pl-1">-</span>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure fin (midi)</mat-label>
+                <input formControlName="mondayEndMorning"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="mondayEndMorning"
+                       readonly>
+                <ngx-material-timepicker #mondayEndMorning
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="mondayEndMorningHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #mondayEndMorningHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <h4 class="text-center">Service Soir</h4>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure début (soir)</mat-label>
+                <input formControlName="mondayStartNight"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="mondayStartNight"
+                       readonly>
+                <ngx-material-timepicker #mondayStartNight
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="mondayStartNightHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #mondayStartNightHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+              <span class="pr-1 pl-1">-</span>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure fin (soir)</mat-label>
+                <input formControlName="mondayEndNight"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="mondayEndNight"
+                       readonly>
+                <ngx-material-timepicker #mondayEndNight
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="mondayEndNightHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #mondayEndNightHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <h4 class="text-center">Service Tte la journée</h4>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure début</mat-label>
+                <input formControlName="mondayStartAllDay"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="mondayStartAllDay"
+                       readonly>
+                <ngx-material-timepicker #mondayStartAllDay
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="mondayStartAllDayHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #mondayStartAllDayHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+              <span class="pr-1 pl-1">-</span>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure fin</mat-label>
+                <input formControlName="mondayEndAllDay"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="mondayEndAllDay"
+                       readonly>
+                <ngx-material-timepicker #mondayEndAllDay
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="mondayEndAllDayHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #mondayEndAllDayHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+            </div>
+          </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel style="margin-bottom: .3rem" (opened)="panelOpenState = true"
+                             (closed)="panelOpenState = false">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Mardi
+            </mat-panel-title>
+            <mat-panel-description>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="row">
+            <div class="col-md-4">
+              <h4 class="text-center">Service Midi</h4>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure début (midi)</mat-label>
+                <input formControlName="tuesdayStartMorning"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="tuesdayStartMorning"
+                       readonly>
+                <ngx-material-timepicker #tuesdayStartMorning
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="tuesdayStartMorningHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #tuesdayStartMorningHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+              <span class="pr-1 pl-1">-</span>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure fin (midi)</mat-label>
+                <input formControlName="tuesdayEndMorning"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="tuesdayEndMorning"
+                       readonly>
+                <ngx-material-timepicker #tuesdayEndMorning
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="tuesdayEndMorningHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #tuesdayEndMorningHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <h4 class="text-center">Service Soir</h4>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure début (soir)</mat-label>
+                <input formControlName="tuesdayStartNight"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="tuesdayStartNight"
+                       readonly>
+                <ngx-material-timepicker #tuesdayStartNight
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="tuesdayStartNightHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #tuesdayStartNightHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+              <span class="pr-1 pl-1">-</span>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure fin (soir)</mat-label>
+                <input formControlName="tuesdayEndNight"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="tuesdayEndNight"
+                       readonly>
+                <ngx-material-timepicker #tuesdayEndNight
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="tuesdayEndNightHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #tuesdayEndNightHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <h4 class="text-center">Service Tte la journée</h4>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure début</mat-label>
+                <input formControlName="tuesdayStartAllDay"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="tuesdayStartAllDay"
+                       readonly>
+                <ngx-material-timepicker #tuesdayStartAllDay
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="tuesdayStartAllDayHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #tuesdayStartAllDayHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+              <span class="pr-1 pl-1">-</span>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure fin</mat-label>
+                <input formControlName="tuesdayEndAllDay"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="tuesdayEndAllDay"
+                       readonly>
+                <ngx-material-timepicker #tuesdayEndAllDay
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="tuesdayEndAllDayHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #tuesdayEndAllDayHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+            </div>
+          </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel style="margin-bottom: .3rem" (opened)="panelOpenState = true"
+                             (closed)="panelOpenState = false">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Mercredi
+            </mat-panel-title>
+            <mat-panel-description>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="row">
+            <div class="col-md-4">
+              <h4 class="text-center">Service Midi</h4>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure début (midi)</mat-label>
+                <input formControlName="wednesdayStartMorning"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="wednesdayStartMorning"
+                       readonly>
+                <ngx-material-timepicker #wednesdayStartMorning
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="wednesdayStartMorningHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #wednesdayStartMorningHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+              <span class="pr-1 pl-1">-</span>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure fin (midi)</mat-label>
+                <input formControlName="wednesdayEndMorning"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="wednesdayEndMorning"
+                       readonly>
+                <ngx-material-timepicker #wednesdayEndMorning
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="wednesdayEndMorningHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #wednesdayEndMorningHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <h4 class="text-center">Service Soir</h4>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure début (soir)</mat-label>
+                <input formControlName="wednesdayStartNight"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="wednesdayStartNight"
+                       readonly>
+                <ngx-material-timepicker #wednesdayStartNight
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="wednesdayStartNightHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #wednesdayStartNightHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+              <span class="pr-1 pl-1">-</span>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure fin (soir)</mat-label>
+                <input formControlName="wednesdayEndNight"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="wednesdayEndNight"
+                       readonly>
+                <ngx-material-timepicker #wednesdayEndNight
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="wednesdayEndNightHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #wednesdayEndNightHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <h4 class="text-center">Service Tte la journée</h4>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure début</mat-label>
+                <input formControlName="wednesdayStartAllDay"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="wednesdayStartAllDay"
+                       readonly>
+                <ngx-material-timepicker #wednesdayStartAllDay
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="wednesdayStartAllDayHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #wednesdayStartAllDayHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+              <span class="pr-1 pl-1">-</span>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure fin</mat-label>
+                <input formControlName="wednesdayEndAllDay"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="wednesdayEndAllDay"
+                       readonly>
+                <ngx-material-timepicker #wednesdayEndAllDay
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="wednesdayEndAllDayHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #wednesdayEndAllDayHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+            </div>
+          </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel style="margin-bottom: .3rem" (opened)="panelOpenState = true"
+                             (closed)="panelOpenState = false">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Jeudi
+            </mat-panel-title>
+            <mat-panel-description>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="row">
+            <div class="col-md-4">
+              <h4 class="text-center">Service Midi</h4>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure début (midi)</mat-label>
+                <input formControlName="thursdayStartMorning"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="thursdayStartMorning"
+                       readonly>
+                <ngx-material-timepicker #thursdayStartMorning
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="thursdayStartMorningHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #thursdayStartMorningHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+              <span class="pr-1 pl-1">-</span>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure fin (midi)</mat-label>
+                <input formControlName="thursdayEndMorning"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="thursdayEndMorning"
+                       readonly>
+                <ngx-material-timepicker #thursdayEndMorning
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="thursdayEndMorningHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #thursdayEndMorningHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <h4 class="text-center">Service Soir</h4>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure début (soir)</mat-label>
+                <input formControlName="thursdayStartNight"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="thursdayStartNight"
+                       readonly>
+                <ngx-material-timepicker #thursdayStartNight
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="thursdayStartNightHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #thursdayStartNightHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+              <span class="pr-1 pl-1">-</span>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure fin (soir)</mat-label>
+                <input formControlName="thursdayEndNight"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="thursdayEndNight"
+                       readonly>
+                <ngx-material-timepicker #thursdayEndNight
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="thursdayEndNightHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #thursdayEndNightHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <h4 class="text-center">Service Tte la journée</h4>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure début</mat-label>
+                <input formControlName="thursdayStartAllDay"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="thursdayStartAllDay"
+                       readonly>
+                <ngx-material-timepicker #thursdayStartAllDay
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="thursdayStartAllDayHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #thursdayStartAllDayHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+              <span class="pr-1 pl-1">-</span>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure fin</mat-label>
+                <input formControlName="thursdayEndAllDay"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="thursdayEndAllDay"
+                       readonly>
+                <ngx-material-timepicker #thursdayEndAllDay
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="thursdayEndAllDayHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #thursdayEndAllDayHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+            </div>
+          </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel style="margin-bottom: .3rem" (opened)="panelOpenState = true"
+                             (closed)="panelOpenState = false">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Vendredi
+            </mat-panel-title>
+            <mat-panel-description>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="row">
+            <div class="col-md-4">
+              <h4 class="text-center">Service Midi</h4>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure début (midi)</mat-label>
+                <input formControlName="fridayStartMorning"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="fridayStartMorning"
+                       readonly>
+                <ngx-material-timepicker #fridayStartMorning
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="fridayStartMorningHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #fridayStartMorningHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+              <span class="pr-1 pl-1">-</span>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure fin (midi)</mat-label>
+                <input formControlName="fridayEndMorning"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="fridayEndMorning"
+                       readonly>
+                <ngx-material-timepicker #fridayEndMorning
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="fridayEndMorningHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #fridayEndMorningHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <h4 class="text-center">Service Soir</h4>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure début (soir)</mat-label>
+                <input formControlName="fridayStartNight"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="fridayStartNight"
+                       readonly>
+                <ngx-material-timepicker #fridayStartNight
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="fridayStartNightHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #fridayStartNightHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+              <span class="pr-1 pl-1">-</span>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure fin (soir)</mat-label>
+                <input formControlName="fridayEndNight"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="fridayEndNight"
+                       readonly>
+                <ngx-material-timepicker #fridayEndNight
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="fridayEndNightHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #fridayEndNightHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <h4 class="text-center">Service Tte la journée</h4>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure début</mat-label>
+                <input formControlName="fridayStartAllDay"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="fridayStartAllDay"
+                       readonly>
+                <ngx-material-timepicker #fridayStartAllDay
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="fridayStartAllDayHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #fridayStartAllDayHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+              <span class="pr-1 pl-1">-</span>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure fin</mat-label>
+                <input formControlName="fridayEndAllDay"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="fridayEndAllDay"
+                       readonly>
+                <ngx-material-timepicker #fridayEndAllDay
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="fridayEndAllDayHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #fridayEndAllDayHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+            </div>
+          </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel style="margin-bottom: .3rem" (opened)="panelOpenState = true"
+                             (closed)="panelOpenState = false">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Samedi
+            </mat-panel-title>
+            <mat-panel-description>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="row">
+            <div class="col-md-4">
+              <h4 class="text-center">Service Midi</h4>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure début (midi)</mat-label>
+                <input formControlName="saturdayStartMorning"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="saturdayStartMorning"
+                       readonly>
+                <ngx-material-timepicker #saturdayStartMorning
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="saturdayStartMorningHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #saturdayStartMorningHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+              <span class="pr-1 pl-1">-</span>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure fin (midi)</mat-label>
+                <input formControlName="saturdayEndMorning"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="saturdayEndMorning"
+                       readonly>
+                <ngx-material-timepicker #saturdayEndMorning
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="saturdayEndMorningHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #saturdayEndMorningHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <h4 class="text-center">Service Soir</h4>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure début (soir)</mat-label>
+                <input formControlName="saturdayStartNight"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="saturdayStartNight"
+                       readonly>
+                <ngx-material-timepicker #saturdayStartNight
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="saturdayStartNightHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #saturdayStartNightHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+              <span class="pr-1 pl-1">-</span>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure fin (soir)</mat-label>
+                <input formControlName="saturdayEndNight"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="saturdayEndNight"
+                       readonly>
+                <ngx-material-timepicker #saturdayEndNight
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="saturdayEndNightHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #saturdayEndNightHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <h4 class="text-center">Service Tte la journée</h4>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure début</mat-label>
+                <input formControlName="saturdayStartAllDay"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="saturdayStartAllDay"
+                       readonly>
+                <ngx-material-timepicker #saturdayStartAllDay
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="saturdayStartAllDayHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #saturdayStartAllDayHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+              <span class="pr-1 pl-1">-</span>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure fin</mat-label>
+                <input formControlName="saturdayEndAllDay"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="saturdayEndAllDay"
+                       readonly>
+                <ngx-material-timepicker #saturdayEndAllDay
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="saturdayEndAllDayHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #saturdayEndAllDayHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+            </div>
+          </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel style="margin-bottom: .3rem" (opened)="panelOpenState = true"
+                             (closed)="panelOpenState = false">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Dimanche
+            </mat-panel-title>
+            <mat-panel-description>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="row">
+            <div class="col-md-4">
+              <h4 class="text-center">Service Midi</h4>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure début (midi)</mat-label>
+                <input formControlName="sundayStartMorning"
+                        matInput [format]="24"
+                        placeholder="Editable dial"
+                        aria-label="Editable dial"
+                        [ngxTimepicker]="sundayStartMorning"
+                        readonly>
+                <ngx-material-timepicker #sundayStartMorning
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="sundayStartMorningHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #sundayStartMorningHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+              <span class="pr-1 pl-1">-</span>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure fin (midi)</mat-label>
+                <input formControlName="sundayEndMorning"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="sundayEndMorning"
+                       readonly>
+                <ngx-material-timepicker #sundayEndMorning
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="sundayEndMorningHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #sundayEndMorningHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <h4 class="text-center">Service Soir</h4>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure début (soir)</mat-label>
+                <input formControlName="sundayStartNight"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="sundayStartNight"
+                       readonly>
+                <ngx-material-timepicker #sundayStartNight
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="sundayStartNightHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #sundayStartNightHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+              <span class="pr-1 pl-1">-</span>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure fin (soir)</mat-label>
+                <input formControlName="sundayEndNight"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="sundayEndNight"
+                       readonly>
+                <ngx-material-timepicker #sundayEndNight
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="sundayEndNightHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #sundayEndNightHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <h4 class="text-center">Service Tte la journée</h4>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure début</mat-label>
+                <input formControlName="sundayStartAllDay"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="sundayStartAllDay"
+                       readonly>
+                <ngx-material-timepicker #sundayStartAllDay
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="sundayStartAllDayHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #sundayStartAllDayHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+              <span class="pr-1 pl-1">-</span>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure fin</mat-label>
+                <input (click)="onChangeHour($event)"
+                       (change)="onChangeHour($event)"
+                       formControlName="sundayEndAllDay"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="sundayEndAllDay"
+                       readonly>
+                <ngx-material-timepicker #sundayEndAllDay
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="sundayEndAllDayHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #sundayEndAllDayHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
     </div>
-  </form>
+    <div *ngIf="scheduleRestaurant && showScheduleByWeek == true">
+      <h3 class="text-center">Toute la semaine</h3>
+      <mat-accordion>
+        <mat-expansion-panel style="margin-bottom: .3rem">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Lundi
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="row">
+            <div class="col-md-4">
+              <h4 class="text-center">Service Midi</h4>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure début (midi)</mat-label>
+                <input formControlName="allDaysStartMorning"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="allDaysStartMorning"
+                       readonly>
+                <ngx-material-timepicker #allDaysStartMorning
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="allDaysStartMorningHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #allDaysStartMorningHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+              <span class="pr-1 pl-1">-</span>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure fin (midi)</mat-label>
+                <input formControlName="allDaysEndMorning"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="allDaysEndMorning"
+                       readonly>
+                <ngx-material-timepicker #allDaysEndMorning
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="allDaysEndMorningHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #allDaysEndMorningHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <h4 class="text-center">Service Soir</h4>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure début (soir)</mat-label>
+                <input formControlName="allDaysStartNight"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="allDaysStartNight"
+                       readonly>
+                <ngx-material-timepicker #allDaysStartNight
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="allDaysStartNightHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #allDaysStartNightHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+              <span class="pr-1 pl-1">-</span>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure fin (soir)</mat-label>
+                <input formControlName="allDaysEndNight"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="allDaysEndNight"
+                       readonly>
+                <ngx-material-timepicker #allDaysEndNight
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="allDaysEndNightHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #allDaysEndNightHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <h4 class="text-center">Service Tte la journée</h4>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure début</mat-label>
+                <input formControlName="allDaysStartAllDay"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="allDaysStartAllDay"
+                       readonly>
+                <ngx-material-timepicker #allDaysStartAllDay
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="allDaysStartAllDayHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #allDaysStartAllDayHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+              <span class="pr-1 pl-1">-</span>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure fin</mat-label>
+                <input formControlName="allDaysEndAllDay"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="allDaysEndAllDay"
+                       readonly>
+                <ngx-material-timepicker #allDaysEndAllDay
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="allDaysEndAllDayHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #allDaysEndAllDayHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+      <mat-accordion>
+        <mat-expansion-panel style="margin-bottom: .3rem">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Dimanche
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div class="row">
+            <div class="col-md-4">
+              <h4 class="text-center">Service Midi</h4>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure début (midi)</mat-label>
+                <input formControlName="mondayStartMorning"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="mondayStartMorning"
+                       readonly>
+                <ngx-material-timepicker #mondayStartMorning
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="mondayStartMorningHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #mondayStartMorningHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+              <span class="pr-1 pl-1">-</span>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure fin (midi)</mat-label>
+                <input formControlName="mondayEndMorning"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="mondayEndMorning"
+                       readonly>
+                <ngx-material-timepicker #mondayEndMorning
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="mondayEndMorningHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #mondayEndMorningHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <h4 class="text-center">Service Soir</h4>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure début (soir)</mat-label>
+                <input formControlName="mondayStartNight"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="mondayStartNight"
+                       readonly>
+                <ngx-material-timepicker #mondayStartNight
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="mondayStartNightHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #mondayStartNightHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+              <span class="pr-1 pl-1">-</span>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure fin (soir)</mat-label>
+                <input formControlName="mondayEndNight"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="mondayEndNight"
+                       readonly>
+                <ngx-material-timepicker #mondayEndNight
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="mondayEndNightHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #mondayEndNightHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <h4 class="text-center">Service Tte la journée</h4>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure début</mat-label>
+                <input formControlName="mondayStartAllDay"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="mondayStartAllDay"
+                       readonly>
+                <ngx-material-timepicker #mondayStartAllDay
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="mondayStartAllDayHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #mondayStartAllDayHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+              <span class="pr-1 pl-1">-</span>
+              <mat-form-field style="width: 48%" appearance="outline">
+                <mat-label>Heure fin</mat-label>
+                <input formControlName="mondayEndAllDay"
+                       matInput [format]="24"
+                       placeholder="Editable dial"
+                       aria-label="Editable dial"
+                       [ngxTimepicker]="mondayEndAllDay"
+                       readonly>
+                <ngx-material-timepicker #mondayEndAllDay
+                                         [theme]="darkTheme"
+                                         [editableHintTmpl]="mondayEndAllDayHint"
+                                         [minutesGap]="5"
+                                         [enableKeyboardInput]="true">
+                </ngx-material-timepicker>
+                <ng-template #mondayEndAllDayHint>
+                  <p></p>
+                </ng-template>
+              </mat-form-field>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+    <div class="mt-2">
+      <button mat-raised-button [disabled]="!scheduleForm.invalid" type="submit" color="primary">Valider les Horaires</button>
+    </div>
+  </form>-->
 </div>
 

@@ -27,7 +27,7 @@
 
 .home-section {
   height: 420px;
-  background: url(/assets/home_images/bg_top.jpg) no-repeat top left;
+  background: url(/assets/bg_top.jpg) no-repeat top left;
   background-size: cover;
   background-position-y: -120px;
 }
@@ -37,4 +37,13 @@
   margin: 0.2rem;
   background: #fff;
   border-radius: 3px;
+}
+
+@media (min-width: 250px) and (max-width: 968px) {
+  .wrapper {
+    width: 90%;
+  }
+  .home-section {
+    background-position-y: 0;
+  }
 }

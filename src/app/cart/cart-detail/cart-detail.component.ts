@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {CartService} from '../service/cart.service';
 import { Router} from '@angular/router';
 import {Cart} from '../model/cart';
@@ -10,33 +10,28 @@ import {UserService} from '@app/_services/user.service';
 import { AgmCoreModule } from '@agm/core';            // @agm/core
 import { AgmDirectionModule } from 'agm-direction';
 import {AddressModalComponent} from '@app/address-modal/address-modal.component';
+import {ToastService} from "@app/_services/toast.service";
+import {OrderModalComponent} from "@app/restaurants/order-modal/order-modal.component";
 
 @Component({
   selector: 'app-cart-detail',
   templateUrl: './cart-detail.component.html',
   styleUrls: ['./cart-detail.component.scss']
 })
-export class CartDetailComponent implements OnInit {
+export class CartDetailComponent implements OnInit, AfterViewInit {
   stripe: any;
   elementStripe: any;
   cardNumber: any;
+  card: any;
   cartCurrent: Cart;
   userAddresses: any[] = [];
   clientSecret: string;
   // todo declare constante frais de service
-  SERVICE_CHARGE: number = 0.40;
   paymentValidated: boolean;
   canBeDeliver: boolean = false;
   hasAddressSelected: boolean = false;
-
-  static generateConfirmationCode(length: number = 4): string {
-    const randomChars = '0123456789';
-    let result = '';
-    for ( let i = 0; i < length; i++ ) {
-      result += randomChars.charAt(Math.floor(Math.random() * randomChars.length));
-    }
-    return result;
-  }
+  showLoader: boolean;
+  addressChose: any;
 
 
   constructor(
@@ -46,22 +41,24 @@ export class CartDetailComponent implements OnInit {
     private codeConfirmationModal: NgbModal,
     private addressConfirmationModal: NgbModal,
     private authenticationService: AuthenticationService,
-    private router: Router
+    private router: Router,
+    private toastService: ToastService,
   ) {
+    this.showLoader = true;
     this.paymentValidated = false;
-    this.loadStripe();
   }
 
   ngOnInit(): void {
     // Choix de l'adresse
     this.cartService.cartUpdated.subscribe((cartUpdated: Cart) => {
       this.cartCurrent = cartUpdated;
-      this.cartCurrent.total += +(this.SERVICE_CHARGE);
       if (this.cartCurrent.products.length < 1) {
         this.route.navigate(['home']);
       }
+
     });
     this.userService.getUserAddresses().subscribe((result) => {
+      this.showLoader = false;
       this.userAddresses = result.data[0].addresses;
       const modalRef = this.addressConfirmationModal.open(AddressModalComponent, {
         backdrop: 'static',
@@ -69,10 +66,12 @@ export class CartDetailComponent implements OnInit {
       });
       modalRef.componentInstance.address = this.userAddresses[0];
       modalRef.result.then((res) => {
+        this.showLoader = true;
         const origin = `${this.cartCurrent.restaurant.street},
          ${this.cartCurrent.restaurant.city},
          ${this.cartCurrent.restaurant.zipcode}`
         ;
+        this.addressChose = res;
         const addressChoosen = `${res.street}, ${res.city}, ${res.zipcode}`;
         // send result google for calculate backend side
         const directionsService = new google.maps.DistanceMatrixService();
@@ -81,23 +80,26 @@ export class CartDetailComponent implements OnInit {
           destinations: [addressChoosen],
           travelMode: google.maps.TravelMode.DRIVING,
         }, (response, status) => {
+          if (response.rows === null) {
+            this.showLoader = false;
+            this.router.navigate(['cart-detail']);
+            return;
+          }
           if (response.rows[0].elements[0].status === 'OK') {
             const responseDistance = response.rows[0].elements[0];
             this.cartService.getCostDelivery(responseDistance)
               .subscribe((resp) => {
                 const pro = new Promise((resolve, rej) => {
                   this.cartService.setDeliveryCost(resp.deliveryInfos);
+                  this.hasAddressSelected = true;
                   resolve('ok');
                 });
                 pro.then((respPro) => {
-                  this.hasAddressSelected = true;
-                  console.log(respPro);
                   this.cartService.cartUpdated.subscribe((cartUpdated: Cart) => {
                     this.cartCurrent = cartUpdated;
-                    this.cartCurrent.total += +(this.SERVICE_CHARGE);
+                    this.showLoader = false;
                     this.cartService.getTokenPaymentIntent(+(this.cartCurrent.total) * 100).subscribe((token: any ) => {
                         this.clientSecret = token.client_secret;
-                        console.log(this.clientSecret);
                       }, (error) => {
                         if (/Expired JWT/.test(error)) {
                           this.route.navigate(['/login']);
@@ -118,9 +120,12 @@ export class CartDetailComponent implements OnInit {
     });
   }
 
+  ngAfterViewInit() {
+    this.loadStripe();
+  }
 
   private loadStripe(): void {
-    if (window.document.getElementById('stripe-script')) {
+    /*if (window.document.getElementById('stripe-script')) {
       const child = window.document.getElementById('stripe-script');
       child.parentNode.removeChild(child);
     }
@@ -135,7 +140,8 @@ export class CartDetailComponent implements OnInit {
         this.loadStripeElements();
         clearInterval(inter);
       }
-    }, 200);
+    }, 200);*/
+    this.loadStripeElements();
   }
 
 
@@ -145,18 +151,39 @@ export class CartDetailComponent implements OnInit {
     const style = {
       base: {
         color: '#32325d',
-        fontSize: '14px',
-        ':focus': {
-          borderColor: '#00969e',
-        },
+        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+        fontSmoothing: 'antialiased',
+        fontSize: '16px',
+        '::placeholder': {
+          color: '#aab7c4'
+        }
+      },
+      invalid: {
+        color: '#fa755a',
+        iconColor: '#fa755a'
       }
     };
-    this.cardNumber = this.elementStripe.create('cardNumber', {style: style});
-    const cardExpiry = this.elementStripe.create('cardExpiry', {style: style});
+    // this.cardNumber = this.elementStripe.create('card', {style: style});
+    this.card = this.elementStripe.create('card', { style: style });
+    this.card.mount('#card-element');
+    // Add an instance of the card Element into the `card-element` <div>.
+    this.card.mount('#card-element');
+
+// Handle real-time validation errors from the card Element.
+    this.card.on('change', (event) => {
+      const  displayError = document.getElementById('card-errors');
+      if (event.error) {
+        displayError.textContent = event.error.message;
+      } else {
+        displayError.textContent = '';
+      }
+    });
+
+    /*const cardExpiry = this.elementStripe.create('cardExpiry', {style: style});
     const cardCvc = this.elementStripe.create('cardCvc', {style: style});
     this.cardNumber.mount('#cardNumber');
     cardExpiry.mount('#cardExpiry');
-    cardCvc.mount('#cardCvc');
+    cardCvc.mount('#cardCvc');*/
   }
 
 
@@ -164,7 +191,7 @@ export class CartDetailComponent implements OnInit {
     event.preventDefault();
     this.stripe.confirmCardPayment(this.clientSecret, {
       payment_method: {
-        card: this.cardNumber,
+        card: this.card,
         billing_details: {
           name: 'Customer' // TODO ADD REAL NAME
         }
@@ -178,6 +205,12 @@ export class CartDetailComponent implements OnInit {
         if (result.paymentIntent.status === 'succeeded') {
           const responsePayment = result.paymentIntent;
           if (responsePayment.status === 'succeeded') {
+              /*this.toastService.show('Paiement accepté', {
+                classname: 'bg-success text-light',
+                delay: 4000,
+                autohide: true,
+                headertext: 'Votre commande est en cours de validation'
+              });*/
              // save order payment succeeded
              this.cartService.saveOrder({stripeResponse: responsePayment, cartDetail: this.cartCurrent })
                .subscribe((confCode) => {
@@ -190,7 +223,12 @@ export class CartDetailComponent implements OnInit {
                      this.cartService.saveCodeCustomerToDeliver({ responseCustomer: response})
                        .subscribe((responseServer) => {
                          if (responseServer.ok) {
-                           this.router.navigate(['customer']);
+                           this.cartCurrent.isValidate = true;
+                           this.cartService.UpdateCart('empty-cart');
+                           this.cartService.cartUpdated.subscribe((cartUpdated: Cart) => {
+                             this.cartCurrent = cartUpdated;
+                             this.router.navigate(['customer']);
+                           });
                          }
                      });
                    }
@@ -203,6 +241,13 @@ export class CartDetailComponent implements OnInit {
   }
 
 
+  onShowModalOrder() {
+    const modalRef = this.addressConfirmationModal.open(OrderModalComponent, {
+      backdrop: 'static',
+      keyboard: false,
+      size: 'lg'
+    });
+  }
 
 
   onSubmit(event: Event): void {

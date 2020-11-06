@@ -29,38 +29,45 @@ import {MatBottomSheet, MatBottomSheetModule} from '@angular/material/bottom-she
 import { NotificationsComponent } from '../notifications/notifications.component';
 import {MatRadioModule} from "@angular/material/radio";
 import {FooterComponent} from "@app/footer/footer.component";
+import { CategoryProductComponent } from '../restaurants/restaurant-dashboard/category-product/category-product.component';
+import { AddProductDialogComponent } from '../restaurants/restaurant-dashboard/category-product/add-product-dialog/add-product-dialog.component';
+import {MatListModule} from "@angular/material/list";
+import { ToastComponent } from '../toast/toast.component';
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 
 @NgModule({
-  declarations: [AddressModalComponent, NotificationsComponent, FooterComponent],
-  imports: [
-    CommonModule,
-    FormsModule,
-    HttpClientModule,
-    ReactiveFormsModule,
-    RouterModule,
-    GooglePlaceModule,
-    CartModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatAutocompleteModule,
-    MatInputModule,
-    MatCardModule,
-    MatDialogModule,
-    MatProgressBarModule,
-    MatTableModule,
-    MatChipsModule,
-    MatStepperModule,
-    MatSlideToggleModule,
-    MatButtonModule,
-    MatTabsModule,
-    GoogleMapsModule,
-    MatSelectModule,
-    MatBadgeModule,
-    MatSnackBarModule,
-    MatBottomSheetModule,
-    MatRadioModule
-  ],
+  declarations: [AddressModalComponent, NotificationsComponent, FooterComponent, CategoryProductComponent, AddProductDialogComponent, ToastComponent],
+    imports: [
+        CommonModule,
+        FormsModule,
+        HttpClientModule,
+        ReactiveFormsModule,
+        RouterModule,
+        GooglePlaceModule,
+        CartModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatAutocompleteModule,
+        MatInputModule,
+        MatCardModule,
+        MatDialogModule,
+        MatProgressBarModule,
+        MatTableModule,
+        MatChipsModule,
+        MatStepperModule,
+        MatSlideToggleModule,
+        MatButtonModule,
+        MatTabsModule,
+        GoogleMapsModule,
+        MatSelectModule,
+        MatBadgeModule,
+        MatSnackBarModule,
+        MatBottomSheetModule,
+        MatRadioModule,
+        MatListModule,
+        NgbModule
+    ],
   exports: [
       CommonModule,
       FormsModule,
@@ -89,7 +96,10 @@ import {FooterComponent} from "@app/footer/footer.component";
       MatSnackBarModule,
       MatBottomSheetModule,
       NotificationsComponent,
-      FooterComponent
+      FooterComponent,
+      CategoryProductComponent,
+      AddProductDialogComponent,
+      ToastComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [

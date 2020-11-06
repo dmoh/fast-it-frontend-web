@@ -3,7 +3,7 @@
     <div class="sidebar-left">
       <div style="display: flex; justify-content: center; margin-bottom: 1.5rem" class="">
         <div>
-          <img style="border: 2px solid #c823f1" class="rounded-circle" src="assets/home_images/user.png" width="65px" alt="">
+          <img style="border: 2px solid #c823f1" class="rounded-circle" src="assets/user.png" width="65px" alt="">
         </div>
       </div>
       <div style="width: 100%; display: flex; flex-direction: column;justify-content: center" class="nav">
@@ -76,21 +76,25 @@
         <!-- 5 last orders -->
         <div class="row">
           <div class="col-md-12">
-            <h3 class="">{{ customer.firstname | titlecase }}</h3>
+            <h3 *ngIf="customer.firstname" class="">{{ customer.firstname | titlecase }}</h3>
             <h3 class="">
               {{ customer.email }}
-              <span style="cursor: pointer"
-                    (click)="openSnackBar()"
-                    matBadge="{{ notifications.length > 0 ? notifications.length : '' }}"
-                    matBadgeOverlap="false"
-                    matBadgeColor="warn"
-                    class="float-right material-icons"
-              >
+              <button class="text-right float-right" (click)="onReadNotifications()" [disabled]="notifications.length == 0" mat-button [matMenuTriggerFor]="menu">
+                <span style="cursor: pointer"
+                      matBadge="{{ notifications.length > 0 ? notifications.length : '' }}"
+                      matBadgeOverlap="false"
+                      matBadgeColor="warn"
+                      class="float-right material-icons"
+                >
                 notifications</span>
+              </button>
               <span class="float-right mr-3 material-icons">person</span>
             </h3>
           </div>
         </div>
+        <mat-menu #menu="matMenu">
+          <button *ngFor="let notif of notifications"  mat-menu-item>{{ notif.message }}</button>
+        </mat-menu>
         <div class="row">
           <div class="col-md-12">
             <router-outlet></router-outlet>

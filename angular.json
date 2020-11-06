@@ -145,6 +145,17 @@
               "devServerTarget": "frontend-angular9:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "@jefiozie/ngx-aws-deploy:deploy",
+          "options": {},
+          "configurations": {
+            "production": {
+              "configuration": "production",
+              "region": "eu-west-3",
+              "bucket": "fast-eat-frontend"
+            }
+          }
         }
       }
     }

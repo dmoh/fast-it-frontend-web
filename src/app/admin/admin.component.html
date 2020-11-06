@@ -1,0 +1,128 @@
+<section class="wrapper-container">
+  <div class="container-restaurant-dashboard">
+    <div class="sidebar-left">
+      <div style="display: flex; justify-content: center; margin-bottom: 1.5rem" class="">
+        <div>
+          <img style="border: 2px solid #c823f1" class="rounded-circle" src="assets/user.png" width="65px" alt="">
+        </div>
+      </div>
+      <div style="width: 100%; display: flex; flex-direction: column;justify-content: center" class="nav">
+        <div class="wrapper-link-sidebar">
+          <a routerLink="#">
+            <div>
+              <h2>ADMINSTRATION</h2>
+            </div>
+          </a>
+        </div>
+        <div class="wrapper-link-sidebar">
+          <a routerLink="/customer">
+            <div>
+              Vue globale
+            </div>
+          </a>
+        </div>
+        <div class="wrapper-link-sidebar">
+          <a routerLink="/customer/order">
+            <div>
+              Commandes
+            </div>
+          </a>
+        </div>
+        <div class="wrapper-link-sidebar">
+          <a routerLink="/customer/profil">
+            <div>
+              Profil
+            </div>
+          </a>
+        </div>
+        <div class="wrapper-link-sidebar">
+          <a routerLink="/customer/notification">
+            <div>
+              Notifications
+            </div>
+          </a>
+        </div>
+        <div class="wrapper-link-sidebar">
+          <a routerLink="/admin/commerce">
+            <div>
+              Commerce
+            </div>
+          </a>
+        </div>
+        <div class="wrapper-link-sidebar">
+          <a routerLink="/customer/comment">
+            <div>
+              Commentaires
+            </div>
+          </a>
+        </div>
+        <div class="wrapper-link-sidebar">
+          <a routerLink="/customer/comment">
+            <div>
+              Membres
+            </div>
+          </a>
+        </div>
+        <!--
+        <div class="wrapper-link-sidebar">
+          <a routerLink="/infos/contact">
+            <div>
+              Contact
+            </div>
+          </a>
+        </div>
+        <div class="wrapper-link-sidebar">
+          <a routerLink="/infos/export">
+            <div>
+              Export
+            </div>
+          </a>
+        </div>-->
+      </div>
+    </div>
+    <div class="content-restaurant-dashboard">
+      <header>
+        <div style="width: 100%" class="top-bar-dashboard">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-md-12" style="display: flex;width: 100%">
+              </div>
+              <div class="col-md-9">
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+      <section style="margin-top: 1rem; height: 100vh" class="container-fluid">
+        <!-- 5 last orders -->
+        <div class="row">
+         <!-- <div class="col-md-12">
+            <h3 *ngIf="customer.firstname" class="">{{ customer.firstname | titlecase }}</h3>
+            <h3 class="">
+              {{ customer.email }}
+              <button class="text-right float-right" (click)="onReadNotifications()" [disabled]="notifications.length == 0" [matMenuTriggerFor]="menu">
+                <span style="cursor: pointer"
+                      matBadge="{{ notifications.length > 0 ? notifications.length : '' }}"
+                      matBadgeOverlap="false"
+                      matBadgeColor="warn"
+                      class="float-right material-icons"
+                >
+                notifications</span>
+              </button>
+              <span class="float-right mr-3 material-icons">person</span>
+            </h3>
+          </div> -->
+        </div>
+        <mat-menu #menu="matMenu">
+          <button *ngFor="let notif of notifications"  mat-menu-item>{{ notif.message }}</button>
+        </mat-menu>
+        <div class="row">
+          <div class="col-md-12">
+            <router-outlet></router-outlet>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</section>
+

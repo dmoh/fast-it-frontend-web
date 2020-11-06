@@ -68,9 +68,10 @@ input[id$="-number"].ui-inputtext:enabled:hover:not(.ui-state-error){
 }
 
 #card-element {
-  margin-bottom: 15px;
+  /* margin-bottom: 15px; */
   margin-top: 5px;
-  padding: 5px;
+  /* padding: 5px; */
+  width: 100%;
 }
 .d-inline-block > .field, #card-element .field {
   padding: 0.429em;
@@ -114,4 +115,65 @@ input[id$="-number"].ui-inputtext:enabled:hover:not(.ui-state-error){
   border: 1px solid #fff;
   margin-top: 0.5rem;
   box-shadow: -1px 5px 23px #ff45008c;
+}
+
+
+.StripeElement {
+  box-sizing: border-box;
+
+  height: 40px;
+
+  padding: 10px 12px;
+
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background-color: white;
+
+  box-shadow: 0 1px 3px 0 #e6ebf1;
+  -webkit-transition: box-shadow 150ms ease;
+  transition: box-shadow 150ms ease;
+}
+
+.StripeElement--focus {
+  box-shadow: 0 1px 3px 0 #cfd7df;
+}
+
+.StripeElement--invalid {
+  border-color: #fa755a;
+}
+
+.StripeElement--webkit-autofill {
+  background-color: #fefde5 !important;
+}
+
+.wrapper-loader {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background: #ffffff;
+  z-index: 6000;
+}
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #aa20db;
+  margin: 25px auto;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+  z-index: 99999;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

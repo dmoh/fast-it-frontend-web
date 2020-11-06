@@ -7,6 +7,7 @@ import {
 } from '@angular/material/snack-bar';
 import {MatBottomSheet, MatBottomSheetRef} from '@angular/material/bottom-sheet';
 import {NotificationsComponent} from "@app/notifications/notifications.component";
+import {User} from "@app/_models/user";
 
 
 
@@ -17,7 +18,7 @@ import {NotificationsComponent} from "@app/notifications/notifications.component
 })
 export class CustomerComponent implements OnInit {
 
-  customer: any;
+  customer: User;
   notifications: any[];
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
@@ -40,12 +41,20 @@ export class CustomerComponent implements OnInit {
       });
   }
 
+  onReadNotifications() {
+    setTimeout(() => {
+      this.customerService.sendNotificationsRead(this.customer.notifications, {user: this.customer.id})
+        .subscribe((res) => {
+          this.notifications = [];
+        });
+    }, 5000);
+  }
   openSnackBar() {
     /*this.snackBar.open('Cannonball!!', 'End now', {
       duration: 5000,
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
-    });*/
+    });
 
     const bottomSheetRef = this.bottomSheet.open(NotificationsComponent,{
       data: { notifications: this.customer.notifications }
@@ -55,6 +64,6 @@ export class CustomerComponent implements OnInit {
         .subscribe((res) => {
           this.notifications = [];
         });
-    });
+    });*/
   }
 }

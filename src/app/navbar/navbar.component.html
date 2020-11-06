@@ -1,16 +1,16 @@
 <nav class="navbar navbar-expand navbar-light bg-light">
   <div class="container">
-   <a class="navbar-brand" routerLink="/home" style="font-style: italic; font-weight: bold; color: white"> <!--<img src="logo_png.png"/>--> FAST EAT</a>
+   <a class="navbar-brand" routerLink="/home" style="font-style: italic; font-weight: bold; color: white"> <!--<img src="logo_png.png"/>--> FAST-IT</a>
    <div class="collapse navbar-collapse">
     <ul class="navbar-nav ml-auto">
      <li class="nav-item">
-       <a style="display: flex; flex-direction: row" *ngIf="cart.total > 0" class="nav-link btn btn-sm" routerLink="/cart-detail">
-         <div style="color: white;font-size: large;padding-right: .4rem;" class="material-icons">shopping_basket</div><div style="color: white">{{ cart.total.toFixed(2) }} €</div>
+       <a style="display: flex; flex-direction: row"  *ngIf="cart.total > 0" [ngClass]="{'not-allowed': cart.total == 0}" class="nav-link btn btn-sm" routerLink="/cart-detail">
+         <div style="color: white; font-size: large;padding-right: .4rem;" class="material-icons">shopping_basket</div><div *ngIf="cart.total > 0" style="color: white; font-size: small">{{ cart.total.toFixed(2) }} €</div>
        </a>
      </li>
       <li class="nav-item">
-        <a *ngIf="user.token" class="nav-link" (click)="onLogout()" style="color: white">Se déconnecter</a>
-        <a *ngIf="!user.token" class="nav-link" routerLink="/login" style="color: white">Se connecter</a>
+        <a *ngIf="user.token" class="nav-link" (click)="onLogout()" style="color: white"><div style="color: white;font-size: large;padding-right: .4rem;" class="material-icons">power_settings_new</div></a>
+        <a *ngIf="!user.token" class="nav-link" routerLink="/login" style="color: white"><div style="color: white;font-size: large;padding-right: .4rem;" class="material-icons">account_circle</div></a>
       </li>
     </ul>
    </div>

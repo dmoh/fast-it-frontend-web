@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {RestaurantDashboardService} from '@app/restaurants/restaurant-dashboard/services/restaurant-dashboard.service';
 import {Restaurant} from "@app/_models/restaurant";
+import {ActivatedRoute} from "@angular/router";
+import {NgbActiveModal, NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {OrderModalComponent} from "@app/restaurants/order-modal/order-modal.component";
 
 @Component({
   selector: 'app-restaurant-dashboard',
@@ -11,7 +14,11 @@ export class RestaurantDashboardComponent implements OnInit {
   restaurantDatas: any;
   restaurant: Restaurant;
   products: any[];
-  constructor(private restaurantService: RestaurantDashboardService) { }
+  constructor(
+    private restaurantService: RestaurantDashboardService,
+    private activatedRoute: ActivatedRoute,
+    private modal: NgbModal
+  ) { }
 
   static extractRestaurantData(typeData: string, arrayBusinessDatas: any[]) {
     const arrRestaurant =  arrayBusinessDatas.filter((elem) => {
@@ -41,6 +48,29 @@ export class RestaurantDashboardComponent implements OnInit {
     }
   }
   ngOnInit(): void {
+    this.activatedRoute
+      .queryParams.subscribe((res) => {
+
+       if (res.orderId) {
+         this.restaurantService.getOrderById(res.orderId)
+           .subscribe((order) => {
+             const modalRef = this.modal.open(OrderModalComponent, {
+               backdrop: 'static',
+               keyboard: false,
+               size: 'lg'
+             });
+             // modalRef.componentInstance.products =
+           })
+       }
+    });
+    this.activatedRoute
+      .queryParams
+      .subscribe((params) => {
+         if (params.products && params.orderId) {
+
+         }
+      });
+
     this.restaurantService.getRestaurantDatas(1).subscribe((res) => {
       this.restaurant = RestaurantDashboardComponent.extractRestaurantData('business', res);
       this.products = RestaurantDashboardComponent.extractRestaurantData('product', res);

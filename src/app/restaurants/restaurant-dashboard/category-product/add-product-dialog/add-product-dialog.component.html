@@ -1,0 +1,18 @@
+<section>
+  <div>
+    <h2>{{ category.name | titlecase }}</h2>
+  </div>
+  <div *ngIf="productsWithoutCategory">
+    <mat-selection-list #addProducts  [(ngModel)]="selectedProductId" (ngModelChange)="onChange($event)">
+      <mat-list-option *ngFor="let prod of productsWithoutCategory"
+                       ngDefaultControl
+                       [value]="prod.id"
+                       >
+        {{ prod.name }}
+      </mat-list-option>
+    </mat-selection-list>
+  </div>
+  <div>
+    <button mat-raised-button color="primary" (click)="onValidate()">Valider</button>
+  </div>
+</section>

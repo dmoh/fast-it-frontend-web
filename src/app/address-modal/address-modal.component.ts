@@ -1,6 +1,7 @@
 import {Component, Input, OnInit, Optional} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {CustomerService} from '@app/customer/_services/customer.service';
 
 @Component({
   selector: 'app-address-modal',
@@ -9,26 +10,38 @@ import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 })
 export class AddressModalComponent implements OnInit {
   @Optional() address: any;
+  @Optional() showErrorAddress: boolean;
   addressForm: FormGroup;
   place: any;
   options;
-  selectedAddress: boolean = true;
+  selectedAddress: any;
+  addressByDefault: boolean;
+  addressName: string = '';
+  numNewAddress: string = '';
+  zipcode: string = '';
+  street: string = '';
+  commentAddress: string = '';
+  city: string = '';
   constructor(private fb: FormBuilder,
-              private modal: NgbActiveModal
+              private modal: NgbActiveModal,
+              private customerService: CustomerService
   ) { }
 
   ngOnInit(): void {
+    this.addressByDefault = true;
     this.options = {
       types: [],
       componentRestrictions: { country: 'FR' }
     };
     if (!this.address) {
       this.addressForm = this.fb.group({
-        street: ['', [Validators.required, Validators.minLength(5)]],
-        zipcode: ['', [Validators.required, Validators.minLength(5)]],
-        city: ['', [Validators.required, Validators.minLength(2)]]
+        name: ['', [Validators.required, Validators.minLength(5)]],
+        address: ['', [Validators.required, Validators.minLength(2)]]
       });
     }
+  }
+  toggle() {
+    this.addressByDefault = !this.addressByDefault;
   }
 
   onChooseAddress(type: string): void {
@@ -37,11 +50,36 @@ export class AddressModalComponent implements OnInit {
     }
   }
 
+  onSubmit() {
+
+  }
 
   handleAddressChange(event) {
     if (!!event.formatted_address) {
-      this.selectedAddress = event;
+      this.selectedAddress = event.formatted_address;
+      this.street = event.formatted_address;
     }
   }
 
+
+
+
+
+  onSaveNewAddress() {
+    const newAddress = {
+      street: this.street,
+      num: this.numNewAddress,
+      zipcode: this.zipcode,
+      city: this.city,
+      comment: this.commentAddress,
+      name: this.addressName
+    };
+    this.customerService.addNewAddress(JSON.stringify(newAddress))
+      .subscribe((res) => {
+        if (res) {
+          this.modal.close(newAddress);
+        }
+      });
+
+  }
 }

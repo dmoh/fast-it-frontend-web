@@ -1,0 +1,52 @@
+<div style="margin: 2rem 0" class="card">
+  <div class="card-body">
+    <div style="width: 100%; justify-content: space-between" class="d-md-flex align-items-center">
+      <div>
+        <h4 class="card-title">Commerces</h4>
+        <h5 class="card-subtitle">Nombres</h5>
+      </div>
+      <div class="">
+        <div>
+          <button mat-raised-button color="primary" (click)="onAddCommerce()">Ajouter un resto</button>
+        </div>
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table class="table no-wrap v-middle">
+        <thead>
+        <tr>
+          <th class="border-0">Rèf.</th>
+          <th class="border-0">Nom</th>
+          <th class="border-0">Actif</th>
+          <th class="border-0">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="pd-top-bottom-1" *ngFor="let commerce of commerces">
+          <td>
+            <div class="">
+              <span>{{ commerce.id }}</span>
+            </div>
+          </td>
+          <td>
+            <div class="">
+              <span>{{ commerce.name }}</span>
+            </div>
+          </td>
+          <td>
+            <div class="">
+              <span>{{ commerce.enabled }}</span>
+            </div>
+          </td>
+          <td>
+            <div class="">
+              <button mat-raised-button color="primary" (click)="onEditCommerce(commerce)"><span class="materials-icon">edit</span></button>
+              <button mat-raised-button color="warn" (click)="onDelete(commerce.id)"><span class="materials-icon">remove</span></button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

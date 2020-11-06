@@ -1,12 +1,25 @@
 <section class="container-fluid">
   <div class="row">
     <div *ngIf="customerForm" style="padding-top: 2rem" class="col-md-8 card">
-      <form [formGroup]="customerForm">
+      <div class="mb-3">
+        <div>
+          <label for="photo">Photo</label>
+        </div>
+        <input type="file" id="photo" (change)="onUploadFile($event)">
+      </div>
+      <form [formGroup]="customerForm" (ngSubmit)="onSubmit()">
         <p>
           <mat-form-field style="width: 100%;" appearance="outline">
             <mat-label>Email</mat-label>
             <input matInput type="email" formControlName="email" placeholder="Placeholder">
             <mat-icon matSuffix>alternate_email</mat-icon>
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field style="width: 100%;" appearance="outline">
+            <mat-label>Téléphone</mat-label>
+            <input matInput type="text" formControlName="phone" placeholder="Placeholder">
+            <mat-icon matSuffix>phone</mat-icon>
           </mat-form-field>
         </p>
         <h2>Adresse de livraison (par défaut)</h2>

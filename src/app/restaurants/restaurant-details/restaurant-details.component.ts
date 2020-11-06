@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ProductModalComponent} from '@app/product-modal/product-modal.component';
 import {Product} from '@app/models/product';
@@ -20,6 +20,8 @@ export class RestaurantDetailsComponent implements OnInit {
   categories: any[] = [];
   restaurantId: number;
   restaurantDatas: any;
+  urlBackgroundRestaurant: string;
+  urlLogoRestaurant: string;
   restaurant: any = {} as any;
   constructor(private modal: NgbModal,
               private cartService: CartService,
@@ -32,7 +34,20 @@ export class RestaurantDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     this.starsRestaurant = [1, 3, 4, 5, 4];
+    this.restaurantService.getRestaurantMedias(this.restaurantId)
+      .subscribe((res) => {
+        res.forEach((media) => {
+          if (media.type_media === 'logo') {
+            this.urlLogoRestaurant = media.path_file;
+          }
+
+          if (media.type_media === 'background_img') {
+            this.urlBackgroundRestaurant = media.path_file;
+          }
+        });
+      });
     this.restaurantService.getRestaurantProductsDatas(this.restaurantId)
       .subscribe((result) => {
         this.restaurantDatas = result;
@@ -44,15 +59,15 @@ export class RestaurantDetailsComponent implements OnInit {
                 this.restaurant.tags = restau.product.tags;
               }
             } else {
-              if (restau.product.category) {
+              if (restau.product.categoryProduct) {
                 const prod = restau.product;
                 const categoryProduct = {
-                  category_name: prod.category.name,
-                  category_id: prod.category.id,
-                  category_label: prod.category.name,
+                  category_name: prod.categoryProduct.name,
+                  category_id: prod.categoryProduct.id,
+                  category_label: prod.categoryProduct.name,
                   category_products: []
                 };
-                const category = restau.product.category;
+                const category = restau.product.categoryProduct;
                 const isCategorySet = this.categoryExistArray(category.id);
                 if (isCategorySet === -1) {
                   categoryProduct.category_products = [restau.product, ...categoryProduct.category_products];
@@ -68,6 +83,7 @@ export class RestaurantDetailsComponent implements OnInit {
       });
   }
 
+
   scroll(id) {
       const elmnt = document.getElementById(id);
       elmnt.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'});
@@ -81,8 +97,6 @@ export class RestaurantDetailsComponent implements OnInit {
     return response;
   }
   openModal(product: Product): void {
-    console.log(product);
-    
     const modal = this.modal.open(ProductModalComponent);
     modal.componentInstance.product = product;
     modal.componentInstance.restaurant = this.restaurant;
@@ -92,5 +106,7 @@ export class RestaurantDetailsComponent implements OnInit {
       }
     });
   }
+
+
 
 }

@@ -1,0 +1,19 @@
+<section class="w-100">
+  <div>
+    <h4>Ajout d'une nouvelle catégorie</h4>
+    <hr>
+    <div class="form-group">
+      <p>
+        <mat-form-field style="width: 100%;" appearance="outline">
+          <mat-label>Nom de la nouvelle catégorie</mat-label>
+          <input matInput type="text" [(ngModel)]="category.name" placeholder="Placeholder">
+          <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+        </mat-form-field>
+      </p>
+    </div>
+  </div>
+  <div>
+    <button mat-raised-button class="mr-1" (click)="dialogRef.close(category)" [disabled]="category.name.trim() == '' || category.name.length < 2" color="primary">Ajouter</button>
+    <button mat-raised-button (click)="dialogRef.close()" color="accent">Annuler</button>
+  </div>
+</section>

@@ -1,0 +1,45 @@
+<div class="">
+  <div class="modal-header">
+    <h2>Commande passé par le client</h2>
+  </div>
+  <div class="modal-body">
+    <div class="mb-2">
+      <h3>Informations complémentaires, allergies...</h3>
+      <p>Je suis allergique aux fruits de mer c'est pourquoi je commande des sushi </p>
+    </div>
+    <hr>
+    <div class="row">
+      <div style="display: flex; justify-content: space-between; border-right: 2px solid violet" class="col-md-6">
+        <div>
+          <span style="font-size: larger; font-weight: 400">5 x </span><span style="font-size: larger; font-weight: 400; text-transform: uppercase">Product Name</span>
+          <div style="font-size: small;font-weight: 200;padding-left: 1.2rem; display: flex; justify-content: space-between">
+            <div>Sup tomate</div>
+          </div>
+          <div style="font-size: small;font-weight: 200;padding-left: 1.2rem;">Base crème</div>
+          <div style="font-size: small;font-weight: 200;padding-left: 1.2rem;">Oignon</div>
+          <div style="font-size: small;font-weight: 200;padding-left: 1.2rem;">Oignon</div>
+        </div>
+        <div style="font-size: larger; font-weight: 400">7.50€</div>
+      </div>
+      <div style="display: flex; justify-content: space-between" class="col-md-6">
+        <div><span>5x </span>Product Name</div>
+        <div>7.50€</div>
+        <div>2.00€</div>
+      </div>
+    </div>
+  </div>
+  <div>
+    Temps de préparation
+  </div>
+  <div style="display: flex; justify-content: space-between" class="modal-footer">
+    <div>
+      <button mat-raised-button (click)="onValidate('20')" color="primary">20 - 40 !</button>
+    </div>
+    <div>
+      <button mat-raised-button (click)="onValidate('40')" color="primary">40 - 60</button>
+    </div>
+    <div>
+      <button mat-raised-button (click)="onRefuseOrder()" color="warn">REFUS</button>
+    </div>
+  </div>
+</div>
