@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
   registerForm: FormGroup;
   loading = false;
   submitted = false;
+  hide = true;
   returnUrl: string;
   error = '';
   showPassword: boolean;

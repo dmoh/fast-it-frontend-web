@@ -31,8 +31,8 @@
                   <p>
                     <mat-form-field style="width: 100%;" appearance="outline">
                       <mat-label>Mot de passe</mat-label>
-                      <input matInput type="text" formControlName="password" placeholder="Placeholder">
-                      <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                      <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" placeholder="Placeholder">
+                      <mat-icon (click)="hide = !hide" matSuffix>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                       <mat-hint></mat-hint>
                     </mat-form-field>
                   </p>
