@@ -66,7 +66,6 @@ export class AwaitingDeliveryComponent implements OnInit {
                 }
               };
               console.log("orderDeliverer", orderDeliverer);
-              alert("orderDeliverer");
               this.deliveryService.saveOrderDeliverer(orderDeliverer).subscribe();
             }
             this.router.navigate(['/delivery/awaiting-delivery']);
@@ -78,13 +77,15 @@ export class AwaitingDeliveryComponent implements OnInit {
       this.delivery = delivererCurrent[0]; 
       this.orders = new Array();
       if (this.delivery != null) {
-        this.delivery.orders.forEach( order => {
-          this.deliveryService.getOrderById(order.id).subscribe( orderById=> {
-            // let order: Order = new Order();
-          this.orders.push(orderById);
+        if (this.delivery.orders != null) {
+          this.delivery.orders.forEach( order => {
+            this.deliveryService.getOrderById(order.id).subscribe( orderById=> {
+              // let order: Order = new Order();
+            this.orders.push(orderById);
+            });
           });
-        });
-      }
+        } 
+      } 
     });
   }
 

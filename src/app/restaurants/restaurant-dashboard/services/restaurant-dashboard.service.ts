@@ -83,8 +83,6 @@ export class RestaurantDashboardService {
   }
 
 
-
-
   addProductToCategory(categoryId: number, product: any[]) {
       return this.http.post<any>(`${this.urlApi}/business/category/${categoryId}/add/product`, { products: JSON.stringify(product)},
       this.headers);
@@ -97,7 +95,7 @@ export class RestaurantDashboardService {
 
 
   getOrderById(orderId: number): Observable<any> {
-    return this.http.get<any>(`${this.urlApi}/order/show/${orderId}`,
+    return this.http.get<any>(`${this.urlApi}/order/${orderId}`,
       this.headers);
   }
 
@@ -110,6 +108,21 @@ export class RestaurantDashboardService {
 
   getOrderAnalize(restaurantId: number): Observable<any> {
     return this.http.get<any>(`${this.urlApi}/business/${restaurantId}/analyze`,
+      this.headers);
+  }
+
+  saveResponseMerchant(order: any): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}/response-merchant`, order,
+    this.headers);
+  }
+  
+  acceptOrder(order: any): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}/order/save_business`, order,
+      this.headers);
+  }
+
+  refuseOrder(order: any): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}/order/save_business`, order,
       this.headers);
   }
 }

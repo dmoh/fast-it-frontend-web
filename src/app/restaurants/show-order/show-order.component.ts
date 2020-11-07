@@ -14,6 +14,8 @@ import { CardComponent } from '@app/home/home-features/card/card.component';
 export class ShowOrderComponent implements OnInit {
 
   products: any[];
+  orderId: any = 0;
+  businessId: any = 0;
   
   constructor(
     private activedRoute: ActivatedRoute,
@@ -27,7 +29,6 @@ export class ShowOrderComponent implements OnInit {
   ngOnInit(): void {
     this.activedRoute.queryParams.subscribe((res) => {
         if (res.p && res.c && res.orderId && res.restoId) {
-
           // recup mail
 
           this.restaurantDashboardService.checkToken(+(res.restoId), res.c)
@@ -40,11 +41,15 @@ export class ShowOrderComponent implements OnInit {
                     return product !== "" ;
                 });
 
+                this.businessId = res.restoId;
+                this.orderId = res.orderId;
+                console.log(this.orderId);
+
+
                 // this.products = this.products.map( product => {
                 //   product = "x" + product;
                 // });
 
-                console.log(this.products);
                 // this.router.navigate(['restaurant-dashboard', res.restoId ], {
                 //   queryParams: {
                 //     orderId: decodeURI(res.orderId),
@@ -61,14 +66,19 @@ export class ShowOrderComponent implements OnInit {
       });
   }
 
-  onShowModal() {
-    const modalRef = this.orderModal.open(OrderModalComponent, {
-      backdrop: 'static',
-      keyboard: true,
-      size: 'lg',
-     });
+  onShowModal() {    
+    this.restaurantDashboardService.getOrderById(+this.orderId).subscribe( order => {
+      const modalRef = this.orderModal.open(OrderModalComponent, {
+        backdrop: 'static',
+        keyboard: true,
+        size: 'lg',
+      });
 
-     modalRef.componentInstance.products = this.products;
+      modalRef.componentInstance.products = this.products;
+      modalRef.componentInstance.order = order;
+      modalRef.componentInstance.restaurant = order.business;
+      console.log("products", this.products, "modalRef.componentInstance", modalRef.componentInstance, "order", order)
+    });
   }
 
 }
