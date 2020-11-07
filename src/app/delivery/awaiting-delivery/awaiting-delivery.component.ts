@@ -29,7 +29,7 @@ export class AwaitingDeliveryComponent implements OnInit {
   constructor(private http: HttpClient,
      private authenticate: AuthenticationService,
      private deliveryService: DeliveryService,
-     private route: ActivatedRoute,
+     private activatedRoute: ActivatedRoute,
      private router: Router) {
     this.headers = new HttpHeaders({'Content-Type': 'application/json; charset=utf-8'});
     if (localStorage.getItem('cart_fast_eat')) {
@@ -47,25 +47,30 @@ export class AwaitingDeliveryComponent implements OnInit {
     this.delivery = new Delivery();
     this.delivery.orders = new Array();
     
-    if (this.route.snapshot.paramMap.get('id') != null) {
-      this.orderId = this.route.snapshot.paramMap.get('id');
+    if (this.activatedRoute.snapshot.paramMap.get('id') != null) {
+      this.orderId = this.activatedRoute.snapshot.paramMap.get('id');
       this.deliveryService.getOrderById(+this.orderId).subscribe( currentOrder => {
         this.order = currentOrder;
-          
-        // affecter un chauffeur à une commande
-        if (currentOrder.deliverer.id == null) {
-          let orderDeliverer: any;
-          let dateTakenDeliverer = Date.now();
-          orderDeliverer = { 
-            order : {
-              order_id: currentOrder.id,
-              deliverer_id: this.orderId,
-              date_taken_deliverer: dateTakenDeliverer,
+          this.deliveryService.getInfosDeliverer().subscribe( (response) => {
+            this.delivery = response[0];
+            
+            // affecter un chauffeur à une commande
+            if (currentOrder.deliverer.id == null) {
+              let orderDeliverer: any;
+              let dateTakenDeliverer = Date.now();
+              orderDeliverer = { 
+                order : {
+                  order_id: currentOrder.id,
+                  deliverer_id: this.delivery.id,
+                  date_taken_deliverer: dateTakenDeliverer,
+                }
+              };
+              console.log("orderDeliverer", orderDeliverer);
+              alert("orderDeliverer");
+              this.deliveryService.saveOrderDeliverer(orderDeliverer).subscribe();
             }
-          };
-          this.deliveryService.saveOrderDeliverer(orderDeliverer).subscribe();
-        }
-        this.router.navigate(['/delivery/awaiting-delivery']);
+            this.router.navigate(['/delivery/awaiting-delivery']);
+          });
       });
     }
 
@@ -93,7 +98,7 @@ export class AwaitingDeliveryComponent implements OnInit {
         date_delivered: dateDelivered,
       }
     };
-    this.deliveryService.sendDelivererCode(order).subscribe();
+    this.deliveryService.saveOrderDeliverer(order).subscribe();
   }
 
 }

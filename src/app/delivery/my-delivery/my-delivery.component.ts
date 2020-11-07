@@ -10,7 +10,6 @@ import { AuthenticationService } from '@app/_services/authentication.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { DeliveryService } from '../services/delivery.service';
-import { Order } from '@app/_models/order';
 import { ThrowStmt } from '@angular/compiler';
 
 @Component({
@@ -24,7 +23,6 @@ export class MyDeliveryComponent implements OnInit, AfterViewInit {
   schedulePrepartionTimes: any[] = [];
   commerce: Restaurant;
   deliverer: Delivery;
-  order: Order;
   error: string;
   headers: any;
 
@@ -44,8 +42,14 @@ export class MyDeliveryComponent implements OnInit, AfterViewInit {
     this.deliverer = new Delivery();
     this.deliveryService.getInfosDeliverer().subscribe((response) => {
       this.deliverer = response[0];
+      console.log(this.deliverer.orders);
+      this.deliverer.orders.forEach( order => {
+        this.deliveryService.getOrderById(+order.id).subscribe( currentOrder => {            
+          order.business = currentOrder.business;
+          console.log("order", order);
+        }) 
+      });   
     });
-    
   }
 
   ngAfterViewInit() {

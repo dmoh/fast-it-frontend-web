@@ -31,7 +31,7 @@ export class DeliveryService {
   }
 
   getOrderById(orderId: number): Observable<any> {
-    return this.http.get<any>(`${this.urlApi}order/${orderId}`,
+    return this.http.get<any>(`${this.urlApi}/order/${orderId}`,
       this.headers);
   }
 
@@ -64,14 +64,13 @@ export class DeliveryService {
     return this.http.post<any>(`${this.urlApi}/deliverer/notif`, this.headers);
   }
 
-  sendDelivererCode(request: any[]){
-    console.warn(JSON.stringify(request));
-    console.warn(request);
+  saveOrderFinal(request: any[]){
     return this.http.post<any>(`${this.urlApi}/order/save/final`, request, this.headers);
   }
 
   saveOrderDeliverer(request: any[]){
-    return this.http.post<any>(`${this.urlApi}order/save_deliverer`, request, this.headers);
+    console.log("request", JSON.stringify(request));
+    return this.http.post<any>(`${this.urlApi}/order/save_deliverer`, request, this.headers);
   }
 
 }

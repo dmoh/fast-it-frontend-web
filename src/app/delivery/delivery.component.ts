@@ -21,7 +21,7 @@ export class DeliveryComponent implements OnInit {
     private snackBar: MatSnackBar,
     private router: Router,
     private bottomSheet: MatBottomSheet) { 
-      this.router.navigate(['/delivery/awaiting-delivery']);
+      // this.router.navigate(['/delivery/awaiting-delivery']);
     }
 
   ngOnInit(): void {

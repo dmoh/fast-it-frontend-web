@@ -48,7 +48,7 @@ export class DetailDeliveryComponent implements OnInit {
     }
 
     if (this.delivererForm.value.notCode || this.isValid) {
-      this.finalizeDelivery() ;
+      this.finalizeDelivery();
       this.router.navigate(['/delivery/awaiting-delivery']);
     }
     else {
@@ -61,16 +61,18 @@ export class DetailDeliveryComponent implements OnInit {
   }
 
   finalizeDelivery() {
-    let order: any;
-    let dateDelivered = Date.now();
-    order = { 
-      order : {
-        order_id: this.orderId,
-        deliverer_id: this.deliverer.id,
-        date_delivered: dateDelivered,
-      }
-    };
-    this.deliveryService.sendDelivererCode(order).subscribe();
+    this.deliveryService.getInfosDeliverer().subscribe( (response) => {
+      this.deliverer = response[0];
+      let order: any;
+      let dateDelivered = Date.now();
+      order = { 
+        order : {
+          order_id: this.orderId,
+          date_delivered: dateDelivered,
+        }
+      };
+      this.deliveryService.saveOrderFinal(order).subscribe();
+    });
   }
 
 }
