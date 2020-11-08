@@ -32,7 +32,6 @@ export class DetailDeliveryComponent implements OnInit {
     this.deliveryService.getOrderById(+this.orderId).subscribe( order => {
       // let order: Order = new Order();
 
-      console.log("detail", order);
       this.order = order;
         
       this.hasDeliveryCode = this.order.deliverCode != null;
@@ -63,18 +62,19 @@ export class DetailDeliveryComponent implements OnInit {
   }
 
   finalizeDelivery() {
-    this.deliveryService.getInfosDeliverer().subscribe( (response) => {
-      this.deliverer = response[0];
-      let order: any;
-      let dateDelivered = Date.now();
-      order = { 
-        order : {
-          order_id: this.orderId,
-          date_delivered: dateDelivered,
-        }
-      };
-      this.deliveryService.saveOrderFinal(order).subscribe();
-    });
+    // this.deliveryService.getInfosDeliverer().subscribe( (response) => {
+      // this.deliverer = response[0];
+    // });
+    let order: any;
+    let dateDelivered = Date.now();
+    order = { 
+      order : {
+        order_id: this.orderId,
+        date_delivered: dateDelivered,
+        status: 4,
+      }
+    };
+    this.deliveryService.saveOrderFinal(order).subscribe();
   }
 
 }
