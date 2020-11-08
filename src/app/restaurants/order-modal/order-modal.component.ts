@@ -48,7 +48,7 @@ export class OrderModalComponent implements OnInit {
     let dataOrder: any = {
       order_id: this.order.id,
       order_accepted_by_merchant: true,
-      status: "en cours de preparation",
+      status: 3,
       business_id: this.business.id,
       time,
     };
@@ -64,7 +64,7 @@ export class OrderModalComponent implements OnInit {
     let dataOrder: any = {
       order_id: this.order.id,
       order_accepted_by_merchant: false,
-      status: "commande annulé",
+      status: 9,
       business_id: null,
       message,
     };
