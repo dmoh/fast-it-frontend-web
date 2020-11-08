@@ -31,6 +31,8 @@ export class DetailDeliveryComponent implements OnInit {
 
     this.deliveryService.getOrderById(+this.orderId).subscribe( order => {
       // let order: Order = new Order();
+
+      console.log("detail", order);
       this.order = order;
         
       this.hasDeliveryCode = this.order.deliverCode != null;

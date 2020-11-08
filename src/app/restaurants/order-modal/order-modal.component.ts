@@ -16,6 +16,7 @@ export class OrderModalComponent implements OnInit {
   @Input() order: Order;
   @Input() business: Restaurant;
   @Input() additionalInfo: string;
+  @Input() supplementProducts: string[];
 
   public orders: any[] = new Array();
   public message ="";
@@ -29,14 +30,15 @@ export class OrderModalComponent implements OnInit {
 
     if (this.products) {
       this.products.forEach( product => {
-        let currentOrder: any = {
-          quantity: "",
-          product: "",
-        };
+        let currentOrder: any = { };
         currentOrder.quantity = product.split(" ")[0];
         currentOrder.product = product.split(" ")[1];
         currentOrder.amount = this.order.amount;
+        currentOrder.supplementProducts = this.supplementProducts;
+        currentOrder.supplementProducts.push(this.order.addressToDeliver);
         this.orders.push(currentOrder);
+
+
       });
     }
 
@@ -44,7 +46,6 @@ export class OrderModalComponent implements OnInit {
 
   onValidate(time: string) {
     // todo save commercant
-    console.log("this.business", this.business);
     let dataOrder: any = {
       order_id: this.order.id,
       order_accepted_by_merchant: true,

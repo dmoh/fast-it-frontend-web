@@ -14,7 +14,7 @@
         <!-- <th>Notification</th> -->
       </tr>
     </thead>
-    <tbody *ngIf="delivery">
+    <tbody *ngIf="deliverer">
       <tr class="order" *ngFor="let order of orders" routerLink="/delivery/detail-delivery/{{order.id}}" >
         <td>{{ order.id }}</td>
         <td *ngIf="order.business.name">{{ order.business.name }}</td>

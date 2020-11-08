@@ -19,7 +19,7 @@ export class AwaitingDeliveryComponent implements OnInit {
   uploadResponse = { status: '', message: '', filePath: '' };
   schedulePrepartionTimes: any[] = [];
   commerce: Restaurant;
-  delivery: Delivery;
+  deliverer: Delivery;
   orders: any[];
   order: Order;
   orderId: string;
@@ -44,24 +44,26 @@ export class AwaitingDeliveryComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.delivery = new Delivery();
-    this.delivery.orders = new Array();
+    this.deliverer = new Delivery();
+    this.deliverer.orders = new Array();
     
     if (this.activatedRoute.snapshot.paramMap.get('id') != null) {
       this.orderId = this.activatedRoute.snapshot.paramMap.get('id');
       this.deliveryService.getOrderById(+this.orderId).subscribe( currentOrder => {
         this.order = currentOrder;
-          this.deliveryService.getInfosDeliverer().subscribe( (response) => {
-            this.delivery = response[0];
-            
-            // affecter un chauffeur à une commande
-            if (currentOrder.deliverer.id == null) {
+        console.log("currentOrder", currentOrder);
+        let request = {};
+          this.deliveryService.getUserInfo(request).subscribe( (userResponse) => {
+            this.deliverer = userResponse;
+            console.log("userResponse", userResponse);
+            // Affecter un chauffeur à une commande
+            if (currentOrder.deliverer == null && this.deliverer.id) {
               let orderDeliverer: any;
               let dateTakenDeliverer = Date.now();
               orderDeliverer = { 
                 order : {
                   order_id: currentOrder.id,
-                  deliverer_id: this.delivery.id,
+                  deliverer_id: this.deliverer.id,
                   date_taken_deliverer: dateTakenDeliverer,
                 }
               };
@@ -71,22 +73,26 @@ export class AwaitingDeliveryComponent implements OnInit {
             this.router.navigate(['/delivery/awaiting-delivery']);
           });
       });
-    }
+    } else {
+      this.deliveryService.getCurrentOrders().subscribe((delivererCurrent)=>{
+        console.log("delivererCurrent", delivererCurrent);
+        this.deliverer = delivererCurrent[0]; 
+        this.orders = new Array();
 
-    this.deliveryService.getCurrentOrders().subscribe((delivererCurrent)=>{
-      this.delivery = delivererCurrent[0]; 
-      this.orders = new Array();
-      if (this.delivery != null) {
-        if (this.delivery.orders != null) {
-          this.delivery.orders.forEach( order => {
-            this.deliveryService.getOrderById(order.id).subscribe( orderById=> {
-              // let order: Order = new Order();
-            this.orders.push(orderById);
+        if (this.deliverer != null) {
+          this.deliverer.orders = (delivererCurrent[0].orders_deliverer) ? delivererCurrent[0].orders_deliverer : null;
+          if (this.deliverer.orders != null) {
+            this.deliverer.orders.forEach( order => {
+              this.deliveryService.getOrderById(order.id).subscribe( orderById=> {
+              console.log("orderById", orderById);
+                // let order: Order = new Order();
+              this.orders.push(orderById);
+              });
             });
-          });
+          } 
         } 
-      } 
-    });
+      });
+    }
   }
 
   saveOrderDeliverer() {
@@ -95,7 +101,7 @@ export class AwaitingDeliveryComponent implements OnInit {
     order = { 
       order : {
         order_id: this.orderId,
-        deliverer_id: this.delivery.id,
+        deliverer_id: this.deliverer.id,
         date_delivered: dateDelivered,
       }
     };

@@ -36,12 +36,18 @@ export class DeliveryService {
   }
 
   getCurrentOrders(): Observable<any> {
-    return this.http.get<any>(`${this.urlApi}/deliverer/current_orders`,
+    return this.http.post<any>(`${this.urlApi}/deliverer/current_orders`, null,
       this.headers);
   }
 
   getInfosDeliverer(): Observable<any> {
     return this.http.get<any>(`${this.urlApi}/deliverer/show`,
+      this.headers);
+  }
+
+  
+  getUserInfo(request: any): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}/user/info`, null,
       this.headers);
   }
 

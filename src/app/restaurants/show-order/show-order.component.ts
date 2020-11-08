@@ -76,6 +76,7 @@ export class ShowOrderComponent implements OnInit {
           modalRef.componentInstance.business = business[1].business;
           modalRef.componentInstance.products = this.products;
           modalRef.componentInstance.order = order;
+          modalRef.componentInstance.supplementProduct = ["Base creme", "Oignon", "Fromage rapé" ];
           // console.log("modalRef.componentInstance.business", modalRef.componentInstance.business);
           // console.log("products", this.products, "modalRef.componentInstance", modalRef.componentInstance, "order", order);
         });
@@ -88,6 +89,7 @@ export class ShowOrderComponent implements OnInit {
         modalRef.componentInstance.business = order.business;
         modalRef.componentInstance.products = this.products;
         modalRef.componentInstance.order = order;
+        modalRef.componentInstance.supplementProducts = ["Base crème", "Oignon cuit", "Fromage toastinette"];
       }
 
     });

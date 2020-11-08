@@ -10,19 +10,17 @@
     <hr>
     <div class="row">
       <div *ngFor="let order of orders">
-        <div style="display: flex; justify-content: space-between; border-right: 2px solid violet" class="col-md-6">
+        <div style="display: flex; justify-content: space-between; border-right: 2px solid violet" class="col-md-12">
           <div>
-            <span style="font-size: larger; font-weight: 400">{{ order.quantity }}x </span><span style="font-size: larger; font-weight: 400; text-transform: uppercase">{{ order.product }}</span>
-            <div style="font-size: small;font-weight: 200;padding-left: 1.2rem; display: flex; justify-content: space-between">
-              <div>Sup tomate</div>
+            <span style="font-size: larger; font-weight: 400">{{ order.quantity }}x </span>
+            <span style="font-size: larger; font-weight: 400; text-transform: uppercase">{{ order.product }}</span>
+            <div *ngFor="let supplement of supplementProducts" style="font-size: small;font-weight: 200;padding-left: 1.2rem;display: flex; justify-content: space-between">
+              {{supplement}}
             </div>
-            <div style="font-size: small;font-weight: 200;padding-left: 1.2rem;">Base crème</div>
-            <div style="font-size: small;font-weight: 200;padding-left: 1.2rem;">Oignon</div>
-            <div style="font-size: small;font-weight: 200;padding-left: 1.2rem;">Oignon</div>
           </div>
           <div style="font-size: larger; font-weight: 400">{{order.amount/100}}€</div>
         </div>
-        <div style="display: flex; justify-content: space-between" class="col-md-6">
+        <div style="display: flex; justify-content: space-between" class="col-md-12">
           <div><span>{{ order.quantity }}x </span>{{ order.product }}</div>
           <div>{{order.amount/100}}€</div>
           <!-- <div>2.00€</div> -->

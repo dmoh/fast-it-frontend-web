@@ -42,13 +42,19 @@ export class MyDeliveryComponent implements OnInit, AfterViewInit {
     this.deliverer = new Delivery();
     this.deliveryService.getInfosDeliverer().subscribe((response) => {
       this.deliverer = response[0];
+      if (this.deliverer) {
+        this.deliverer.orders = response[0].orders_deliverer;
+        
+      }
       console.log(this.deliverer.orders);
-      this.deliverer.orders.forEach( order => {
-        this.deliveryService.getOrderById(+order.id).subscribe( currentOrder => {            
-          order.business = currentOrder.business;
-          console.log("order", order);
-        }) 
-      });   
+      this.deliverer.orders = this.deliverer.orders.filter( order => order.date_delivered != null );
+      if (this.deliverer.orders.length > 0) {
+        this.deliverer.orders.forEach( order => {
+          this.deliveryService.getOrderById(+order.id).subscribe( currentOrder => {            
+            order.business = currentOrder.business;
+          }) 
+        });   
+      }
     });
   }
 
