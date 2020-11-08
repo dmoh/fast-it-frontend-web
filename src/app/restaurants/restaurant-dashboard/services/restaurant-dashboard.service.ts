@@ -43,10 +43,12 @@ export class RestaurantDashboardService {
     return this.http.get<any>(`${this.urlApi}/business/${restaurantId}/medias`,
       this.headers);
   }
+
   getOrdersDatas(restaurantId: number): Observable<any> {
     return this.http.get<any>(`${this.urlApi}/business/orders/${restaurantId}`,
       this.headers);
   }
+  
   updateProduct(product: any): Observable<any> {
     return this.http.post<any>(`${this.urlApi}/product/update`, product,
       this.headers);

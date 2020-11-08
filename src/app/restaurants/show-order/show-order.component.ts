@@ -5,6 +5,7 @@ import {RestaurantDashboardService} from "@app/restaurants/restaurant-dashboard/
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { OrderModalComponent } from '../order-modal/order-modal.component';
 import { CardComponent } from '@app/home/home-features/card/card.component';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-show-order',
@@ -45,10 +46,7 @@ export class ShowOrderComponent implements OnInit {
                 this.orderId = res.orderId;
                 console.log(this.orderId);
 
-
-                // this.products = this.products.map( product => {
-                //   product = "x" + product;
-                // });
+                this.onShowModal();
 
                 // this.router.navigate(['restaurant-dashboard', res.restoId ], {
                 //   queryParams: {
@@ -68,16 +66,30 @@ export class ShowOrderComponent implements OnInit {
 
   onShowModal() {    
     this.restaurantDashboardService.getOrderById(+this.orderId).subscribe( order => {
-      const modalRef = this.orderModal.open(OrderModalComponent, {
-        backdrop: 'static',
-        keyboard: true,
-        size: 'lg',
-      });
+      if (+this.businessId !== +order.business.id) {
+        this.restaurantDashboardService.getOrdersDatas(this.businessId).subscribe( business => {
+          const modalRef = this.orderModal.open(OrderModalComponent, {
+            backdrop: 'static',
+            keyboard: false,
+            size: 'lg',
+          });
+          modalRef.componentInstance.business = business[1].business;
+          modalRef.componentInstance.products = this.products;
+          modalRef.componentInstance.order = order;
+          // console.log("modalRef.componentInstance.business", modalRef.componentInstance.business);
+          // console.log("products", this.products, "modalRef.componentInstance", modalRef.componentInstance, "order", order);
+        });
+      } else {
+        const modalRef = this.orderModal.open(OrderModalComponent, {
+          backdrop: 'static',
+          keyboard: false,
+          size: 'lg',
+        });
+        modalRef.componentInstance.business = order.business;
+        modalRef.componentInstance.products = this.products;
+        modalRef.componentInstance.order = order;
+      }
 
-      modalRef.componentInstance.products = this.products;
-      modalRef.componentInstance.order = order;
-      modalRef.componentInstance.restaurant = order.business;
-      console.log("products", this.products, "modalRef.componentInstance", modalRef.componentInstance, "order", order)
     });
   }
 

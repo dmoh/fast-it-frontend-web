@@ -27,38 +27,35 @@ export class OrderModalComponent implements OnInit {
 
   ngOnInit(): void {
 
-    console.log("modal products",this.products);
-
     if (this.products) {
       this.products.forEach( product => {
         let currentOrder: any = {
           quantity: "",
           product: "",
         };
-        console.log("split", product.split(" "));
         currentOrder.quantity = product.split(" ")[0];
         currentOrder.product = product.split(" ")[1];
         currentOrder.amount = this.order.amount;
         this.orders.push(currentOrder);
       });
-      console.log("modal orders", this.orders);
     }
 
   }
 
   onValidate(time: string) {
     // todo save commercant
+    console.log("this.business", this.business);
     let dataOrder: any = {
       order_id: this.order.id,
       order_accepted_by_merchant: true,
-      status: "en cours de perparation",
+      status: "en cours de preparation",
       business_id: this.business.id,
       time,
     };
     // todo accept Order
-    this.restaurantService.acceptOrder(dataOrder);
+    this.restaurantService.acceptOrder(dataOrder).subscribe();
     // todo response-merchant
-    this.restaurantService.saveResponseMerchant(dataOrder);
+    this.restaurantService.saveResponseMerchant(dataOrder).subscribe();
   }
 
   onRefuseOrder(message: string) {
@@ -68,9 +65,11 @@ export class OrderModalComponent implements OnInit {
       order_id: this.order.id,
       order_accepted_by_merchant: false,
       status: "commande annulé",
+      business_id: null,
       message,
     };
-    this.restaurantService.refuseOrder(dataOrder);
+    console.log("dataOrder", dataOrder);
+    this.restaurantService.refuseOrder(dataOrder).subscribe();
   }
 
 }
