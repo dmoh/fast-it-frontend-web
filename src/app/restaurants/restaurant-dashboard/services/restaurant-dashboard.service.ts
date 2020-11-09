@@ -5,6 +5,7 @@ import {Router} from "@angular/router";
 import {Observable} from "rxjs";
 import {CategoryProduct} from "@app/_models/category-product";
 import {environment} from "../../../../environments/environment";
+import {Restaurant} from "@app/_models/restaurant";
 
 @Injectable({
   providedIn: 'root'
@@ -110,6 +111,12 @@ export class RestaurantDashboardService {
 
   getOrderAnalize(restaurantId: number): Observable<any> {
     return this.http.get<any>(`${this.urlApi}/business/${restaurantId}/analyze`,
+      this.headers);
+  }
+
+
+  getRestaurantInfosById(restaurantId: number): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}/business/${restaurantId}/informations`,
       this.headers);
   }
 }

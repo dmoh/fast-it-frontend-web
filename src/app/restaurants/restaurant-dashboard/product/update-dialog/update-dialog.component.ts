@@ -16,13 +16,16 @@ export class UpdateDialogComponent implements OnInit {
   constructor(
     private restaurantDashboardService: RestaurantDashboardService,
     public dialogRef: MatDialogRef<UpdateDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public product: Product) {}
+    @Inject(MAT_DIALOG_DATA) public product: Product
+  ) {}
 
   ngOnInit(): void {
+    console.log(this.product);
     if (this.product.amount && +(this.product.amount) > 0) {
       this.product.amount = +(this.product.amount) / 100;
     }
-    this.restaurantDashboardService.getCategoriesByBusinessId(this.product.business_id)
+    this.restaurantDashboardService
+      .getCategoriesByBusinessId(this.product.business_id)
       .subscribe((cats) => {
         this.categories = cats;
         console.log(this.categories);
@@ -34,6 +37,8 @@ export class UpdateDialogComponent implements OnInit {
 
   onSaveProduct(product: any): void {
     console.log(this.product);
+    console.log(this.product);
+    return;
     this.dialogRef.close(this.product);
   }
 

@@ -17,6 +17,16 @@ export class UserService {
     }
   }
 
+  registerUser(userNew: string): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}/add/user`,{user: userNew}, this.headers);
+  }
+
+  passwordForgot(userNew: string): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}/user/password`,{ user: userNew}, this.headers);
+  }
+
+
+
 
   getUserAddresses(): Observable<any> {
     return this.http.get<any>(`${this.urlApi}/user/address`, this.headers);

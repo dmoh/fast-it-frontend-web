@@ -24,7 +24,7 @@ export class CartComponent implements OnInit {
       this.hasProduct = false;
     }
 
-    this.qMax = [1, 2, 3, 4];
+    this.qMax = [1, 2, 3, 4, 5, 6, 7, 8];
   }
 
   onUpdateCart(event, product: Product): void {

@@ -1,0 +1,9 @@
+{
+  "/api/*": {
+    "target": "https://fastit-backend.com",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": { "^/api": "" }
+  }
+}

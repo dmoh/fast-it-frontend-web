@@ -9,10 +9,11 @@ import { OverviewComponent } from './overview/overview.component';
 import { CommerceComponent } from './commerce/commerce.component';
 import {CoreModule} from '@app/core/core.module';
 import { UpdateDialogComponent } from './product/update-dialog/update-dialog.component';
-import {MatExpansionModule} from "@angular/material/expansion";
-import {NgxMaterialTimepickerModule} from "ngx-material-timepicker";
-import {MatRadioModule} from "@angular/material/radio";
-import {MatListModule} from "@angular/material/list";
+import {MatExpansionModule} from '@angular/material/expansion';
+import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatListModule} from '@angular/material/list';
+import {SecurityRestaurantService} from '@app/_services/security-restaurant.service';
 
 
 @NgModule({
@@ -41,6 +42,9 @@ import {MatListModule} from "@angular/material/list";
     CommerceComponent,
     CoreModule,
     UpdateDialogComponent
+  ],
+  providers: [
+    SecurityRestaurantService
   ]
 })
 export class RestaurantDashboardModule { }

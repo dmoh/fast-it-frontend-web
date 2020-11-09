@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {RestaurantDashboardService} from '@app/restaurants/restaurant-dashboard/services/restaurant-dashboard.service';
-import {Restaurant} from "@app/_models/restaurant";
-import {ActivatedRoute} from "@angular/router";
-import {NgbActiveModal, NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {OrderModalComponent} from "@app/restaurants/order-modal/order-modal.component";
+import {Restaurant} from '@app/_models/restaurant';
+import {ActivatedRoute, Router} from '@angular/router';
+import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {OrderModalComponent} from '@app/restaurants/order-modal/order-modal.component';
+import {SecurityRestaurantService} from '@app/_services/security-restaurant.service';
 
 @Component({
   selector: 'app-restaurant-dashboard',
@@ -14,10 +15,13 @@ export class RestaurantDashboardComponent implements OnInit {
   restaurantDatas: any;
   restaurant: Restaurant;
   products: any[];
+  restaurantId: number;
   constructor(
     private restaurantService: RestaurantDashboardService,
+    private securityRestaurantService: SecurityRestaurantService,
     private activatedRoute: ActivatedRoute,
-    private modal: NgbModal
+    private modal: NgbModal,
+    private router: Router
   ) { }
 
   static extractRestaurantData(typeData: string, arrayBusinessDatas: any[]) {
@@ -26,16 +30,17 @@ export class RestaurantDashboardComponent implements OnInit {
     });
     switch (typeData) {
       case 'business':
-        if (typeof arrRestaurant[0].product !== 'undefined') {
-          if (typeof arrRestaurant[0].product.medias !== 'undefined' ) {
-            arrRestaurant[0].business.medias = arrRestaurant[0].product.medias;
-          }
+        if (arrRestaurant.length > 0) {
+          if (typeof arrRestaurant[0].product !== 'undefined') {
+            if (typeof arrRestaurant[0].product.medias !== 'undefined' ) {
+              arrRestaurant[0].business.medias = arrRestaurant[0].product.medias;
+            }
 
-          if (typeof arrRestaurant[0].product.opinions !== 'undefined' ) {
-            arrRestaurant[0].business.opinions = arrRestaurant[0].product.opinions;
+            if (typeof arrRestaurant[0].product.opinions !== 'undefined' ) {
+              arrRestaurant[0].business.opinions = arrRestaurant[0].product.opinions;
+            }
           }
         }
-        console.log(arrRestaurant[0].business);
         return arrRestaurant.length >= 1 ? arrRestaurant[0].business : null;
       case 'product':
       return arrRestaurant.filter(elem => {
@@ -50,7 +55,6 @@ export class RestaurantDashboardComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute
       .queryParams.subscribe((res) => {
-
        if (res.orderId) {
          this.restaurantService.getOrderById(res.orderId)
            .subscribe((order) => {
@@ -59,8 +63,7 @@ export class RestaurantDashboardComponent implements OnInit {
                keyboard: false,
                size: 'lg'
              });
-             // modalRef.componentInstance.products =
-           })
+           });
        }
     });
     this.activatedRoute
@@ -70,15 +73,20 @@ export class RestaurantDashboardComponent implements OnInit {
 
          }
       });
+    this.activatedRoute.params.subscribe((params) => {
+      this.restaurantId = +(params.id);
+      this.securityRestaurantService.setRestaurant({id: this.restaurantId});
+      this.restaurantService.getRestaurantDatas(this.restaurantId).subscribe((res) => {
+        this.restaurant = RestaurantDashboardComponent.extractRestaurantData('business', res);
+        if (this.restaurant === null) {
+          this.restaurantService.getRestaurantInfosById(this.restaurantId)
+            .subscribe((restaurantDb) => {
+              this.restaurant = restaurantDb.restaurant;
+            });
+        }
+        this.products = RestaurantDashboardComponent.extractRestaurantData('product', res);
+      } );
+    });
 
-    this.restaurantService.getRestaurantDatas(1).subscribe((res) => {
-      this.restaurant = RestaurantDashboardComponent.extractRestaurantData('business', res);
-      this.products = RestaurantDashboardComponent.extractRestaurantData('product', res);
-      console.warn(this.products);
-    } );
   }
-
-
-
-
 }

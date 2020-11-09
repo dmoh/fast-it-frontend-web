@@ -7,6 +7,8 @@ import {Product} from '@app/models/product';
 import {UploadService} from '@app/_services/upload.service';
 import {CategoryProductComponent} from '@app/restaurants/restaurant-dashboard/category-product/category-product.component';
 import {AddProductDialogComponent} from '@app/restaurants/restaurant-dashboard/category-product/add-product-dialog/add-product-dialog.component';
+import {ActivatedRoute, Router} from "@angular/router";
+import {SecurityRestaurantService} from "@app/_services/security-restaurant.service";
 
 @Component({
   selector: 'app-product',
@@ -22,21 +24,38 @@ export class ProductComponent implements OnInit {
   productBeforeUpdate: any;
   constructor(private restaurantService: RestaurantDashboardService,
               public dialog: MatDialog,
-              public uploadService: UploadService  ) { }
+              public uploadService: UploadService,
+              private router: Router,
+              private activatedRoute: ActivatedRoute,
+              private securityRestaurantService: SecurityRestaurantService
+              ) { }
 
-  ngOnInit(): void { // todo changer id restau
+  ngOnInit(): void {
     this.updateProductList();
   }
 
-  updateProductList() {
-    this.restaurantService.getRestaurantDatas(1).subscribe((res) => {
-      this.restaurant = RestaurantDashboardComponent.extractRestaurantData('business', res);
-      this.productsResto = RestaurantDashboardComponent.extractRestaurantData('product', res);
-      this.restaurantService.getCategoriesByBusinessId(this.restaurant.id)
-        .subscribe((cat) => {
-          this.categories = cat;
-        });
-    });
+  updateProductList(restaurantId?: number) {
+    this.securityRestaurantService.getRestaurant()
+      .subscribe((restaurantObj) => {
+        if (!isNaN(restaurantObj.id)) {
+          this.restaurantService.getRestaurantDatas(restaurantObj.id).subscribe((res) => {
+            this.restaurant = RestaurantDashboardComponent.extractRestaurantData('business', res);
+            if (this.restaurant === null && +(restaurantObj.id) > 0) {
+              this.restaurantService.getRestaurantInfosById(restaurantObj.id)
+                .subscribe((restaurantDb) => {
+                  this.restaurant = restaurantDb.restaurant;
+                });
+            }
+            this.productsResto = RestaurantDashboardComponent.extractRestaurantData('product', res);
+            this.restaurantService.getCategoriesByBusinessId(restaurantObj.id)
+              .subscribe((cat) => {
+                this.categories = cat;
+              });
+          });
+        } else {
+          this.router.navigate(['home']);
+        }
+      });
   }
 
   onDelete(type: string, {product, supplement}): void {
@@ -81,7 +100,7 @@ export class ProductComponent implements OnInit {
           return prod;
         });
       } else {
-        result['business_id'] = this.restaurant.id;
+        result.business_id = this.restaurant.id;
         const formData = new FormData();
         formData.append('product', JSON.stringify(result));
         console.warn(result);
@@ -91,7 +110,7 @@ export class ProductComponent implements OnInit {
         }
         this.uploadService.upload(formData, 0, true)
           .subscribe((resp) => {
-              this.updateProductList();
+              this.updateProductList(this.restaurant.id);
             }, (error) => {
               console.warn(error);
             }

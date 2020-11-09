@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {CityDataService} from "../city-data.service";
-import {CityDatas} from "../models/city-datas";
-import {Router} from "@angular/router";
+import {CityDataService} from '../city-data.service';
+import {CityDatas} from '../models/city-datas';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-restaurants-city',

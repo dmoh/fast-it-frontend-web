@@ -1,8 +1,11 @@
-﻿﻿import { Component, OnInit } from '@angular/core';
+﻿import {UserService} from "@app/_services/user.service";
+
+﻿import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import {AuthenticationService} from './../_services/authentication.service';
+import {HttpHeaderResponse} from "@angular/common/http";
 
 @Component({
   selector: 'app-login',
@@ -17,6 +20,7 @@ export class LoginComponent implements OnInit {
   returnUrl: string;
   error = '';
   showPassword: boolean;
+  showPass: boolean;
   showConfirmPassword: boolean;
   showRegisterPassword: boolean;
 
@@ -24,8 +28,10 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private userService: UserService,
   ) {
+    this.showPass = false;
     // redirect to home if already logged in
     if (this.authenticationService.currentUserValue) {
       // this.router.navigate(['/login']);
@@ -34,15 +40,14 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
 
+
     this.loginForm = this.formBuilder.group({
       email: ['', Validators.required],
       password: ['', Validators.required]
     });
 
     this.registerForm = this.formBuilder.group({
-      username: ['', Validators.required],
-      phone: ['', Validators.required],
-      address: ['', Validators.required],
+      registerEmail: ['', Validators.pattern('[a-zA-Z0-9\-_.]{2,}(@)+[a-zA-Z0-9\-_.]{2,}.+[a-zA-Z0-9\-_.]{2,}')],
       registerPassword: ['', Validators.required],
       confirmPassword: ['', Validators.required]
     });
@@ -50,16 +55,39 @@ export class LoginComponent implements OnInit {
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
+  toggle() {
+    this.showPass = !this.showPass;
+  }
+
   // convenience getter for easy access to form fields
   get f() { return this.loginForm.controls; }
+  get register() { return this.registerForm.controls; }
 
-  onSubmit() {
+  onSubmit(isRegisterForm?: string) {
     this.submitted = true;
 
+    if (isRegisterForm) {
+      if (this.register.confirmPassword.value !== this.register.registerPassword.value) {
+        this.error = 'Les mots de passe ne sont pas identiques';
+        return;
+      }
+      console.log(this.registerForm.value);
+      this.userService.registerUser(JSON.stringify(this.registerForm.value))
+        .subscribe((res) => {
+          if (res.ok === 'success') {
+              alert('Bienvenu.e :)');
+              this.router.navigate(['/home']);
+          } else if (res.error === 'error') {
+            this.error = res.error;
+          }
+        });
+    }
     // stop here if form is invalid
     if (this.loginForm.invalid) {
       return;
     }
+
+
 
     this.loading = true;
     this.authenticationService.login(this.f.email.value, this.f.password.value)

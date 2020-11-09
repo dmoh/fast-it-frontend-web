@@ -1,7 +1,8 @@
-<div *ngIf="productsResto" class="dashboard-component">
+<div class="dashboard-component">
   <div class="w-100">
     <h5 style="font-size: 1.4rem; text-transform: uppercase">Catégories de produits</h5>
     <button mat-raised-button (click)="addCategory()" color="primary">Ajouter une catégorie</button>
+    <span style="float: right"><button (click)="openDialog()" mat-raised-button color="primary">Ajouter des produits</button></span>
   </div>
   <div *ngIf="categories">
     <div *ngFor="let category of categories ">
@@ -26,7 +27,7 @@
     </div>
   </div>
   <hr>
-  <h5 style="font-size: 1.4rem">PRODUITS ({{ productsResto.length }}) <span style="float: right"><button (click)="openDialog()" mat-raised-button color="primary">Ajouter</button></span></h5>
+  <h5 style="font-size: 1.4rem">PRODUITS <span *ngIf="productsResto">({{ productsResto.length }})</span> <span style="float: right"><button (click)="openDialog()" mat-raised-button color="primary">Ajouter</button></span></h5>
   <h5><mat-slide-toggle>Vue Tableau</mat-slide-toggle></h5>
   <div class="table-responsive">
     <table class="table table-striped">
@@ -41,7 +42,7 @@
       </thead>
       <tbody>
       <tr *ngFor="let p of productsResto">
-        <td>{{ p.product.created_at.date | date: 'dd/mm/yyyy' }}</td>
+        <td>{{ p.product.created_at.date | date: 'dd/M/yyyy' }}</td>
         <td>{{ p.product.name }}</td>
         <td>{{ p.product.name }}</td>
         <td>{{ p.product.remaining_quantity }}</td>

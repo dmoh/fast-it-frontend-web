@@ -15,6 +15,7 @@ export class CategoryProductComponent implements OnInit {
               @Inject(MAT_DIALOG_DATA) public restaurant: Restaurant) { }
 
   ngOnInit(): void {
+    console.log(this.restaurant);
     this.category.business_id = this.restaurant.id;
   }
 }

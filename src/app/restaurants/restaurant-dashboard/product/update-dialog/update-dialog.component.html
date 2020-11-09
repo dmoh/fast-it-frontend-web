@@ -1,6 +1,6 @@
 <h1 mat-dialog-title>Edition </h1>
 <div style="width: 100%" mat-dialog-content>
-  <div>
+  <div class="mt-3">
     <mat-slide-toggle (change)="onChange($event)" [(ngModel)]="product.isAvailable">Produit disponible</mat-slide-toggle>
   </div>
   <div class="mb-3" *ngIf="categories">
@@ -10,7 +10,7 @@
     </select>
   </div>
   <div style="width: 150px; height: auto" >
-    <img width="100%" src="assets/home_images/sushi.jpg" alt="sushi">
+    <!--<img width="100%" src="" alt="sushi">-->
   </div>
   <p><b>{{product.name}}</b></p>
   <div class="mt-2 mb-2">
@@ -68,5 +68,5 @@
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Annuler</button>
-  <button mat-raised-button color="primary" (click)="onSaveProduct(product)" >Ok</button>
+  <button mat-raised-button color="primary" [disabled]="product.name.trim() == ''" (click)="onSaveProduct(product)" >Ok</button>
 </div>

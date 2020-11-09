@@ -18,10 +18,14 @@ import { ConfirmationCodePaymentModalComponent } from './confirmation-code-payme
 import { LoginComponent } from './login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CheckoutComponent } from './checkout/checkout.component';
-import {RestaurantDashboardModule} from "@app/restaurants/restaurant-dashboard/restaurant-dashboard.module";
+import {RestaurantDashboardModule} from '@app/restaurants/restaurant-dashboard/restaurant-dashboard.module';
 import { CustomerModule } from './customer/customer.module';
-import {DeliveryModule} from "@app/delivery/delivery.module";
+import {DeliveryModule} from '@app/delivery/delivery.module';
 import { AdminModule } from './admin/admin.module';
+import { Page404Component } from './page404/page404.component';
+import { PasswordComponent } from './password/password.component';
+import {RestaurantDashboardService} from '@app/restaurants/restaurant-dashboard/services/restaurant-dashboard.service';
+import {SecurityRestaurantService} from '@app/_services/security-restaurant.service';
 
 @NgModule({
   declarations: [
@@ -35,7 +39,9 @@ import { AdminModule } from './admin/admin.module';
     ProductModalComponent,
     ConfirmationCodePaymentModalComponent,
     LoginComponent,
-    CheckoutComponent
+    CheckoutComponent,
+    Page404Component,
+    PasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -49,7 +55,11 @@ import { AdminModule } from './admin/admin.module';
     DeliveryModule,
     AdminModule
   ],
-  providers: [CityDataService],
+  providers: [
+    CityDataService,
+    RestaurantDashboardService,
+    SecurityRestaurantService
+  ],
   bootstrap: [AppComponent],
     exports: [
         CoreModule,
@@ -58,7 +68,9 @@ import { AdminModule } from './admin/admin.module';
         RestaurantsCityComponent,
         ProductModalComponent,
         ConfirmationCodePaymentModalComponent,
-        CheckoutComponent
+        CheckoutComponent,
+        Page404Component,
+        PasswordComponent
     ]
 })
 export class AppModule { }

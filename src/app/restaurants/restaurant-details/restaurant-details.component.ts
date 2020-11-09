@@ -6,6 +6,7 @@ import {CartService} from '@app/cart/service/cart.service';
 import {Cart} from '@app/cart/model/cart';
 import {RestaurantDashboardService} from '@app/restaurants/restaurant-dashboard/services/restaurant-dashboard.service';
 import {ActivatedRoute} from '@angular/router';
+import {SecurityRestaurantService} from "@app/_services/security-restaurant.service";
 
 @Component({
   selector: 'app-restaurant-details',
@@ -26,39 +27,42 @@ export class RestaurantDetailsComponent implements OnInit {
   constructor(private modal: NgbModal,
               private cartService: CartService,
               private restaurantService: RestaurantDashboardService,
-              private route: ActivatedRoute
+              private route: ActivatedRoute,
+              private securityRestaurantService: SecurityRestaurantService
               ) {
-    this.route.params.subscribe((params => {
-      this.restaurantId = +params.id;
-    }));
+
   }
 
   ngOnInit(): void {
 
     this.starsRestaurant = [1, 3, 4, 5, 4];
-    this.restaurantService.getRestaurantMedias(this.restaurantId)
-      .subscribe((res) => {
-        res.forEach((media) => {
-          if (media.type_media === 'logo') {
-            this.urlLogoRestaurant = media.path_file;
-          }
+    this.route.params.subscribe((params => {
+      this.restaurantId = +params.id;
+      this.restaurantService.getRestaurantMedias(this.restaurantId)
+        .subscribe((res) => {
+          res.forEach((media) => {
+            if (media.type_media === 'logo') {
+              this.urlLogoRestaurant = media.path_file;
+            }
 
-          if (media.type_media === 'background_img') {
-            this.urlBackgroundRestaurant = media.path_file;
-          }
+            if (media.type_media === 'background_img') {
+              this.urlBackgroundRestaurant = media.path_file;
+            }
+          });
         });
-      });
-    this.restaurantService.getRestaurantProductsDatas(this.restaurantId)
-      .subscribe((result) => {
-        this.restaurantDatas = result;
-        if (this.restaurantDatas.length > 0 ) {
-          this.restaurantDatas.forEach((restau) => {
-            if (restau.business) {
-              this.restaurant = restau.business;
-              if (restau.product) {
-                this.restaurant.tags = restau.product.tags;
+
+      this.restaurantService.getRestaurantProductsDatas(this.restaurantId)
+        .subscribe((result) => {
+          this.restaurantDatas = result;
+          if (this.restaurantDatas.length > 0 ) {
+            this.restaurantDatas.forEach((restau) => {
+              console.warn(restau);
+              if (restau.product.business) {
+                this.restaurant = restau.product.business;
+                if (restau.product) {
+                  this.restaurant.tags = restau.product.tags;
+                }
               }
-            } else {
               if (restau.product.categoryProduct) {
                 const prod = restau.product;
                 const categoryProduct = {
@@ -77,10 +81,11 @@ export class RestaurantDetailsComponent implements OnInit {
                 }
               }
               this.products = [restau.product, ...this.products];
-            }
-          });
-        }
-      });
+            });
+          }
+        });
+    }));
+
   }
 
 

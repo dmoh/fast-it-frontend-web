@@ -29,7 +29,7 @@ export class AuthenticationService {
   login(email: string, password: string) {
     const optionRequete = {
       headers: new HttpHeaders({
-        'Access-Control-Allow-Origin': '*'
+        'Content-Type': 'application/json'
       })
     };
     return this.http.post<any>(`${environment.apiUrl}/authentication_token`, { email, password }, optionRequete)
@@ -51,7 +51,7 @@ export class AuthenticationService {
   public checkIsAdmin() {
     const optionRequete = {
       headers: new HttpHeaders({
-        'Access-Control-Allow-Origin': '*'
+        'Content-Type': 'application/json'
       })
     };
     const user = JSON.parse(localStorage.getItem('currentUser'));
