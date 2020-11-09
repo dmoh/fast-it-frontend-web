@@ -48,28 +48,28 @@ export class RestaurantDashboardComponent implements OnInit {
     }
   }
   ngOnInit(): void {
-    this.activatedRoute
-      .queryParams.subscribe((res) => {
+    // this.activatedRoute
+    //   .queryParams.subscribe((res) => {
 
-       if (res.orderId) {
-         this.restaurantService.getOrderById(res.orderId)
-           .subscribe((order) => {
-             const modalRef = this.modal.open(OrderModalComponent, {
-               backdrop: 'static',
-               keyboard: false,
-               size: 'lg'
-             });
-             // modalRef.componentInstance.products =
-           })
-       }
-    });
-    this.activatedRoute
-      .queryParams
-      .subscribe((params) => {
-         if (params.products && params.orderId) {
+    //    if (res.orderId) {
+    //      this.restaurantService.getOrderById(res.orderId)
+    //        .subscribe((order) => {
+    //          const modalRef = this.modal.open(OrderModalComponent, {
+    //            backdrop: 'static',
+    //            keyboard: false,
+    //            size: 'lg'
+    //          });
+    //          // modalRef.componentInstance.products =
+    //        })
+    //    }
+    // });
+    // this.activatedRoute
+    //   .queryParams
+    //   .subscribe((params) => {
+    //      if (params.products && params.orderId) {
 
-         }
-      });
+    //      }
+    //   });
 
     this.restaurantService.getRestaurantDatas(1).subscribe((res) => {
       this.restaurant = RestaurantDashboardComponent.extractRestaurantData('business', res);

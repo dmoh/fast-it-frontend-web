@@ -51,11 +51,11 @@ export class AwaitingDeliveryComponent implements OnInit {
       this.orderId = this.activatedRoute.snapshot.paramMap.get('id');
       this.deliveryService.getOrderById(+this.orderId).subscribe( currentOrder => {
         this.order = currentOrder;
-        console.log("currentOrder", currentOrder);
+        // console.log("currentOrder", currentOrder);
         let request = {};
           this.deliveryService.getUserInfo(request).subscribe( (userResponse) => {
             this.deliverer = userResponse;
-            console.log("userResponse", userResponse);
+            // console.log("userResponse", userResponse);
             // Affecter un chauffeur à une commande
             if (currentOrder.deliverer == null && this.deliverer.id) {
               let orderDeliverer: any;
@@ -67,7 +67,7 @@ export class AwaitingDeliveryComponent implements OnInit {
                   date_taken_deliverer: dateTakenDeliverer,
                 }
               };
-              console.log("orderDeliverer", orderDeliverer);
+              // console.log("orderDeliverer", orderDeliverer);
               this.deliveryService.saveOrderDeliverer(orderDeliverer).subscribe();
             }
             this.router.navigate(['/delivery/awaiting-delivery']);
@@ -75,7 +75,7 @@ export class AwaitingDeliveryComponent implements OnInit {
       });
     } else {
       this.deliveryService.getCurrentOrders().subscribe((delivererCurrent)=>{
-        console.log("delivererCurrent", delivererCurrent);
+        // console.log("delivererCurrent", delivererCurrent);
         this.deliverer = delivererCurrent[0]; 
         this.orders = new Array();
 
@@ -84,7 +84,7 @@ export class AwaitingDeliveryComponent implements OnInit {
           if (this.deliverer.orders != null) {
             this.deliverer.orders.forEach( order => {
               this.deliveryService.getOrderById(order.id).subscribe( orderById=> {
-              console.log("orderById", orderById);
+              // console.log("orderById", orderById);
                 // let order: Order = new Order();
               this.orders.push(orderById);
               });

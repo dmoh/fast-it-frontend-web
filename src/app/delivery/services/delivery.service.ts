@@ -75,7 +75,6 @@ export class DeliveryService {
   }
 
   saveOrderDeliverer(request: any[]){
-    console.log("request", JSON.stringify(request));
     return this.http.post<any>(`${this.urlApi}/order/save_deliverer`, request, this.headers);
   }
 

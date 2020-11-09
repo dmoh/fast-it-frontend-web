@@ -44,7 +44,6 @@ export class ShowOrderComponent implements OnInit {
 
                 this.businessId = res.restoId;
                 this.orderId = res.orderId;
-                console.log(this.orderId);
 
                 this.onShowModal();
 

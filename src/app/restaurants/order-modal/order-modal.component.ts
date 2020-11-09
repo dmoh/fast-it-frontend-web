@@ -1,8 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {JwtInterceptor} from "@app/_helpers/jwt.interceptor";
 import { Order } from '@app/_models/order';
 import { Restaurant } from '@app/_models/restaurant';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { RestaurantDashboardService } from '../restaurant-dashboard/services/restaurant-dashboard.service';
 
 @Component({
@@ -22,8 +23,10 @@ export class OrderModalComponent implements OnInit {
   public message ="";
 
   constructor(private route: ActivatedRoute,
+              public modalActive: NgbActiveModal,
               private restaurantService: RestaurantDashboardService,
-              // private jwtInterceptor: JwtInterceptor
+              // private jwtInterceptor: JwtInterceptor,
+              private router: Router
               ) { }
 
   ngOnInit(): void {
@@ -57,6 +60,7 @@ export class OrderModalComponent implements OnInit {
     this.restaurantService.acceptOrder(dataOrder).subscribe();
     // todo response-merchant
     this.restaurantService.saveResponseMerchant(dataOrder).subscribe();
+    this.redirectAfterTrait(); 
   }
 
   onRefuseOrder(message: string) {
@@ -71,6 +75,17 @@ export class OrderModalComponent implements OnInit {
     };
     console.log("dataOrder", dataOrder);
     this.restaurantService.refuseOrder(dataOrder).subscribe();
+    this.redirectAfterTrait(); 
+  }
+
+  redirectAfterTrait() {
+    this.router.navigate(['restaurant-dashboard', this.business.id ], {
+      queryParams: {
+        orderId: +this.order.id,
+        products: this.products.toString(),
+      }
+    });
+    this.modalActive.close();
   }
 
 }
