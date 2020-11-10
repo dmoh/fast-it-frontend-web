@@ -7,11 +7,10 @@ import {ConfirmationCodePaymentModalComponent} from '@app/confirmation-code-paym
 import {AuthenticationService} from '@app/_services/authentication.service';
 import {ErrorInterceptor} from '@app/_helpers/error.interceptor';
 import {UserService} from '@app/_services/user.service';
-import { AgmCoreModule } from '@agm/core';            // @agm/core
-import { AgmDirectionModule } from 'agm-direction';
 import {AddressModalComponent} from '@app/address-modal/address-modal.component';
 import {ToastService} from "@app/_services/toast.service";
 import {OrderModalComponent} from "@app/restaurants/order-modal/order-modal.component";
+import {Product} from "@app/models/product";
 
 @Component({
   selector: 'app-cart-detail',
@@ -92,12 +91,13 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
                 const pro = new Promise((resolve, rej) => {
                   this.cartService.setDeliveryCost(resp.deliveryInfos);
                   this.hasAddressSelected = true;
+                  this.showLoader = false;
                   resolve('ok');
                 });
                 pro.then((respPro) => {
+                  this.cartService.generateTotalCart(true);
                   this.cartService.cartUpdated.subscribe((cartUpdated: Cart) => {
                     this.cartCurrent = cartUpdated;
-                    this.showLoader = false;
                     this.cartService.getTokenPaymentIntent(+(this.cartCurrent.total) * 100).subscribe((token: any ) => {
                         this.clientSecret = token.client_secret;
                       }, (error) => {
@@ -253,4 +253,25 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
   onSubmit(event: Event): void {
   }
 
+
+  onDeleteProduct(product: Product) {
+    // tslint:disable-next-line:no-conditional-assignment
+    if (this.cartCurrent.products.length <= 1) {
+      this.cartService.emitCartSubject('empty');
+    } else {
+      this.cartService.UpdateCart('remove', product);
+    }
+  }
+
+
+  onUpdateCart(type: string, product: Product) {
+    if (type === 'less') {
+      if (product.quantity > 1) {
+        product.quantity--;
+      }
+    } else {
+      product.quantity++;
+    }
+    this.cartService.UpdateCart('update', product);
+  }
 }

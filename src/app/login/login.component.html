@@ -7,7 +7,7 @@
       <div class="wrapper-form">
         <div style="width: 100%; display: flex; justify-content: center">
           <div>
-            <img src="assets/logo-fastit.jpg" width="200" height="200" alt="logo fast eat">
+            <img src="assets/logo_fastit.jpg" width="200" height="200" alt="logo fast eat">
           </div>
         </div>
         <div class="content">
@@ -37,20 +37,11 @@
                       <mat-hint></mat-hint>
                     </mat-form-field>
                   </p>
-                  <!--<label for="password">Password</label>
-                  <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
-                  <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-                    <div *ngIf="f.password.errors.required">Password is required</div>
-                  </div>-->
                 </div>
                 <div class="form-group">
                   <a routerLink="/password" class="ForgetPwd">Mot de passe oublié ?</a>
                 </div>
                 <button mat-raised-button [disabled]="loading" color="primary">Se connecter</button>
-                <!--<button  class="btn btn-primary">
-              <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-              Login
-            </button>-->
                 <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
               </form>
             </mat-tab>

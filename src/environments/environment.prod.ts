@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://fastit-backend.com'
+  apiUrl: 'https://api-fastit.fr'
 };

@@ -91,9 +91,9 @@ export class CartService {
     this.cartSubject.next(this.cartCurrent);
   }
 
-  private generateTotalCart(): void {
+  public generateTotalCart(isCheckout?: boolean): void {
     this.cartCurrent.total = 0;
-    if (this.cartCurrent.hasServiceCharge === false) {
+    if (this.cartCurrent.hasServiceCharge === false && isCheckout) {
       this.cartCurrent.total += 0.80;
       this.cartCurrent.hasServiceCharge = true;
     }
@@ -101,15 +101,8 @@ export class CartService {
       this.cartCurrent.total += +(prod.quantity * prod.amount) / 100;
     });
     this.cartCurrent.total += +(this.cartCurrent.deliveryCost);
-    // if (this.cartCurrent.serviceCharge === 0.4)
-    // this.cartCurrent.total  += (!!this.cartCurrent.serviceCharge ? 0.4 :
-    // this.cartCurrent.serviceCharge)  + this.cartCurrent.deliveryCost;
-    // todo declarer constante serviceCharge et calcul du cout de livraison
+    this.emitCartSubject();
   }
-
-  /*getTokenPaymentIntent(): Observable<any> {
-    return this.http.get<any>(`http://localhost:8000/payment/token-payment`, this.headers);
-  }*/
 
   getTokenPaymentIntent(amountCart: number, currencyCart: string = 'EUR'): Observable<any> {
     return this.http.post<any>(`${this.urlApi}payment/token-payment`,
@@ -135,5 +128,10 @@ export class CartService {
   saveCodeCustomerToDeliver(responseCustomer): Observable<any> {
     return this.http.post<any>(`${this.urlApi}order/save/delivery-code`,
       responseCustomer, this.headers);
+  }
+
+
+  getProducts() {
+    return this.cartCurrent.products;
   }
 }

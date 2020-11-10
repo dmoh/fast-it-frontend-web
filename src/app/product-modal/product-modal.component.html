@@ -1,11 +1,10 @@
 <div class="modal-header">
-    <h4 class="modal-title">Menu</h4>
+    <h4 style="font-size: x-large; font-weight: 500; margin-bottom: 0 !important;" class="modal-title">{{ product.name | uppercase }}</h4>
     <button type="button" class="close" (click)="modalActive.close()" aria-label="Close" >
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
 <div class="modal-body">
-    <p><b>{{ product.name | uppercase }}</b></p>
     <div>
         <p>{{ product.description }}</p>
     </div>

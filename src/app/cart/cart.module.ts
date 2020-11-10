@@ -12,7 +12,8 @@ import {MatButtonModule} from "@angular/material/button";
     imports: [
         CommonModule,
         CartRoutingModule,
-        MatButtonModule
+        MatButtonModule,
+
     ],
    exports: [
        CartComponent, CartDetailComponent

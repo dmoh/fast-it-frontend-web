@@ -37,15 +37,9 @@ export class ProductModalComponent implements OnInit {
     if (type === 'less') {
         if (this.quantityCurrent > 1) {
             this.quantityCurrent--;
-           // this.product.price -= this.product.price;
         }
     } else {
-      if (this.product.remaining_quantity > this.quantityCurrent) {
-          this.quantityCurrent++;
-           // this.product.price += this.product.price;
-      }else {
-          this.infos = '';
-      }
+        this.quantityCurrent++;
     }
  }
 

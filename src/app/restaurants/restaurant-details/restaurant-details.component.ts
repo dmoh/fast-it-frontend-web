@@ -6,7 +6,7 @@ import {CartService} from '@app/cart/service/cart.service';
 import {Cart} from '@app/cart/model/cart';
 import {RestaurantDashboardService} from '@app/restaurants/restaurant-dashboard/services/restaurant-dashboard.service';
 import {ActivatedRoute} from '@angular/router';
-import {SecurityRestaurantService} from "@app/_services/security-restaurant.service";
+import {SecurityRestaurantService} from '@app/_services/security-restaurant.service';
 
 @Component({
   selector: 'app-restaurant-details',
@@ -24,6 +24,7 @@ export class RestaurantDetailsComponent implements OnInit {
   urlBackgroundRestaurant: string;
   urlLogoRestaurant: string;
   restaurant: any = {} as any;
+  nothingToShow: string;
   constructor(private modal: NgbModal,
               private cartService: CartService,
               private restaurantService: RestaurantDashboardService,
@@ -54,12 +55,12 @@ export class RestaurantDetailsComponent implements OnInit {
       this.restaurantService.getRestaurantProductsDatas(this.restaurantId)
         .subscribe((result) => {
           this.restaurantDatas = result;
+          console.log(this.restaurantDatas);
           if (this.restaurantDatas.length > 0 ) {
             this.restaurantDatas.forEach((restau) => {
-              console.warn(restau);
               if (restau.product.business) {
                 this.restaurant = restau.product.business;
-                if (restau.product) {
+                if (restau.product.tags) {
                   this.restaurant.tags = restau.product.tags;
                 }
               }
@@ -82,6 +83,8 @@ export class RestaurantDetailsComponent implements OnInit {
               }
               this.products = [restau.product, ...this.products];
             });
+          } else {
+            this.nothingToShow = 'Ce restaurant n\'a aucun produit en vente pour le moment';
           }
         });
     }));
