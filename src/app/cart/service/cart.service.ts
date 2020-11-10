@@ -117,6 +117,8 @@ export class CartService {
 
   // saveOrder()
   saveOrder(cartOrder: {}): Observable<any> {
+    console.trace("cartOrder", cartOrder);
+
     return this.http.post<any>(`${ this.urlApi }order/save`,
       JSON.stringify(cartOrder), this.headers);
   }

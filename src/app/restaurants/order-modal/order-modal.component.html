@@ -1,6 +1,9 @@
 <div class="">
   <div class="modal-header">
-    <h2>Commande passé par le client</h2>
+    <h2 class="modal-title">Commande passé par le client</h2>
+    <button type="button" class="close" (click)="modalActive.close()" aria-label="Close" >
+        <span aria-hidden="true">&times;</span>
+    </button>
   </div>
   <div class="modal-body">
     <div class="mb-2">
@@ -9,22 +12,22 @@
     </div>
     <hr>
     <div class="row">
-      <div style="display: flex; justify-content: space-between; border-right: 2px solid violet" class="col-md-6">
-        <div>
-          <span style="font-size: larger; font-weight: 400">5 x </span><span style="font-size: larger; font-weight: 400; text-transform: uppercase">Product Name</span>
-          <div style="font-size: small;font-weight: 200;padding-left: 1.2rem; display: flex; justify-content: space-between">
-            <div>Sup tomate</div>
+      <div *ngFor="let order of orders">
+        <div style="display: flex; justify-content: space-between; border-right: 2px solid violet" class="col-md-12">
+          <div>
+            <span style="font-size: larger; font-weight: 400">{{ order.quantity }}x </span>
+            <span style="font-size: larger; font-weight: 400; text-transform: uppercase">{{ order.product }}</span>
+            <div *ngFor="let supplement of supplementProducts" style="font-size: small;font-weight: 200;padding-left: 1.2rem;display: flex; justify-content: space-between">
+              {{supplement}}
+            </div>
           </div>
-          <div style="font-size: small;font-weight: 200;padding-left: 1.2rem;">Base crème</div>
-          <div style="font-size: small;font-weight: 200;padding-left: 1.2rem;">Oignon</div>
-          <div style="font-size: small;font-weight: 200;padding-left: 1.2rem;">Oignon</div>
+          <div style="font-size: larger; font-weight: 400">{{order.amount/100}}€</div>
         </div>
-        <div style="font-size: larger; font-weight: 400">7.50€</div>
-      </div>
-      <div style="display: flex; justify-content: space-between" class="col-md-6">
-        <div><span>5x </span>Product Name</div>
-        <div>7.50€</div>
-        <div>2.00€</div>
+        <div style="display: flex; justify-content: space-between" class="col-md-12">
+          <div><span>{{ order.quantity }}x </span>{{ order.product }}</div>
+          <div>{{order.amount/100}}€</div>
+          <!-- <div>2.00€</div> -->
+        </div>
       </div>
     </div>
   </div>
@@ -39,7 +42,7 @@
       <button mat-raised-button (click)="onValidate('40')" color="primary">40 - 60</button>
     </div>
     <div>
-      <button mat-raised-button (click)="onRefuseOrder()" color="warn">REFUS</button>
+      <button mat-raised-button (click)="onRefuseOrder(message)" color="warn">REFUS</button>
     </div>
   </div>
 </div>

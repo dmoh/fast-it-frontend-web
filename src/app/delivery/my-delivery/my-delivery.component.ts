@@ -10,7 +10,7 @@ import { AuthenticationService } from '@app/_services/authentication.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { DeliveryService } from '../services/delivery.service';
-import { Order } from '@app/_models/order';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-my-delivery',
@@ -20,11 +20,9 @@ import { Order } from '@app/_models/order';
 
 export class MyDeliveryComponent implements OnInit, AfterViewInit {
   uploadResponse = { status: '', message: '', filePath: '' };
-  urlApi: string = 'http://localhost:8000/';
   schedulePrepartionTimes: any[] = [];
   commerce: Restaurant;
   deliverer: Delivery;
-  order: Order;
   error: string;
   headers: any;
 
@@ -42,18 +40,16 @@ export class MyDeliveryComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.deliverer = new Delivery();
-    this.deliverer.orders = new Array();
-    this.deliveryService.getInfosDeliverer().subscribe((response) => {
-      console.log("Elh response #1: ", response);
-      this.deliverer = response[0];
+    this.deliveryService.getInfosDeliverer().subscribe((delivererInfo) => {
+      this.deliverer = delivererInfo;
+      console.log(this.deliverer);
+      if (this.deliverer) {
+        if (this.deliverer.orders) {
+          // ajouter param dans le back end pour filtrer les commandes livré
+          this.deliverer.orders = this.deliverer.orders.filter( order => order.date_delivered != null );
+        }
+      }
     });
-
-    
-    this.deliveryService.getOrdersDatas(1).subscribe((res) => {
-      console.log("Elh response #2: ", res);
-      this.commerce = RestaurantDashboardComponent.extractRestaurantData('order', res);
-    });
-    
   }
 
   ngAfterViewInit() {

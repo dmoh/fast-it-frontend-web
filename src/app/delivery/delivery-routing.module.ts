@@ -15,6 +15,10 @@ const routes: Routes = [{
       component: AwaitingDeliveryComponent,
     },
     {
+      path: 'awaiting-delivery/:id',
+      component: AwaitingDeliveryComponent,
+    },
+    {
       path: 'detail-delivery/:id',
       component: DetailDeliveryComponent,
     },

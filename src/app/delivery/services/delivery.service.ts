@@ -8,6 +8,7 @@ import {environment} from "../../../environments/environment";
 @Injectable({
   providedIn: 'root'
 })
+
 export class DeliveryService {
   headers: any;
   urlApi: string = environment.apiUrl;
@@ -29,13 +30,23 @@ export class DeliveryService {
       this.headers);
   }
 
+  getOrderById(orderId: number): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}/order/${orderId}`,
+      this.headers);
+  }
+
   getCurrentOrders(): Observable<any> {
-    return this.http.get<any>(`${this.urlApi}/deliverer/current_orders`,
+    return this.http.post<any>(`${this.urlApi}/deliverer/current_orders`, null,
       this.headers);
   }
 
   getInfosDeliverer(): Observable<any> {
     return this.http.get<any>(`${this.urlApi}/deliverer/show`,
+      this.headers);
+  }
+  
+  getDeliverer(): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}/deliverer/info`,
       this.headers);
   }
 
@@ -58,10 +69,12 @@ export class DeliveryService {
     return this.http.post<any>(`${this.urlApi}/deliverer/notif`, this.headers);
   }
 
-  sendDelivererCode(request: any[]){
-    console.warn(JSON.stringify(request));
-    console.warn(request);
+  saveOrderFinal(request: any[]){
     return this.http.post<any>(`${this.urlApi}/order/save/final`, request, this.headers);
+  }
+
+  saveOrderDeliverer(request: any[]){
+    return this.http.post<any>(`${this.urlApi}/order/save_deliverer`, request, this.headers);
   }
 
 }

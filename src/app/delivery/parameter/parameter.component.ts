@@ -24,15 +24,11 @@ export class ParameterComponent implements OnInit {
   ngOnInit(): void {
     this.isKbis = true;
     this.isSave = false;
+    this.deliverer = new Delivery();
 
     this.deliveryService.getInfosDeliverer()
       .subscribe((delivererCurrent) => {
-        this.deliverer = delivererCurrent[0];
-        if ( this.deliverer.email === 'mkanoute74@gmail.com') {
-          this.deliverer.firstname = 'Mohamed';
-          this.deliverer.lastname = 'Kanoute';
-          this.deliverer.phone = '0661234567';
-        }
+        this.deliverer = delivererCurrent;
 
         this.delivererForm = this.fb.group({
           userName: [this.deliverer.firstname, Validators.required],
@@ -51,11 +47,13 @@ export class ParameterComponent implements OnInit {
   }
 
   async saveDelivererInfo() {
-    // https://entreprise.data.gouv.fr/api/sirene/v1/siret/
-    console.warn('Await ', await this.delivererForm.value.siret);
+    // // https://entreprise.data.gouv.fr/api/sirene/v1/siret/
+    // console.warn("Await ", await this.delivererForm.value.siret);
+    
+    // todo kbis a sauvegarder
     this.deliveryService.getKbis(this.delivererForm.value.siret).subscribe(
       (res) => {
-        console.warn('response', res);
+        // console.warn('response', res);
         this.isKbis = (res.etablissement.siret === this.delivererForm.value.siret.toString());
         this.isSave = (true && this.isKbis);
       },

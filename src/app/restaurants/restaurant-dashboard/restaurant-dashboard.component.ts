@@ -87,6 +87,29 @@ export class RestaurantDashboardComponent implements OnInit {
         this.products = RestaurantDashboardComponent.extractRestaurantData('product', res);
       } );
     });
+    // this.activatedRoute
+    //   .queryParams.subscribe((res) => {
+
+    //    if (res.orderId) {
+    //      this.restaurantService.getOrderById(res.orderId)
+    //        .subscribe((order) => {
+    //          const modalRef = this.modal.open(OrderModalComponent, {
+    //            backdrop: 'static',
+    //            keyboard: false,
+    //            size: 'lg'
+    //          });
+    //          // modalRef.componentInstance.products =
+    //        })
+    //    }
+    // });
+    // this.activatedRoute
+    //   .queryParams
+    //   .subscribe((params) => {
+    //      if (params.products && params.orderId) {
+
+    //      }
+    //   });
+
 
   }
 }
