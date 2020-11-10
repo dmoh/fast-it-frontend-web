@@ -44,10 +44,9 @@ export class DeliveryService {
     return this.http.get<any>(`${this.urlApi}/deliverer/show`,
       this.headers);
   }
-
   
-  getUserInfo(request: any): Observable<any> {
-    return this.http.post<any>(`${this.urlApi}/user/info`, null,
+  getDeliverer(): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}/deliverer/info`,
       this.headers);
   }
 

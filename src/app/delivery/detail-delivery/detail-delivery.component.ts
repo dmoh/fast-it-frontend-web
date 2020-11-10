@@ -62,9 +62,6 @@ export class DetailDeliveryComponent implements OnInit {
   }
 
   finalizeDelivery() {
-    // this.deliveryService.getInfosDeliverer().subscribe( (response) => {
-      // this.deliverer = response[0];
-    // });
     let order: any;
     let dateDelivered = Date.now();
     order = { 

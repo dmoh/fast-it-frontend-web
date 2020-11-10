@@ -28,12 +28,7 @@ export class ParameterComponent implements OnInit {
 
     this.deliveryService.getInfosDeliverer()
       .subscribe((delivererCurrent) => {
-        this.deliverer = delivererCurrent[0];
-        if ( this.deliverer.email === 'mkanoute74@gmail.com') {
-          this.deliverer.firstname = 'Mohamed';
-          this.deliverer.lastname = 'Kanoute';
-          this.deliverer.phone = '0661234567';
-        }
+        this.deliverer = delivererCurrent;
 
         this.delivererForm = this.fb.group({
           userName: [this.deliverer.firstname, Validators.required],

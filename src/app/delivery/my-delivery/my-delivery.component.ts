@@ -40,19 +40,14 @@ export class MyDeliveryComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.deliverer = new Delivery();
-    this.deliveryService.getInfosDeliverer().subscribe((response) => {
-      this.deliverer = response[0];
-      // console.log("delivery", response);
+    this.deliveryService.getInfosDeliverer().subscribe((delivererInfo) => {
+      this.deliverer = delivererInfo;
+      console.log(this.deliverer);
       if (this.deliverer) {
-        this.deliverer.orders = response[0].orders_deliverer;
-      }
-      this.deliverer.orders = this.deliverer.orders.filter( order => order.date_delivered != null );
-      if (this.deliverer.orders.length > 0) {
-        this.deliverer.orders.map( order => {
-          this.deliveryService.getOrderById(+order.id).subscribe( currentOrder => {            
-            order.business = currentOrder.business;
-          }) 
-        });   
+        if (this.deliverer.orders) {
+          // ajouter param dans le back end pour filtrer les commandes livré
+          this.deliverer.orders = this.deliverer.orders.filter( order => order.date_delivered != null );
+        }
       }
     });
   }

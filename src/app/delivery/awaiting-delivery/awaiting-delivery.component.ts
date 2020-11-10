@@ -49,63 +49,47 @@ export class AwaitingDeliveryComponent implements OnInit {
     
     if (this.activatedRoute.snapshot.paramMap.get('id') != null) {
       this.orderId = this.activatedRoute.snapshot.paramMap.get('id');
-      this.deliveryService.getOrderById(+this.orderId).subscribe( currentOrder => {
-        this.order = currentOrder;
-        // console.log("currentOrder", currentOrder);
-        let request = {};
-          this.deliveryService.getUserInfo(request).subscribe( (userResponse) => {
-            this.deliverer = userResponse;
-            // console.log("userResponse", userResponse);
-            // Affecter un chauffeur à une commande
-            if (currentOrder.deliverer == null && this.deliverer.id) {
-              let orderDeliverer: any;
-              let dateTakenDeliverer = Date.now();
-              orderDeliverer = { 
-                order : {
-                  order_id: currentOrder.id,
-                  deliverer_id: this.deliverer.id,
-                  date_taken_deliverer: dateTakenDeliverer,
-                }
-              };
-              // console.log("orderDeliverer", orderDeliverer);
-              this.deliveryService.saveOrderDeliverer(orderDeliverer).subscribe();
-            }
-            this.router.navigate(['/delivery/awaiting-delivery']);
-          });
-      });
+      // add method affecter livreur
+      this.doAffectDeliverer(+this.orderId);
     } else {
+      // get Orders awaiting delivery
       this.deliveryService.getCurrentOrders().subscribe((delivererCurrent)=>{
-        // console.log("delivererCurrent", delivererCurrent);
-        this.deliverer = delivererCurrent[0]; 
-        this.orders = new Array();
-
-        if (this.deliverer != null) {
-          this.deliverer.orders = (delivererCurrent[0].orders_deliverer) ? delivererCurrent[0].orders_deliverer : null;
-          if (this.deliverer.orders != null) {
-            this.deliverer.orders.forEach( order => {
-              this.deliveryService.getOrderById(order.id).subscribe( orderById=> {
-              // console.log("orderById", orderById);
-                // let order: Order = new Order();
-              this.orders.push(orderById);
-              });
-            });
-          } 
-        } 
+        console.log("delivererCurrent", delivererCurrent);
+        this.deliverer = delivererCurrent; 
+        this.orders = (this.deliverer.orders != null) ? this.deliverer.orders : new Array();
       });
     }
   }
 
-  saveOrderDeliverer() {
-    let order: any;
-    let dateDelivered = Date.now();
-    order = { 
-      order : {
-        order_id: this.orderId,
-        deliverer_id: this.deliverer.id,
-        date_delivered: dateDelivered,
-      }
-    };
-    this.deliveryService.saveOrderDeliverer(order).subscribe();
+
+  // Affecter un livreur  à une commande
+  private doAffectDeliverer(orderId: number) {
+    this.deliveryService.getOrderById(orderId).subscribe( currentOrder => {
+      this.order = currentOrder;
+      // console.log("currentOrder", currentOrder);
+        this.deliveryService.getDeliverer().subscribe( (deliverer) => {
+          // console.log("deliverer", deliverer);
+          if (currentOrder.deliverer == null && deliverer.id) {
+            let dateTakenDeliverer = Date.now();
+            this.saveOrderDeliverer(currentOrder.id, deliverer.id , dateTakenDeliverer);
+          }
+          // retourne sur la page sans get param
+          this.router.navigate(['/delivery/awaiting-delivery']);
+        });
+    });
   }
 
+  
+  private saveOrderDeliverer(orderId, delivererId, dateDelivery) {
+    let dateTakenDeliverer = dateDelivery;
+    let orderSave: any;
+    orderSave = { 
+      order : {
+        order_id: orderId,
+        deliverer_id: delivererId,
+        date_taken_deliverer: dateTakenDeliverer,
+      }
+    };
+    this.deliveryService.saveOrderDeliverer(orderSave).subscribe();
+  }
 }
