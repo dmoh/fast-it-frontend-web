@@ -65,10 +65,11 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
         keyboard: false,
       });
 
-
+      setTimeout(() => {
+        this.showLoader = false;
+      }, 3000);
       modalRef.componentInstance.address = this.userAddresses[0];
       modalRef.result.then((res) => {
-        this.showLoader = true;
         const origin = `${this.cartCurrent.restaurant.street},
          ${this.cartCurrent.restaurant.city},
          ${this.cartCurrent.restaurant.zipcode}`
