@@ -63,8 +63,7 @@ export class DetailDeliveryComponent implements OnInit {
   finalizeDelivery() {
     let order: any;
     let dateDelivered = '@' + Math.round(Date.now()/1000) ;
-    alert(dateDelivered);
-    
+
     order = { 
       order : {
         order_id: this.orderId,

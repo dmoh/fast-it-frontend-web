@@ -84,8 +84,7 @@ export class AwaitingDeliveryComponent implements OnInit {
     let dateTakenDeliverer = dateDelivery;
 
     let dateDelivered = '@' + Math.round(dateDelivery/1000) ;
-    alert(dateDelivered);
-
+    
     let orderSave: any;
     orderSave = { 
       order : {

@@ -19,7 +19,7 @@ export class OrderModalComponent implements OnInit {
   @Input() additionalInfo: string;
   @Input() supplementsProduct: any[];
 
-  public orders: any[] = new Array();
+  public productList: any[] = new Array();
   public message = '';
 
   public firstChoice = "15 - 30";
@@ -36,19 +36,18 @@ export class OrderModalComponent implements OnInit {
   ngOnInit(): void {
 
     if (this.products) {
-      this.products.forEach( product => {
-        const order: any = { };
-        order.quantity = product.split(' ')[0];
-        order.product = product.split(' ')[1];
-        order.amount = this.order.amount;
+      this.products.forEach( myProduct => {
+        const product: any = { };
+        product.quantity = myProduct.split(' ')[0];
+        product.name = myProduct.split(' ')[1];
+        product.amount = this.order.amount;
         
-        order.supplementProducts = this.supplementsProduct
-        .filter( suppProduct => suppProduct.productId != product.id );
-
-        console.log("supplement", order.supplementProducts);
+        product.supplementsProduct = this.supplementsProduct.filter( suppProduct => suppProduct.productId != product.id );
+        console.log("supplement", product.supplementsProduct);
         
-        this.orders.push(order);
+        this.productList.push(product);
       });
+      console.log("productList",this.productList);
     }
 
   }
