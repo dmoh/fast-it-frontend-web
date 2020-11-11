@@ -13,22 +13,25 @@
     <hr>
     <div class="row">
       <div *ngFor="let product of productList">
-        
         <div style="display: flex; justify-content: space-between; border-right: 2px solid violet" class="col-xs-12 col-md-12">
           <div class="col-xs-12 col-md-10">
-            <span style="font-size: larger; font-weight: 400">{{ product.quantity }}x </span>
+            <span style="font-size: larger; font-weight: 400"> x{{ product.quantity }} </span>
             <span style="font-size: larger; font-weight: 400; text-transform: uppercase">{{ product.name }}</span>
-            <div *ngFor="let supplement of product.supplementProducts" style="font-size: small;font-weight: 200;padding-left: 1.2rem;display: flex; justify-content: space-between">
-              {{ supplement.name }}
+            <div *ngFor="let supplement of product.supplementsProduct" style="font-size: small;font-weight: 200;display: flex; justify-content: flex-start">
+              - {{ supplement.name }}
             </div>
           </div>
-          <div class="col-md-0" style="font-size: larger; font-weight: 400">{{order.amount/100}}€</div>
+          <div class="col-xs-0 col-md-0" style="font-size: larger; font-weight: 400">{{ product.amount/100 | number : '1.2-2'}}€</div>
         </div>
-        <div>{{order.amount/100}}€</div>
       </div>
     </div>
+    <div style="display: flex; justify-content: space-between;
+      font-size: larger; font-weight: 600;
+      border-bottom: 1px solid #dee2e6;">
+      Total: {{order.amount/100 | number : '1.2-2'}}€
+    </div>
   </div>
-  <div>
+  <div style="display: flex; justify-content: left; padding: 0 0 0.75rem 0.75rem ">
     Temps de préparation
   </div>
   <div style="display: flex; justify-content: space-between" class="modal-footer">

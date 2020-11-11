@@ -30,6 +30,7 @@ export class ShowOrderComponent implements OnInit {
 
   ngOnInit(): void {
     this.supplementsProduct = new Array<any>();
+    this.products =  new Array<any>();
     this.activedRoute.queryParams.subscribe((res) => {
         if (res.p && res.c && res.orderId && res.restoId) {
           // recup mail
@@ -39,17 +40,33 @@ export class ShowOrderComponent implements OnInit {
               if (response.ok) {
                 
                 localStorage.setItem('currentUser', '{ "token":"' + decodeURI(res.c) + '"}');
-                this.products = decodeURI(res.p).trim().split('x')
-                .filter( product => {
-                    return product !== "" ;
-                });
+
+                if (res.p) {
+                  const listProductURi = decodeURI(res.p).trim().split('x')
+                  .filter( product => {
+                      return product !== "" ;
+                  });
+
+                  listProductURi.forEach( product => {
+                    const productBis: any = { };
+                    productBis.quantity = product.split(' ')[0];
+                    productBis.name = product.split(' ')[1];
+                    productBis.amount = product.split(' ')[2];
+                    productBis.id = product.split(' ')[3];
+
+                    this.products.push(productBis);
+                  });
+                }
 
                 this.businessId = (res.restoId) ? +res.restoId : this.businessId;
                 this.orderId = (res.orderId) ? +res.orderId : this.orderId;
+
+                // createProductList
                 let listSuppProduct: any[] = decodeURI(res.suppProducts).trim().split(' ');
                 listSuppProduct.forEach( suppProduct => {
                   console.log("split", suppProduct.split("|"));
-                  let supplement = {
+                  let supplement: any = { };
+                  supplement = {
                     productId : suppProduct.split("|")[0],
                     name : suppProduct.split("|")[1],
                   }

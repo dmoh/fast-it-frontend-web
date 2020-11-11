@@ -37,12 +37,15 @@ export class OrderModalComponent implements OnInit {
 
     if (this.products) {
       this.products.forEach( myProduct => {
-        const product: any = { };
-        product.quantity = myProduct.split(' ')[0];
-        product.name = myProduct.split(' ')[1];
-        product.amount = this.order.amount;
+        let product: any;
+        product = myProduct;
+        // product.amount = this.order.amount;
         
-        product.supplementsProduct = this.supplementsProduct.filter( suppProduct => suppProduct.productId != product.id );
+        product.supplementsProduct = this.supplementsProduct.filter( suppProduct => {
+          console.log("suppProduct.productId", suppProduct.productId);
+          console.log("supp id", product.id);
+          return suppProduct.productId == product.id ;
+        });
         console.log("supplement", product.supplementsProduct);
         
         this.productList.push(product);
