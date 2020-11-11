@@ -63,7 +63,7 @@ export class ProductComponent implements OnInit {
       case 'supplement':
         this.productsResto = this.productsResto.filter((prod) => {
            if (+(prod.id) === product.id) {
-             prod.supplmentsProduct = prod.supplmentsProduct.filter((elem) => {
+             prod.supplementsProduct = prod.supplementsProduct.filter((elem) => {
                return elem.id !== supplement;
              });
            }

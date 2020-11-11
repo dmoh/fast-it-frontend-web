@@ -12,7 +12,7 @@ export class Product {
     remaining_quantity: number = 0;
     created_at: {date};
     updated_at: {date};
-    supplmentsProduct: any[];
+    supplementsProduct: any[];
     description = '';
     photo?: string = '';
     urlPhoto?: string = '';

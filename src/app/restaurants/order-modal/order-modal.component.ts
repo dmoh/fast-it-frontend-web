@@ -17,10 +17,14 @@ export class OrderModalComponent implements OnInit {
   @Input() order: Order;
   @Input() business: Restaurant;
   @Input() additionalInfo: string;
-  @Input() supplementProducts: string[];
+  @Input() supplementsProduct: any[];
 
   public orders: any[] = new Array();
   public message = '';
+
+  public firstChoice = "15 - 30";
+  public secondChoice = "30 - 45";
+  public thirdChoice = "+45";
 
   constructor(private route: ActivatedRoute,
               public modalActive: NgbActiveModal,
@@ -33,13 +37,17 @@ export class OrderModalComponent implements OnInit {
 
     if (this.products) {
       this.products.forEach( product => {
-        const currentOrder: any = { };
-        currentOrder.quantity = product.split(' ')[0];
-        currentOrder.product = product.split(' ')[1];
-        currentOrder.amount = this.order.amount;
-        currentOrder.supplementProducts = this.supplementProducts;
-        currentOrder.supplementProducts.push(this.order.addressToDeliver);
-        this.orders.push(currentOrder);
+        const order: any = { };
+        order.quantity = product.split(' ')[0];
+        order.product = product.split(' ')[1];
+        order.amount = this.order.amount;
+        
+        order.supplementProducts = this.supplementsProduct
+        .filter( suppProduct => suppProduct.productId != product.id );
+
+        console.log("supplement", order.supplementProducts);
+        
+        this.orders.push(order);
       });
     }
 
@@ -50,7 +58,7 @@ export class OrderModalComponent implements OnInit {
     const dataOrder: any = {
       order_id: this.order.id,
       order_accepted_by_merchant: true,
-      status: 3,
+      status: 2,
       business_id: this.business.id,
       time,
     };
@@ -67,7 +75,7 @@ export class OrderModalComponent implements OnInit {
     const dataOrder: any = {
       order_id: this.order.id,
       order_accepted_by_merchant: false,
-      status: 9,
+      status: 0,
       business_id: null,
       message,
     };
@@ -78,10 +86,10 @@ export class OrderModalComponent implements OnInit {
 
   redirectAfterTrait() {
     this.router.navigate(['restaurant-dashboard', this.business.id ], {
-      queryParams: {
-        orderId: +this.order.id,
-        products: this.products.toString(),
-      }
+      // queryParams: {
+      //   orderId: +this.order.id,
+      //   products: this.products.toString(),
+      // }
     });
     this.modalActive.close();
   }

@@ -74,10 +74,10 @@
             <div class="mt-1 mb-2 description-product">
               {{ p.product.description }}
             </div>
-            <div *ngIf="p.product.supplmentsProduct.length > 0">
+            <div *ngIf="p.product.supplementsProduct.length > 0">
               <h6 style="font-size: .8rem">Suppléments éventuelles</h6>
               <ul>
-                <li *ngFor="let sup of p.product.supplmentsProduct">
+                <li *ngFor="let sup of p.product.supplementsProduct">
                   <span (click)="onDelete('supplement', {product: p.product, supplement: sup.id})" style="cursor: pointer; font-size: large; color: red; padding-right: .5rem">X</span>
                   {{ sup.name }} <span style="float: right; font-weight: 200">{{ +(sup.amount) > 0 ? (+(sup.amount) / 100).toFixed(0) + '€' : 'Sans Frais'  }}</span>
                 </li>

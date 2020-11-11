@@ -13,21 +13,18 @@
     <hr>
     <div class="row">
       <div *ngFor="let order of orders">
-        <div style="display: flex; justify-content: space-between; border-right: 2px solid violet" class="col-md-12">
-          <div>
+        
+        <div style="display: flex; justify-content: space-between; border-right: 2px solid violet" class="col-xs-12 col-md-12">
+          <div class="col-xs-12 col-md-10">
             <span style="font-size: larger; font-weight: 400">{{ order.quantity }}x </span>
             <span style="font-size: larger; font-weight: 400; text-transform: uppercase">{{ order.product }}</span>
             <div *ngFor="let supplement of supplementProducts" style="font-size: small;font-weight: 200;padding-left: 1.2rem;display: flex; justify-content: space-between">
-              {{supplement}}
+              {{ supplement.name }}
             </div>
           </div>
-          <div style="font-size: larger; font-weight: 400">{{order.amount/100}}€</div>
+          <div class="col-md-0" style="font-size: larger; font-weight: 400">{{order.amount/100}}€</div>
         </div>
-        <div style="display: flex; justify-content: space-between" class="col-md-12">
-          <div><span>{{ order.quantity }}x </span>{{ order.product }}</div>
-          <div>{{order.amount/100}}€</div>
-          <!-- <div>2.00€</div> -->
-        </div>
+
       </div>
     </div>
   </div>
@@ -36,10 +33,13 @@
   </div>
   <div style="display: flex; justify-content: space-between" class="modal-footer">
     <div>
-      <button mat-raised-button (click)="onValidate('20')" color="primary">20 - 40 !</button>
+      <button mat-raised-button (click)="onValidate(firstChoice)" color="primary">{{firstChoice}}</button>
     </div>
     <div>
-      <button mat-raised-button (click)="onValidate('40')" color="primary">40 - 60</button>
+      <button mat-raised-button (click)="onValidate(secondChoice)" color="primary">{{secondChoice}}</button>
+    </div>
+    <div>
+      <button mat-raised-button (click)="onValidate(thirdChoice)" color="primary">{{thirdChoice}}</button>
     </div>
     <div>
       <button mat-raised-button (click)="onRefuseOrder(message)" color="warn">REFUS</button>

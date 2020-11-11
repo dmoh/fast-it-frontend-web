@@ -14,7 +14,6 @@ import { Order } from '@app/_models/order';
 export class DetailDeliveryComponent implements OnInit {
 
   delivererForm: FormGroup;
-  deliverer: Delivery;
   order: any;
   isValid: boolean;
   orderId: string;
@@ -63,7 +62,9 @@ export class DetailDeliveryComponent implements OnInit {
 
   finalizeDelivery() {
     let order: any;
-    let dateDelivered = Date.now();
+    let dateDelivered = '@' + Math.round(Date.now()/1000) ;
+    alert(dateDelivered);
+    
     order = { 
       order : {
         order_id: this.orderId,
