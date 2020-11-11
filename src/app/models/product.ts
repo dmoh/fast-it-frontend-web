@@ -16,6 +16,8 @@ export class Product {
     addComment: boolean = false;
     supplmentsProduct: any[];
     infoCommentCustomer: string;
+    created_at: {date};
+    updated_at: {date};
     description = '';
     photo?: string = '';
     urlPhoto?: string = '';

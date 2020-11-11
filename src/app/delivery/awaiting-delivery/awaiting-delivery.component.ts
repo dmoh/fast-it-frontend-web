@@ -82,12 +82,16 @@ export class AwaitingDeliveryComponent implements OnInit {
   
   private saveOrderDeliverer(orderId, delivererId, dateDelivery) {
     let dateTakenDeliverer = dateDelivery;
+
+    let dateDelivered = '@' + Math.round(dateDelivery/1000) ;
+    
     let orderSave: any;
     orderSave = { 
       order : {
         order_id: orderId,
         deliverer_id: delivererId,
         date_taken_deliverer: dateTakenDeliverer,
+        status: 3,
       }
     };
     this.deliveryService.saveOrderDeliverer(orderSave).subscribe();

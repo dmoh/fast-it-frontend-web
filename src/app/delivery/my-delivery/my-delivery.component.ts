@@ -47,6 +47,9 @@ export class MyDeliveryComponent implements OnInit, AfterViewInit {
         if (this.deliverer.orders) {
           // ajouter param dans le back end pour filtrer les commandes livré
           this.deliverer.orders = this.deliverer.orders.filter( order => order.date_delivered != null );
+          this.deliverer.orders = this.deliverer.orders.sort( function(a, b) {
+            return b.id - a.id;
+          }) ;
         }
       }
     });
