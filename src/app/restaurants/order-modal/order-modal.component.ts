@@ -40,8 +40,6 @@ export class OrderModalComponent implements OnInit {
         currentOrder.supplementProducts = this.supplementProducts;
         currentOrder.supplementProducts.push(this.order.addressToDeliver);
         this.orders.push(currentOrder);
-
-
       });
     }
 

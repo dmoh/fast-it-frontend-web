@@ -45,7 +45,6 @@ export class RestaurantDetailsComponent implements OnInit {
             if (media.type_media === 'logo') {
               this.urlLogoRestaurant = media.path_file;
             }
-
             if (media.type_media === 'background_img') {
               this.urlBackgroundRestaurant = media.path_file;
             }

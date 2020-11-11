@@ -191,10 +191,10 @@ export class CommerceComponent implements OnInit, AfterViewInit {
   generateCommerceForm() {
     this.commerceForm = this.formBuilder.group({
       name: [this.commerce.name, Validators.required],
-      number: [this.commerce.number, [Validators.required, Validators.minLength(10)]],
+      number: [this.commerce.phone, [Validators.required, Validators.minLength(10)]],
       description: this.commerce.description,
       street: [this.commerce.street, Validators.required],
-      phone: [this.commerce.phone, Validators.required],
+      // phone: [this.commerce.phone, Validators.required],
       emailContact: [this.commerce.emailContact, Validators.required],
       numSiret: [this.commerce.numSiret],
       numSiren: [this.commerce.numSiren],

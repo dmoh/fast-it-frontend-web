@@ -98,14 +98,6 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
                   this.cartService.generateTotalCart(true);
                   this.cartService.cartUpdated.subscribe((cartUpdated: Cart) => {
                     this.cartCurrent = cartUpdated;
-                    this.cartService.getTokenPaymentIntent(+(this.cartCurrent.total) * 100).subscribe((token: any ) => {
-                        this.clientSecret = token.client_secret;
-                      }, (error) => {
-                        if (/Expired JWT/.test(error)) {
-                          this.route.navigate(['/login']);
-                        }
-                      }
-                    );
                   });
                 });
               });
@@ -189,55 +181,64 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
 
   onProceedCheckout(event: Event): void {
     event.preventDefault();
-    this.stripe.confirmCardPayment(this.clientSecret, {
-      payment_method: {
-        card: this.card,
-        billing_details: {
-          name: 'Customer' // TODO ADD REAL NAME
-        }
-      }
-    }).then((result) => {
-      if (result.error) {
-        // Show error to your customer (e.g., insufficient funds)
-        console.log(result.error.message);
-      } else {
-        // The payment has been processed!
-        if (result.paymentIntent.status === 'succeeded') {
-          const responsePayment = result.paymentIntent;
-          if (responsePayment.status === 'succeeded') {
-              /*this.toastService.show('Paiement accepté', {
-                classname: 'bg-success text-light',
-                delay: 4000,
-                autohide: true,
-                headertext: 'Votre commande est en cours de validation'
-              });*/
-             // save order payment succeeded
-             this.cartService.saveOrder({stripeResponse: responsePayment, cartDetail: this.cartCurrent })
-               .subscribe((confCode) => {
-                 const codeModal = this.codeConfirmationModal.open(ConfirmationCodePaymentModalComponent,
-                   { backdrop: 'static', keyboard: false, size: 'lg' });
-                 codeModal.componentInstance.infos = confCode;
-                 codeModal.result.then((response) => {
-                   if (response) {
-                     // send code to db
-                     this.cartService.saveCodeCustomerToDeliver({ responseCustomer: response})
-                       .subscribe((responseServer) => {
-                         if (responseServer.ok) {
-                           this.cartCurrent.isValidate = true;
-                           this.cartService.UpdateCart('empty-cart');
-                           this.cartService.cartUpdated.subscribe((cartUpdated: Cart) => {
-                             this.cartCurrent = cartUpdated;
-                             this.router.navigate(['customer']);
-                           });
-                         }
-                     });
-                   }
-                 });
-               });
+    this.cartService.getTokenPaymentIntent(+(this.cartCurrent.total) * 100).subscribe((token: any ) => {
+        this.clientSecret = token.client_secret;
+        this.stripe.confirmCardPayment(this.clientSecret, {
+          payment_method: {
+            card: this.card,
+            billing_details: {
+              name: 'Customer' // TODO ADD REAL NAME
+            }
           }
+        }).then((result) => {
+          if (result.error) {
+            // Show error to your customer (e.g., insufficient funds)
+            console.log(result.error.message);
+          } else {
+            // The payment has been processed!
+            if (result.paymentIntent.status === 'succeeded') {
+              const responsePayment = result.paymentIntent;
+              if (responsePayment.status === 'succeeded') {
+                /*this.toastService.show('Paiement accepté', {
+                  classname: 'bg-success text-light',
+                  delay: 4000,
+                  autohide: true,
+                  headertext: 'Votre commande est en cours de validation'
+                });*/
+                // save order payment succeeded
+                this.cartService.saveOrder({stripeResponse: responsePayment, cartDetail: this.cartCurrent })
+                  .subscribe((confCode) => {
+                    const codeModal = this.codeConfirmationModal.open(ConfirmationCodePaymentModalComponent,
+                      { backdrop: 'static', keyboard: false, size: 'lg' });
+                    codeModal.componentInstance.infos = confCode;
+                    codeModal.result.then((response) => {
+                      if (response) {
+                        // send code to db
+                        this.cartService.saveCodeCustomerToDeliver({ responseCustomer: response})
+                          .subscribe((responseServer) => {
+                            if (responseServer.ok) {
+                              this.cartCurrent.isValidate = true;
+                              this.cartService.UpdateCart('empty-cart');
+                              this.cartService.cartUpdated.subscribe((cartUpdated: Cart) => {
+                                this.cartCurrent = cartUpdated;
+                                this.router.navigate(['customer']);
+                              });
+                            }
+                          });
+                      }
+                    });
+                  });
+              }
+            }
+          }
+        });
+      }, (error) => {
+        if (/Expired JWT/.test(error)) {
+          this.route.navigate(['/login']);
         }
       }
-    });
+    );
+
   }
 
 

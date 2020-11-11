@@ -21,19 +21,19 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {ErrorInterceptor} from '@app/_helpers/error.interceptor';
 import {JwtInterceptor} from '@app/_helpers/jwt.interceptor';
 import { AddressModalComponent } from '../address-modal/address-modal.component';
-import { GoogleMapsModule } from '@angular/google-maps'
+import { GoogleMapsModule } from '@angular/google-maps';
 import {MatSelectModule} from '@angular/material/select';
-import {MatBadgeModule} from "@angular/material/badge";
-import {MatSnackBarModule} from "@angular/material/snack-bar";
+import {MatBadgeModule} from '@angular/material/badge';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatBottomSheet, MatBottomSheetModule} from '@angular/material/bottom-sheet';
 import { NotificationsComponent } from '../notifications/notifications.component';
-import {MatRadioModule} from "@angular/material/radio";
-import {FooterComponent} from "@app/footer/footer.component";
+import {MatRadioModule} from '@angular/material/radio';
+import {FooterComponent} from '@app/footer/footer.component';
 import { CategoryProductComponent } from '../restaurants/restaurant-dashboard/category-product/category-product.component';
 import { AddProductDialogComponent } from '../restaurants/restaurant-dashboard/category-product/add-product-dialog/add-product-dialog.component';
-import {MatListModule} from "@angular/material/list";
+import {MatListModule} from '@angular/material/list';
 import { ToastComponent } from '../toast/toast.component';
-import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
