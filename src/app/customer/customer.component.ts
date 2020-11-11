@@ -32,8 +32,7 @@ export class CustomerComponent implements OnInit {
   ngOnInit(): void {
     this.customerService.getInfosCustomer()
       .subscribe((response) => {
-        console.warn(response);
-        this.customer = response[0];
+        this.customer = response;
         this.customerService.getNotificationsCustomer()
           .subscribe((notif) => {
             this.notifications = notif;

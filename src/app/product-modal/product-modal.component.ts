@@ -26,7 +26,7 @@ export class ProductModalComponent implements OnInit {
         const index = this.cartCurrent.products.findIndex(prod => prod.id === this.product.id);
         if (index !== -1) {
             this.quantityCurrent = +this.cartCurrent.products[index].quantity;
-        }else  {
+        } else {
             this.quantityCurrent = 1;
         }
     });

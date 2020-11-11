@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit, Optional} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {RestaurantDashboardService} from '@app/restaurants/restaurant-dashboard/services/restaurant-dashboard.service';
-import {Product} from "@app/models/product";
+import {Product} from '@app/models/product';
 
 @Component({
   selector: 'app-update-dialog',
@@ -20,7 +20,7 @@ export class UpdateDialogComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.log(this.product);
+    console.warn(this.product);
     if (this.product.amount && +(this.product.amount) > 0) {
       this.product.amount = +(this.product.amount) / 100;
     }
@@ -28,7 +28,6 @@ export class UpdateDialogComponent implements OnInit {
       .getCategoriesByBusinessId(this.product.business_id)
       .subscribe((cats) => {
         this.categories = cats;
-        console.log(this.categories);
       });
   }
   onNoClick(): void {
@@ -36,15 +35,10 @@ export class UpdateDialogComponent implements OnInit {
   }
 
   onSaveProduct(product: any): void {
-    console.log(this.product);
-    console.log(this.product);
-    return;
     this.dialogRef.close(this.product);
   }
 
   onChange(event) {
-    console.log(this.product.isAvailable);
-    console.log(this.product);
   }
 
   onChangeAmount() {
@@ -58,5 +52,10 @@ export class UpdateDialogComponent implements OnInit {
     if (event.target.files.length > 0) {
       this.product.photo = event.target.files[0];
     }
+  }
+
+  onChangeCategoryProduct(event) {
+    console.log(this.product.category);
+    console.log(event);
   }
 }

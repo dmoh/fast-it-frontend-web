@@ -132,4 +132,9 @@ export class RestaurantDashboardService {
     return this.http.post<any>(`${this.urlApi}/order/save_business`, order,
       this.headers);
   }
+
+
+  getProductListByBusinessId(restaurantId: number): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}/product/list/business/${restaurantId}`, this.headers);
+  }
 }

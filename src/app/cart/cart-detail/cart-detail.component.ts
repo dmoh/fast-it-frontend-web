@@ -11,6 +11,7 @@ import {AddressModalComponent} from '@app/address-modal/address-modal.component'
 import {ToastService} from "@app/_services/toast.service";
 import {OrderModalComponent} from "@app/restaurants/order-modal/order-modal.component";
 import {Product} from "@app/models/product";
+import set = Reflect.set;
 
 @Component({
   selector: 'app-cart-detail',
@@ -63,6 +64,8 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
         backdrop: 'static',
         keyboard: false,
       });
+
+
       modalRef.componentInstance.address = this.userAddresses[0];
       modalRef.result.then((res) => {
         this.showLoader = true;
@@ -79,8 +82,10 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
           destinations: [addressChoosen],
           travelMode: google.maps.TravelMode.DRIVING,
         }, (response, status) => {
-          if (response.rows === null) {
+          setTimeout(() => {
             this.showLoader = false;
+          }, 1000);
+          if (response.rows === null) {
             this.router.navigate(['cart-detail']);
             return;
           }
@@ -91,7 +96,6 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
                 const pro = new Promise((resolve, rej) => {
                   this.cartService.setDeliveryCost(resp.deliveryInfos);
                   this.hasAddressSelected = true;
-                  this.showLoader = false;
                   resolve('ok');
                 });
                 pro.then((respPro) => {
@@ -196,40 +200,32 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
             console.log(result.error.message);
           } else {
             // The payment has been processed!
-            if (result.paymentIntent.status === 'succeeded') {
-              const responsePayment = result.paymentIntent;
-              if (responsePayment.status === 'succeeded') {
-                /*this.toastService.show('Paiement accepté', {
-                  classname: 'bg-success text-light',
-                  delay: 4000,
-                  autohide: true,
-                  headertext: 'Votre commande est en cours de validation'
-                });*/
-                // save order payment succeeded
-                this.cartService.saveOrder({stripeResponse: responsePayment, cartDetail: this.cartCurrent })
-                  .subscribe((confCode) => {
-                    const codeModal = this.codeConfirmationModal.open(ConfirmationCodePaymentModalComponent,
-                      { backdrop: 'static', keyboard: false, size: 'lg' });
-                    codeModal.componentInstance.infos = confCode;
-                    codeModal.result.then((response) => {
-                      if (response) {
-                        // send code to db
-                        this.cartService.saveCodeCustomerToDeliver({ responseCustomer: response})
-                          .subscribe((responseServer) => {
-                            if (responseServer.ok) {
-                              this.cartCurrent.isValidate = true;
-                              this.cartService.UpdateCart('empty-cart');
-                              this.cartService.cartUpdated.subscribe((cartUpdated: Cart) => {
-                                this.cartCurrent = cartUpdated;
-                                this.router.navigate(['customer']);
-                              });
-                            }
-                          });
-                      }
-                    });
+            const responsePayment = result.paymentIntent;
+            if (responsePayment.status === 'succeeded') {
+              // save order payment succeeded
+              this.cartService.saveOrder({stripeResponse: responsePayment, cartDetail: this.cartCurrent })
+                .subscribe((confCode) => {
+                  const codeModal = this.codeConfirmationModal.open(ConfirmationCodePaymentModalComponent,
+                    { backdrop: 'static', keyboard: false, size: 'lg' });
+                  codeModal.componentInstance.infos = confCode;
+                  codeModal.result.then((response) => {
+                    if (response) {
+                      // send code to db
+                      this.cartService.saveCodeCustomerToDeliver({ responseCustomer: response})
+                        .subscribe((responseServer) => {
+                          if (responseServer.ok) {
+                            this.cartCurrent.isValidate = true;
+                            this.cartService.UpdateCart('empty-cart');
+                            this.cartService.cartUpdated.subscribe((cartUpdated: Cart) => {
+                              this.cartCurrent = cartUpdated;
+                              this.router.navigate(['customer']);
+                            });
+                          }
+                        });
+                    }
                   });
+                });
               }
-            }
           }
         });
       }, (error) => {

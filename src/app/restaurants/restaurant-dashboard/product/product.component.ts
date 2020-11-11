@@ -19,7 +19,7 @@ export class ProductComponent implements OnInit {
 
   restaurantDatas: any;
   restaurant: any;
-  productsResto: any[];
+  productsResto: Product[];
   categories: any[];
   productBeforeUpdate: any;
   constructor(private restaurantService: RestaurantDashboardService,
@@ -46,7 +46,10 @@ export class ProductComponent implements OnInit {
                   this.restaurant = restaurantDb.restaurant;
                 });
             }
-            this.productsResto = RestaurantDashboardComponent.extractRestaurantData('product', res);
+            this.restaurantService.getProductListByBusinessId(restaurantObj.id)
+              .subscribe((responseDb) => {
+                this.productsResto = responseDb.products;
+              });
             this.restaurantService.getCategoriesByBusinessId(restaurantObj.id)
               .subscribe((cat) => {
                 this.categories = cat;
@@ -102,8 +105,15 @@ export class ProductComponent implements OnInit {
       } else {
         result.business_id = this.restaurant.id;
         const formData = new FormData();
-        formData.append('product', JSON.stringify(result));
+        const updatedProduct = result;
+
         console.warn(result);
+        if (updatedProduct.category.name.trim() === ''
+          && updatedProduct.category.id === 0
+        ) {
+          result.category = null;
+        }
+        formData.append('product', JSON.stringify(result));
         if (result.photo) {
           formData.append('photo', result.photo);
           delete result.photo;

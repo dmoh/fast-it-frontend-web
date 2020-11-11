@@ -102,6 +102,13 @@
   position: absolute;
 }
 
+
+.not-allowed {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+
 .logo-wrapper {
   width: 100px;
   height: 70px;

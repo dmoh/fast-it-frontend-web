@@ -76,10 +76,10 @@
         <!-- 5 last orders -->
         <div class="row">
           <div class="col-md-12">
-            <h3 *ngIf="customer.firstname" class="">{{ customer.firstname | titlecase }}</h3>
-            <h3 class="">
+            <h3 *ngIf="customer" class="">{{ customer.firstname | titlecase }}</h3>
+            <h3 *ngIf="customer" class="">
               {{ customer.email }}
-              <button class="text-right float-right" (click)="onReadNotifications()" [disabled]="notifications.length == 0" mat-button [matMenuTriggerFor]="menu">
+              <button *ngIf="notifications" class="text-right float-right" (click)="onReadNotifications()" [disabled]="notifications.length == 0" mat-button [matMenuTriggerFor]="menu">
                 <span style="cursor: pointer"
                       matBadge="{{ notifications.length > 0 ? notifications.length : '' }}"
                       matBadgeOverlap="false"

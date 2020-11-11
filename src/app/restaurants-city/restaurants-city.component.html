@@ -85,17 +85,19 @@
               <h4 class="mb-4 mt-4 text-center"><b>{{ restaurants.length }}</b> Restaurant(s) en livraison à <b>{{ citySelected.city }}</b></h4>
               <div class="container-fluid wrapper-area-restaurants">
                 <div class="row">
-                  <div *ngFor="let restaurant of restaurants" class="col-md-6">
+                  <div *ngFor="let restaurant of restaurants" style="" class="col-md-6">
                     <a routerLink="{{ '/restaurant/'+ restaurant.id }}">
-                      <div class="area-restaurants">
+                      <div style="height: 170px; overflow: hidden" class="area-restaurants">
                         <div class="mini-card-restaurant">
                           <div style="" class="img-left">
-                            <img style="height: 100%; width: 100%" src="assets/sushi.jpg" alt="Sushi">
+                            <div *ngFor="let media of restaurant.medias">
+                              <img *ngIf="media.type_media == 'background_img'" style="height: 100%; width: 100%" src="{{ media.path_file }}" alt="Sushi">
+                            </div>
                           </div>
                           <div class="pl-2" style="position: relative; flex: 1">
                             <div class="delivery-time">
                               <i style="font-size: small; " class="material-icons ">alarm</i>
-                              <span class="pt-2">25 - 45 min</span>
+                              <span class="pt-2">{{ (restaurant.estimated_preparation_time).replace(',', ' - ') }} min</span>
                             </div>
                             <span style="color: #0a0a0a; font-size: large"><b>{{ restaurant.name }}</b></span>
                             <p style="margin-bottom: 0 !important;"><!--<i  class="material-icons dimension-star">star</i>4.8-->

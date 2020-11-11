@@ -41,12 +41,20 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let p of productsResto">
-        <td>{{ p.product.created_at.date | date: 'dd/M/yyyy' }}</td>
-        <td>{{ p.product.name }}</td>
-        <td>{{ p.product.name }}</td>
-        <td>{{ p.product.remaining_quantity }}</td>
-        <td>{{ ((+(p.product.amount) / 100).toFixed(2)).replace('.', ',') + '€' }}</td>
+      <tr *ngFor="let product of productsResto">
+        <td>{{ product.createdAt }}</td>
+        <td>
+          <span *ngIf="product.urlPhoto && product.urlPhoto.trim() != ''">
+            <a href="{{ product.urlPhoto }}" target="_blank">
+              <span class="material-icons">
+                photo
+              </span>
+            </a>
+          </span>
+        </td>
+        <td>{{ product.name }}</td>
+        <td>{{ product.remaining_quantity }}</td>
+        <td>{{ ((+(product.amount) / 100).toFixed(2)).replace('.', ',') + '€' }}</td>
         <!--<td>{{ ((p.product.amount/ 100) - ((+(p.product.amount) / 100) * 0.23)).toFixed(2) + '€' }}</td>
         <td>{{ (((+(p.product.amount) / 100) * 0.23)).toFixed(2) + '€' }}</td>-->
       </tr>
@@ -55,30 +63,34 @@
 
   </div>
   <div class="row">
-    <div *ngFor="let p of  productsResto" class="col-md-3">
+    <div *ngFor="let product of  productsResto" class="col-md-3">
       <div style="margin: 1rem 0; background: white; border: none " class="card">
-        <div (click)="onDelete('product', {product: p.product, supplement:'' })" class="delete-element" style="padding-top:.3rem; /*text-align: center; vertical-align:middle;font-size: x-large; color: white; */">
+        <div (click)="onDelete('product', {product: product, supplement:'' })" class="delete-element" style="padding-top:.3rem; /*text-align: center; vertical-align:middle;font-size: x-large; color: white; */">
           <span style="color: white; font-size: x-large; cursor:pointer; " class="material-icons">
             cancel
           </span>
         </div>
         <div style="padding: 0" class="card-body">
           <div style="padding: 0" class="wrapper-img">
-            <img src="{{ p.product.photo }}" alt="" width="100%" height="auto">
+            <img src="{{ product.urlPhoto }}" alt="" width="100%" height="auto">
           </div>
           <div class="infos-product">
             <div class="mt-1 name-product">
-              {{ p.product.name }}
-              <span style="float: right">{{ (+(p.product.amount)/100).toFixed(2) +'€'}}</span>
+              {{ product.name }}
+              <span style="float: right">{{ (+(product.amount)/100).toFixed(2) +'€'}}</span>
             </div>
             <div class="mt-1 mb-2 description-product">
-              {{ p.product.description }}
+              {{ product.description }}
             </div>
-            <div *ngIf="p.product.supplmentsProduct.length > 0">
-              <h6 style="font-size: .8rem">Suppléments éventuelles</h6>
+            <div *ngIf="product.supplmentsProduct.length > 0">
+              <h6 style="font-size: .8rem">Supplément(s) éventuel(s)</h6>
               <ul>
-                <li *ngFor="let sup of p.product.supplmentsProduct">
-                  <span (click)="onDelete('supplement', {product: p.product, supplement: sup.id})" style="cursor: pointer; font-size: large; color: red; padding-right: .5rem">X</span>
+                <li *ngFor="let sup of product.supplmentsProduct">
+                  <span (click)="onDelete('supplement', {product: product, supplement: sup.id})"
+                        class="material-icons"
+                        style="cursor: pointer; font-size: large; color: red; padding-right: .5rem">
+                    remove
+                  </span>
                   {{ sup.name }} <span style="float: right; font-weight: 200">{{ +(sup.amount) > 0 ? (+(sup.amount) / 100).toFixed(0) + '€' : 'Sans Frais'  }}</span>
                 </li>
               </ul>
@@ -100,7 +112,7 @@
                 star
               </span>
               <span style="float:right">
-                <span (click)="openDialog(p.product)" title="Modifier" style="color: #0B7FC7; font-size: 1.1rem;padding-right:  .7rem" class="material-icons">
+                <span (click)="openDialog(product)" title="Modifier" style="color: #0B7FC7; font-size: 1.1rem;padding-right:  .7rem" class="material-icons">
                   edit
                 </span>
                 <span title="Supprimer" style="color: red; font-size: 1.1rem" class="material-icons">

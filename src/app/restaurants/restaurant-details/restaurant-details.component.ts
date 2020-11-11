@@ -104,14 +104,16 @@ export class RestaurantDetailsComponent implements OnInit {
     return response;
   }
   openModal(product: Product): void {
-    const modal = this.modal.open(ProductModalComponent);
-    modal.componentInstance.product = product;
-    modal.componentInstance.restaurant = this.restaurant;
-    modal.result.then((prod: Product) => {
-      if (prod) {
+    if (product.isAvailable) {
+      const modal = this.modal.open(ProductModalComponent);
+      modal.componentInstance.product = product;
+      modal.componentInstance.restaurant = this.restaurant;
+      modal.result.then((prod: Product) => {
+        if (prod) {
           this.cartService.cartUpdated.subscribe((cart: Cart) => this.cartCurrent = cart);
-      }
-    });
+        }
+      });
+    }
   }
 
 
