@@ -104,7 +104,8 @@ export class RestaurantDetailsComponent implements OnInit {
     return response;
   }
   openModal(product: Product): void {
-    if (product.isAvailable) {
+    console.log(product);
+    if (product.is_available === true || product.is_available === null) {
       const modal = this.modal.open(ProductModalComponent);
       modal.componentInstance.product = product;
       modal.componentInstance.restaurant = this.restaurant;

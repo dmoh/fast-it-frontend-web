@@ -14,7 +14,7 @@ export class Product {
     updatedAt: string;
     commentCustomer: string;
     addComment: boolean = false;
-    supplmentsProduct: any[];
+    supplementsProduct: any[];
     infoCommentCustomer: string;
     created_at: {date};
     updated_at: {date};
@@ -24,4 +24,5 @@ export class Product {
     url_photo?: string;
     additionalInformations?: string = '';
     isAvailable?: boolean = true;
+    is_available?: boolean;
 }
