@@ -13,16 +13,19 @@ import { Order } from '@app/_models/order';
 })
 export class DetailDeliveryComponent implements OnInit {
 
+  hasDeliveryCode: boolean = true;
   delivererForm: FormGroup;
-  order: any;
   isValid: boolean;
   orderId: string;
-  hasDeliveryCode: boolean = true;
+  order: any;
+  isDelivering: boolean;
 
   constructor(private fb: FormBuilder,
     private deliveryService: DeliveryService,
     private router: Router,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute) { 
+      this.isDelivering = null;
+    }
 
   ngOnInit(): void {
     this.isValid = true;
@@ -32,6 +35,10 @@ export class DetailDeliveryComponent implements OnInit {
       // let order: Order = new Order();
 
       this.order = order;
+      this.isDelivering = this.order.status >= 3 ;
+
+      console.log(order);
+  
         
       this.hasDeliveryCode = this.order.deliverCode != null;
       
@@ -75,8 +82,10 @@ export class DetailDeliveryComponent implements OnInit {
   }
 
   onTakenDelivery() {
-    if (this.order){
+    if (this.order && !this.isDelivering){
+      alert();
       this.saveOrderDeliverer(this.order.id, this.order.deliverer_id, Date.now());
+      window.location.reload();
     }
   }
 

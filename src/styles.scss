@@ -25,6 +25,7 @@ $background-color-primary: #c823f1;
 /*$background-color-primary: #f1d723;
 $btn-color-primary: #dcc738;*/
 $btn-color-primary: #d840ff;
+$btn-color-secondary: white;
 
 .bg-light {
   background-color: $background-color-primary !important;
@@ -32,6 +33,11 @@ $btn-color-primary: #d840ff;
 
 .mat-raised-button.mat-primary, .mat-fab.mat-primary, .mat-mini-fab.mat-primary {
   background-color: $btn-color-primary;
+}
+
+.mat-raised-button.mat-secondary, .mat-fab.mat-secondary, .mat-mini-fab.mat-secondary {
+  background-color: $btn-color-secondary;
+  color: $btn-color-primary;
 }
 
 div.input-group .mat-form-field-wrapper {
