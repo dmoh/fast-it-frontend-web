@@ -42,11 +42,12 @@ export class CustomerComponent implements OnInit {
 
   onReadNotifications() {
     setTimeout(() => {
-      this.customerService.sendNotificationsRead(this.customer.notifications, {user: this.customer.id})
+      this.customerService.sendNotificationsRead(this.notifications, {user: this.customer.id})
         .subscribe((res) => {
           this.notifications = [];
         });
-    }, 5000);
+
+    }, 1000);
   }
   openSnackBar() {
     /*this.snackBar.open('Cannonball!!', 'End now', {
@@ -55,7 +56,8 @@ export class CustomerComponent implements OnInit {
       verticalPosition: this.verticalPosition,
     });
 
-    const bottomSheetRef = this.bottomSheet.open(NotificationsComponent,{
+
+    /*const bottomSheetRef = this.bottomSheet.open(NotificationsComponent,{
       data: { notifications: this.customer.notifications }
     });
     bottomSheetRef.afterDismissed().subscribe(() => {

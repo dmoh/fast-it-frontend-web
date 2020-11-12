@@ -26,6 +26,7 @@ import { Page404Component } from './page404/page404.component';
 import { PasswordComponent } from './password/password.component';
 import {RestaurantDashboardService} from '@app/restaurants/restaurant-dashboard/services/restaurant-dashboard.service';
 import {SecurityRestaurantService} from '@app/_services/security-restaurant.service';
+import { InfoModalComponent } from './info-modal/info-modal.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import {SecurityRestaurantService} from '@app/_services/security-restaurant.serv
     LoginComponent,
     CheckoutComponent,
     Page404Component,
-    PasswordComponent
+    PasswordComponent,
+    InfoModalComponent
   ],
   imports: [
     BrowserModule,
@@ -70,7 +72,8 @@ import {SecurityRestaurantService} from '@app/_services/security-restaurant.serv
         ConfirmationCodePaymentModalComponent,
         CheckoutComponent,
         Page404Component,
-        PasswordComponent
+        PasswordComponent,
+        InfoModalComponent
     ]
 })
 export class AppModule { }

@@ -7,6 +7,7 @@ import {Cart} from '@app/cart/model/cart';
 import {RestaurantDashboardService} from '@app/restaurants/restaurant-dashboard/services/restaurant-dashboard.service';
 import {ActivatedRoute} from '@angular/router';
 import {SecurityRestaurantService} from '@app/_services/security-restaurant.service';
+import {InfoModalComponent} from "@app/info-modal/info-modal.component";
 
 @Component({
   selector: 'app-restaurant-details',
@@ -54,7 +55,6 @@ export class RestaurantDetailsComponent implements OnInit {
       this.restaurantService.getRestaurantProductsDatas(this.restaurantId)
         .subscribe((result) => {
           this.restaurantDatas = result;
-          console.log(this.restaurantDatas);
           if (this.restaurantDatas.length > 0 ) {
             this.restaurantDatas.forEach((restau) => {
               if (restau.product.business) {
@@ -104,16 +104,24 @@ export class RestaurantDetailsComponent implements OnInit {
     return response;
   }
   openModal(product: Product): void {
-    console.log(product);
-    if (product.is_available === true || product.is_available === null) {
-      const modal = this.modal.open(ProductModalComponent);
-      modal.componentInstance.product = product;
-      modal.componentInstance.restaurant = this.restaurant;
-      modal.result.then((prod: Product) => {
-        if (prod) {
-          this.cartService.cartUpdated.subscribe((cart: Cart) => this.cartCurrent = cart);
-        }
-      });
+    if (this.cartService.getBusinessCurrent().id !== this.restaurantId) {
+        const modalInfo = this.modal.open(InfoModalComponent, {
+          backdrop: 'static',
+          keyboard: false,
+        });
+        modalInfo.componentInstance.title = 'INFORMATION';
+        modalInfo.componentInstance.message = 'Il est impossible de commander dans deux restaurants pour une seule livraison';
+    } else {
+      if (product.is_available === true || product.is_available === null) {
+        const modal = this.modal.open(ProductModalComponent);
+        modal.componentInstance.product = product;
+        modal.componentInstance.restaurant = this.restaurant;
+        modal.result.then((prod: Product) => {
+          if (prod) {
+            this.cartService.cartUpdated.subscribe((cart: Cart) => this.cartCurrent = cart);
+          }
+        });
+      }
     }
   }
 

@@ -7,6 +7,7 @@ import {CoreModule} from "../core/core.module";
 import {CartComponent} from "../cart/cart.component";
 import { OrderModalComponent } from './order-modal/order-modal.component';
 import { ShowOrderComponent } from './show-order/show-order.component';
+import {InfoModalComponent} from "@app/info-modal/info-modal.component";
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { ShowOrderComponent } from './show-order/show-order.component';
   entryComponents: [
       NavbarComponent,
       ProductModalComponent,
-      CartComponent
+      CartComponent,
+      InfoModalComponent
   ],
   exports: [
       CoreModule,

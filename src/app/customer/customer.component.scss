@@ -61,3 +61,18 @@ a {
     text-decoration: none !important;
   }
 }
+
+@media (max-width: 768px) {
+
+  .sidebar-left {
+    transition: left ease 2000ms ;
+    left: -255px;
+  }
+
+  .content-restaurant-dashboard {
+    width: 100% !important;
+    margin-left: 0;
+    transition: all ease 400ms;
+  }
+
+}

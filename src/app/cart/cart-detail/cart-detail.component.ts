@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, HostListener, OnInit} from '@angular/core';
 import {CartService} from '../service/cart.service';
 import { Router} from '@angular/router';
 import {Cart} from '../model/cart';
@@ -32,7 +32,7 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
   hasAddressSelected: boolean = false;
   showLoader: boolean;
   addressChose: any;
-
+  phoneCustomer: string;
 
   constructor(
     private cartService: CartService,
@@ -55,25 +55,31 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
       if (this.cartCurrent.products.length < 1) {
         this.route.navigate(['home']);
       }
-
     });
     this.userService.getUserAddresses().subscribe((result) => {
       this.showLoader = false;
+      this.phoneCustomer = result.data[0].phone;
       this.userAddresses = result.data[0].addresses;
       const modalRef = this.addressConfirmationModal.open(AddressModalComponent, {
         backdrop: 'static',
         keyboard: false,
       });
 
-      setTimeout(() => {
-        this.showLoader = false;
-      }, 3000);
-      modalRef.componentInstance.address = this.userAddresses[0];
+      if (typeof this.userAddresses[0] === 'undefined') {
+        modalRef.componentInstance.address = null;
+      } else {
+        modalRef.componentInstance.address = this.userAddresses[0];
+      }
+      modalRef.componentInstance.phoneCustomer = this.phoneCustomer;
       modalRef.result.then((res) => {
         const origin = `${this.cartCurrent.restaurant.street},
          ${this.cartCurrent.restaurant.city},
          ${this.cartCurrent.restaurant.zipcode}`
         ;
+        // save phone user number
+        this.userService.savePhoneNumber(res.phone)
+          .subscribe((responseServer) => {
+          });
         this.addressChose = res;
         const addressChoosen = `${res.street}, ${res.city}, ${res.zipcode}`;
         // send result google for calculate backend side
@@ -83,9 +89,6 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
           destinations: [addressChoosen],
           travelMode: google.maps.TravelMode.DRIVING,
         }, (response, status) => {
-          setTimeout(() => {
-            this.showLoader = false;
-          }, 1000);
           if (response.rows === null) {
             this.router.navigate(['cart-detail']);
             return;
@@ -94,6 +97,9 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
             const responseDistance = response.rows[0].elements[0];
             this.cartService.getCostDelivery(responseDistance)
               .subscribe((resp) => {
+                setTimeout(() => {
+                  this.showLoader = false;
+                }, 1000);
                 const pro = new Promise((resolve, rej) => {
                   this.cartService.setDeliveryCost(resp.deliveryInfos);
                   this.hasAddressSelected = true;
@@ -106,11 +112,6 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
                   });
                 });
               });
-            // stocker en db
-            // calcule frais de livraison
-            // calcule temps estimate en fonction du resto
-
-
           }
         });
       });
@@ -122,22 +123,6 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
   }
 
   private loadStripe(): void {
-    /*if (window.document.getElementById('stripe-script')) {
-      const child = window.document.getElementById('stripe-script');
-      child.parentNode.removeChild(child);
-    }
-
-    const s = window.document.createElement('script');
-    s.id = 'stripe-script';
-    s.type = 'text/javascript';
-    s.src = 'https://js.stripe.com/v3/';
-    window.document.body.appendChild(s);
-    const inter = setInterval(() => {
-      if (typeof window['Stripe'] !== 'undefined') {
-        this.loadStripeElements();
-        clearInterval(inter);
-      }
-    }, 200);*/
     this.loadStripeElements();
   }
 
@@ -166,7 +151,7 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
     // Add an instance of the card Element into the `card-element` <div>.
     this.card.mount('#card-element');
 
-// Handle real-time validation errors from the card Element.
+    // Handle real-time validation errors from the card Element.
     this.card.on('change', (event) => {
       const  displayError = document.getElementById('card-errors');
       if (event.error) {
@@ -175,12 +160,6 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
         displayError.textContent = '';
       }
     });
-
-    /*const cardExpiry = this.elementStripe.create('cardExpiry', {style: style});
-    const cardCvc = this.elementStripe.create('cardCvc', {style: style});
-    this.cardNumber.mount('#cardNumber');
-    cardExpiry.mount('#cardExpiry');
-    cardCvc.mount('#cardCvc');*/
   }
 
 
@@ -271,5 +250,13 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
       product.quantity++;
     }
     this.cartService.UpdateCart('update', product);
+  }
+
+
+  @HostListener('window:popstate', ['$event'])
+  onPopState(event) {
+    if (this.addressConfirmationModal.hasOpenModals()) {
+      this.addressConfirmationModal.dismissAll();
+    }
   }
 }

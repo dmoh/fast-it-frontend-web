@@ -1,12 +1,12 @@
 <section class="container-fluid">
   <div class="row">
     <div *ngIf="customerForm" style="padding-top: 2rem" class="col-md-8 card">
-      <div class="mb-3">
+      <!--<div class="mb-3">
         <div>
           <label for="photo">Photo</label>
         </div>
         <input type="file" id="photo" (change)="onUploadFile($event)">
-      </div>
+      </div>-->
       <form [formGroup]="customerForm" (ngSubmit)="onSubmit()">
         <p>
           <mat-form-field style="width: 100%;" appearance="outline">

@@ -37,7 +37,6 @@ export class RestaurantsCityComponent implements OnInit{
             .subscribe((result) => {
               this.restaurants = result;
             }, (error) => {
-            console.log(error);
           });
         }
       }

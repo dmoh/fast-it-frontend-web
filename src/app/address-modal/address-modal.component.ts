@@ -11,6 +11,7 @@ import {CustomerService} from '@app/customer/_services/customer.service';
 export class AddressModalComponent implements OnInit {
   @Optional() address: any;
   @Optional() showErrorAddress: boolean;
+  @Optional() phoneCustomer: string;
   addressForm: FormGroup;
   place: any;
   options;
@@ -22,18 +23,21 @@ export class AddressModalComponent implements OnInit {
   street: string = '';
   commentAddress: string = '';
   city: string = '';
+  isDefaultAddress: boolean;
   constructor(private fb: FormBuilder,
               private modal: NgbActiveModal,
               private customerService: CustomerService
   ) { }
 
   ngOnInit(): void {
-    this.addressByDefault = true;
     this.options = {
       types: [],
       componentRestrictions: { country: 'FR' }
     };
     if (!this.address) {
+      this.isDefaultAddress = true;
+      this.addressByDefault = false;
+      this.isDefaultAddress = true;
       this.addressForm = this.fb.group({
         name: ['', [Validators.required, Validators.minLength(5)]],
         address: ['', [Validators.required, Validators.minLength(2)]]
@@ -46,6 +50,7 @@ export class AddressModalComponent implements OnInit {
 
   onChooseAddress(type: string): void {
     if ('default' === type) {
+      this.address.phone = this.phoneCustomer;
       this.modal.close(this.address);
     }
   }
@@ -72,7 +77,8 @@ export class AddressModalComponent implements OnInit {
       zipcode: this.zipcode,
       city: this.city,
       comment: this.commentAddress,
-      name: this.addressName
+      name: this.addressName,
+      phone: this.phoneCustomer
     };
     this.customerService.addNewAddress(JSON.stringify(newAddress))
       .subscribe((res) => {

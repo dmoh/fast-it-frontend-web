@@ -91,13 +91,13 @@
                         <div class="mini-card-restaurant">
                           <div style="" class="img-left">
                             <div *ngFor="let media of restaurant.medias">
-                              <img *ngIf="media.type_media == 'background_img'" style="height: 100%; width: 100%" src="{{ media.path_file }}" alt="Sushi">
+                              <img *ngIf="media.type_media == 'background_img'" style="min-height: 170px; width: 100%" src="{{ media.path_file }}" alt="{{ media.name }}">
                             </div>
                           </div>
                           <div class="pl-2" style="position: relative; flex: 1">
                             <div class="delivery-time">
                               <i style="font-size: small; " class="material-icons ">alarm</i>
-                              <span class="pt-2">{{ (restaurant.estimated_preparation_time).replace(',', ' - ') }} min</span>
+                              <span *ngIf="restaurant.estimated_preparation_time != null" class="pt-2">{{ (restaurant.estimated_preparation_time).replace(',', ' - ') }} min</span>
                             </div>
                             <span style="color: #0a0a0a; font-size: large"><b>{{ restaurant.name }}</b></span>
                             <p style="margin-bottom: 0 !important;"><!--<i  class="material-icons dimension-star">star</i>4.8-->

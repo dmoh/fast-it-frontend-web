@@ -25,7 +25,9 @@ export class UserService {
     return this.http.post<any>(`${this.urlApi}/user/password`,{ user: userNew}, this.headers);
   }
 
-
+  savePhoneNumber(phone: string): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}/user/phone/save`,{ phoneUser: phone}, this.headers);
+  }
 
 
   getUserAddresses(): Observable<any> {

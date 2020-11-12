@@ -18,7 +18,8 @@ export class ProfilComponent implements OnInit {
   ngOnInit(): void {
     this.customerService.getInfosCustomer()
       .subscribe((customerCurrent) => {
-        this.customer = customerCurrent[0];
+        this.customer = customerCurrent;
+
         this.customerForm = this.fb.group({
           email: [this.customer.email, Validators.required],
           phone: [this.customer.phone],

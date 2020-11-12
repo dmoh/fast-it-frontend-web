@@ -33,6 +33,10 @@ export class CartComponent implements OnInit {
     // this.cartService.UpdateCart()
   }
 
+  onDelete(product: Product) {
+    this.cartService.UpdateCart('remove', product);
+  }
+
 
   seeCart(): void {
     // if() // todo if is connected goto cartDEtail else

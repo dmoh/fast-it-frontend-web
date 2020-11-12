@@ -40,8 +40,6 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-
-
     this.loginForm = this.formBuilder.group({
       email: ['', Validators.required],
       password: ['', Validators.required]
@@ -66,22 +64,26 @@ export class LoginComponent implements OnInit {
 
   onSubmit(isRegisterForm?: string) {
     this.submitted = true;
-
     if (isRegisterForm) {
       if (this.register.confirmPassword.value !== this.register.registerPassword.value) {
         this.error = 'Les mots de passe ne sont pas identiques';
         return;
       }
-      console.log(this.registerForm.value);
       this.userService.registerUser(JSON.stringify(this.registerForm.value))
         .subscribe((res) => {
           if (res.ok === 'success') {
               alert('Bienvenu.e :)');
-              this.router.navigate(['/home']);
-          } else if (res.error === 'error') {
+              this.authenticationService.login(this.register.registerEmail.value, this.register.registerPassword.value)
+                 .subscribe(() => {
+                   window.location.reload(true);
+                   this.router.navigate(['/home']);
+               });
+
+          } else if (res.error) {
             this.error = res.error;
           }
         });
+      return;
     }
     // stop here if form is invalid
     if (this.loginForm.invalid) {

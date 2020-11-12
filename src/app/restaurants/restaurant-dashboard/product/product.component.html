@@ -82,10 +82,10 @@
             <div class="mt-1 mb-2 description-product">
               {{ product.description }}
             </div>
-            <div *ngIf="product.supplmentsProduct.length > 0">
+            <div *ngIf="product.supplementsProduct.length > 0">
               <h6 style="font-size: .8rem">Supplément(s) éventuel(s)</h6>
               <ul>
-                <li *ngFor="let sup of product.supplmentsProduct">
+                <li *ngFor="let sup of product.supplementsProduct">
                   <span (click)="onDelete('supplement', {product: product, supplement: sup.id})"
                         class="material-icons"
                         style="cursor: pointer; font-size: large; color: red; padding-right: .5rem">
