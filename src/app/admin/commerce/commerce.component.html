@@ -19,6 +19,7 @@
           <th class="border-0">Nom</th>
           <th class="border-0">Actif</th>
           <th class="border-0">Actions</th>
+          <th class="broder-0">Fermé</th>
         </tr>
         </thead>
         <tbody>
@@ -43,6 +44,9 @@
               <button mat-raised-button color="primary" (click)="onEditCommerce(commerce)"><span class="materials-icon">edit</span></button>
               <button mat-raised-button color="warn" (click)="onDelete(commerce.id)"><span class="materials-icon">remove</span></button>
             </div>
+          </td>
+          <td>
+            <mat-slide-toggle (change)="onChange($event, commerce)" [(ngModel)]="commerce.closed"></mat-slide-toggle>
           </td>
         </tr>
         </tbody>

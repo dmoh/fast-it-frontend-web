@@ -3,6 +3,7 @@ import {Restaurant} from "@app/_models/restaurant";
 import {AdminService} from "@app/admin/admin.service";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {EditCommerceComponent} from "@app/admin/commerce/edit-commerce/edit-commerce.component";
+import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-commerce',
@@ -12,10 +13,13 @@ import {EditCommerceComponent} from "@app/admin/commerce/edit-commerce/edit-comm
 export class CommerceComponent implements OnInit {
 
   commerce: Restaurant;
+  horizontalPosition: MatSnackBarHorizontalPosition = 'start';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
   commerces: Restaurant[];
   constructor(
     private adminService: AdminService,
-    private modal: NgbModal
+    private modal: NgbModal,
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
@@ -57,6 +61,22 @@ export class CommerceComponent implements OnInit {
   }
 
   onDelete(restaurantId: number) {
+  }
+
+  onChange(event, commerce: Restaurant) {
+    this.adminService.changeCommerceState(commerce.id, commerce.closed)
+      .subscribe((res) => {
+        let info = `Restaurant ${commerce.name} est ouvert`;
+        if (commerce.closed === true) {
+          info = `Restaurant ${commerce.name} est fermé`;
+        }
+        this.snackBar.open(info, '', {
+          duration: 5000,
+          horizontalPosition: this.horizontalPosition,
+          verticalPosition: this.verticalPosition,
+        });
+      });
+    console.log('commerce', {com: commerce, ev: event});
   }
 }
 

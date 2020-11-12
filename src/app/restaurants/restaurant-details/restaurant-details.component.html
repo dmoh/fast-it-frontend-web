@@ -1,99 +1,109 @@
-<section *ngIf="restaurantDatas" class="wrapper-restaurants">
+<section *ngIf="restaurantDatas" style="position: relative" class="wrapper-restaurants" >
+  <div style="" [class.is-closed]="restaurant && restaurant.closed == true">
+    <div *ngIf="restaurant.closed == true"  class="mt-5 position-fixed w-100" >
+      <h2 style="font-size: 3rem; color: white; text-transform: uppercase" class="text-center">RESTAURANT FERMé</h2>
+    </div>
+  </div>
   <div *ngIf="urlBackgroundRestaurant && urlLogoRestaurant"
        [ngStyle]="{background: 'url(' + urlBackgroundRestaurant + ')', 'background-size': 'cover', 'background-position': 'center' }"
        class="header-restaurant">
     <div class="card-facade">
       <div style="" class="wrapper-card-header"></div>
-        <div class="logo-wrapper">
-          <img src="{{ urlLogoRestaurant }}" alt="">
-        </div>
-        <div style="margin-top: 2rem" class="">
-          <h1 class="text-center" style="font-size: xx-large;font-family: 'Oswald', sans-serif"><b>{{ restaurant.name  }}</b></h1>
-        </div>
-        <div class="w-100 text-center">
-          <span *ngFor="let i of starsRestaurant">
-              <i style="font-size: medium; vertical-align: sub; color: gold " class="material-icons ">grade</i>
-          </span>
-        </div>
-        <span style="display: block; color: #969696" class="text-center font-italic">{{ restaurant.street }}</span>
+      <div class="logo-wrapper">
+        <img src="{{ urlLogoRestaurant }}" alt="">
+      </div>
+      <div style="margin-top: 2rem" class="">
+        <h1 class="text-center" style="font-size: xx-large;font-family: 'Oswald', sans-serif"><b>{{ restaurant.name  }}</b></h1>
+      </div>
+      <div class="w-100 text-center">
+        <span *ngFor="let i of starsRestaurant">
+            <i style="font-size: medium; vertical-align: sub; color: gold " class="material-icons ">grade</i>
+        </span>
+      </div>
+      <span style="display: block; color: #969696" class="text-center font-italic">{{ restaurant.street }}</span>
     </div>
   </div>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-9">
-                <div style="display: flex" class="navbar-restaurant">
-                    <nav class="nav-menu" id="nav-menu-product" style="background: #fff" role="navigation">
-                        <div *ngFor="let category of categories">
-                          <a (click)="scroll( category.category_name )" class="menu-title cursor-pointer">{{ category.category_name }}</a>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-9">
+        <div style="display: flex" class="navbar-restaurant">
+          <nav class="nav-menu" id="nav-menu-product" style="background: #fff" role="navigation">
+            <div *ngFor="let category of categories">
+              <a (click)="scroll( category.category_name )" class="menu-title cursor-pointer">{{ category.category_name }}</a>
+            </div>
+          </nav>
+        </div>
+        <div *ngIf="restaurant.id == 21" style="padding: 0.3rem; box-shadow: 2px 5px 10px rgba(0,0,0,0.03)" class="w-100">
+          <div style="padding: .5rem">
+            <h4 style="padding: 1.4rem; font-size: xx-large; text-align: center; text-transform: uppercase;  background: #d21313;  color: white;">3 PIZZAS achetés 1 MARGUARITA OFFERTE</h4>
+          </div>
+        </div>
+        <div class="mt-2 container">
+          <div *ngIf="categories">
+            <div *ngFor="let category of categories " style="" class="menu-title mt-5" id="{{ category.category_name }}">
+              <h4 class="mt-2 mb-0" style="font-size: large; color: #d840ff; text-transform: uppercase"><b>{{ category.category_name }}</b></h4>
+              <div class="row">
+                <div *ngFor="let product of category.category_products" class="col-md-6 card-menu">
+                  <div [class.not-allowed]="product.is_available == false" (click)="openModal(product)" class="wrapper-menu">
+                    <div style="display: flex; flex-direction: row;" class="infos-menu">
+                      <div style="justify-content: space-between;position: relative;flex-grow: 1;display: flex; flex-direction: column;">
+                        <div>
+                          <h6 style="margin-bottom: .1rem"><b style="font-size: medium; font-weight: 500">{{ product.name | titlecase }}</b></h6>
                         </div>
-                    </nav>
-                </div>
-                <div class="mt-4 container">
-                <div *ngIf="categories">
-                  <div *ngFor="let category of categories " style="" class="menu-title mt-5" id="{{ category.category_name }}">
-                    <h4 class="mt-2 mb-0" style="font-size: large; color: #d840ff; text-transform: uppercase"><b>{{ category.category_name }}</b></h4>
-                    <div class="row">
-                      <div *ngFor="let product of category.category_products" class="col-md-6 card-menu">
-                        <div [class.not-allowed]="product.is_available == false" (click)="openModal(product)" class="wrapper-menu">
-                          <div style="display: flex; flex-direction: row;" class="infos-menu">
-                            <div style="justify-content: space-between;position: relative;flex-grow: 1;display: flex; flex-direction: column;">
-                              <div>
-                                <h6 style="margin-bottom: .1rem"><b style="font-size: medium; font-weight: 500">{{ product.name | titlecase }}</b></h6>
-                              </div>
-                              <p class="info-ingredient">{{ product.description | titlecase }}</p>
-                              <div class="bottom-info-menu">
-                                <span style="font-size: small">{{ (+(product.amount)/ 100).toFixed(2)  }}€</span>
-                              </div>
-                            </div>
-                            <div *ngIf="product.url_photo && product.url_photo.length > 5" class="image-menu">
-                              <img src="{{ product.url_photo }}" width="100%" height="100%" alt="{{ product.name }}">
-                            </div>
-                          </div>
+                        <p class="info-ingredient">{{ product.description | titlecase }}</p>
+                        <div class="bottom-info-menu">
+                          <span style="font-size: small">{{ (+(product.amount)/ 100).toFixed(2)  }}€</span>
                         </div>
                       </div>
-                    </div>
-                    <div class="row">
-                    </div>
-                  </div>
-                </div>
-                <!--<div *ngFor="let product of products " style="margin-top: 1rem;" id="tacos">
-                <div style="margin-top: 1rem;" id="ancre-menu">
-                  <div  class="row">
-                    <div *ngFor="let product of products" class="col-md-6 card-menu">
-                      <div (click)="openModal(product)" class="wrapper-menu">
-                        <div class="infos-menu">
-                          <div class="position-text-product">
-                            <div>
-                              <h6 style="margin-bottom: .1rem"><b>{{ product.name }}</b></h6>
-                            </div>
-                            <p class="info-ingredient">{{ product.ingredients }}</p>
-                            <div class="bottom-info-menu">
-                              <span>{{ product.price }}€</span>
-                            </div>
-                          </div>
-                          <div *ngIf="product.urlPhoto" class="image-menu">
-                            <img src="{{ product.urlPhoto }}" width="100%" height="100%" alt="Sushi">
-                          </div>
-                        </div>
+                      <div *ngIf="product.url_photo && product.url_photo.length > 5" class="image-menu">
+                        <img src="{{ product.url_photo }}" width="100%" height="100%" alt="{{ product.name }}">
                       </div>
                     </div>
                   </div>
-                  <div class="row">
+                </div>
+              </div>
+              <div class="row">
+              </div>
+            </div>
+          </div>
+          <!--<div *ngFor="let product of products " style="margin-top: 1rem;" id="tacos">
+          <div style="margin-top: 1rem;" id="ancre-menu">
+            <div  class="row">
+              <div *ngFor="let product of products" class="col-md-6 card-menu">
+                <div (click)="openModal(product)" class="wrapper-menu">
+                  <div class="infos-menu">
+                    <div class="position-text-product">
+                      <div>
+                        <h6 style="margin-bottom: .1rem"><b>{{ product.name }}</b></h6>
+                      </div>
+                      <p class="info-ingredient">{{ product.ingredients }}</p>
+                      <div class="bottom-info-menu">
+                        <span>{{ product.price }}€</span>
+                      </div>
+                    </div>
+                    <div *ngIf="product.urlPhoto" class="image-menu">
+                      <img src="{{ product.urlPhoto }}" width="100%" height="100%" alt="Sushi">
+                    </div>
                   </div>
                 </div>
-                </div>-->
               </div>
             </div>
-            <div class="col-md-3">
-              <div style="" id="container-app-cart">
-                <app-cart class="container-app-cart"></app-cart>
-              </div>
+            <div class="row">
             </div>
+          </div>
+          </div>-->
         </div>
-        <div class="row">
-            <div class="col-md-8">
-            </div>
+      </div>
+      <div class="col-md-3">
+        <div style="" id="container-app-cart">
+          <app-cart class="container-app-cart"></app-cart>
         </div>
+      </div>
     </div>
+    <div class="row">
+      <div class="col-md-8">
+      </div>
+    </div>
+  </div>
 </section>
 <app-footer></app-footer>
