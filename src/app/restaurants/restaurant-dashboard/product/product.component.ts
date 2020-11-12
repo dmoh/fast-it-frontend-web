@@ -9,6 +9,7 @@ import {CategoryProductComponent} from '@app/restaurants/restaurant-dashboard/ca
 import {AddProductDialogComponent} from '@app/restaurants/restaurant-dashboard/category-product/add-product-dialog/add-product-dialog.component';
 import {ActivatedRoute, Router} from "@angular/router";
 import {SecurityRestaurantService} from "@app/_services/security-restaurant.service";
+import {CategoryProduct} from "@app/_models/category-product";
 
 @Component({
   selector: 'app-product',
@@ -34,7 +35,7 @@ export class ProductComponent implements OnInit {
     this.updateProductList();
   }
 
-  updateProductList(restaurantId?: number) {
+  updateProductList(restaurantId?: number, reload?: string) {
     this.securityRestaurantService.getRestaurant()
       .subscribe((restaurantObj) => {
         if (!isNaN(restaurantObj.id)) {
@@ -86,6 +87,11 @@ export class ProductComponent implements OnInit {
     if (!product) {
       product = new Product();
     }
+
+    if (product.category === null) {
+      product.category = new CategoryProduct();
+      product.category.id = 0;
+    }
     // add business id to product
     product = Object.assign({business_id: this.restaurant.id }, product);
     this.productBeforeUpdate = Object.assign({}, product);
@@ -106,11 +112,8 @@ export class ProductComponent implements OnInit {
         result.business_id = this.restaurant.id;
         const formData = new FormData();
         const updatedProduct = result;
-
-        console.warn(result);
-        if (updatedProduct.category.name.trim() === ''
-          && updatedProduct.category.id === 0
-        ) {
+        console.warn('res', result);
+        if (updatedProduct.category.id === 0) {
           result.category = null;
         }
         formData.append('product', JSON.stringify(result));
@@ -120,7 +123,7 @@ export class ProductComponent implements OnInit {
         }
         this.uploadService.upload(formData, 0, true)
           .subscribe((resp) => {
-              this.updateProductList(this.restaurant.id);
+              this.reloadProduct(this.restaurant.id);
             }, (error) => {
               console.warn(error);
             }
@@ -174,4 +177,15 @@ export class ProductComponent implements OnInit {
       });
   }
 
+
+  private reloadProduct(restaurantId: number) {
+    this.restaurantService.getProductListByBusinessId(restaurantId)
+      .subscribe((responseDb) => {
+        this.productsResto = responseDb.products;
+      });
+    this.restaurantService.getCategoriesByBusinessId(restaurantId)
+      .subscribe((cat) => {
+        this.categories = cat;
+      });
+  }
 }

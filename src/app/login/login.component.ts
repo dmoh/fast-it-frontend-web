@@ -75,7 +75,6 @@ export class LoginComponent implements OnInit {
               alert('Bienvenu.e :)');
               this.authenticationService.login(this.register.registerEmail.value, this.register.registerPassword.value)
                  .subscribe(() => {
-                   window.location.reload(true);
                    this.router.navigate(['/home']);
                });
 
@@ -89,9 +88,6 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
-
-
-
     this.loading = true;
     this.authenticationService.login(this.f.email.value, this.f.password.value)
       .pipe(first())

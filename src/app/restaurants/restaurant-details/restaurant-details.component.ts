@@ -104,7 +104,7 @@ export class RestaurantDetailsComponent implements OnInit {
     return response;
   }
   openModal(product: Product): void {
-    if (this.cartService.getBusinessCurrent().id !== this.restaurantId) {
+    if (typeof this.cartService.getBusinessCurrent() !== 'undefined' && this.cartService.getBusinessCurrent().id !== this.restaurantId) {
         const modalInfo = this.modal.open(InfoModalComponent, {
           backdrop: 'static',
           keyboard: false,
