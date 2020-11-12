@@ -42,7 +42,7 @@ export class DetailDeliveryComponent implements OnInit {
     });    
   }
 
-  validateDelivery(): void {
+  onValidateDelivery(): void {
     if (this.hasDeliveryCode) {
       this.isValid = this.delivererForm.value.code === this.order.deliverCode;
     }
@@ -56,7 +56,7 @@ export class DetailDeliveryComponent implements OnInit {
     }
   }
 
-  validateWithoutCode() {
+  onValidateWithoutCode() {
     this.delivererForm.value.notCode = true;
   }
 
@@ -72,6 +72,29 @@ export class DetailDeliveryComponent implements OnInit {
       }
     };
     this.deliveryService.saveOrderFinal(order).subscribe();
+  }
+
+  onTakenDelivery() {
+    if (this.order){
+      this.saveOrderDeliverer(this.order.id, this.order.deliverer_id, Date.now());
+    }
+  }
+
+  private saveOrderDeliverer(orderId, delivererId, dateDelivery) {
+    let dateTakenDeliverer = dateDelivery;
+
+    let dateDelivered = '@' + Math.round(dateDelivery/1000) ;
+    
+    let orderSave: any;
+    orderSave = { 
+      order : {
+        order_id: orderId,
+        deliverer_id: delivererId,
+        date_taken_deliverer: dateTakenDeliverer,
+        status: 3,
+      }
+    };
+    this.deliveryService.saveOrderDeliverer(orderSave).subscribe();
   }
 
 }

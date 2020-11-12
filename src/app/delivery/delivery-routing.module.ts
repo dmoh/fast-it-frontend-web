@@ -9,8 +9,7 @@ import { ParameterComponent } from './parameter/parameter.component';
 
 
 const routes: Routes = [{
-  path: 'delivery', component: DeliveryComponent,
-  canActivate: [AuthGuard],
+  path: 'delivery', component: DeliveryComponent, canActivate: [AuthGuard],
   children: [
     {
       path: 'awaiting-delivery',

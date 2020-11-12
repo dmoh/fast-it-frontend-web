@@ -17,7 +17,7 @@ const routes: Routes = [
     {path: 'restaurants-city', component: RestaurantsCityComponent},
     {path: 'login', component: LoginComponent},
     {path: 'password', component: PasswordComponent},
-    {path: 'delivery', component: DeliveryComponent},
+    // {path: 'delivery', component: DeliveryComponent},
     { path: 'admin', component: AdminComponent, canActivate: [AuthGuard]  },
     { path: 'show-order', component: ShowOrderComponent },
     {path: '', redirectTo: '/home', pathMatch: 'full'}

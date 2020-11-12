@@ -32,7 +32,7 @@
     </div>
     <div class="row">
        <div *ngIf="delivererForm" style="padding-top: 2rem" class="col-md-8 card">
-        <form [formGroup]="delivererForm" (ngSubmit)="validateDelivery()">
+        <form [formGroup]="delivererForm" (ngSubmit)="onValidateDelivery()">
           <h2>Validation livraison</h2>
           <p>
               <mat-form-field style="width: 40%;" appearance="outline">
@@ -43,7 +43,7 @@
           </p>
           <div *ngIf="!isValid" class="alert alert-danger">Code invalide</div>
           <div class="mb-3">
-            <button class="float-right mb-3" mat-raised-button color="basic" (click)="validateWithoutCode()">Sans code</button>
+            <button class="float-right mb-3" mat-raised-button color="basic" (click)="onValidateWithoutCode()">Sans code</button>
             <button *ngIf="hasDeliveryCode" class="float-right mb-3" mat-raised-button type="submit" color="primary">Valider</button>
           </div>
         </form>
