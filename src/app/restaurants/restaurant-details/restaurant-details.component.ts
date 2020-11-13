@@ -104,22 +104,7 @@ export class RestaurantDetailsComponent implements OnInit {
     return response;
   }
   openModal(product: Product): void {
-<<<<<<< HEAD
-    let test = true; 
-    if (this.cartService.getBusinessCurrent() == null) {
-      const modal = this.modal.open(ProductModalComponent);
-      modal.componentInstance.product = product;
-      modal.componentInstance.restaurant = this.restaurant;
-      modal.result.then((prod: Product) => {
-        if (prod) {
-          this.cartService.cartUpdated.subscribe((cart: Cart) => this.cartCurrent = cart);
-        }
-      });
-    }
-    if (this.cartService.getBusinessCurrent().id !== this.restaurantId) {
-=======
     if (typeof this.cartService.getBusinessCurrent() !== 'undefined' && this.cartService.getBusinessCurrent().id !== this.restaurantId) {
->>>>>>> master
         const modalInfo = this.modal.open(InfoModalComponent, {
           backdrop: 'static',
           keyboard: false,
