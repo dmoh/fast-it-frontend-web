@@ -6,6 +6,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { OrderModalComponent } from '../order-modal/order-modal.component';
 import { CardComponent } from '@app/home/home-features/card/card.component';
 import { Observable, Subscription } from 'rxjs';
+import jwtDecode from 'jwt-decode';
 
 @Component({
   selector: 'app-show-order',
@@ -22,9 +23,11 @@ export class ShowOrderComponent implements OnInit {
   constructor(
     private activedRoute: ActivatedRoute,
     private restaurantDashboardService: RestaurantDashboardService,
+    private authenticate: AuthenticationService,
     private orderModal: NgbModal,
     private router: Router
   ) {
+    console.log(jwtDecode(this.authenticate.currentUserValue.token));
 
   }
 
@@ -99,9 +102,9 @@ export class ShowOrderComponent implements OnInit {
         modalRef.componentInstance.business = order.business;
         modalRef.componentInstance.products = this.products;
         modalRef.componentInstance.order = order;
-        // TODO get url value commentaire order
         // TODO get url value supplementProducts
         modalRef.componentInstance.supplementsProduct = this.supplementsProduct;
+        // TODO get url value commentaire order
       }
 
     });

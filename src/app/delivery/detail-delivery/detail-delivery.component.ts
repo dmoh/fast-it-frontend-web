@@ -53,7 +53,6 @@ export class DetailDeliveryComponent implements OnInit {
 
     if (this.delivererForm.value.notCode || this.isValid) {
       this.finalizeDelivery();
-      this.router.navigate(['/delivery/awaiting-delivery']);
     }
     else {
       return;
@@ -77,8 +76,7 @@ export class DetailDeliveryComponent implements OnInit {
       modalRef.result.then((result) => {
         if (result.response) {
           console.log(result);
-          this.saveOrderDeliverer(this.order.id, this.order.deliverer_id, Date.now());
-          // window.location.reload();
+          this.saveOrderDeliverer(this.order.id, this.order.deliverer.id, Date.now(), true);
         }
       });
     }
@@ -103,10 +101,12 @@ export class DetailDeliveryComponent implements OnInit {
         status: 4,
       }
     };
-    this.deliveryService.saveOrderFinal(order).subscribe();
+    this.deliveryService.saveOrderFinal(order).subscribe( res => {
+      this.router.navigate(['/delivery/awaiting-delivery']);
+    });
   }
 
-  private saveOrderDeliverer(orderId, delivererId, dateDelivery) {
+  private saveOrderDeliverer(orderId, delivererId, dateDelivery, refresh) {
     let dateTakenDeliverer = dateDelivery;
 
     let dateDelivered = '@' + Math.round(dateDelivery/1000) ;
@@ -120,7 +120,11 @@ export class DetailDeliveryComponent implements OnInit {
         status: 3,
       }
     };
+    console.log(orderSave);
     this.deliveryService.saveOrderDeliverer(orderSave).subscribe();
+    if (refresh) {
+      window.location.reload();
+    }
   }
 
 }
