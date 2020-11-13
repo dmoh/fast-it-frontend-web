@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-home-features',
@@ -7,9 +8,27 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeFeaturesComponent implements OnInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
+  }
+
+
+  goTo(restaurant: string) {
+    switch (restaurant) {
+      case 'pizza-bella':
+        this.router.navigate(['/restaurant/21']);
+        break;
+      case 'pizza-delices':
+        this.router.navigate(['/restaurant/24']);
+        break;
+      case 'mister-food':
+        this.router.navigate(['/restaurant/22']);
+        break;
+      case 'pizza-des-lacs':
+        this.router.navigate(['/restaurant/23']);
+        break;
+    }
   }
 
 }

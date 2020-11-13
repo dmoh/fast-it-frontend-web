@@ -29,7 +29,7 @@ export class ParameterComponent implements OnInit {
     this.deliveryService.getInfosDeliverer()
       .subscribe((delivererCurrent) => {
         this.deliverer = delivererCurrent;
-        console.log(this.deliverer);
+        
         let city;
         let street;
         let zipcode;
@@ -59,7 +59,6 @@ export class ParameterComponent implements OnInit {
 
   async saveDelivererInfo() {
     // // https://entreprise.data.gouv.fr/api/sirene/v1/siret/
-    // console.warn("Await ", await this.delivererForm.value.siret);
     
     // todo kbis a sauvegarder
     this.deliveryService.getKbis(this.delivererForm.value.siret).subscribe(

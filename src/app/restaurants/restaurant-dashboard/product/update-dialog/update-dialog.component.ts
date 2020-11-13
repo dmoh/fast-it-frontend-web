@@ -20,7 +20,6 @@ export class UpdateDialogComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    console.warn(this.product);
     if (this.product.amount && +(this.product.amount) > 0) {
       this.product.amount = +(this.product.amount) / 100;
     }
@@ -44,7 +43,6 @@ export class UpdateDialogComponent implements OnInit {
   onChangeAmount() {
     // display prix affiché
     if (this.product.amount > 10 ) {
-
     }
   }
 
@@ -55,7 +53,5 @@ export class UpdateDialogComponent implements OnInit {
   }
 
   onChangeCategoryProduct(event) {
-    console.log(this.product.category);
-    console.log(event);
   }
 }

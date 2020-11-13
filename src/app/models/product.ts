@@ -13,7 +13,7 @@ export class Product {
     createdAt: string;
     updatedAt: string;
     commentCustomer: string;
-    addComment: boolean = false;
+    addComment: boolean;
     supplementsProduct: any[];
     infoCommentCustomer: string;
     created_at: {date};
