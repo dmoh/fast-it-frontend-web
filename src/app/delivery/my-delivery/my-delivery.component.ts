@@ -42,7 +42,7 @@ export class MyDeliveryComponent implements OnInit, AfterViewInit {
     this.deliverer = new Delivery();
     this.deliveryService.getInfosDeliverer().subscribe((delivererInfo) => {
       this.deliverer = delivererInfo;
-      console.log(this.deliverer);
+      console.warn("livraisons effectues", this.deliverer);
       if (this.deliverer) {
         if (this.deliverer.orders) {
           // ajouter param dans le back end pour filtrer les commandes livré

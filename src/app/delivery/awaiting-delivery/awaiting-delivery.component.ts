@@ -1,13 +1,12 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RestaurantDashboardComponent } from '@app/restaurants/restaurant-dashboard/restaurant-dashboard.component';
 import { Delivery } from '@app/_models/delivery';
 import { Order } from '@app/_models/order';
 import { Restaurant } from '@app/_models/restaurant';
 import { AuthenticationService } from '@app/_services/authentication.service';
-import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { DeliveryService } from '../services/delivery.service';
+import * as fasteatconst from "@app/_util/fasteat-constants";
 
 @Component({
   selector: 'app-awaiting-delivery',
@@ -25,21 +24,14 @@ export class AwaitingDeliveryComponent implements OnInit {
   orderId: string;
   error: string;
   headers: any;
-
+  fastEatConst = fasteatconst;
+  
   constructor(private http: HttpClient,
      private authenticate: AuthenticationService,
      private deliveryService: DeliveryService,
      private activatedRoute: ActivatedRoute,
      private router: Router) {
-    this.headers = new HttpHeaders({'Content-Type': 'application/json; charset=utf-8'});
-    if (localStorage.getItem('cart_fast_eat')) {
-    }
-    if (this.authenticate.tokenUserCurrent == null) {
-      // this.router.navigate(['/login']);
-    }
-    if (this.authenticate.tokenUserCurrent) {
-      this.headers.append(`Authorization: Bearer ${this.authenticate.tokenUserCurrent}`) ;
-    }
+
   }
 
   ngOnInit(): void {

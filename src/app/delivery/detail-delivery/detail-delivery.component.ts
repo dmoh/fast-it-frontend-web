@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { RestaurantDashboardService } from '@app/restaurants/restaurant-dashboard/services/restaurant-dashboard.service';
-import { Delivery } from '@app/_models/delivery';
 import { DeliveryService } from '../services/delivery.service';
 import { ActivatedRoute, Router, RouterState } from '@angular/router';
+import { PickupOrderModalComponent } from '@app/pickup-order-modal/pickup-order-modal.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Order } from '@app/_models/order';
 
 @Component({
@@ -23,6 +23,7 @@ export class DetailDeliveryComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private deliveryService: DeliveryService,
     private router: Router,
+    private pickupOrderModal: NgbModal,
     private route: ActivatedRoute) { 
       this.isDelivering = null;
     }
@@ -33,13 +34,9 @@ export class DetailDeliveryComponent implements OnInit {
 
     this.deliveryService.getOrderById(+this.orderId).subscribe( order => {
       // let order: Order = new Order();
-
       this.order = order;
       this.isDelivering = this.order.status >= 3 ;
 
-      console.log(order);
-  
-        
       this.hasDeliveryCode = this.order.deliverCode != null;
       
       this.delivererForm = this.fb.group({
@@ -67,7 +64,35 @@ export class DetailDeliveryComponent implements OnInit {
     this.delivererForm.value.notCode = true;
   }
 
-  finalizeDelivery() {
+  onTakenDelivery() {
+    if (this.order && !this.isDelivering){
+      
+      const modalRef = this.pickupOrderModal.open(PickupOrderModalComponent, {
+        backdrop: 'static',
+        keyboard: true,
+        size: 'lg',
+      });
+
+      modalRef.componentInstance.order = this.order;
+      modalRef.result.then((result) => {
+        if (result.response) {
+          console.log(result);
+          this.saveOrderDeliverer(this.order.id, this.order.deliverer_id, Date.now());
+          // window.location.reload();
+        }
+      });
+    }
+  }
+
+  //
+  // test () {
+  //   // if (window.confirm("Avez vous récuperé la commande ? ") ) {
+  //   //   this.saveOrderDeliverer(this.order.id, this.order.deliverer_id, Date.now());
+  //   //   window.location.reload();
+  //   // }
+  // }
+
+  private finalizeDelivery() {
     let order: any;
     let dateDelivered = '@' + Math.round(Date.now()/1000) ;
 
@@ -79,14 +104,6 @@ export class DetailDeliveryComponent implements OnInit {
       }
     };
     this.deliveryService.saveOrderFinal(order).subscribe();
-  }
-
-  onTakenDelivery() {
-    if (this.order && !this.isDelivering){
-      alert();
-      this.saveOrderDeliverer(this.order.id, this.order.deliverer_id, Date.now());
-      window.location.reload();
-    }
   }
 
   private saveOrderDeliverer(orderId, delivererId, dateDelivery) {

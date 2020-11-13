@@ -64,7 +64,6 @@ export class ShowOrderComponent implements OnInit {
                 // createProductList
                 let listSuppProduct: any[] = decodeURI(res.suppProducts).trim().split(' ');
                 listSuppProduct.forEach( suppProduct => {
-                  console.log("split", suppProduct.split("|"));
                   let supplement: any = { };
                   supplement = {
                     productId : suppProduct.split("|")[0],
@@ -72,6 +71,7 @@ export class ShowOrderComponent implements OnInit {
                   }
                   this.supplementsProduct.push(supplement); 
                 });
+                console.log("supplements produit", this.supplementsProduct);
 
                 this.onShowModal();
               } else {

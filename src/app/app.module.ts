@@ -27,6 +27,7 @@ import { PasswordComponent } from './password/password.component';
 import {RestaurantDashboardService} from '@app/restaurants/restaurant-dashboard/services/restaurant-dashboard.service';
 import {SecurityRestaurantService} from '@app/_services/security-restaurant.service';
 import { InfoModalComponent } from './info-modal/info-modal.component';
+import { PickupOrderModalComponent } from './pickup-order-modal/pickup-order-modal.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { InfoModalComponent } from './info-modal/info-modal.component';
     CheckoutComponent,
     Page404Component,
     PasswordComponent,
-    InfoModalComponent
+    InfoModalComponent,
+    PickupOrderModalComponent
   ],
   imports: [
     BrowserModule,
