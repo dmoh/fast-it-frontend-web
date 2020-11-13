@@ -6,6 +6,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { OrderModalComponent } from '../order-modal/order-modal.component';
 import { CardComponent } from '@app/home/home-features/card/card.component';
 import { Observable, Subscription } from 'rxjs';
+import jwtDecode from 'jwt-decode';
 
 @Component({
   selector: 'app-show-order',
@@ -25,7 +26,6 @@ export class ShowOrderComponent implements OnInit {
     private orderModal: NgbModal,
     private router: Router
   ) {
-
   }
 
   ngOnInit(): void {
@@ -64,7 +64,6 @@ export class ShowOrderComponent implements OnInit {
                 // createProductList
                 let listSuppProduct: any[] = decodeURI(res.suppProducts).trim().split(' ');
                 listSuppProduct.forEach( suppProduct => {
-                  console.log("split", suppProduct.split("|"));
                   let supplement: any = { };
                   supplement = {
                     productId : suppProduct.split("|")[0],
@@ -72,6 +71,7 @@ export class ShowOrderComponent implements OnInit {
                   }
                   this.supplementsProduct.push(supplement); 
                 });
+                console.log("supplements produit", this.supplementsProduct);
 
                 this.onShowModal();
               } else {
@@ -99,9 +99,8 @@ export class ShowOrderComponent implements OnInit {
         modalRef.componentInstance.business = order.business;
         modalRef.componentInstance.products = this.products;
         modalRef.componentInstance.order = order;
-        // TODO get url value commentaire order
-        // TODO get url value supplementProducts
         modalRef.componentInstance.supplementsProduct = this.supplementsProduct;
+        // TODO get url value commentaire order
       }
 
     });

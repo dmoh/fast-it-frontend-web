@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from '@app/_helpers/auth.guard';
 import { AwaitingDeliveryComponent } from './awaiting-delivery/awaiting-delivery.component';
 import { DeliveryComponent } from './delivery.component';
 import { DetailDeliveryComponent } from './detail-delivery/detail-delivery.component';
@@ -8,7 +9,7 @@ import { ParameterComponent } from './parameter/parameter.component';
 
 
 const routes: Routes = [{
-  path: 'delivery', component: DeliveryComponent,
+  path: 'delivery', component: DeliveryComponent, canActivate: [AuthGuard],
   children: [
     {
       path: 'awaiting-delivery',

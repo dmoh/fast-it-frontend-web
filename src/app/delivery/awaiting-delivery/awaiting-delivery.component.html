@@ -24,8 +24,19 @@
         <td>{{ order.date.date | date: 'HH:mm' }}</td>
         <td>{{ order.delivery_cost / 100 }}</td>
         <td>
-          <span matBadge="{{order.status}}" matBadgePosition="before" matBadgeColor="accent">
-          </span>
+          <!-- <span matBadge="{{getLibelleStatus(order.status)}}" matBadgePosition="before" matBadgeColor="accent">
+          </span> -->
+          <div [ngSwitch]="order.status">
+            <span *ngSwitchCase="fastEatConst.status.WAITING_TAKING_BY_DELIVER " class="badge badge-warning">
+              En prépation
+            </span>
+            <span *ngSwitchCase=" fastEatConst.status.ORDER_ROUTING " class="badge badge-info">
+              En cours d'acheminement
+            </span>
+            <span *ngSwitchCase="fastEatConst.status.ORDER_CLOSED_WITH_SUCCESS || fastEatConst.status.ORDER_ROUTING " class="badge badge-success">
+              Livré
+            </span>
+          </div>
         </td>
       </tr>
     </tbody>

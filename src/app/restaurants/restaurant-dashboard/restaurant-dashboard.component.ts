@@ -3,7 +3,6 @@ import {RestaurantDashboardService} from '@app/restaurants/restaurant-dashboard/
 import {Restaurant} from '@app/_models/restaurant';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {OrderModalComponent} from '@app/restaurants/order-modal/order-modal.component';
 import {SecurityRestaurantService} from '@app/_services/security-restaurant.service';
 
 @Component({

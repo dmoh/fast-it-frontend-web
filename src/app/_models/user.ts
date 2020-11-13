@@ -13,4 +13,5 @@ export class User {
   orders?: any[] = [];
   addresses: any[];
   phone: string = '';
+  roles?: string[] = [];
 }

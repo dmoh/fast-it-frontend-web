@@ -29,15 +29,26 @@ export class ParameterComponent implements OnInit {
     this.deliveryService.getInfosDeliverer()
       .subscribe((delivererCurrent) => {
         this.deliverer = delivererCurrent;
+        
+        let city;
+        let street;
+        let zipcode;
+        
+        if (Array.isArray(this.deliverer.addresses) && this.deliverer.addresses.length > 0) {
+          const addresses: any[any] = this.deliverer.addresses;
+          city = addresses.city;
+          street = addresses.street;        
+          zipcode = addresses.zipcode;
+        }
 
         this.delivererForm = this.fb.group({
           userName: [this.deliverer.firstname, Validators.required],
           lastName: [this.deliverer.lastname, Validators.required],
           phone: [this.deliverer.phone, Validators.required],
           email: [this.deliverer.email, Validators.required],
-          city: [this.deliverer.addresses[0].city, Validators.required],
-          zipcode: [this.deliverer.addresses[0].zipcode, Validators.required],
-          street: [this.deliverer.addresses[0].street, Validators.required],
+          city: [city, Validators.required],
+          street: [street, Validators.required],
+          zipcode: [zipcode, Validators.required],
           workingTime: [this.deliverer.workingTime, Validators.required],
           workingTimeTwo: [this.deliverer.workingTimeTwo, Validators.required],
           siret: [this.siret, Validators.required],
@@ -48,7 +59,6 @@ export class ParameterComponent implements OnInit {
 
   async saveDelivererInfo() {
     // // https://entreprise.data.gouv.fr/api/sirene/v1/siret/
-    // console.warn("Await ", await this.delivererForm.value.siret);
     
     // todo kbis a sauvegarder
     this.deliveryService.getKbis(this.delivererForm.value.siret).subscribe(

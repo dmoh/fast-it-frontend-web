@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { RestaurantDashboardService } from '@app/restaurants/restaurant-dashboard/services/restaurant-dashboard.service';
-import { Delivery } from '@app/_models/delivery';
 import { DeliveryService } from '../services/delivery.service';
 import { ActivatedRoute, Router, RouterState } from '@angular/router';
+import { PickupOrderModalComponent } from '@app/pickup-order-modal/pickup-order-modal.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Order } from '@app/_models/order';
 
 @Component({
@@ -13,16 +13,20 @@ import { Order } from '@app/_models/order';
 })
 export class DetailDeliveryComponent implements OnInit {
 
+  hasDeliveryCode: boolean = true;
   delivererForm: FormGroup;
-  order: any;
   isValid: boolean;
   orderId: string;
-  hasDeliveryCode: boolean = true;
+  order: any;
+  isDelivering: boolean;
 
   constructor(private fb: FormBuilder,
     private deliveryService: DeliveryService,
     private router: Router,
-    private route: ActivatedRoute) { }
+    private pickupOrderModal: NgbModal,
+    private route: ActivatedRoute) { 
+      this.isDelivering = null;
+    }
 
   ngOnInit(): void {
     this.isValid = true;
@@ -30,9 +34,9 @@ export class DetailDeliveryComponent implements OnInit {
 
     this.deliveryService.getOrderById(+this.orderId).subscribe( order => {
       // let order: Order = new Order();
-
       this.order = order;
-        
+      this.isDelivering = this.order.status >= 3 ;
+
       this.hasDeliveryCode = this.order.deliverCode != null;
       
       this.delivererForm = this.fb.group({
@@ -42,25 +46,43 @@ export class DetailDeliveryComponent implements OnInit {
     });    
   }
 
-  validateDelivery(): void {
-    if (this.hasDeliveryCode) {
+  onValidateDelivery(): void {
+    if (this.hasDeliveryCode && !this.delivererForm.value.notCode) {
       this.isValid = this.delivererForm.value.code === this.order.deliverCode;
     }
 
     if (this.delivererForm.value.notCode || this.isValid) {
       this.finalizeDelivery();
-      this.router.navigate(['/delivery/awaiting-delivery']);
     }
     else {
       return;
     }
   }
 
-  validateWithoutCode() {
+  onValidateWithoutCode() {
     this.delivererForm.value.notCode = true;
   }
 
-  finalizeDelivery() {
+  onTakenDelivery() {
+    if (this.order && !this.isDelivering){
+      
+      const modalRef = this.pickupOrderModal.open(PickupOrderModalComponent, {
+        backdrop: 'static',
+        keyboard: true,
+        size: 'lg',
+      });
+
+      modalRef.componentInstance.order = this.order;
+      modalRef.result.then((result) => {
+        if (result.response) {
+          console.log(result);
+          this.saveOrderDeliverer(this.order.id, this.order.deliverer.id, Date.now(), true);
+        }
+      });
+    }
+  }
+
+  private finalizeDelivery() {
     let order: any;
     let dateDelivered = '@' + Math.round(Date.now()/1000) ;
 
@@ -71,7 +93,37 @@ export class DetailDeliveryComponent implements OnInit {
         status: 4,
       }
     };
-    this.deliveryService.saveOrderFinal(order).subscribe();
+    this.deliveryService.saveOrderFinal(order).subscribe( res => {
+      this.router.navigate(['/delivery/awaiting-delivery']);
+    });
+  }
+
+  private saveOrderDeliverer(orderId, delivererId, dateDelivery, refresh) {
+    let dateTakenDeliverer = dateDelivery;
+
+    let dateDelivered = '@' + Math.round(dateDelivery/1000) ;
+    
+    let orderSave: any;
+    orderSave = { 
+      order : {
+        order_id: orderId,
+        deliverer_id: delivererId,
+        date_taken_deliverer: dateTakenDeliverer,
+        status: 3,
+      }
+    };
+    console.log(orderSave);
+    this.deliveryService.saveOrderDeliverer(orderSave).subscribe(
+      next => {
+        if (refresh) {
+          console.warn("success", next);
+          window.location.reload();
+        }
+      },
+      error => {
+        console.error("error", error);
+      }
+    );
   }
 
 }

@@ -1,13 +1,12 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { RestaurantDashboardComponent } from '@app/restaurants/restaurant-dashboard/restaurant-dashboard.component';
 import { Delivery } from '@app/_models/delivery';
 import { Order } from '@app/_models/order';
 import { Restaurant } from '@app/_models/restaurant';
 import { AuthenticationService } from '@app/_services/authentication.service';
-import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { DeliveryService } from '../services/delivery.service';
+import * as fasteatconst from "@app/_util/fasteat-constants";
 
 @Component({
   selector: 'app-awaiting-delivery',
@@ -25,21 +24,14 @@ export class AwaitingDeliveryComponent implements OnInit {
   orderId: string;
   error: string;
   headers: any;
-
+  fastEatConst = fasteatconst;
+  
   constructor(private http: HttpClient,
      private authenticate: AuthenticationService,
      private deliveryService: DeliveryService,
      private activatedRoute: ActivatedRoute,
      private router: Router) {
-    this.headers = new HttpHeaders({'Content-Type': 'application/json; charset=utf-8'});
-    if (localStorage.getItem('cart_fast_eat')) {
-    }
-    if (this.authenticate.tokenUserCurrent == null) {
-      // this.router.navigate(['/login']);
-    }
-    if (this.authenticate.tokenUserCurrent) {
-      this.headers.append(`Authorization: Bearer ${this.authenticate.tokenUserCurrent}`) ;
-    }
+
   }
 
   ngOnInit(): void {
@@ -53,8 +45,8 @@ export class AwaitingDeliveryComponent implements OnInit {
       this.doAffectDeliverer(+this.orderId);
     } else {
       // get Orders awaiting delivery
-      this.deliveryService.getCurrentOrders().subscribe((delivererCurrent)=>{
-        console.log("delivererCurrent", delivererCurrent);
+      this.deliveryService.getCurrentOrders().subscribe((delivererCurrent) => {
+        console.log("delivererCurrentOrder", delivererCurrent);
         this.deliverer = delivererCurrent; 
         this.orders = (this.deliverer.orders != null) ? this.deliverer.orders : new Array();
       });
@@ -71,7 +63,7 @@ export class AwaitingDeliveryComponent implements OnInit {
           // console.log("deliverer", deliverer);
           if (currentOrder.deliverer == null && deliverer.id) {
             let dateTakenDeliverer = Date.now();
-            this.saveOrderDeliverer(currentOrder.id, deliverer.id , dateTakenDeliverer);
+            this.saveOrderDeliverer(currentOrder.id, deliverer.id , dateTakenDeliverer, 3);
           }
           // retourne sur la page sans get param
           this.router.navigate(['/delivery/awaiting-delivery']);
@@ -80,7 +72,7 @@ export class AwaitingDeliveryComponent implements OnInit {
   }
 
   
-  private saveOrderDeliverer(orderId, delivererId, dateDelivery) {
+  private saveOrderDeliverer(orderId, delivererId, dateDelivery, status) {
     let dateTakenDeliverer = dateDelivery;
 
     let dateDelivered = '@' + Math.round(dateDelivery/1000) ;
@@ -90,10 +82,25 @@ export class AwaitingDeliveryComponent implements OnInit {
       order : {
         order_id: orderId,
         deliverer_id: delivererId,
-        date_taken_deliverer: dateTakenDeliverer,
-        status: 3,
+        date_taken_deliverer: null,
+        // status: 3,
       }
     };
     this.deliveryService.saveOrderDeliverer(orderSave).subscribe();
+  }
+
+  getLibelleStatus(status: string) {
+    let libelleStatus = "";
+    switch (status) {
+      case '2': 
+        libelleStatus = "En attente de récuperation"
+        break;
+      case '3':
+        libelleStatus = "En cours de livraison"
+        break;
+      default:
+        libelleStatus;
+    }
+    return libelleStatus;
   }
 }

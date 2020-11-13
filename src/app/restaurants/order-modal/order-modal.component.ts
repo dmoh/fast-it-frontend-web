@@ -42,11 +42,8 @@ export class OrderModalComponent implements OnInit {
         // product.amount = this.order.amount;
         
         product.supplementsProduct = this.supplementsProduct.filter( suppProduct => {
-          console.log("suppProduct.productId", suppProduct.productId);
-          console.log("supp id", product.id);
           return suppProduct.productId == product.id ;
         });
-        console.log("supplement", product.supplementsProduct);
         
         this.productList.push(product);
       });
@@ -81,18 +78,13 @@ export class OrderModalComponent implements OnInit {
       business_id: null,
       message,
     };
-    console.log('dataOrder', dataOrder);
+    console.warn("Message de refus");
     this.restaurantService.refuseOrder(dataOrder).subscribe();
     this.redirectAfterTrait();
   }
 
   redirectAfterTrait() {
-    this.router.navigate(['restaurant-dashboard', this.business.id ], {
-      // queryParams: {
-      //   orderId: +this.order.id,
-      //   products: this.products.toString(),
-      // }
-    });
+    this.router.navigate(['restaurant-dashboard', this.business.id ]);
     this.modalActive.close();
   }
 
