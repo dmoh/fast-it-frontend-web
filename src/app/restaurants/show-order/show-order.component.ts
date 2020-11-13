@@ -23,12 +23,9 @@ export class ShowOrderComponent implements OnInit {
   constructor(
     private activedRoute: ActivatedRoute,
     private restaurantDashboardService: RestaurantDashboardService,
-    private authenticate: AuthenticationService,
     private orderModal: NgbModal,
     private router: Router
   ) {
-    console.log(jwtDecode(this.authenticate.currentUserValue.token));
-
   }
 
   ngOnInit(): void {
@@ -102,7 +99,6 @@ export class ShowOrderComponent implements OnInit {
         modalRef.componentInstance.business = order.business;
         modalRef.componentInstance.products = this.products;
         modalRef.componentInstance.order = order;
-        // TODO get url value supplementProducts
         modalRef.componentInstance.supplementsProduct = this.supplementsProduct;
         // TODO get url value commentaire order
       }

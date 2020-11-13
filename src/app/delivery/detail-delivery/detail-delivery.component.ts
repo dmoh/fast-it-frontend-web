@@ -121,10 +121,17 @@ export class DetailDeliveryComponent implements OnInit {
       }
     };
     console.log(orderSave);
-    this.deliveryService.saveOrderDeliverer(orderSave).subscribe();
-    if (refresh) {
-      window.location.reload();
-    }
+    this.deliveryService.saveOrderDeliverer(orderSave).subscribe(
+      next => {
+        if (refresh) {
+          console.warn("success", next);
+          window.location.reload();
+        }
+      },
+      error => {
+        console.error("error", error);
+      }
+    );
   }
 
 }
