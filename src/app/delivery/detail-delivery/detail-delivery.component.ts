@@ -47,7 +47,7 @@ export class DetailDeliveryComponent implements OnInit {
   }
 
   onValidateDelivery(): void {
-    if (this.hasDeliveryCode) {
+    if (this.hasDeliveryCode && !this.delivererForm.value.notCode) {
       this.isValid = this.delivererForm.value.code === this.order.deliverCode;
     }
 
@@ -81,14 +81,6 @@ export class DetailDeliveryComponent implements OnInit {
       });
     }
   }
-
-  //
-  // test () {
-  //   // if (window.confirm("Avez vous récuperé la commande ? ") ) {
-  //   //   this.saveOrderDeliverer(this.order.id, this.order.deliverer_id, Date.now());
-  //   //   window.location.reload();
-  //   // }
-  // }
 
   private finalizeDelivery() {
     let order: any;
