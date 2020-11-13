@@ -22,11 +22,15 @@ export class AdminService {
     }
   }
 
-
-
-
   getRestaurantList(): Observable<any> {
     return this.http.get<any>(`${this.urlApi}/business/list`,
+      this.headers);
+  }
+
+
+  changeCommerceState(restaurantId: number, state: boolean): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}/business/${restaurantId}/change/state`,{
+      restaurantIdCurrent: restaurantId, isClosed: state },
       this.headers);
   }
 
