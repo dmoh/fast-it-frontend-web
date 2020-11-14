@@ -34,6 +34,7 @@ import { AddProductDialogComponent } from '../restaurants/restaurant-dashboard/c
 import {MatListModule} from '@angular/material/list';
 import { ToastComponent } from '../toast/toast.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { MaterialLibModule } from '@app/sidenav-responsive/material-lib.module';
 
 
 @NgModule({
@@ -66,6 +67,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
         MatBottomSheetModule,
         MatRadioModule,
         MatListModule,
+        MaterialLibModule,
         NgbModule
     ],
   exports: [
@@ -99,6 +101,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
       FooterComponent,
       CategoryProductComponent,
       AddProductDialogComponent,
+      MaterialLibModule,
       ToastComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

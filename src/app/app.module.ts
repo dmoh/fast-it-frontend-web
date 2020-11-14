@@ -28,6 +28,7 @@ import {RestaurantDashboardService} from '@app/restaurants/restaurant-dashboard/
 import {SecurityRestaurantService} from '@app/_services/security-restaurant.service';
 import { InfoModalComponent } from './info-modal/info-modal.component';
 import { PickupOrderModalComponent } from './pickup-order-modal/pickup-order-modal.component';
+// import { SidenavResponsiveComponent } from './sidenav-responsive/sidenav-responsive.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { PickupOrderModalComponent } from './pickup-order-modal/pickup-order-mod
     Page404Component,
     PasswordComponent,
     InfoModalComponent,
-    PickupOrderModalComponent
+    PickupOrderModalComponent,
+    // SidenavResponsiveComponent,
   ],
   imports: [
     BrowserModule,
