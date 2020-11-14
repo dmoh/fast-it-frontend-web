@@ -1,4 +1,13 @@
-import {AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
+import {
+  AfterContentInit,
+  AfterViewInit,
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  Renderer2,
+  ViewChild
+} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ProductModalComponent} from '@app/product-modal/product-modal.component';
 import {Product} from '@app/models/product';
@@ -14,7 +23,7 @@ import {InfoModalComponent} from '@app/info-modal/info-modal.component';
   templateUrl: './restaurant-details.component.html',
   styleUrls: ['./restaurant-details.component.scss']
 })
-export class RestaurantDetailsComponent implements OnInit, AfterViewInit {
+export class RestaurantDetailsComponent implements OnInit, AfterViewInit{
 
   cartCurrent: Cart;
   starsRestaurant: any[] = [];
@@ -30,12 +39,14 @@ export class RestaurantDetailsComponent implements OnInit, AfterViewInit {
   menuPosition: any;
 
 
-  @ViewChild('stickyMenu') menuElement: ElementRef;
+  @ViewChild('stickyMenu', {static: false}) menuElement: ElementRef;
 
   constructor(private modal: NgbModal,
               private cartService: CartService,
               private restaurantService: RestaurantDashboardService,
               private route: ActivatedRoute,
+              private elementRef: ElementRef,
+              private renderer2: Renderer2,
               private securityRestaurantService: SecurityRestaurantService
               ) {
 
@@ -101,8 +112,10 @@ export class RestaurantDetailsComponent implements OnInit, AfterViewInit {
 
   }
 
-  ngAfterViewInit(){
-    this.menuPosition = this.menuElement.nativeElement.offsetTop
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.menuPosition = this.menuElement.nativeElement.offsetTop;
+    }, 3000);
   }
 
   scroll(id) {

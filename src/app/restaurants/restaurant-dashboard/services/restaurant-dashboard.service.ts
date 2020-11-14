@@ -142,4 +142,9 @@ export class RestaurantDashboardService {
     return this.http.post<any>(`${this.urlApi}/category/position/update`, JSON.stringify(catPosition),
       this.headers);
   }
+
+
+  getUrlRestaurant(): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}/business/url`, this.headers);
+  }
 }

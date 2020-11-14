@@ -69,7 +69,7 @@ import { MaterialLibModule } from '@app/sidenav-responsive/material-lib.module';
         MatRadioModule,
         MatListModule,
         DragDropModule,
-        // MaterialLibModule,
+        MaterialLibModule,
         NgbModule
     ],
   exports: [
@@ -105,7 +105,7 @@ import { MaterialLibModule } from '@app/sidenav-responsive/material-lib.module';
       AddProductDialogComponent,
       ToastComponent,
       DragDropModule,
-      // MaterialLibModule,
+      MaterialLibModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [

@@ -13,15 +13,15 @@ import jwt_decode from "jwt-decode";
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
   private currentUserSubject: BehaviorSubject<User>;
-  private currentAdminSubject: BehaviorSubject<boolean>;
+  private currentRolesSubject: BehaviorSubject<string[]>;
   public currentUser: Observable<User>;
-  public currentAdmin: Observable<boolean>;
+  public currentRoles: Observable<string[]>;
 
   constructor(private http: HttpClient, private router: Router) {
     this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
-    this.currentAdminSubject = new BehaviorSubject<boolean>(JSON.parse(localStorage.getItem('isAdmin')));
+    this.currentRolesSubject = new BehaviorSubject<string[]>(JSON.parse(localStorage.getItem('roles')));
     this.currentUser = this.currentUserSubject.asObservable();
-    this.currentAdmin = this.currentAdminSubject.asObservable();
+    this.currentRoles = this.currentRolesSubject.asObservable();
   }
 
   public get currentUserValue(): User {
@@ -43,20 +43,20 @@ export class AuthenticationService {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         localStorage.setItem('currentUser', JSON.stringify(user));
         this.currentUserSubject.next(user);
-
         const jwtDecode = jwt_decode(user.token);
         // @ts-ignore
         if (jwtDecode.roles) {
           // @ts-ignore
           const roles = jwtDecode.roles;
-          console.log('reol', roles);
           if (
             roles.indexOf('ROLE_ADMIN') !== -1
             || roles.indexOf('ROLE_SUPER_ADMIN') !== -1
+            || roles.indexOf('ROLE_DELIVERER') !== -1
+            || roles.indexOf('ROLE_MANAGER') !== -1
           ) {
             // add icon and restaurant
-            localStorage.setItem('isAdmin', 'true');
-            this.currentAdminSubject.next(true);
+            localStorage.setItem('roles', JSON.stringify(roles));
+            this.currentRolesSubject.next(roles);
           }
           return user;
         }
@@ -66,9 +66,9 @@ export class AuthenticationService {
   logout() {
     // remove user from local storage to log user out
     localStorage.removeItem('currentUser');
-    localStorage.removeItem('isAdmin');
+    localStorage.removeItem('roles');
     this.currentUserSubject.next(null);
-    this.currentAdminSubject.next(null);
+    this.currentRolesSubject.next(null);
     this.router.navigate(['home']);
   }
 

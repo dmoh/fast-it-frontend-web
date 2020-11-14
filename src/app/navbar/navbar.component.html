@@ -8,11 +8,27 @@
          <div style="color: white; font-size: large;padding-right: .4rem;" class="material-icons">shopping_basket</div><div *ngIf="cart.total > 0" style="color: white; font-size: small">{{ cart.total.toFixed(2) }} €</div>
        </a>
      </li>
+      <li >
+        <button *ngIf="user.token" mat-button [matMenuTriggerFor]="menu">
+          <div style="color: white;font-size: large;padding-right: .4rem; cursor: pointer" class="material-icons">home</div>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button *ngIf="user.token"  mat-menu-item>
+            <a style="text-decoration: none; color: #0a0a0a" routerLink="customer">Profil</a>
+          </button>
+          <button *ngIf="isDeliverer"  mat-menu-item>
+            <a routerLink="delivery">Profil</a>
+          </button>
+          <button *ngIf="isAdmin" mat-menu-item>
+            <a (click)="goTo()">Restaurant</a>
+          </button>
+          <button *ngIf="isSuper" mat-menu-item>
+            <a routerLink="admin/commerce">Dashboard</a>
+          </button>
+        </mat-menu>
+      </li>
       <li class="nav-item">
         <div style="display: flex">
-          <a *ngIf="user.token" title="mon profil" class="nav-link" routerLink="customer" style="color: white">
-            <div style="color: white;font-size: large;padding-right: .4rem; cursor: pointer" class="material-icons">home</div>
-          </a>
           <a *ngIf="user.token" class="nav-link" title="Se déconnecter" (click)="onLogout()" style="color: white">
             <div style="color: white;font-size: large;padding-right: .4rem; cursor: pointer" class="material-icons">power_settings_new</div>
           </a>

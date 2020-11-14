@@ -30,7 +30,6 @@ const routes: Routes = [ {
        component: CommerceComponent,
      }
    ]
-
 }
 
 
