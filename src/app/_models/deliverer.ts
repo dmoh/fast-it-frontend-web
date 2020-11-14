@@ -4,5 +4,6 @@ export class Deliverer extends User {
     deliveryName: string;
     workingTime: Date;
     workingTimeTwo: Date;
-    phone; string;
+    phone: string;
+    siret: string;
 }
