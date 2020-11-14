@@ -6,6 +6,7 @@ import { DeliveryComponent } from './delivery.component';
 import { MyDeliveryComponent } from './my-delivery/my-delivery.component';
 import { AwaitingDeliveryComponent } from './awaiting-delivery/awaiting-delivery.component';
 import { DetailDeliveryComponent } from './detail-delivery/detail-delivery.component';
+import { OverviewComponent } from './overview/overview.component';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { DetailDeliveryComponent } from './detail-delivery/detail-delivery.compo
       ParameterComponent,
       MyDeliveryComponent,
       AwaitingDeliveryComponent,
-      DetailDeliveryComponent
+      OverviewComponent,
+      DetailDeliveryComponent,
   ],
   imports: [
     CoreModule,
@@ -25,8 +27,8 @@ import { DetailDeliveryComponent } from './detail-delivery/detail-delivery.compo
       MyDeliveryComponent,
       AwaitingDeliveryComponent,
       DetailDeliveryComponent,
-      ParameterComponent
-
+      OverviewComponent,
+      ParameterComponent,
   ]
 })
 export class DeliveryModule { }

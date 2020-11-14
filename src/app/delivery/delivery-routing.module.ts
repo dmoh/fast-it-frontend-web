@@ -5,6 +5,7 @@ import { AwaitingDeliveryComponent } from './awaiting-delivery/awaiting-delivery
 import { DeliveryComponent } from './delivery.component';
 import { DetailDeliveryComponent } from './detail-delivery/detail-delivery.component';
 import { MyDeliveryComponent } from './my-delivery/my-delivery.component';
+import { OverviewComponent } from './overview/overview.component';
 import { ParameterComponent } from './parameter/parameter.component';
 
 
@@ -26,6 +27,10 @@ const routes: Routes = [{
     {
       path: 'my-delivery',
       component: MyDeliveryComponent,
+    },
+    {
+      path: 'overview',
+      component: OverviewComponent,
     },
     {
       path: 'parameter',

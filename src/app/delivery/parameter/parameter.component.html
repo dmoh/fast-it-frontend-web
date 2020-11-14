@@ -5,19 +5,27 @@
 <section class="container-fluid">
     <div class="row">
        <div *ngIf="delivererForm" style="padding-top: 2rem" class="col-md-8 card">
-        <form [formGroup]="delivererForm" (ngSubmit)="saveDelivererInfo()">
+        <form [formGroup]="delivererForm" (ngSubmit)="onSaveDelivererInfo()">
           <h2>Informations détaillées</h2>
           <p>
             <mat-form-field style="width: 100%;" appearance="outline">
               <mat-label>Nom</mat-label>
-              <input matInput type="text" formControlName="userName" placeholder="Nom">
+              <input matInput type="text" formControlName="lastName" placeholder="Nom">
               <mat-icon matSuffix>account_circle</mat-icon>
             </mat-form-field>
           </p>            
           <p>
             <mat-form-field style="width: 100%;" appearance="outline">
               <mat-label>Prenom</mat-label>
-              <input matInput type="text" formControlName="lastName" placeholder="Prenom">
+              <input matInput type="text" formControlName="firstName" placeholder="Prenom">
+              <mat-icon matSuffix>account_circle</mat-icon>
+            </mat-form-field>
+          </p>         
+          <p>
+          <p>
+            <mat-form-field style="width: 100%;" appearance="outline">
+              <mat-label>Pseudo</mat-label>
+              <input matInput type="text" formControlName="userName" placeholder="Prenom">
               <mat-icon matSuffix>account_circle</mat-icon>
             </mat-form-field>
           </p>         

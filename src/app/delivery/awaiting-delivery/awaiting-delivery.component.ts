@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Delivery } from '@app/_models/delivery';
+import { Deliverer} from '@app/_models/deliverer';
 import { Order } from '@app/_models/order';
 import { Restaurant } from '@app/_models/restaurant';
 import { AuthenticationService } from '@app/_services/authentication.service';
@@ -18,7 +18,7 @@ export class AwaitingDeliveryComponent implements OnInit {
   uploadResponse = { status: '', message: '', filePath: '' };
   schedulePrepartionTimes: any[] = [];
   commerce: Restaurant;
-  deliverer: Delivery;
+  deliverer: Deliverer;
   orders: any[];
   order: Order;
   orderId: string;
@@ -36,7 +36,7 @@ export class AwaitingDeliveryComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.deliverer = new Delivery();
+    this.deliverer = new Deliverer();
     this.deliverer.orders = new Array();
     
     if (this.activatedRoute.snapshot.paramMap.get('id') != null) {

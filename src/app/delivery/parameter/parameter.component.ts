@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Delivery } from '@app/_models/delivery';
+import { Deliverer} from '@app/_models/deliverer';
 import { DeliveryService } from '../services/delivery.service';
 
 @Component({
@@ -10,7 +10,7 @@ import { DeliveryService } from '../services/delivery.service';
 })
 export class ParameterComponent implements OnInit {
   delivererForm: FormGroup;
-  deliverer: Delivery;
+  deliverer: Deliverer;
   constructor(private fb: FormBuilder, private deliveryService: DeliveryService) { }
 
   userName: string;
@@ -24,7 +24,7 @@ export class ParameterComponent implements OnInit {
   ngOnInit(): void {
     this.isKbis = true;
     this.isSave = false;
-    this.deliverer = new Delivery();
+    this.deliverer = new Deliverer();
 
     this.deliveryService.getInfosDeliverer()
       .subscribe((delivererCurrent) => {
@@ -42,34 +42,57 @@ export class ParameterComponent implements OnInit {
         }
 
         this.delivererForm = this.fb.group({
-          userName: [this.deliverer.firstname, Validators.required],
+          userName: [this.deliverer.username],
+          firstName: [this.deliverer.firstname, Validators.required],
           lastName: [this.deliverer.lastname, Validators.required],
           phone: [this.deliverer.phone, Validators.required],
-          email: [this.deliverer.email, Validators.required],
+          email: [this.deliverer.email],
           city: [city, Validators.required],
           street: [street, Validators.required],
           zipcode: [zipcode, Validators.required],
-          workingTime: [this.deliverer.workingTime, Validators.required],
-          workingTimeTwo: [this.deliverer.workingTimeTwo, Validators.required],
+          workingTime: [this.deliverer.workingTime],
+          workingTimeTwo: [this.deliverer.workingTimeTwo],
           siret: [this.siret, Validators.required],
         });
       });
 
   }
 
-  async saveDelivererInfo() {
+  onSaveDelivererInfo() {
     // // https://entreprise.data.gouv.fr/api/sirene/v1/siret/
     
     // todo kbis a sauvegarder
     this.deliveryService.getKbis(this.delivererForm.value.siret).subscribe(
       (res) => {
-        // console.warn('response', res);
-        this.isKbis = (res.etablissement.siret === this.delivererForm.value.siret.toString());
-        this.isSave = (true && this.isKbis);
+        console.warn('response', res);
+
+        
+        // save informations deliverer
+        const delivererInfo: any = {};
+        delivererInfo.userName = this.delivererForm.value.userName != "" ? this.delivererForm.value.userName : null;
+        delivererInfo.siret = this.delivererForm.value.siret;
+        delivererInfo.firstName = this.delivererForm.value.firstName;
+        delivererInfo.lastName = this.delivererForm.value.lastName;
+        delivererInfo.phone = this.delivererForm.value.phone;
+        delivererInfo.city = this.delivererForm.value.city;
+        delivererInfo.street = this.delivererForm.value.street;
+        delivererInfo.zipcode = this.delivererForm.value.zipcode;
+
+        console.log('Before api fast', delivererInfo);
+
+        this.deliveryService.saveInfosDeliverer(delivererInfo).subscribe(
+          success => { 
+            this.isKbis = (res.etablissement.siret === this.delivererForm.value.siret.toString());
+            this.isSave = (true && this.isKbis);
+            return console.log("deliverer info success", success)
+          },
+          err => console.error("deliverer info err", err)
+        );
       },
       (err) => {
-        console.log('error', err);
+        console.trace('error Kbis', err);
         this.isKbis = false;
+        this.isSave = (true && this.isKbis);
       }
     );
   }
