@@ -29,16 +29,16 @@ export class ParameterComponent implements OnInit {
     this.deliveryService.getInfosDeliverer()
       .subscribe((delivererCurrent) => {
         this.deliverer = delivererCurrent;
-        
+        console.log("delivererCurrent",delivererCurrent);       
         let city;
         let street;
         let zipcode;
         
         if (Array.isArray(this.deliverer.addresses) && this.deliverer.addresses.length > 0) {
           const addresses: any[any] = this.deliverer.addresses;
-          city = addresses.city;
-          street = addresses.street;        
-          zipcode = addresses.zipcode;
+          city = addresses[0].city;
+          street = addresses[0].street;        
+          zipcode = addresses[0].zipCode;
         }
 
         this.delivererForm = this.fb.group({
@@ -52,7 +52,7 @@ export class ParameterComponent implements OnInit {
           zipcode: [zipcode, Validators.required],
           workingTime: [this.deliverer.workingTime],
           workingTimeTwo: [this.deliverer.workingTimeTwo],
-          siret: [this.siret, Validators.required],
+          siret: [this.deliverer.siret, Validators.required],
         });
       });
 
