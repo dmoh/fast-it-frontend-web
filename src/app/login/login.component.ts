@@ -1,12 +1,11 @@
-﻿import {UserService} from "@app/_services/user.service";
-
-﻿import { Component, OnInit } from '@angular/core';
+﻿﻿import { Component, OnInit } from '@angular/core';
+import {UserService} from '@app/_services/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import {AuthenticationService} from './../_services/authentication.service';
-import {HttpHeaderResponse} from "@angular/common/http";
-import jwt_decode from "jwt-decode";
+import {HttpHeaderResponse} from '@angular/common/http';
+import jwt_decode from 'jwt-decode';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -51,7 +50,7 @@ export class LoginComponent implements OnInit {
       confirmPassword: ['', Validators.required]
     });
     // get return url from route parameters or default to '/'
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
   }
 
   toggle() {
