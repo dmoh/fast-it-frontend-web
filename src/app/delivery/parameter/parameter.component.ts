@@ -65,8 +65,7 @@ export class ParameterComponent implements OnInit {
     this.deliveryService.getKbis(this.delivererForm.value.siret).subscribe(
       (res) => {
         console.warn('response', res);
-        this.isKbis = (res.etablissement.siret === this.delivererForm.value.siret.toString());
-        this.isSave = (true && this.isKbis);
+
         
         // save informations deliverer
         const delivererInfo: any = {};
@@ -82,13 +81,18 @@ export class ParameterComponent implements OnInit {
         console.log('Before api fast', delivererInfo);
 
         this.deliveryService.saveInfosDeliverer(delivererInfo).subscribe(
-          success => console.log("deliverer info success", success),
+          success => { 
+            this.isKbis = (res.etablissement.siret === this.delivererForm.value.siret.toString());
+            this.isSave = (true && this.isKbis);
+            return console.log("deliverer info success", success)
+          },
           err => console.error("deliverer info err", err)
         );
       },
       (err) => {
-        console.log('error Kbis', err);
+        console.trace('error Kbis', err);
         this.isKbis = false;
+        this.isSave = (true && this.isKbis);
       }
     );
   }
