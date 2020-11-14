@@ -52,11 +52,15 @@ export class DeliveryService {
 
   getKbis(noKbis: string): Observable<any> {
     return this.http.get<any>(`https://entreprise.data.gouv.fr/api/sirene/v1/siret/` + noKbis);
-      this.headers;
   }
 
   getNotificationsDelivery(): Observable<any> {
     return this.http.get<any>(`${this.urlApi}/notification/list`,
+      this.headers);
+  }
+
+  getOrderAnalize(id: number): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}/deliverer/${id}/analyze`,
       this.headers);
   }
 
@@ -75,6 +79,10 @@ export class DeliveryService {
 
   saveOrderDeliverer(request: any[]){
     return this.http.post<any>(`${this.urlApi}/order/save_deliverer`, request, this.headers);
+  }
+
+  saveInfosDeliverer(request: any[]){
+    return this.http.post<any>(`${this.urlApi}/user/save_deliverer`, request, this.headers);
   }
 
 }

@@ -3,7 +3,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {RestaurantDashboardComponent} from '@app/restaurants/restaurant-dashboard/restaurant-dashboard.component';
 import {RestaurantDashboardService} from '@app/restaurants/restaurant-dashboard/services/restaurant-dashboard.service';
 import {Restaurant} from "@app/_models/restaurant";
-import {Delivery} from "@app/_models/delivery";
+import {Deliverer} from "@app/_models/deliverer";
 import {UploadService} from "@app/_services/upload.service";
 import { Observable } from 'rxjs';
 import { AuthenticationService } from '@app/_services/authentication.service';
@@ -22,7 +22,7 @@ export class MyDeliveryComponent implements OnInit, AfterViewInit {
   uploadResponse = { status: '', message: '', filePath: '' };
   schedulePrepartionTimes: any[] = [];
   commerce: Restaurant;
-  deliverer: Delivery;
+  deliverer: Deliverer;
   error: string;
   headers: any;
 
@@ -39,7 +39,7 @@ export class MyDeliveryComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.deliverer = new Delivery();
+    this.deliverer = new Deliverer();
     this.deliveryService.getInfosDeliverer().subscribe((delivererInfo) => {
       this.deliverer = delivererInfo;
       console.warn("livraisons effectues", this.deliverer);

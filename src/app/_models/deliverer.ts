@@ -1,6 +1,6 @@
 import { User } from "./user";
 
-export class Delivery extends User {
+export class Deliverer extends User {
     deliveryName: string;
     workingTime: Date;
     workingTimeTwo: Date;
