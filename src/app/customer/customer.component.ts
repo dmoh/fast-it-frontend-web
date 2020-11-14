@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {CustomerService} from "@app/customer/_services/customer.service";
 import {
   MatSnackBar,
@@ -8,8 +8,6 @@ import {
 import {MatBottomSheet, MatBottomSheetRef} from '@angular/material/bottom-sheet';
 import {NotificationsComponent} from "@app/notifications/notifications.component";
 import {User} from "@app/_models/user";
-
-
 
 @Component({
   selector: 'app-customer',
@@ -22,18 +20,20 @@ export class CustomerComponent implements OnInit {
   notifications: any[];
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+  mobile: boolean;
 
   constructor(
     private customerService: CustomerService,
     private snackBar: MatSnackBar,
     private bottomSheet: MatBottomSheet
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.customerService.getInfosCustomer()
       .subscribe((response) => {
         this.customer = response;
-        this.customerService.getNotificationsCustomer()
+        this.customerService.getNotificationsCustomerUnread()
           .subscribe((notif) => {
             this.notifications = notif;
           });
@@ -66,5 +66,11 @@ export class CustomerComponent implements OnInit {
           this.notifications = [];
         });
     });*/
+  }
+
+  @HostListener('window:resize', [])
+  onResize() {
+    const width = window.innerWidth;
+    this.mobile = width < 992;
   }
 }

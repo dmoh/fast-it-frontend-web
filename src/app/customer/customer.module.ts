@@ -10,6 +10,7 @@ import {NotificationsComponent} from "@app/notifications/notifications.component
 import { NotificationCustomerComponent } from '../notification-customer/notification-customer.component';
 import { CommentComponent } from './comment/comment.component';
 import {MatMenuModule} from "@angular/material/menu";
+import {MatSidenavModule} from "@angular/material/sidenav";
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import {MatMenuModule} from "@angular/material/menu";
         CoreModule,
         CustomerRoutingModule,
         MatMenuModule,
+        MatSidenavModule,
     ],
   exports: [CustomerComponent, OrderComponent, ProfilComponent, CoreModule, NotificationCustomerComponent, CommentComponent]
 })

@@ -39,6 +39,11 @@ export class CustomerService {
       this.headers);
   }
 
+  getNotificationsCustomerUnread(): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}/notification/list/unread`,
+      this.headers);
+  }
+
   getCommentCustomer(id: number): Observable<any> {
     return this.http.get<any>(`${this.urlApi}/opinion/customer/${id}/list`,
       this.headers);

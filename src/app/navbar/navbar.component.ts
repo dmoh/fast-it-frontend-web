@@ -19,7 +19,14 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.cartService.cartUpdated.subscribe((cartUpdated: Cart) => this.cart = cartUpdated);
-    this.user = !this.authentication.currentUserValue ? new User() : this.authentication.currentUserValue;
+    this.authentication.currentUser.subscribe((res) => {
+      this.user = !res ? new User() : res;
+    });
+    this.authentication.currentAdmin
+      .subscribe((res) => {
+        console.log(res);
+      });
+    // this.user = !this.authentication.currentUserValue ? new User() : this.authentication.currentUserValue;
   }
 
   onLogout(){

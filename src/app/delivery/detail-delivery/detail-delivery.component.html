@@ -9,16 +9,16 @@
 <section class="container-fluid" [ngClass]="{ 'disabledContain': !isDelivering }">
   <div *ngIf="order" class="row">
     <div class="col-md-8 card businessCard" style="flex-direction: row; flex-grow: 3 1 3;">
-      <div *ngIf="order.business" class="col-md-4 float-md-left"> 
+      <div *ngIf="order.business" class="col-md-4 float-md-left">
         <p>
-          Commerçant    
+          Commerçant
         </p>
         <div><b>{{order.business.name}}</b></div>
-        <div *ngIf="order.business.address"><b>Adresse:</b> {{order.business.address}} {{order.business.street}}</div>
-        <div *ngIf="order.business.address"><b>Ville:</b> {{order.business.city}}</div>
-        <div *ngIf="order.business.address"> <b>Code postal:</b> {{order.business.zipcode}}</div>
+        <div *ngIf="order.business"><b>Adresse:</b> {{order.business.address}} {{order.business.street}}</div>
+        <div *ngIf="order.business"><b>Ville:</b> {{order.business.city}}</div>
+        <div *ngIf="order.business"> <b>Code postal:</b> {{order.business.zipcode}}</div>
         <div *ngIf="order.business.phone"><b>Telephone:</b> {{order.business.phone}} </div>
-        
+
       </div>
       <div class="col-md-2"></div>
       <div class="col-md-4">
@@ -30,7 +30,7 @@
         <div *ngIf="order.customer.addresses"><b>Ville:</b> {{order.customer.addresses[0].city}}</div>
         <div *ngIf="order.customer.addresses"><b>Code postal:</b> {{order.customer.addresses[0].zipCode}}</div>
         <div *ngIf="order.customer.phone"><b>Telephone:</b> {{order.customer.phone}} </div>
-      </div> 
+      </div>
     </div>
   </div>
     <div class="row">
@@ -60,5 +60,4 @@
 
 <!-- </ng-container> -->
 
-  
-  
+

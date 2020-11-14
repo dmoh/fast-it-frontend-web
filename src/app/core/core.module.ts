@@ -35,7 +35,7 @@ import {MatListModule} from '@angular/material/list';
 import { ToastComponent } from '../toast/toast.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {DragDropModule} from '@angular/cdk/drag-drop';
-import { MaterialLibModule } from '@app/sidenav-responsive/material-lib.module';
+//import { MaterialLibModule } from '@app/sidenav-responsive/material-lib.module';
 
 
 @NgModule({
@@ -69,7 +69,7 @@ import { MaterialLibModule } from '@app/sidenav-responsive/material-lib.module';
         MatRadioModule,
         MatListModule,
         DragDropModule,
-        MaterialLibModule,
+        // MaterialLibModule,
         NgbModule
     ],
   exports: [
@@ -105,7 +105,7 @@ import { MaterialLibModule } from '@app/sidenav-responsive/material-lib.module';
       AddProductDialogComponent,
       ToastComponent,
       DragDropModule,
-      MaterialLibModule,
+      // MaterialLibModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [

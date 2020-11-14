@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {UserService} from "@app/_services/user.service";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {UserService} from '@app/_services/user.service';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-password',
@@ -35,8 +35,7 @@ export class PasswordComponent implements OnInit {
     this.userService.passwordForgot(JSON.stringify(this.loginForm.value))
       .subscribe((res) => {
         if (res.ok) {
-          this.info = 'Votre mail a bien été modifié';
-
+          this.info = 'Votre mot de passe a bien été modifié';
         } else if (res.error) {
           this.error = res.error;
         }

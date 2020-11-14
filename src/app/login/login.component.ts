@@ -92,29 +92,12 @@ export class LoginComponent implements OnInit {
       .pipe(first())
       .subscribe(
         data => {
-          const jwtDecode = jwt_decode(data.token);
-          console.log(jwtDecode);
-          // @ts-ignore
-          if (jwtDecode.roles) {
-            // @ts-ignore
-            const roles = jwtDecode.roles;
-            if (
-              roles.indexOf('ROLE_ADMIN') !== -1
-              || roles.indexOf('ROLE_SUPER_ADMIN') !== -1
-            ) {
-              // add icon and restaurant
-              // @ts-ignore
-              const username = jwtDecode.username;
-              this.userService.getRestaurantIdByUsername(username)
-                .subscribe((res) => {
-                  if (res.ok) {
-                    localStorage.setItem('isAdmin', res.restaurantId);
-                  }
-                });
-            }
-          }
+
+
           if (this.returnUrl === '/') {
-            document.location.href = window.location.origin;
+            this.router.navigateByUrl('/login', { skipLocationChange: true }).then(() => {
+              this.router.navigate(['/home']);
+            });
           } else {
             this.router.navigate([this.returnUrl]);
           }
