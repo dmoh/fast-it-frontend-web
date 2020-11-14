@@ -6,7 +6,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import {AuthenticationService} from './../_services/authentication.service';
 import {HttpHeaderResponse} from "@angular/common/http";
-
+import jwt_decode from "jwt-decode";
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -93,9 +93,38 @@ export class LoginComponent implements OnInit {
       .pipe(first())
       .subscribe(
         data => {
-          this.router.navigate([this.returnUrl]);
+          const jwtDecode = jwt_decode(data.token);
+          console.log(jwtDecode);
+          // @ts-ignore
+          if (jwtDecode.roles) {
+            // @ts-ignore
+            const roles = jwtDecode.roles;
+            if (
+              roles.indexOf('ROLE_ADMIN') !== -1
+              || roles.indexOf('ROLE_SUPER_ADMIN') !== -1
+            ) {
+              // add icon and restaurant
+              // @ts-ignore
+              const username = jwtDecode.username;
+              this.userService.getRestaurantIdByUsername(username)
+                .subscribe((res) => {
+                  if (res.ok) {
+                    localStorage.setItem('isAdmin', res.restaurantId);
+                  }
+                });
+            }
+          }
+          if (this.returnUrl === '/') {
+            document.location.href = window.location.origin;
+          } else {
+            this.router.navigate([this.returnUrl]);
+          }
+          // ;
         },
         error => {
+          if (/Invalid/.test(error)) {
+            error = 'Email et/ou mot de passe incorrect';
+          }
           this.error = error;
           this.loading = false;
         });

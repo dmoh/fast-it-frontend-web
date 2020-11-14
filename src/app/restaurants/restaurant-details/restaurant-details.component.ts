@@ -69,6 +69,7 @@ export class RestaurantDetailsComponent implements OnInit {
                   category_name: prod.categoryProduct.name,
                   category_id: prod.categoryProduct.id,
                   category_label: prod.categoryProduct.name,
+                  category_position: prod.categoryProduct.position,
                   category_products: []
                 };
                 const category = restau.product.categoryProduct;
@@ -81,6 +82,10 @@ export class RestaurantDetailsComponent implements OnInit {
                 }
               }
               this.products = [restau.product, ...this.products];
+              this.categories = this.categories.sort( (a, b) => {
+
+                return a.category_position - b.category_position;
+              });
             });
           } else {
             this.nothingToShow = 'Ce restaurant n\'a aucun produit en vente pour le moment';

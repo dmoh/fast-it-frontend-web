@@ -5,6 +5,7 @@ import { map } from 'rxjs/operators';
 import {User} from '@app/_models/user';
 import {environment} from '../../environments/environment';
 import {Router} from '@angular/router';
+import {CartService} from "@app/cart/service/cart.service";
 
 
 
@@ -35,6 +36,7 @@ export class AuthenticationService {
     return this.http.post<any>(`${environment.apiUrl}/authentication_token`, { email, password }, optionRequete)
       .pipe(map(user => {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
+        console.log(user);
         localStorage.setItem('currentUser', JSON.stringify(user));
         this.currentUserSubject.next(user);
         return user;
@@ -45,7 +47,7 @@ export class AuthenticationService {
     // remove user from local storage to log user out
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
-    window.location.reload();
+    ///window.location.reload();
     this.router.navigate(['home']);
   }
 

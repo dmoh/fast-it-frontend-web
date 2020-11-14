@@ -4,6 +4,18 @@
     <button mat-raised-button (click)="addCategory()" color="primary">Ajouter une catégorie</button>
     <span style="float: right"><button (click)="openDialog()" mat-raised-button color="primary">Ajouter des produits</button></span>
   </div>
+  <hr>
+  <div *ngIf="categories" class="mt-2">
+    <h5 style="font-size: 1.4rem; text-transform: uppercase">Positionnement des catégories</h5>
+    <div style="display: flex; justify-content: space-evenly">
+      <div cdkDropList cdkDropListOrientation="horizontal" class="category-list" (cdkDropListDropped)="drop($event)">
+        <div class="category-box" id="{{ category.id }}" *ngFor="let category of categories" cdkDrag>{{category.name}}</div>
+      </div>
+      <div style="align-self: center">
+        <button mat-raised-button (click)="onValidatePosition()" color="primary">Valider</button>
+      </div>
+    </div>
+  </div>
   <div *ngIf="categories">
     <div *ngFor="let category of categories ">
       <div class="card category">

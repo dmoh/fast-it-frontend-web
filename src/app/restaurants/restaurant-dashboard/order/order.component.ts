@@ -24,8 +24,16 @@ export class OrderComponent implements OnInit {
     this.securityRestaurantService.getRestaurant()
       .subscribe((res) => {
         console.log({restaurId: res});
+        this.restaurantService.getOrdersDatas(res.id)
+          .subscribe((response) => {
+            this.orders = [];
+            response.forEach((elem) => {
+              if (elem.order) {
+                this.orders = [...this.orders, elem.order];
+              }
+            });
+          });
       });
-
     /*this.restaurantService.getOrdersDatas(restaurantId).subscribe((res) => {
       this.restaurant = RestaurantDashboardComponent.extractRestaurantData('business', res);
       this.orders = RestaurantDashboardComponent.extractRestaurantData('order', res);

@@ -34,7 +34,11 @@ export class CartComponent implements OnInit {
   }
 
   onDelete(product: Product) {
-    this.cartService.UpdateCart('remove', product);
+    console.log(this.cart.products.length);
+    if (this.cart.products.length <= 1) {
+      this.cartService.emptyCart();
+      this.cartService.UpdateCart('remove', product);
+    }
   }
 
 

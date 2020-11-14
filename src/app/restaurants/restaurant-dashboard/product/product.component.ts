@@ -10,6 +10,8 @@ import {AddProductDialogComponent} from '@app/restaurants/restaurant-dashboard/c
 import {ActivatedRoute, Router} from "@angular/router";
 import {SecurityRestaurantService} from "@app/_services/security-restaurant.service";
 import {CategoryProduct} from "@app/_models/category-product";
+import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-product',
@@ -28,7 +30,8 @@ export class ProductComponent implements OnInit {
               public uploadService: UploadService,
               private router: Router,
               private activatedRoute: ActivatedRoute,
-              private securityRestaurantService: SecurityRestaurantService
+              private securityRestaurantService: SecurityRestaurantService,
+              private snackBar: MatSnackBar,
               ) { }
 
   ngOnInit(): void {
@@ -187,5 +190,25 @@ export class ProductComponent implements OnInit {
       .subscribe((cat) => {
         this.categories = cat;
       });
+  }
+
+  onValidatePosition() {
+    let catPosition = [];
+    this.categories.forEach((category, index) => {
+      catPosition = [...catPosition, {categoryId: category.id, position: index++}];
+    });
+
+    this.restaurantService.updateCategoryProductPosition(catPosition)
+      .subscribe((res) => {
+        this.snackBar.open('Positionnement enregistré', '', {
+          duration: 5000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+        });
+      });
+  }
+
+  drop(event: CdkDragDrop<CategoryProduct[]>) {
+    moveItemInArray(this.categories, event.previousIndex, event.currentIndex);
   }
 }

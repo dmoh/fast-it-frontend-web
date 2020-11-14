@@ -182,6 +182,7 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
             // The payment has been processed!
             const responsePayment = result.paymentIntent;
             if (responsePayment.status === 'succeeded') {
+              this.cartService.emptyCart();
               // save order payment succeeded
               this.cartService.saveOrder({stripeResponse: responsePayment, cartDetail: this.cartCurrent })
                 .subscribe((confCode) => {

@@ -137,4 +137,9 @@ export class RestaurantDashboardService {
   getProductListByBusinessId(restaurantId: number): Observable<any> {
     return this.http.get<any>(`${this.urlApi}/product/list/business/${restaurantId}`, this.headers);
   }
+
+  updateCategoryProductPosition(catPosition: any[]): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}/category/position/update`, JSON.stringify(catPosition),
+      this.headers);
+  }
 }

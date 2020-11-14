@@ -34,7 +34,7 @@ import { AddProductDialogComponent } from '../restaurants/restaurant-dashboard/c
 import {MatListModule} from '@angular/material/list';
 import { ToastComponent } from '../toast/toast.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [AddressModalComponent, NotificationsComponent, FooterComponent, CategoryProductComponent, AddProductDialogComponent, ToastComponent],
@@ -66,7 +66,8 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
         MatBottomSheetModule,
         MatRadioModule,
         MatListModule,
-        NgbModule
+        NgbModule,
+        DragDropModule
     ],
   exports: [
       CommonModule,
@@ -99,7 +100,8 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
       FooterComponent,
       CategoryProductComponent,
       AddProductDialogComponent,
-      ToastComponent
+      ToastComponent,
+      DragDropModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [

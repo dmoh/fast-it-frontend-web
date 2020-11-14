@@ -29,13 +29,13 @@
         <div style="display: flex" class="navbar-restaurant">
           <nav class="nav-menu" id="nav-menu-product" style="background: #fff" role="navigation">
             <div *ngFor="let category of categories">
-              <a (click)="scroll( category.category_name )" class="menu-title cursor-pointer">{{ category.category_name }}</a>
+              <a (click)="scroll( category.category_name )" class="menu-title cursor-pointer">{{ category.category_name | titlecase }}</a>
             </div>
           </nav>
         </div>
         <div *ngIf="restaurant.id == 21" style="padding: 0.3rem; box-shadow: 2px 5px 10px rgba(0,0,0,0.03)" class="w-100">
           <div style="padding: .5rem">
-            <h4 style="padding: 1.4rem; font-size: xx-large; text-align: center; text-transform: uppercase;  background: #d21313;  color: white;">3 PIZZAS achetés 1 MARGUARITA OFFERTE</h4>
+            <h4 style="padding: 1.4rem; line-height: 1; font-size: xx-large; text-align: center; text-transform: uppercase;  background: #d21313;  color: white;">3 PIZZAS AU CHOIX achetées 1 MARGUERITE OFFERTE</h4>
           </div>
         </div>
         <div class="mt-2 container">

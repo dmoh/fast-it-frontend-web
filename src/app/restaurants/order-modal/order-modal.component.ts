@@ -40,11 +40,11 @@ export class OrderModalComponent implements OnInit {
         let product: any;
         product = myProduct;
         // product.amount = this.order.amount;
-        
+
         product.supplementsProduct = this.supplementsProduct.filter( suppProduct => {
-          return suppProduct.productId == product.id ;
+          return suppProduct.productId === product.id ;
         });
-        
+
         this.productList.push(product);
       });
       console.log("productList",this.productList);
