@@ -49,6 +49,7 @@ export class CustomerComponent implements OnInit, AfterViewInit {
             this.notifications = notif;
           });
       });
+    this.isMedia = this.mediaQueryService.getMedia().matches;
     this.mediaQueryService.getMedia().addEventListener('change', e => this.onMediaChange(e));
   }
 
