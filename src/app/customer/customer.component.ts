@@ -8,6 +8,7 @@ import {
 import {MatBottomSheet, MatBottomSheetRef} from '@angular/material/bottom-sheet';
 import {NotificationsComponent} from "@app/notifications/notifications.component";
 import {User} from "@app/_models/user";
+import { MediaQueryService } from '@app/_services/media-query.service';
 
 
 
@@ -22,11 +23,13 @@ export class CustomerComponent implements OnInit {
   notifications: any[];
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+  isMediaMatches: boolean;
 
   constructor(
     private customerService: CustomerService,
     private snackBar: MatSnackBar,
-    private bottomSheet: MatBottomSheet
+    private bottomSheet: MatBottomSheet,
+    private mediaQueryService: MediaQueryService,
   ) { }
 
   ngOnInit(): void {
@@ -38,8 +41,13 @@ export class CustomerComponent implements OnInit {
             this.notifications = notif;
           });
       });
+   this.mediaQueryService.getMedia().addEventListener("change", e => this.onMediaChange(e));
   }
 
+  onMediaChange(e: any) {
+    this.isMediaMatches = e.matches;
+  }
+  
   onReadNotifications() {
     setTimeout(() => {
       this.customerService.sendNotificationsRead(this.notifications, {user: this.customer.id})
