@@ -35,7 +35,7 @@ export class ShowOrderComponent implements OnInit {
     this.activedRoute.queryParams.subscribe((res) => {
         if (res.p && res.c && res.orderId && res.restoId) {
           // recup mail
-          this.restaurantDashboardService.checkToken(+(res.restoId), res.c, res.orderId)
+          this.restaurantDashboardService.checkToken(+(res.restoId), res.c, +(res.orderId))
             .subscribe((response) => {
               if (response.ok) {
                 localStorage.setItem('currentUser', '{ "token":"' + decodeURI(res.c) + '"}');
@@ -67,7 +67,6 @@ export class ShowOrderComponent implements OnInit {
                   };
                   this.supplementsProduct.push(supplement);
                 });
-                console.log('supplements produit', this.supplementsProduct);
                 this.onShowModal();
               } else if (response.error)  {
                 const modalRef = this.orderModal.open(InfoModalComponent, {
@@ -75,7 +74,7 @@ export class ShowOrderComponent implements OnInit {
                   keyboard: false,
                 });
                 modalRef.componentInstance.title = 'Information';
-                modalRef.componentInstance.message = response.message;
+                modalRef.componentInstance.message = response.error;
                 modalRef.result.then((close) => {
                   this.router.navigate(['home']);
                 });

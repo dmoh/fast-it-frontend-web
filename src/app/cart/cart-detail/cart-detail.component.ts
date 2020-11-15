@@ -8,11 +8,11 @@ import {AuthenticationService} from '@app/_services/authentication.service';
 import {ErrorInterceptor} from '@app/_helpers/error.interceptor';
 import {UserService} from '@app/_services/user.service';
 import {AddressModalComponent} from '@app/address-modal/address-modal.component';
-import {ToastService} from "@app/_services/toast.service";
-import {OrderModalComponent} from "@app/restaurants/order-modal/order-modal.component";
-import {Product} from "@app/models/product";
+import {ToastService} from '@app/_services/toast.service';
+import {OrderModalComponent} from '@app/restaurants/order-modal/order-modal.component';
+import {Product} from '@app/models/product';
 import set = Reflect.set;
-import {InfoModalComponent} from "@app/info-modal/info-modal.component";
+import {InfoModalComponent} from '@app/info-modal/info-modal.component';
 
 @Component({
   selector: 'app-cart-detail',
@@ -207,7 +207,6 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
                             this.cartService.cartUpdated.subscribe((cartUpdated: Cart) => {
                               this.cartCurrent = cartUpdated;
                               this.router.navigate(['customer']);
-                              this.cartService.emptyCart();
                             });
                           }
                         });

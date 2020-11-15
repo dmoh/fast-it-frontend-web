@@ -68,9 +68,9 @@ export class CustomerComponent implements OnInit {
     });*/
   }
 
-  @HostListener('window:resize', [])
+  /*@HostListener('window:resize', [])
   onResize() {
     const width = window.innerWidth;
     this.mobile = width < 992;
-  }
+  }*/
 }
