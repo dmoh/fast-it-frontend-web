@@ -28,6 +28,7 @@ import {RestaurantDashboardService} from '@app/restaurants/restaurant-dashboard/
 import {SecurityRestaurantService} from '@app/_services/security-restaurant.service';
 import { InfoModalComponent } from './info-modal/info-modal.component';
 import { PickupOrderModalComponent } from './pickup-order-modal/pickup-order-modal.component';
+import { SidenavService } from './sidenav-responsive/sidenav.service';
 import { SidenavResponsiveComponent } from './sidenav-responsive/sidenav-responsive.component';
 
 @NgModule({
@@ -64,7 +65,8 @@ import { SidenavResponsiveComponent } from './sidenav-responsive/sidenav-respons
   providers: [
     CityDataService,
     RestaurantDashboardService,
-    SecurityRestaurantService
+    SecurityRestaurantService,
+    SidenavService,
   ],
   bootstrap: [AppComponent],
     exports: [

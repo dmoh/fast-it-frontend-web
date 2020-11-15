@@ -198,6 +198,8 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
                     { backdrop: 'static', keyboard: false, size: 'lg' });
                   codeModal.componentInstance.infos = confCode;
                   codeModal.result.then((response) => {
+                    this.cartService.emptyCart();
+
                     if (response) {
                       // send code to db
                       this.cartService.saveCodeCustomerToDeliver({ responseCustomer: response})

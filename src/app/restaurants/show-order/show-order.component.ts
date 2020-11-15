@@ -62,9 +62,9 @@ export class ShowOrderComponent implements OnInit {
                 listSuppProduct.forEach( suppProduct => {
                   let supplement: any = { };
                   supplement = {
-                    productId : suppProduct.split('|')[0],
-                    name : suppProduct.split('|')[1],
-                  };
+                    productId : suppProduct.split("-NEXTSUP-")[0],
+                    name : suppProduct.split("-NEXTSUP-")[1],
+                  }
                   this.supplementsProduct.push(supplement);
                 });
                 this.onShowModal();

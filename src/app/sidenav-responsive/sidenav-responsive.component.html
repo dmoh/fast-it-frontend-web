@@ -1,17 +1,9 @@
-<div class="example-container" [class.example-is-mobile]="mobileQuery.matches" *ngIf="shouldRun">
-    <mat-toolbar color="warn" class="example-toolbar">
-      <button mat-icon-button (click)="snav.toggle()"> 
-        <mat-icon>menu</mat-icon>
-      </button>
-      <h1 class="example-app-name">Responsive App</h1>
-    </mat-toolbar>
+ <!-- <div class="example-container" [class.example-is-mobile]="mobileQuery.matches"> -->
   
     <mat-sidenav-container class="example-sidenav-container"
-                           [style.marginTop.px]="mobileQuery.matches ? 56 : 0">
-      <mat-sidenav #snav [mode]="mobileQuery.matches ? 'over' : 'side'"
-                   [fixedInViewport]="mobileQuery.matches" fixedTopGap="110">
+                           [style.marginTop.px]="isMedia ? 0 : 0">
+      <mat-sidenav #snav [fixedInViewport]="!isMedia" fixedTopGap="110">
         <mat-nav-list>
-          <!-- <a mat-list-item routerLink="." *ngFor="let nav of fillerNav">{{nav}}</a> -->
             <a routerLink="/delivery/overview">
                 <div>
                     Vue globale
@@ -32,16 +24,6 @@
                     Paramètres du profil
                 </div>
             </a>
-              <!-- <div class="content-dashboard">
-                <section style="margin-top: 1rem" class="container-fluid">
-                  <div class="row">
-                    <div class="col-md-12">
-                      <router-outlet></router-outlet>
-                    </div>
-                  </div>
-                </section>
-              </div>
-            </div> -->
 
         </mat-nav-list>
       </mat-sidenav>
@@ -50,10 +32,32 @@
         <p *ngFor="let content of fillerContent">{{content}}</p>
       </mat-sidenav-content>
     </mat-sidenav-container>
-  </div>
-  
-  <div *ngIf="!shouldRun">Please open on Stackblitz to see result</div>
+  <!-- </div> -->
   
   
 
-  
+   
+
+
+<!-- 
+  <mat-sidenav-container class='app-drawer-container' fullscreen>
+    <mat-sidenav #sidenav mode="over">
+      sidenav bar
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <button mat-button (click)="sidenav.toggle()">Main content</button>
+    </mat-sidenav-content>
+  </mat-sidenav-container> 
+-->
+
+  <!-- <mat-sidenav-container
+    class="example-container" (backdropClick)="alert('backdrop')">
+  <mat-sidenav #sidenav (keydown.escape)="alert('escape')" disableClose>
+    <p><button mat-button (click)="alert('toggle button')">Toggle</button></p>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <p><button mat-button (click)="sidenav.open()">Open</button></p>
+    <p>Closed due to: reason</p>
+  </mat-sidenav-content>
+</mat-sidenav-container> -->

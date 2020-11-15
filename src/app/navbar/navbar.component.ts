@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, EventEmitter, Output } from '@angular/core';
 import {Cart} from "../cart/model/cart";
 import {CartService} from "../cart/service/cart.service";
 import {AuthenticationService} from "@app/_services/authentication.service";
 import { User } from '@app/_models/user';
+import { SidenavService } from '@app/sidenav-responsive/sidenav.service';
+import { MediaQueryService } from '@app/_services/media-query.service';
 import {RestaurantDashboardService} from "@app/restaurants/restaurant-dashboard/services/restaurant-dashboard.service";
 import {Router} from "@angular/router";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -13,18 +15,33 @@ import {MatSnackBar} from "@angular/material/snack-bar";
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
+  // @Output() navToggle = new EventEmitter<boolean>();
   user: any;
   cart: Cart;
+  isMediaMatches: boolean;
+
   isAdmin: boolean;
   isDeliverer: boolean;
   isSuper: boolean;
   constructor(
+    private mediaQueryService: MediaQueryService,
+    private authentication: AuthenticationService,
+    private sidenavService: SidenavService,
     private cartService: CartService,
     private snackBar: MatSnackBar,
-    private authentication: AuthenticationService,
     private restaurantDashboardService: RestaurantDashboardService,
     private router: Router
   ) { }
+
+  onMediaChange(e: any) {
+    this.isMediaMatches = e.matches;
+  }
+
+
+  onToggleSideNav() {
+    // this.navToggle.emit(true);
+    this.sidenavService.toggle();
+  }
 
   ngOnInit(): void {
     this.cartService.cartUpdated.subscribe((cartUpdated: Cart) => this.cart = cartUpdated);
@@ -45,7 +62,10 @@ export class NavbarComponent implements OnInit {
           }
         }
       });
-    // this.user = !this.authentication.currentUserValue ? new User() : this.authentication.currentUserValue;
+      this.onMediaChange(this.mediaQueryService.getMedia());
+      this.mediaQueryService.getMedia().addEventListener("change", e => this.onMediaChange(e));
+      this.onToggleSideNav(); 
+      // this.user = !this.authentication.currentUserValue ? new User() : this.authentication.currentUserValue;
   }
 
   onLogout(){

@@ -1,26 +1,27 @@
-import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { MatSidenav } from '@angular/material/sidenav';
+import { MediaQueryService } from '@app/_services/media-query.service';
+import { SidenavService } from './sidenav.service';
 
 @Component({
   selector: 'app-sidenav-responsive',
   templateUrl: './sidenav-responsive.component.html',
   styleUrls: ['./sidenav-responsive.component.scss']
 })
-export class SidenavResponsiveComponent implements OnInit, OnDestroy {
-  
-  private _mobileQueryListener: () => void;
-  mobileQuery: MediaQueryList;
-  
-  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {
-    this.mobileQuery = media.matchMedia('(max-width: 600px)');
-    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-    this.mobileQuery.addListener(this._mobileQueryListener);
+export class SidenavResponsiveComponent implements AfterViewInit {
+  @ViewChild('snav') public sidenav: MatSidenav;
+  isMedia: boolean;
+
+  constructor(private sidenavService: SidenavService, private mediaService: MediaQueryService) {
+    this.isMedia = this.mediaService.getMedia().matches;
   }
 
-
-  ngOnInit(): void {
-  }
-
+  ngAfterViewInit() { 
+   this.sidenavService.sideNavToggleSubject.subscribe(()=> {
+      return this.sidenav.toggle();
+    });
+  } 
+  
   fillerNav = Array.from({length: 50}, (_, i) => `Nav Item ${i + 1}`);
 
   fillerContent = Array.from({length: 50}, () =>
@@ -29,11 +30,4 @@ export class SidenavResponsiveComponent implements OnInit, OnDestroy {
        laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
        voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
        cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`);
-
-  ngOnDestroy(): void {
-    this.mobileQuery.removeListener(this._mobileQueryListener);
-  }
-
-  // shouldRun = [/(^|\.)plnkr\.co$/, /(^|\.)stackblitz\.io$/].some(h => h.test(window.location.host));
-  shouldRun = true;
 }

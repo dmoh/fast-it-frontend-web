@@ -20,6 +20,9 @@
             <div *ngFor="let supplement of product.supplementsProduct" style="font-size: small;font-weight: 200;display: flex; justify-content: flex-start">
               - {{ supplement.name }}
             </div>
+            <div style="font-size: small;font-weight: 400;display: flex; justify-content: flex-start">
+              <b>*<i>{{product.infoComment}}</i></b>
+            </div>
           </div>
           <div class="col-xs-0 col-md-0" style="font-size: larger; font-weight: 400">{{ product.amount/100 | number : '1.2-2'}}€</div>
         </div>
@@ -31,21 +34,33 @@
       Total: {{order.amount/100 | number : '1.2-2'}}€
     </div>
   </div>
-  <div style="display: flex; justify-content: left; padding: 0 0 0.75rem 0.75rem ">
+
+  <div *ngIf="isRejectionMessage">
+    <div>
+      <p>
+        <mat-form-field style="width: 100%;" appearance="outline">
+          <mat-label>Motif du refus de la commande</mat-label>
+          <textarea style="width: 100%; height: 200px" autocomplete="off" [(ngModel)]="message" matInput placeholder="Rupture de stock"></textarea>
+        </mat-form-field>
+      </p>
+    </div>
+  </div>
+  <div *ngIf="!isRejectionMessage" style="display: flex; justify-content: left; padding: 0 0 0.75rem 0.75rem ">
     Temps de préparation
   </div>
   <div style="display: flex; justify-content: space-between" class="modal-footer">
-    <div>
+    <div *ngIf="!isRejectionMessage">
       <button mat-raised-button (click)="onValidate(firstChoice)" color="primary">{{firstChoice}}</button>
     </div>
-    <div>
+    <div *ngIf="!isRejectionMessage">
       <button mat-raised-button (click)="onValidate(secondChoice)" color="primary">{{secondChoice}}</button>
     </div>
-    <div>
+    <div *ngIf="!isRejectionMessage">
       <button mat-raised-button (click)="onValidate(thirdChoice)" color="primary">{{thirdChoice}}</button>
     </div>
+    <button *ngIf="isRejectionMessage" mat-raised-button (click)="onValidateRejectionMessage()" color="warn">Envoyer refus</button>
     <div>
-      <button mat-raised-button (click)="onRefuseOrder(message)" color="warn">REFUS</button>
+      <mat-slide-toggle (change)="onRejectOrder($event)">Refuser</mat-slide-toggle>
     </div>
   </div>
 </div>
