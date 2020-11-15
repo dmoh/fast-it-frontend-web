@@ -156,6 +156,10 @@ ul {
   border: none;
 }
 
+.sidebar-left {
+  background-color: white !important;
+}
+
 .category-list.cdk-drop-list-dragging .category-box:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }

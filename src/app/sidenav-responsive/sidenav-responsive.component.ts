@@ -17,7 +17,6 @@ export class SidenavResponsiveComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() { 
-  //  alert(this.sidenav.toggle()); 
    this.sidenavService.sideNavToggleSubject.subscribe(()=> {
       return this.sidenav.toggle();
     });

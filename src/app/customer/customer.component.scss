@@ -10,11 +10,6 @@
   display: flex;
 }
 
-.container-restaurant-dashboard-mobile {
-  width: 100% !important;
-  display: flex;
-}
-
 .sidebar-left {
   padding: 4rem 1rem;
   /*box-shadow: 20px 12px 15px rgba(0,0,0,0.2);*/
@@ -31,7 +26,11 @@
   width: calc(100% - 250px);
 }
 
-
+.content-restaurant-dashboard-mobile {
+  background-color: white !important;
+  margin-left: 0;
+  width: 100%;
+}
 
 .wrapper-link-sidebar {
   width: 100%;

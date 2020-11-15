@@ -9,7 +9,7 @@ import {ShowOrderComponent} from '@app/restaurants/show-order/show-order.compone
 import {AdminComponent} from '@app/admin/admin.component';
 import {PasswordComponent} from '@app/password/password.component';
 import {Page404Component} from "@app/page404/page404.component";
- import { SidenavResponsiveComponent } from './sidenav-responsive/sidenav-responsive.component';
+import { SidenavResponsiveComponent } from './sidenav-responsive/sidenav-responsive.component';
 
 
 const routes: Routes = [
