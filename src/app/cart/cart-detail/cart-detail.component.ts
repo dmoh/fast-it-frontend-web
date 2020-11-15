@@ -182,7 +182,6 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
             // The payment has been processed!
             const responsePayment = result.paymentIntent;
             if (responsePayment.status === 'succeeded') {
-              this.cartService.emptyCart();
               // save order payment succeeded
               this.cartService.saveOrder({stripeResponse: responsePayment, cartDetail: this.cartCurrent })
                 .subscribe((confCode) => {
@@ -190,6 +189,8 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
                     { backdrop: 'static', keyboard: false, size: 'lg' });
                   codeModal.componentInstance.infos = confCode;
                   codeModal.result.then((response) => {
+                    this.cartService.emptyCart();
+
                     if (response) {
                       // send code to db
                       this.cartService.saveCodeCustomerToDeliver({ responseCustomer: response})

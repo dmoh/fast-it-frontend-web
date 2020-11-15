@@ -21,6 +21,7 @@ export class OrderModalComponent implements OnInit {
 
   public productList: any[] = new Array();
   public message = '';
+  public isRejectionMessage = false;
 
   public firstChoice = "15 - 30";
   public secondChoice = "30 - 45";
@@ -68,17 +69,20 @@ export class OrderModalComponent implements OnInit {
     this.redirectAfterTrait();
   }
 
-  onRefuseOrder(message: string) {
-    // avertir client
-    // pourquoi refus ??
+  onRejectOrder(event: any) {
+    this.isRejectionMessage = !this.isRejectionMessage;
+  }
+
+  onValidateRejectionMessage() {
+    let message = this.message;
     const dataOrder: any = {
       order_id: this.order.id,
       order_accepted_by_merchant: false,
+      business_id: this.business.id,
       status: 0,
-      business_id: null,
       message,
     };
-    console.warn("Message de refus");
+    console.warn("Message de refus", message);
     this.restaurantService.refuseOrder(dataOrder).subscribe();
     this.redirectAfterTrait();
   }
