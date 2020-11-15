@@ -20,7 +20,8 @@ const routes: Routes = [
     {path: 'password', component: PasswordComponent},
     { path: 'admin', component: AdminComponent, canActivate: [AuthGuard]  },
     { path: 'show-order', component: ShowOrderComponent },
-    {path: '', redirectTo: '/home', pathMatch: 'full'}
+    {path: '', redirectTo: '/home', pathMatch: 'full'},
+    {path: '**', redirectTo: '/home'},
 ];
 
 @NgModule({

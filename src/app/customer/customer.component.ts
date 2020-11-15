@@ -1,13 +1,13 @@
 import {AfterViewInit, Component, EventEmitter, HostListener, OnInit, Output, ViewChild} from '@angular/core';
-import {CustomerService} from "@app/customer/_services/customer.service";
+import {CustomerService} from '@app/customer/_services/customer.service';
 import {
   MatSnackBar,
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
 import {MatBottomSheet, MatBottomSheetRef} from '@angular/material/bottom-sheet';
-import {NotificationsComponent} from "@app/notifications/notifications.component";
-import {User} from "@app/_models/user";
+import {NotificationsComponent} from '@app/notifications/notifications.component';
+import {User} from '@app/_models/user';
 import { MediaQueryService } from '@app/_services/media-query.service';
 import { SidenavService } from '@app/sidenav-responsive/sidenav.service';
 import { MatSidenav } from '@angular/material/sidenav';
@@ -49,7 +49,7 @@ export class CustomerComponent implements OnInit, AfterViewInit {
             this.notifications = notif;
           });
       });
-    this.mediaQueryService.getMedia().addEventListener("change", e => this.onMediaChange(e));
+    this.mediaQueryService.getMedia().addEventListener('change', e => this.onMediaChange(e));
   }
 
   onMediaChange(e: any) {
@@ -98,7 +98,7 @@ export class CustomerComponent implements OnInit, AfterViewInit {
     const width = window.innerWidth;
     this.mobile = width < 992;
   }*/
-    // this.mobile = width < 992;
+  // this.mobile = width < 992;
 
 
 
