@@ -39,6 +39,11 @@ export class CustomerService {
       this.headers);
   }
 
+  getNotificationsCustomerUnread(): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}/notification/list/unread`,
+      this.headers);
+  }
+
   getCommentCustomer(id: number): Observable<any> {
     return this.http.get<any>(`${this.urlApi}/opinion/customer/${id}/list`,
       this.headers);
@@ -58,6 +63,13 @@ export class CustomerService {
   addNewAddress(address: string) {
     return this.http.post<any>(`${this.urlApi}/user/add/address`, { newAddress:
       address },
+      this.headers);
+  }
+
+
+  updatePassword(pass: string): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}/user/update/password`, { newPassword:
+        pass },
       this.headers);
   }
 }

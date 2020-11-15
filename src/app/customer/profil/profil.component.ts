@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {User} from '@app/_models/user';
 import {CustomerService} from '@app/customer/_services/customer.service';
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-profil',
@@ -13,21 +14,36 @@ export class ProfilComponent implements OnInit {
   customer: User;
   fd: FormData = new FormData();
   photoCustomer: any;
-  constructor(private fb: FormBuilder, private customerService: CustomerService) { }
+  pass: string;
+  confirmPass: string;
+  error: string;
+  constructor(
+    private fb: FormBuilder,
+    private customerService: CustomerService,
+    private snackBar: MatSnackBar
+  ) { }
 
   ngOnInit(): void {
     this.customerService.getInfosCustomer()
       .subscribe((customerCurrent) => {
         this.customer = customerCurrent;
-
+        if (this.customer.addresses.length === 0) {
+          this.customer.addresses = [...this.customer.addresses, {
+            city: '',
+            zipCode: '',
+            street: ''
+          }];
+        }
         this.customerForm = this.fb.group({
           email: [this.customer.email, Validators.required],
           phone: [this.customer.phone],
           city: [this.customer.addresses[0].city, Validators.required],
-          zipcode: [this.customer.addresses[0].zipcode, Validators.required],
+          zipcode: [this.customer.addresses[0].zipCode, Validators.required],
           street: [this.customer.addresses[0].street, Validators.required],
         });
       });
+
+
 
   }
 
@@ -56,8 +72,41 @@ export class ProfilComponent implements OnInit {
 
     this.customerService.editCustomer(this.fd)
       .subscribe((res) => {
-        console.warn(res) ;
+        this.showInfoUser('Mise à jour avec succès');
       });
   }
 
+
+onChangePassword() {
+    if (typeof this.pass === 'undefined') {
+      this.showInfoUser('Mot de passe manquant');
+      return;
+    }
+    if ( this.pass !== this.confirmPass) {
+      this.showInfoUser('Les mots de passes ne sont pas identiques.');
+      return;
+    }
+    if ( this.pass.length < 8) {
+      this.showInfoUser('8 caractères minimum');
+      return;
+    }
+    //  || this.pass.length < 8
+    this.customerService.updatePassword(this.pass)
+      .subscribe((res) => {
+        if (res.ok) {
+          this.pass = '';
+          this.confirmPass = '';
+          this.showInfoUser('Mot de passe modifié.');
+        }
+      });
+  }
+
+
+  private showInfoUser(message: string) {
+    this.snackBar.open(message, 'ok', {
+      duration: 5000,
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+    });
+  }
 }

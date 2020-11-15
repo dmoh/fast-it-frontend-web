@@ -12,9 +12,9 @@ export class NotificationCustomerComponent implements OnInit {
   constructor(private customerService: CustomerService) { }
 
   ngOnInit(): void {
-    this.customerService.getInfosCustomer()
-      .subscribe((customer) => {
-        this.notifications = customer[0].notifications;
+    this.customerService.getNotificationsCustomer()
+      .subscribe((notif) => {
+        this.notifications = notif;
       });
   }
 

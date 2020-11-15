@@ -6,10 +6,10 @@ import { CustomerComponent } from './customer.component';
 import { OrderComponent } from './order/order.component';
 import { ProfilComponent } from './profil/profil.component';
 import {CoreModule} from "@app/core/core.module";
-import {NotificationsComponent} from "@app/notifications/notifications.component";
 import { NotificationCustomerComponent } from '../notification-customer/notification-customer.component';
 import { CommentComponent } from './comment/comment.component';
 import {MatMenuModule} from "@angular/material/menu";
+import {MatSidenavModule} from "@angular/material/sidenav";
 
 
 @NgModule({

@@ -5,13 +5,13 @@ import {OrderComponent} from '@app/restaurants/restaurant-dashboard/order/order.
 import {OverviewComponent} from '@app/restaurants/restaurant-dashboard/overview/overview.component';
 import {ProductComponent} from '@app/restaurants/restaurant-dashboard/product/product.component';
 import {CommerceComponent} from '@app/restaurants/restaurant-dashboard/commerce/commerce.component';
-import {AuthGuard} from "@app/_helpers/auth.guard";
+import {RoleGuard} from "@app/_helpers/role.guard";
 
 
 const routes: Routes = [ {
    path: 'restaurant-dashboard/:id',
    component: RestaurantDashboardComponent,
-   canActivate: [AuthGuard],
+   canActivate: [RoleGuard],
    children: [
      {
        path: 'orders',
@@ -30,7 +30,6 @@ const routes: Routes = [ {
        component: CommerceComponent,
      }
    ]
-
 }
 
 

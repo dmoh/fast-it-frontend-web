@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {CustomerService} from "@app/customer/_services/customer.service";
 import {
   MatSnackBar,
@@ -9,8 +9,6 @@ import {MatBottomSheet, MatBottomSheetRef} from '@angular/material/bottom-sheet'
 import {NotificationsComponent} from "@app/notifications/notifications.component";
 import {User} from "@app/_models/user";
 import { MediaQueryService } from '@app/_services/media-query.service';
-
-
 
 @Component({
   selector: 'app-customer',
@@ -23,7 +21,8 @@ export class CustomerComponent implements OnInit {
   notifications: any[];
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
-  isMediaMatches: boolean;
+  isMedia: boolean;
+  mobile: boolean;
 
   constructor(
     private customerService: CustomerService,
@@ -36,16 +35,16 @@ export class CustomerComponent implements OnInit {
     this.customerService.getInfosCustomer()
       .subscribe((response) => {
         this.customer = response;
-        this.customerService.getNotificationsCustomer()
+        this.customerService.getNotificationsCustomerUnread()
           .subscribe((notif) => {
             this.notifications = notif;
           });
       });
-   this.mediaQueryService.getMedia().addEventListener("change", e => this.onMediaChange(e));
+    this.mediaQueryService.getMedia().addEventListener("change", e => this.onMediaChange(e));
   }
 
   onMediaChange(e: any) {
-    this.isMediaMatches = e.matches;
+    this.isMedia = e.matches;
   }
   
   onReadNotifications() {
@@ -74,5 +73,11 @@ export class CustomerComponent implements OnInit {
           this.notifications = [];
         });
     });*/
+  }
+
+  @HostListener('window:resize', [])
+  onResize() {
+    const width = window.innerWidth;
+    // this.mobile = width < 992;
   }
 }

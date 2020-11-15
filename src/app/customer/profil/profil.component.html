@@ -48,6 +48,37 @@
           <button class="float-right mb-3" mat-raised-button type="submit" color="primary">Enregistrer</button>
         </div>
       </form>
+      <div>
+        <h2>Modification du mot de passe</h2>
+        <div>
+        <p>
+          <mat-form-field style="width: 100%;" appearance="outline">
+            <mat-label>Nouveau mot de passe</mat-label>
+            <input matInput type="password" [(ngModel)]="pass" placeholder="Placeholder">
+            <mat-icon matSuffix>alternate_email</mat-icon>
+          </mat-form-field>
+        </p>
+        <p>
+          <mat-form-field style="width: 100%;" appearance="outline">
+            <mat-label>Confirmation mot de passe</mat-label>
+            <input matInput type="password" [(ngModel)]="confirmPass" placeholder="Placeholder">
+            <mat-icon matSuffix>alternate_email</mat-icon>
+          </mat-form-field>
+        </p>
+      </div>
+      <div>
+        <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+        <div class="alert alert-info mt-3 mb-1">8 caractères minimum</div>
+      </div>
+      <div class="mb-3">
+        <button class="float-right mb-3"
+                mat-raised-button
+                type="button"
+                (click)="onChangePassword()"
+                [class.not-allowed]="!pass"
+                color="primary">Modifier</button>
+      </div>
+    </div>
     </div>
     <div class="col-md-4">
       <div class="card card-profile">

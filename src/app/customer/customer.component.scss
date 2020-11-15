@@ -10,6 +10,11 @@
   display: flex;
 }
 
+.container-restaurant-dashboard-mobile {
+  width: 100% !important;
+  display: flex;
+}
+
 .sidebar-left {
   padding: 4rem 1rem;
   /*box-shadow: 20px 12px 15px rgba(0,0,0,0.2);*/
@@ -62,17 +67,17 @@ a {
   }
 }
 
-@media (max-width: 768px) {
+// @media (max-width: 768px) {
 
-  .sidebar-left {
-    transition: left ease 2000ms ;
-    left: -255px;
-  }
+//   .sidebar-left {
+//     transition: left ease 2000ms ;
+//     left: -255px;
+//   }
 
-  .content-restaurant-dashboard {
-    width: 100% !important;
-    margin-left: 0;
-    transition: all ease 400ms;
-  }
+//   .content-restaurant-dashboard {
+//     width: 100% !important;
+//     margin-left: 0;
+//     transition: all ease 400ms;
+//   }
 
-}
+// }

@@ -19,14 +19,15 @@ import { MatSidenav } from '@angular/material/sidenav';
   templateUrl: './delivery.component.html',
   styleUrls: ['./delivery.component.scss']
 })
-export class DeliveryComponent implements OnInit, AfterViewInit, OnChanges {
+export class DeliveryComponent implements OnInit, AfterViewInit {
 
   orders: any;
   deliverer: User;
   authorizedRoles: string[] = ["ROLE_SUPER_ADMIN","ROLE_DELIVERER"];
   isMedia: boolean;
 
-  @ViewChild('sidebarLeft') public sidenav: MatSidenav;
+  @ViewChild('sidebarLeft') 
+  public sidenav: MatSidenav;
 
   constructor(private deliveryService: DeliveryService,
     private router: Router,
@@ -37,10 +38,6 @@ export class DeliveryComponent implements OnInit, AfterViewInit, OnChanges {
     private bottomSheet: MatBottomSheet) { 
       this.rolesBloqued();
     }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log("ngOnChanges", this.sidenav);
-  }
 
   @Output() sidenavChange = new EventEmitter<MatSidenav>();
 
@@ -84,7 +81,6 @@ export class DeliveryComponent implements OnInit, AfterViewInit, OnChanges {
        return this.sidenav.toggle();
      });
     console.log("After",this.isMedia);
-
   } 
   
 }

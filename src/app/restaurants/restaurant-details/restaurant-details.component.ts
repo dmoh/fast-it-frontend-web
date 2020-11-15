@@ -1,4 +1,13 @@
-import {Component, HostListener, OnInit} from '@angular/core';
+import {
+  AfterContentInit,
+  AfterViewInit,
+  Component,
+  ElementRef,
+  HostListener,
+  OnInit,
+  Renderer2,
+  ViewChild
+} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ProductModalComponent} from '@app/product-modal/product-modal.component';
 import {Product} from '@app/models/product';
@@ -7,14 +16,14 @@ import {Cart} from '@app/cart/model/cart';
 import {RestaurantDashboardService} from '@app/restaurants/restaurant-dashboard/services/restaurant-dashboard.service';
 import {ActivatedRoute} from '@angular/router';
 import {SecurityRestaurantService} from '@app/_services/security-restaurant.service';
-import {InfoModalComponent} from "@app/info-modal/info-modal.component";
+import {InfoModalComponent} from '@app/info-modal/info-modal.component';
 
 @Component({
   selector: 'app-restaurant-details',
   templateUrl: './restaurant-details.component.html',
   styleUrls: ['./restaurant-details.component.scss']
 })
-export class RestaurantDetailsComponent implements OnInit {
+export class RestaurantDetailsComponent implements OnInit, AfterViewInit{
 
   cartCurrent: Cart;
   starsRestaurant: any[] = [];
@@ -26,10 +35,18 @@ export class RestaurantDetailsComponent implements OnInit {
   urlLogoRestaurant: string;
   restaurant: any = {} as any;
   nothingToShow: string;
+  sticky: boolean = false;
+  menuPosition: any;
+
+
+  @ViewChild('stickyMenu', {static: false}) menuElement: ElementRef;
+
   constructor(private modal: NgbModal,
               private cartService: CartService,
               private restaurantService: RestaurantDashboardService,
               private route: ActivatedRoute,
+              private elementRef: ElementRef,
+              private renderer2: Renderer2,
               private securityRestaurantService: SecurityRestaurantService
               ) {
 
@@ -95,6 +112,11 @@ export class RestaurantDetailsComponent implements OnInit {
 
   }
 
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.menuPosition = this.menuElement.nativeElement.offsetTop;
+    }, 3000);
+  }
 
   scroll(id) {
       const elmnt = document.getElementById(id);
@@ -130,6 +152,16 @@ export class RestaurantDetailsComponent implements OnInit {
     }
   }
 
+
+  @HostListener('window:scroll', ['$event'])
+  handleScroll(){
+    const windowScroll = window.pageYOffset;
+    if (windowScroll >= this.menuPosition){
+      this.sticky = true;
+    } else {
+      this.sticky = false;
+    }
+  }
 
 
 }
