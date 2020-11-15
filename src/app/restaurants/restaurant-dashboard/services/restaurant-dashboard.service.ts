@@ -80,8 +80,8 @@ export class RestaurantDashboardService {
       this.headers);
   }
 
-  checkToken(businessId: number, token: string): Observable<any> {
-    return this.http.post<any>(`${this.urlApi}/business/${businessId}/check/token/manager`, {tokenUser:  token},
+  checkToken(businessId: number, token: string, order: number): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}/business/${businessId}/check/token/manager`, {tokenUser:  token, orderId: order},
       this.headers);
   }
 

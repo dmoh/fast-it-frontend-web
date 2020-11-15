@@ -7,6 +7,7 @@ import { OrderModalComponent } from '../order-modal/order-modal.component';
 import { CardComponent } from '@app/home/home-features/card/card.component';
 import { Observable, Subscription } from 'rxjs';
 import jwtDecode from 'jwt-decode';
+import {InfoModalComponent} from "@app/info-modal/info-modal.component";
 
 @Component({
   selector: 'app-show-order',
@@ -19,7 +20,7 @@ export class ShowOrderComponent implements OnInit {
   products: any[];
   orderId: number = 0;
   businessId: number = 0;
-  
+
   constructor(
     private activedRoute: ActivatedRoute,
     private restaurantDashboardService: RestaurantDashboardService,
@@ -34,26 +35,21 @@ export class ShowOrderComponent implements OnInit {
     this.activedRoute.queryParams.subscribe((res) => {
         if (res.p && res.c && res.orderId && res.restoId) {
           // recup mail
-
-          this.restaurantDashboardService.checkToken(+(res.restoId), res.c)
-            .subscribe(( response) => {
+          this.restaurantDashboardService.checkToken(+(res.restoId), res.c, res.orderId)
+            .subscribe((response) => {
               if (response.ok) {
-                
                 localStorage.setItem('currentUser', '{ "token":"' + decodeURI(res.c) + '"}');
-
                 if (res.p) {
                   const listProductURi = decodeURI(res.p).trim().split('x')
                   .filter( product => {
-                      return product !== "" ;
+                      return product !== '';
                   });
-
                   listProductURi.forEach( product => {
                     const productBis: any = { };
                     productBis.quantity = product.split(' ')[0];
                     productBis.name = product.split(' ')[1];
                     productBis.amount = product.split(' ')[2];
                     productBis.id = product.split(' ')[3];
-
                     this.products.push(productBis);
                   });
                 }
@@ -62,18 +58,27 @@ export class ShowOrderComponent implements OnInit {
                 this.orderId = (res.orderId) ? +res.orderId : this.orderId;
 
                 // createProductList
-                let listSuppProduct: any[] = decodeURI(res.suppProducts).trim().split(' ');
+                const listSuppProduct: any[] = decodeURI(res.suppProducts).trim().split(' ');
                 listSuppProduct.forEach( suppProduct => {
                   let supplement: any = { };
                   supplement = {
-                    productId : suppProduct.split("|")[0],
-                    name : suppProduct.split("|")[1],
-                  }
-                  this.supplementsProduct.push(supplement); 
+                    productId : suppProduct.split('|')[0],
+                    name : suppProduct.split('|')[1],
+                  };
+                  this.supplementsProduct.push(supplement);
                 });
-                console.log("supplements produit", this.supplementsProduct);
-
+                console.log('supplements produit', this.supplementsProduct);
                 this.onShowModal();
+              } else if (response.error)  {
+                const modalRef = this.orderModal.open(InfoModalComponent, {
+                  backdrop: 'static',
+                  keyboard: false,
+                });
+                modalRef.componentInstance.title = 'Information';
+                modalRef.componentInstance.message = response.message;
+                modalRef.result.then((close) => {
+                  this.router.navigate(['home']);
+                });
               } else {
                 this.router.navigate(['home']);
               }
@@ -84,7 +89,7 @@ export class ShowOrderComponent implements OnInit {
       });
   }
 
-  onShowModal() {    
+  onShowModal() {
     this.restaurantDashboardService.getOrderById(+this.orderId).subscribe( order => {
       // test si l'id de la commande est identique au commercant actuel
       if (+this.businessId !== +order.business.id) {

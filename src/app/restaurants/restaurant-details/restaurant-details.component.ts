@@ -45,8 +45,6 @@ export class RestaurantDetailsComponent implements OnInit, AfterViewInit{
               private cartService: CartService,
               private restaurantService: RestaurantDashboardService,
               private route: ActivatedRoute,
-              private elementRef: ElementRef,
-              private renderer2: Renderer2,
               private securityRestaurantService: SecurityRestaurantService
               ) {
 
@@ -113,9 +111,11 @@ export class RestaurantDetailsComponent implements OnInit, AfterViewInit{
   }
 
   ngAfterViewInit() {
-    setTimeout(() => {
+    /*setTimeout(() => {
+      console.log(this.menuPosition);
       this.menuPosition = this.menuElement.nativeElement.offsetTop;
-    }, 3000);
+      console.log(this.menuPosition);
+    }, 10000);-->*/
   }
 
   scroll(id) {
@@ -156,11 +156,7 @@ export class RestaurantDetailsComponent implements OnInit, AfterViewInit{
   @HostListener('window:scroll', ['$event'])
   handleScroll(){
     const windowScroll = window.pageYOffset;
-    if (windowScroll >= this.menuPosition){
-      this.sticky = true;
-    } else {
-      this.sticky = false;
-    }
+    this.sticky = windowScroll >= this.menuPosition;
   }
 
 
