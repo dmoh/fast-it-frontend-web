@@ -65,5 +65,12 @@ export class CustomerService {
       address },
       this.headers);
   }
+
+
+  updatePassword(pass: string): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}/user/update/password`, { newPassword:
+        pass },
+      this.headers);
+  }
 }
 

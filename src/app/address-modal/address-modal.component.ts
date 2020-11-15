@@ -45,6 +45,9 @@ export class AddressModalComponent implements OnInit {
     }
   }
   toggle() {
+    if (this.address === null) {
+      return;
+    }
     this.addressByDefault = !this.addressByDefault;
   }
 
@@ -55,9 +58,7 @@ export class AddressModalComponent implements OnInit {
     }
   }
 
-  onSubmit() {
-
-  }
+  onSubmit() {}
 
   handleAddressChange(event) {
     if (!!event.formatted_address) {
@@ -73,7 +74,6 @@ export class AddressModalComponent implements OnInit {
   onSaveNewAddress() {
     const newAddress = {
       street: this.street,
-      num: this.numNewAddress,
       zipcode: this.zipcode,
       city: this.city,
       comment: this.commentAddress,

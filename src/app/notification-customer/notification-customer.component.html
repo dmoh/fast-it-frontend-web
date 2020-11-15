@@ -10,7 +10,7 @@
               <span style="font-size: smaller" >{{ notif.message }}</span>
               <span style="font-size: smaller"  class="float-right">
                 {{ notif.sended_at.date | date: 'dd/MM/yyyy' }}, à
-                {{ (notif.sended_at.date | date: 'h:mm').replace(':', 'h') }}
+                {{ (notif.sended_at.date | date: 'HH:mm').replace(':', 'h') }}
               </span>
             </div>
           </div>

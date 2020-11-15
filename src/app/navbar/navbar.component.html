@@ -17,13 +17,13 @@
             <a style="text-decoration: none; color: #0a0a0a" routerLink="customer">Profil</a>
           </button>
           <button *ngIf="isDeliverer"  mat-menu-item>
-            <a routerLink="delivery">Profil</a>
+            <a style="text-decoration: none; color: #0a0a0a" routerLink="delivery/overview">Livreur</a>
           </button>
           <button *ngIf="isAdmin" mat-menu-item>
             <a (click)="goTo()">Restaurant</a>
           </button>
           <button *ngIf="isSuper" mat-menu-item>
-            <a routerLink="admin/commerce">Dashboard</a>
+            <a style="text-decoration: none; color: #0a0a0a" routerLink="admin/commerce">Dashboard</a>
           </button>
         </mat-menu>
       </li>

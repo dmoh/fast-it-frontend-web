@@ -29,6 +29,9 @@ export class AuthenticationService {
   }
 
 
+  public get currentRolesValue(): string[] {
+    return this.currentRolesSubject.value;
+  }
   public get tokenUserCurrent(): string {
     return; // this.currentUserSubject.value.token;
   }

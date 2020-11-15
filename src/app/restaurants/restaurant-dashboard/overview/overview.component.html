@@ -30,12 +30,12 @@
     <div class="card-body">
       <div style="width: 100%" class="d-md-flex align-items-center">
         <div>
-          <h4 class="card-title">Dernières commandes</h4>
+          <h4 class="card-title">5 Dernières commandes</h4>
           <h5 class="card-subtitle">Mois en cours</h5>
         </div>
         <div style="">
           <div>
-            <span>Trier par</span>
+            <span></span>
           </div>
         </div>
       </div>
@@ -47,7 +47,7 @@
             <th class="border-0">Date</th>
             <th class="border-0">Heure</th>
             <th class="border-0">Montant</th>
-            <th class="border-0">Part Commerce</th>
+            <!--<th class="border-0">Part Commerce</th>-->
           </tr>
           </thead>
           <tbody>
@@ -72,11 +72,11 @@
                   <span>{{ (+(o.order.amount) / 100).toFixed(2) + '€' }}</span>
                 </div>
               </td>
-              <td>
+              <!--<td>
                 <div class="">
                   <span>{{ ((o.order.amount/ 100) - ((+(o.order.amount) / 100) * 0.23)).toFixed(2) + '€' }}</span>
                 </div>
-              </td>
+              </td>-->
             </tr>
           </tbody>
         </table>

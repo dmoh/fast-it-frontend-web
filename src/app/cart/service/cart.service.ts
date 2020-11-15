@@ -93,10 +93,7 @@ export class CartService {
 
   public generateTotalCart(isCheckout?: boolean): void {
     this.cartCurrent.total = 0;
-    if (this.cartCurrent.hasServiceCharge === false && isCheckout) {
-      this.cartCurrent.total += 0.80;
-      this.cartCurrent.hasServiceCharge = true;
-    }
+    this.cartCurrent.total += 0.80;
     this.cartCurrent.products.forEach((prod: Product) => {
       this.cartCurrent.total += +(prod.quantity * prod.amount) / 100;
     });
