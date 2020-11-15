@@ -41,12 +41,15 @@ export class OrderModalComponent implements OnInit {
         let product: any;
         product = myProduct;
         // product.amount = this.order.amount;
-
-        product.supplementsProduct = this.supplementsProduct.filter( suppProduct => {
-          return suppProduct.productId === product.id ;
+        this.restaurantService.getBusinessProductById(product.id).subscribe( prod => {
+          // console.log("production", (prod as any).infoCommentCustomer);
+          product.supplementsProduct = this.supplementsProduct.filter( suppProduct => {
+            return suppProduct.productId === product.id ;
+          });
+          product.infoComment = (prod as any).infoCommentCustomer;
+          
+          this.productList.push(product);
         });
-
-        this.productList.push(product);
       });
       console.log("productList",this.productList);
     }

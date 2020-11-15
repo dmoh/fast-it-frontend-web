@@ -20,6 +20,9 @@
             <div *ngFor="let supplement of product.supplementsProduct" style="font-size: small;font-weight: 200;display: flex; justify-content: flex-start">
               - {{ supplement.name }}
             </div>
+            <div style="font-size: small;font-weight: 400;display: flex; justify-content: flex-start">
+              <b>*<i>{{product.infoComment}}</i></b>
+            </div>
           </div>
           <div class="col-xs-0 col-md-0" style="font-size: larger; font-weight: 400">{{ product.amount/100 | number : '1.2-2'}}€</div>
         </div>

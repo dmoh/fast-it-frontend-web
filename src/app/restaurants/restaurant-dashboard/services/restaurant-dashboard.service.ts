@@ -147,4 +147,9 @@ export class RestaurantDashboardService {
   getUrlRestaurant(): Observable<any> {
     return this.http.get<any>(`${this.urlApi}/business/url`, this.headers);
   }
+
+  getBusinessProductById(id) {
+    return this.http.get<any>(`${this.urlApi}/product/${id}`, this.headers);
+  }
+
 }
