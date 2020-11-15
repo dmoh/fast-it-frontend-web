@@ -1,25 +1,36 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import {RestaurantDashboardService} from '@app/restaurants/restaurant-dashboard/services/restaurant-dashboard.service';
 import {Restaurant} from '@app/_models/restaurant';
 import {ActivatedRoute, Router} from '@angular/router';
 import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {SecurityRestaurantService} from '@app/_services/security-restaurant.service';
+import { MatSidenav } from '@angular/material/sidenav';
+import { SidenavService } from '@app/sidenav-responsive/sidenav.service';
+import { MediaQueryService } from '@app/_services/media-query.service';
 
 @Component({
   selector: 'app-restaurant-dashboard',
   templateUrl: './restaurant-dashboard.component.html',
   styleUrls: ['./restaurant-dashboard.component.scss']
 })
-export class RestaurantDashboardComponent implements OnInit {
+export class RestaurantDashboardComponent implements OnInit, AfterViewInit {
   restaurantDatas: any;
   restaurant: Restaurant;
   products: any[];
   restaurantId: number;
+  
+  isMedia: boolean;
+
+  @ViewChild('sidebarLeft') 
+  public sidenav: MatSidenav;
+
   constructor(
     private restaurantService: RestaurantDashboardService,
     private securityRestaurantService: SecurityRestaurantService,
     private activatedRoute: ActivatedRoute,
     private modal: NgbModal,
+    private mediaQueryService: MediaQueryService,
+    private sidenavService: SidenavService,
     private router: Router
   ) { }
 
@@ -110,5 +121,19 @@ export class RestaurantDashboardComponent implements OnInit {
     //   });
 
 
+    this.isMedia = this.mediaQueryService.getMedia().matches;
+    this.mediaQueryService.getMedia().addEventListener("change", e => this.onMediaChange(e));
   }
+
+  onMediaChange(e: any) {
+    this.isMedia = e.matches;
+  }
+
+  ngAfterViewInit() { 
+    this.sidenavService.sideNavToggleSubject.subscribe(()=> {
+       return this.sidenav.toggle();
+     });
+    console.log("After",this.isMedia);
+  } 
+  
 }

@@ -39,7 +39,7 @@ export class DeliveryComponent implements OnInit, AfterViewInit {
       this.rolesBloqued();
     }
 
-  @Output() sidenavChange = new EventEmitter<MatSidenav>();
+  // @Output() sidenavChange = new EventEmitter<MatSidenav>();
 
   ngOnInit(): void {
     // recuperer la geoloc
@@ -48,10 +48,10 @@ export class DeliveryComponent implements OnInit, AfterViewInit {
     } else {
       // Pas de support, proposer une alternative ?
     }
-    this.sidenavChange.emit(this.sidenav);
+    // this.sidenavChange.emit(this.sidenav);
     this.isMedia = this.mediaQueryService.getMedia().matches;
     this.mediaQueryService.getMedia().addEventListener("change", e => this.onMediaChange(e));
-    console.log("Before",this.isMedia);
+
   }
 
   onMediaChange(e: any) {
