@@ -1,7 +1,6 @@
 import { MediaMatcher } from '@angular/cdk/layout';
-import { ChangeDetectorRef, Component, OnDestroy, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnDestroy, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { SidenavService } from './sidenav-responsive/sidenav.service';
 import { MediaQueryService } from './_services/media-query.service';
 
 @Component({
@@ -9,19 +8,20 @@ import { MediaQueryService } from './_services/media-query.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnDestroy{
-  title = 'Fast Eat';
+export class AppComponent {
+  title = 'Fast It';
+  screenSize = 992;
+
+  constructor( private mediaQueryService: MediaQueryService) {
+    const width = window.innerWidth;
+    this.mediaQueryService.setMobile(width < this.screenSize);
+  }
+
+  @HostListener('window:resize', [])
+  onResize() {
+    const width = window.innerWidth;
+    this.mediaQueryService.setMobile(width < this.screenSize);
+    // console.log(width < this.screenSize);
+  }
   
-  private _mobileQueryListener: () => void;
-  mobileQuery: MediaQueryList;
-
-
-  constructor( private mediaQueryService: MediaQueryService, changeDetectorRef: ChangeDetectorRef) {
-      this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-      this.mediaQueryService.getMedia().addEventListener("change", this._mobileQueryListener);
-  }
-
-  ngOnDestroy(): void {
-    this.mobileQuery.removeEventListener("change", this._mobileQueryListener);
-  }
 }

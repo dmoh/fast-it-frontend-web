@@ -13,7 +13,7 @@ export class SidenavResponsiveComponent implements AfterViewInit {
   isMedia: boolean;
 
   constructor(private sidenavService: SidenavService, private mediaService: MediaQueryService) {
-    this.isMedia = this.mediaService.getMedia().matches;
+    this.isMedia = this.mediaService.getMobile();
   }
 
   ngAfterViewInit() { 

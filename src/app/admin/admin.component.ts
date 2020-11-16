@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { SidenavService } from '@app/sidenav-responsive/sidenav.service';
 import {User} from "@app/_models/user";
@@ -28,15 +28,17 @@ export class AdminComponent implements OnInit, AfterViewInit {
         console.log(response);
       });
 
-      this.isMedia = this.mediaQueryService.getMedia().matches;
-      this.mediaQueryService.getMedia().addEventListener("change", e => this.onMediaChange(e));  
+      this.isMedia = this.mediaQueryService.getMobile(); 
   }
-
-  onMediaChange(e: any) {
-    this.isMedia = e.matches;
-  }
-
   
+  @HostListener('window:resize', [])
+  onResize() {
+    this.isMedia = this.mediaQueryService.getMobile();
+    if (!this.isMedia) {
+      this.sidenav.open();
+    }
+  }
+
   onReadNotifications() {
 
   }
@@ -45,7 +47,9 @@ export class AdminComponent implements OnInit, AfterViewInit {
     this.sidenavService.sideNavToggleSubject.subscribe(()=> {
        return this.sidenav.toggle();
      });
-    console.log("After",this.isMedia);
+    if (this.isMedia) {
+      this.sidenav.close();
+    }
   } 
 
 }

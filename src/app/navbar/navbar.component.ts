@@ -1,13 +1,13 @@
-import { Component, OnDestroy, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnDestroy, OnInit, EventEmitter, Output, HostListener } from '@angular/core';
 import {Cart} from "../cart/model/cart";
 import {CartService} from "../cart/service/cart.service";
 import {AuthenticationService} from "@app/_services/authentication.service";
 import { User } from '@app/_models/user';
-import { SidenavService } from '@app/sidenav-responsive/sidenav.service';
 import { MediaQueryService } from '@app/_services/media-query.service';
 import {RestaurantDashboardService} from "@app/restaurants/restaurant-dashboard/services/restaurant-dashboard.service";
 import {Router} from "@angular/router";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import { SidenavService } from '@app/sidenav-responsive/sidenav.service';
 
 @Component({
   selector: 'app-navbar',
@@ -18,7 +18,7 @@ export class NavbarComponent implements OnInit {
   // @Output() navToggle = new EventEmitter<boolean>();
   user: any;
   cart: Cart;
-  isMediaMatches: boolean;
+  isMedia: boolean;
 
   isAdmin: boolean;
   isDeliverer: boolean;
@@ -33,15 +33,6 @@ export class NavbarComponent implements OnInit {
     private router: Router
   ) { }
 
-  onMediaChange(e: any) {
-    this.isMediaMatches = e.matches;
-  }
-
-
-  onToggleSideNav() {
-    // this.navToggle.emit(true);
-    this.sidenavService.toggle();
-  }
 
   ngOnInit(): void {
     this.cartService.cartUpdated.subscribe((cartUpdated: Cart) => this.cart = cartUpdated);
@@ -62,10 +53,26 @@ export class NavbarComponent implements OnInit {
           }
         }
       });
-      this.onMediaChange(this.mediaQueryService.getMedia());
-      this.mediaQueryService.getMedia().addEventListener("change", e => this.onMediaChange(e));
-      this.onToggleSideNav(); 
+      this.isMedia = this.mediaQueryService.getMobile();
+      this.getRoute();
       // this.user = !this.authentication.currentUserValue ? new User() : this.authentication.currentUserValue;
+  }
+  @HostListener('window:resize', [])
+  onResize() {
+    this.isMedia = this.mediaQueryService.getMobile();
+    if(!this.isMedia){
+      this.sidenavService.close();
+    }
+  }
+
+  onToggleSideNav() {
+    // this.navToggle.emit(true);
+    this.sidenavService.toggle();
+  }
+  
+  
+  getRoute(){
+    console.log("URL", this.router.url);
   }
 
   onLogout(){

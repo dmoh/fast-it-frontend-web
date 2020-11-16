@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import {RestaurantDashboardService} from '@app/restaurants/restaurant-dashboard/services/restaurant-dashboard.service';
 import {Restaurant} from '@app/_models/restaurant';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -119,21 +119,25 @@ export class RestaurantDashboardComponent implements OnInit, AfterViewInit {
 
     //      }
     //   });
+    this.isMedia = this.mediaQueryService.getMobile(); 
+}
 
-
-    this.isMedia = this.mediaQueryService.getMedia().matches;
-    this.mediaQueryService.getMedia().addEventListener("change", e => this.onMediaChange(e));
+@HostListener('window:resize', [])
+onResize() {
+  this.isMedia = this.mediaQueryService.getMobile();
+  if (!this.isMedia) {
+    this.sidenav.open();
   }
-
-  onMediaChange(e: any) {
-    this.isMedia = e.matches;
+  if (this.isMedia) {
+    this.sidenav.close();
   }
+}
+
 
   ngAfterViewInit() { 
     this.sidenavService.sideNavToggleSubject.subscribe(()=> {
        return this.sidenav.toggle();
      });
-    console.log("After",this.isMedia);
   } 
   
 }

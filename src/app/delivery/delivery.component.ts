@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, HostListener, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { DeliveryService } from './services/delivery.service';
 import {
   MatSnackBar,
@@ -48,14 +48,15 @@ export class DeliveryComponent implements OnInit, AfterViewInit {
     } else {
       // Pas de support, proposer une alternative ?
     }
-    // this.sidenavChange.emit(this.sidenav);
-    this.isMedia = this.mediaQueryService.getMedia().matches;
-    this.mediaQueryService.getMedia().addEventListener("change", e => this.onMediaChange(e));
-
+    this.isMedia = this.mediaQueryService.getMobile(); 
   }
 
-  onMediaChange(e: any) {
-    this.isMedia = e.matches;
+  @HostListener('window:resize', [])
+  onResize() {
+    this.isMedia = this.mediaQueryService.getMobile();
+    if (!this.isMedia) {
+      this.sidenav.open();
+    }
   }
 
   rolesBloqued() {
@@ -80,7 +81,9 @@ export class DeliveryComponent implements OnInit, AfterViewInit {
     this.sidenavService.sideNavToggleSubject.subscribe(()=> {
        return this.sidenav.toggle();
      });
-    console.log("After",this.isMedia);
+     if (this.isMedia) {
+      this.sidenav.close();
+    }
   } 
   
 }
