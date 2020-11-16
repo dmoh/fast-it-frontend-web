@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit, EventEmitter, Output, HostListener } from '@angular/core';
-import {Cart} from "../cart/model/cart";
-import {CartService} from "../cart/service/cart.service";
-import {AuthenticationService} from "@app/_services/authentication.service";
+import {Cart} from '../cart/model/cart';
+import {CartService} from '../cart/service/cart.service';
+import {AuthenticationService} from '@app/_services/authentication.service';
 import { User } from '@app/_models/user';
 import { MediaQueryService } from '@app/_services/media-query.service';
-import {RestaurantDashboardService} from "@app/restaurants/restaurant-dashboard/services/restaurant-dashboard.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {MatSnackBar} from "@angular/material/snack-bar";
+import {RestaurantDashboardService} from '@app/restaurants/restaurant-dashboard/services/restaurant-dashboard.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {MatSnackBar} from '@angular/material/snack-bar';
 import { SidenavService } from '@app/sidenav-responsive/sidenav.service';
 
 @Component({
@@ -15,7 +15,6 @@ import { SidenavService } from '@app/sidenav-responsive/sidenav.service';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-  // @Output() navToggle = new EventEmitter<boolean>();
   user: any;
   cart: Cart;
   isMedia: boolean;
@@ -56,16 +55,20 @@ export class NavbarComponent implements OnInit {
         }
       });
 
-      this.isMedia = this.mediaQueryService.getMobile();
-      // this.user = !this.authentication.currentUserValue ? new User() : this.authentication.currentUserValue;
+    this.router.events.subscribe((res) => {
+      const url =  /(restaurant-dashboard|admin|delivery|customer)/gi;
+      // @ts-ignore
+      if (typeof res.url !== 'undefined') {
+        // @ts-ignore
+        if (res.url.match(url)) {
+          this.isMedia = this.mediaQueryService.getMobile();
+        } else {
+          this.isMedia = false;
+        }
+      }
+    });
   }
-  @HostListener('window:resize', [])
-  onResize() {
-    this.isMedia = this.mediaQueryService.getMobile();
-    if(!this.isMedia){
-      this.sidenavService.close();
-    }
-  }
+
 
   onToggleSideNav() {
     // lesten subscribe into sideNavToggleSubject
@@ -73,9 +76,6 @@ export class NavbarComponent implements OnInit {
   }
 
 
-  getRoute(){
-    console.log("URL", this.router.url);
-  }
 
   onLogout(){
     this.cartService.emptyCart();
@@ -95,5 +95,14 @@ export class NavbarComponent implements OnInit {
           this.router.navigate([`restaurant-dashboard/${response.restaurantId}/overview`]);
         }
       });
+  }
+
+
+  @HostListener('window:resize', [])
+  onResize() {
+    this.isMedia = this.mediaQueryService.getMobile();
+    if (!this.isMedia){
+      this.sidenavService.close();
+    }
   }
 }

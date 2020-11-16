@@ -6,10 +6,9 @@ import { BehaviorSubject } from 'rxjs';
 export class SidenavService {
     private sidenav: MatSidenav;
     public sideNavToggleSubject: BehaviorSubject<any> = new BehaviorSubject(null);
-    
+
 
     public setSidenav(sidenav: MatSidenav) {
-        console.log("sidenav compo", sidenav);
         this.sidenav = sidenav;
     }
 
@@ -31,7 +30,6 @@ export class SidenavService {
     }
 
     public toggle() {
-        console.log(this.sideNavToggleSubject);
         return this.sideNavToggleSubject.next(null);
-    } 
+    }
 }

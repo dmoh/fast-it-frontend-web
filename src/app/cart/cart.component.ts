@@ -1,8 +1,8 @@
 import {Component, OnInit, Optional} from '@angular/core';
-import {Product} from "../models/product";
-import {Cart} from "./model/cart";
-import {CartService} from "./service/cart.service";
-import { Router} from "@angular/router";
+import {Product} from '../models/product';
+import {Cart} from './model/cart';
+import {CartService} from './service/cart.service';
+import { Router} from '@angular/router';
 
 @Component({
   selector: 'app-cart',
@@ -28,27 +28,18 @@ export class CartComponent implements OnInit {
   }
 
   onUpdateCart(event, product: Product): void {
-        product.quantity = +(event.target.value);
-        this.cartService.UpdateCart('update', product);
-    // this.cartService.UpdateCart()
+    product.quantity = +(event.target.value);
+    this.cartService.UpdateCart('update', product);
   }
 
   onDelete(product: Product) {
-    console.log(this.cart.products.length);
     if (this.cart.products.length <= 1) {
       this.cartService.emptyCart();
+    } else {
       this.cartService.UpdateCart('remove', product);
     }
   }
-
-
   seeCart(): void {
-    // if() // todo if is connected goto cartDEtail else
     this.route.navigate(['cart-detail']);
   }
-
-
-
-
-
 }

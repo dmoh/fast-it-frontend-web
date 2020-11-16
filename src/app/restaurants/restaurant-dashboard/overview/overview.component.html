@@ -54,22 +54,22 @@
             <tr class="pd-top-bottom-1" *ngFor="let o of orders">
               <td>
                 <div class="">
-                  <span>{{ o.order.idReference }}</span>
+                  <span style="font-size: x-small">{{ o.order.idReference }}</span>
                 </div>
               </td>
               <td>
                 <div class="">
-                  <span>{{ o.order.payedAt.date | date: "dd/MM/yyyy" }}</span>
+                  <span style="font-size: x-small">{{ o.order.payedAt.date | date: "dd/MM/yyyy" }}</span>
                 </div>
               </td>
               <td>
                 <div class="">
-                  <span>{{ o.order.payedAt.date | date: "HH:mm:ss" }}</span>
+                  <span style="font-size: x-small">{{ o.order.payedAt.date | date: "HH:mm:ss" }}</span>
                 </div>
               </td>
               <td>
                 <div class="">
-                  <span>{{ (+(o.order.amount) / 100).toFixed(2) + '€' }}</span>
+                  <span style="font-size: x-small">{{ (+(o.order.amount) / 100).toFixed(2) + '€' }}</span>
                 </div>
               </td>
               <!--<td>

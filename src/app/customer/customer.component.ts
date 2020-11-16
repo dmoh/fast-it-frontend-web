@@ -49,16 +49,16 @@ export class CustomerComponent implements OnInit, AfterViewInit {
             this.notifications = notif;
           });
       });
-      this.isMedia = this.mediaQueryService.getMobile(); 
+      this.isMedia = this.mediaQueryService.getMobile();
   }
-  
-  @HostListener('window:resize', [])
+
+  /*@HostListener('window:resize', [])
   onResize() {
     this.isMedia = this.mediaQueryService.getMobile();
     if (!this.isMedia) {
       this.sidenav.open();
     }
-  }
+  }*/
 
   onReadNotifications() {
     setTimeout(() => {
@@ -75,10 +75,9 @@ export class CustomerComponent implements OnInit, AfterViewInit {
       return this.sidenav.toggle();
     });
 
-    if(this.isMedia){
+    if (this.isMedia){
       this.sidenav.close();
     }
-    console.log("sidenav",this.sidenav);
   }
 
   openSnackBar() {

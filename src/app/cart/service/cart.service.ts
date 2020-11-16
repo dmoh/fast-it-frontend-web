@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import {Product} from "../../models/product";
-import {Cart} from "../model/cart";
-import {BehaviorSubject, Observable} from "rxjs/index";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {AuthenticationService} from "@app/_services/authentication.service";
-import {Router} from "@angular/router";
-import {environment} from "../../../environments/environment";
+import {Product} from '../../models/product';
+import {Cart} from '../model/cart';
+import {BehaviorSubject, Observable} from 'rxjs/index';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {AuthenticationService} from '@app/_services/authentication.service';
+import {Router} from '@angular/router';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
