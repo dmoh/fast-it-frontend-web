@@ -6,7 +6,7 @@ import { User } from '@app/_models/user';
 import { SidenavService } from '@app/sidenav-responsive/sidenav.service';
 import { MediaQueryService } from '@app/_services/media-query.service';
 import {RestaurantDashboardService} from "@app/restaurants/restaurant-dashboard/services/restaurant-dashboard.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
@@ -30,7 +30,8 @@ export class NavbarComponent implements OnInit {
     private cartService: CartService,
     private snackBar: MatSnackBar,
     private restaurantDashboardService: RestaurantDashboardService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   onMediaChange(e: any) {
@@ -44,6 +45,7 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     this.cartService.cartUpdated.subscribe((cartUpdated: Cart) => this.cart = cartUpdated);
     this.authentication.currentUser.subscribe((res) => {
       this.user = !res ? new User() : res;
@@ -64,11 +66,12 @@ export class NavbarComponent implements OnInit {
       });
       this.onMediaChange(this.mediaQueryService.getMedia());
       this.mediaQueryService.getMedia().addEventListener("change", e => this.onMediaChange(e));
-      this.onToggleSideNav(); 
+      this.onToggleSideNav();
       // this.user = !this.authentication.currentUserValue ? new User() : this.authentication.currentUserValue;
   }
 
   onLogout(){
+    this.cartService.emptyCart();
     this.authentication.logout();
   }
 

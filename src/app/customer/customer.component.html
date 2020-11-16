@@ -175,6 +175,27 @@
       <section style="margin-top: 1rem" class="container-fluid">
         <div class="row">
           <div class="col-md-12">
+            <h3 *ngIf="customer" class="">{{ customer.firstname | titlecase }}</h3>
+            <h3 *ngIf="customer" class="">
+              {{ customer.email }}
+              <button *ngIf="notifications" class="text-right float-right" (click)="onReadNotifications()" [disabled]="notifications.length == 0" mat-button [matMenuTriggerFor]="menu">
+              <span style="cursor: pointer"
+                    matBadge="{{ notifications.length > 0 ? notifications.length : '' }}"
+                    matBadgeOverlap="false"
+                    matBadgeColor="warn"
+                    class="float-right material-icons"
+              >
+              notifications</span>
+              </button>
+              <span class="float-right mr-3 material-icons">person</span>
+            </h3>
+          </div>
+        </div>
+        <mat-menu #menu="matMenu">
+          <button *ngFor="let notif of notifications"  mat-menu-item>{{ notif.message }}</button>
+        </mat-menu>
+        <div class="row">
+          <div class="col-md-12">
             <router-outlet></router-outlet>
           </div>
         </div>

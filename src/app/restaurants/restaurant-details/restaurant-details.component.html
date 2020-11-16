@@ -1,7 +1,7 @@
 <section *ngIf="restaurantDatas" style="position: relative" class="wrapper-restaurants" >
   <div style="" [class.is-closed]="restaurant && restaurant.closed == true">
     <div *ngIf="restaurant.closed == true"  class="mt-5 position-fixed w-100" >
-      <h2 style="font-size: 3rem; color: white; text-transform: uppercase" class="text-center">RESTAURANT FERMé</h2>
+      <h2 style="font-size: 3rem; color: white; line-height: 2; text-transform: uppercase" class="text-center">RESTAURANT FERMé</h2>
     </div>
   </div>
   <div *ngIf="urlBackgroundRestaurant && urlLogoRestaurant"

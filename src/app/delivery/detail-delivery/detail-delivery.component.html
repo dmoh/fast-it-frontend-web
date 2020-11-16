@@ -14,7 +14,7 @@
           Commerçant
         </p>
         <div><b>{{order.business.name}}</b></div>
-        <div *ngIf="order.business.address"><b>Adresse:</b> <span *ngIf="order.business.address">{{order.business.address}}</span> {{order.business.street}}</div>
+        <div *ngIf="order.business.street"><b>Adresse:</b>{{order.business.street}}</div>
         <div *ngIf="order.business.city"><b>Ville:</b> {{order.business.city}}</div>
         <div *ngIf="order.business.zipcode"> <b>Code postal:</b> {{order.business.zipcode}}</div>
         <div *ngIf="order.business.phone"><b>Telephone:</b> {{order.business.phone}} </div>

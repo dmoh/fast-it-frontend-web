@@ -130,7 +130,7 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
 
 
   private loadStripeElements(): void {
-    this.stripe = window['Stripe']('pk_test_CF6ezfX4nzT8mkY4qO9QPIUB00TBXp24Zn');
+    this.stripe = window['Stripe']('pk_live_51Hld3DHA30KRASuj1Ms24tlANH0q9PLtdEBgGPSt18YAJ0XezIuEVbncKqWwhLdrvPg36twvSGSlU65Oy50p81iN00tzpGjCSX');
     this.elementStripe = this.stripe.elements();
     const style = {
       base: {
@@ -185,7 +185,6 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
             });
             modalRef.componentInstance.title = 'Erreur';
             modalRef.componentInstance.message = result.error.message;
-            console.log(result.error.message);
           } else {
             this.showLoader = false;
             // The payment has been processed!
@@ -199,7 +198,6 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
                   codeModal.componentInstance.infos = confCode;
                   codeModal.result.then((response) => {
                     this.cartService.emptyCart();
-
                     if (response) {
                       // send code to db
                       this.cartService.saveCodeCustomerToDeliver({ responseCustomer: response})
@@ -208,7 +206,7 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
                             this.cartService.UpdateCart('empty-cart');
                             this.cartService.cartUpdated.subscribe((cartUpdated: Cart) => {
                               this.cartCurrent = cartUpdated;
-                              this.router.navigate(['customer']);
+                              this.router.navigate(['customer/notification']);
                             });
                           }
                         });

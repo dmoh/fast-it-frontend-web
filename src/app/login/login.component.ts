@@ -64,8 +64,21 @@ export class LoginComponent implements OnInit {
   onSubmit(isRegisterForm?: string) {
     this.submitted = true;
     if (isRegisterForm) {
+      let registerPass = this.register.registerPassword.value;
+
       if (this.register.confirmPassword.value !== this.register.registerPassword.value) {
         this.error = 'Les mots de passe ne sont pas identiques';
+        return;
+      }
+
+      if (registerPass.length < 8) {
+        this.error = '8 caractères minimum';
+        return;
+      }
+      registerPass = registerPass.trim();
+      const rPaswd = /^[a-zA-Z0-9\-_.!@#$&*]{8,15}$/;
+      if (registerPass.match(rPaswd) === null) {
+        this.error = 'Le mot de passe contient un ou des caractère(s) non autorisé(s)';
         return;
       }
       this.userService.registerUser(JSON.stringify(this.registerForm.value))
@@ -74,7 +87,7 @@ export class LoginComponent implements OnInit {
               alert('Bienvenu.e :)');
               this.authenticationService.login(this.register.registerEmail.value, this.register.registerPassword.value)
                  .subscribe(() => {
-                   this.router.navigate(['/home']);
+                   this.router.navigate([this.returnUrl]);
                });
 
           } else if (res.error) {
@@ -95,9 +108,7 @@ export class LoginComponent implements OnInit {
 
 
           if (this.returnUrl === '/') {
-            this.router.navigateByUrl('/login', { skipLocationChange: true }).then(() => {
               this.router.navigate(['/home']);
-            });
           } else {
             this.router.navigate([this.returnUrl]);
           }
