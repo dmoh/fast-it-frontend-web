@@ -105,14 +105,11 @@ export class LoginComponent implements OnInit {
       .pipe(first())
       .subscribe(
         data => {
-
-
           if (this.returnUrl === '/') {
               this.router.navigate(['/home']);
           } else {
             this.router.navigate([this.returnUrl]);
           }
-          // ;
         },
         error => {
           if (/Invalid/.test(error)) {
@@ -134,7 +131,6 @@ export class LoginComponent implements OnInit {
       case 'showPassword':
         this.showPassword = !this.showPassword;
         break;
-
     }
   }
 }

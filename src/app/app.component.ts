@@ -11,7 +11,7 @@ import { MediaQueryService } from './_services/media-query.service';
 })
 export class AppComponent implements OnDestroy{
   title = 'Fast Eat';
-  
+
   private _mobileQueryListener: () => void;
   mobileQuery: MediaQueryList;
 

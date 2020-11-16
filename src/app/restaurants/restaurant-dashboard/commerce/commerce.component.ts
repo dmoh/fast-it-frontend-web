@@ -8,6 +8,7 @@ import {NgxMaterialTimepickerTheme} from "ngx-material-timepicker";
 import {Schedule} from "@app/_models/schedule";
 import {Router} from "@angular/router";
 import {SecurityRestaurantService} from "@app/_services/security-restaurant.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-commerce-restaurant',
@@ -43,7 +44,9 @@ export class CommerceComponent implements OnInit, AfterViewInit {
               private restaurantService: RestaurantDashboardService,
               private uploadService: UploadService,
               private router: Router,
-              private securityRestaurantService: SecurityRestaurantService
+              private securityRestaurantService: SecurityRestaurantService,
+              private snackBar: MatSnackBar
+
   ) {
     this.schedulePrepartionTimes = [
       {
@@ -161,8 +164,12 @@ export class CommerceComponent implements OnInit, AfterViewInit {
     formData.append('backgroundImg', this.commerceForm.get('backgroundImg').value);
     this.uploadService.upload(formData, this.commerce.id).subscribe(
       (res) => {
-         this.uploadResponse = res;
-         this.router.navigate(['commerce']);
+        this.uploadResponse = res;
+        this.snackBar.open( 'Mise à jour avec succès', 'ok', {
+          duration: 5000,
+          horizontalPosition: 'center',
+          verticalPosition: 'top',
+        });
       },
       (err) => this.error = err
     );
