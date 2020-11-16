@@ -14,12 +14,14 @@ export class SidenavService {
     }
 
     public open() {
-        return this.sidenav.open();
+        // this.sidenav.open();
+        return this.sideNavToggleSubject.next(null);
     }
 
 
     public close() {
-        return this.sidenav.close();
+        // this.sidenav.close();
+        return this.sideNavToggleSubject.next(null);
     }
 
     public toggleBis(): void {

@@ -1,29 +1,25 @@
-import { ChangeDetectorRef, Injectable } from '@angular/core';
-// import { MediaMatcher } from '@angular/cdk/layout';
-
+import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
 
 export class MediaQueryService {
 
-  private _mobileQueryListener: () => void;
-  mobileQuery: MediaQueryList;
+  private mobile: boolean;
 
-  constructor(// media: MediaMatcher
-  ) {
-      this.mobileQuery = window.matchMedia('(max-width: 600px)');
-      // this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-      // this.mobileQuery.addEventListener("change", this._mobileQueryListener);
+  constructor() {
   }
 
-  getMedia(): MediaQueryList {
-    return this.mobileQuery;
+  getMobile(): boolean {
+    // console.log(window.screen);
+    // console.log(window.innerWidth);
+    // console.log(window);
+    return this.mobile;
   }
 
-  setMediaQuerieListener(value): () => void {
-    this._mobileQueryListener = value;
-    return this._mobileQueryListener;
+  setMobile(isMobile: boolean){
+    this.mobile = isMobile;
+    return this;
   }
 
 }
