@@ -66,7 +66,7 @@ export class NavbarComponent implements OnInit {
   }
 
   onToggleSideNav() {
-    // this.navToggle.emit(true);
+    // lesten subscribe into sideNavToggleSubject 
     this.sidenavService.toggle();
   }
   

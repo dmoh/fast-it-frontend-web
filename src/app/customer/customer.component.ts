@@ -9,8 +9,8 @@ import {MatBottomSheet, MatBottomSheetRef} from '@angular/material/bottom-sheet'
 import {NotificationsComponent} from '@app/notifications/notifications.component';
 import {User} from '@app/_models/user';
 import { MediaQueryService } from '@app/_services/media-query.service';
-import { SidenavService } from '@app/sidenav-responsive/sidenav.service';
 import { MatSidenav } from '@angular/material/sidenav';
+import { SidenavService } from '@app/sidenav-responsive/sidenav.service';
 
 @Component({
   selector: 'app-customer',
