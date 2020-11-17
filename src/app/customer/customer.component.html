@@ -103,10 +103,10 @@
         </section>
       </div>
   </div>
-</section> -->
-
-<mat-sidenav-container class="example-sidenav-container">
-  <mat-sidenav #sidebarLeft [fixedInViewport]="isMedia" mode="side" fixedTopGap="45">
+</section>
+<app-header-specific (sidenavToggle)="sidenav.toggle()"></app-header-specific>-->
+<mat-sidenav-container>
+  <mat-sidenav #sidebarLeft mode="side" opened role="navigation">
     <mat-nav-list>
       <div class="sidebar-left">
         <div style="display: flex; justify-content: center; margin-bottom: 1.5rem" class="">
@@ -169,9 +169,8 @@
       </div>
     </mat-nav-list>
   </mat-sidenav>
-
   <mat-sidenav-content>
-    <div [ngClass]="(isMedia) ? 'content-restaurant-dashboard-mobile':'content-restaurant-dashboard'">
+    <div id="main-content-customer">
       <section style="margin-top: 1rem" class="container-fluid">
         <div class="row">
           <div class="col-md-12">
@@ -198,11 +197,10 @@
           <div class="col-md-12">
             <router-outlet></router-outlet>
           </div>
-        </div>
+          </div>
       </section>
     </div>
   </mat-sidenav-content>
-
 </mat-sidenav-container>
 
 

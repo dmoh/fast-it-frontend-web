@@ -34,6 +34,7 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
   showLoader: boolean;
   addressChose: any;
   phoneCustomer: string;
+  paymentValidation: boolean;
 
   constructor(
     private cartService: CartService,
@@ -46,6 +47,7 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
     private router: Router,
     private toastService: ToastService,
   ) {
+    this.paymentValidation = false;
     this.showLoader = true;
     this.paymentValidated = false;
   }
@@ -92,8 +94,16 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
           travelMode: google.maps.TravelMode.DRIVING,
         }, (response, status) => {
           if (response.rows === null) {
-            this.router.navigate(['cart-detail']);
-            return;
+            const modalError = this.infoModal.open(InfoModalComponent, {
+              backdrop: 'static',
+              keyboard: false
+            });
+            modalError.componentInstance.title = 'Erreur';
+            modalError.componentInstance.message = 'Cette adresse est introuvable.';
+            modalError.result.then(() => {
+              this.router.navigate(['cart-detail']);
+              return;
+            });
           }
           if (response.rows[0].elements[0].status === 'OK') {
             const responseDistance = response.rows[0].elements[0];
@@ -167,6 +177,7 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
 
   onProceedCheckout(event: Event): void {
     this.showLoader = true;
+    this.paymentValidation = true;
     event.preventDefault();
     this.cartService.getTokenPaymentIntent(+(this.cartCurrent.total) * 100).subscribe((token: any ) => {
         this.clientSecret = token.client_secret;
@@ -186,10 +197,11 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
             modalRef.componentInstance.title = 'Erreur';
             modalRef.componentInstance.message = result.error.message;
           } else {
-            this.showLoader = false;
             // The payment has been processed!
             const responsePayment = result.paymentIntent;
             if (responsePayment.status === 'succeeded') {
+              this.paymentValidation = false;
+              this.showLoader = false;
               // save order payment succeeded
               this.cartService.saveOrder({stripeResponse: responsePayment, cartDetail: this.cartCurrent })
                 .subscribe((confCode) => {
@@ -213,7 +225,16 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
                     }
                   });
                 });
-              }
+              } else {
+              this.showLoader = false;
+              this.paymentValidation = false;
+              const modalRef = this.infoModal.open(InfoModalComponent, {
+                backdrop: 'static',
+                keyboard: false
+              });
+              modalRef.componentInstance.title = 'Information';
+              modalRef.componentInstance.message = 'Le paiement n\'a pas aboutit :( ';
+            }
           }
         });
       }, (error) => {

@@ -26,8 +26,9 @@ export class DeliveryComponent implements OnInit, AfterViewInit {
   authorizedRoles: string[] = ["ROLE_SUPER_ADMIN","ROLE_DELIVERER"];
   isMedia: boolean;
 
-  @ViewChild('sidebarLeft') 
+  @ViewChild('sidebarLeft')
   public sidenav: MatSidenav;
+  @Output() sidenavChange = new EventEmitter<MatSidenav>();
 
   constructor(private deliveryService: DeliveryService,
     private router: Router,
@@ -35,7 +36,7 @@ export class DeliveryComponent implements OnInit, AfterViewInit {
     private authenticate: AuthenticationService,
     private mediaQueryService: MediaQueryService,
     private sidenavService: SidenavService,
-    private bottomSheet: MatBottomSheet) { 
+    private bottomSheet: MatBottomSheet) {
       this.rolesBloqued();
     }
 
@@ -43,21 +44,15 @@ export class DeliveryComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     // recuperer la geoloc
-    if(navigator.geolocation) {
+    if (navigator.geolocation) {
       // L'API est disponible
     } else {
       // Pas de support, proposer une alternative ?
     }
-    this.isMedia = this.mediaQueryService.getMobile(); 
+    this.isMedia = this.mediaQueryService.getMobile();
   }
 
-  @HostListener('window:resize', [])
-  onResize() {
-    this.isMedia = this.mediaQueryService.getMobile();
-    if (!this.isMedia) {
-      this.sidenav.open();
-    }
-  }
+
 
   rolesBloqued() {
     let currentUser: any = jwtDecode(this.authenticate.currentUserValue.token);
@@ -77,13 +72,21 @@ export class DeliveryComponent implements OnInit, AfterViewInit {
     }
   }
 
-  ngAfterViewInit() { 
-    this.sidenavService.sideNavToggleSubject.subscribe(()=> {
+  ngAfterViewInit() {
+    this.sidenavService.sideNavToggleSubject.subscribe(() => {
        return this.sidenav.toggle();
      });
-     if (this.isMedia) {
+    if (this.isMedia) {
       this.sidenav.close();
     }
-  } 
-  
+  }
+
+
+  @HostListener('window:resize', [])
+  onResize() {
+    this.isMedia = this.mediaQueryService.getMobile();
+    if (!this.isMedia) {
+      this.sidenav.open();
+    }
+  }
 }

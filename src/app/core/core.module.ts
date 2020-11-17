@@ -36,10 +36,22 @@ import { ToastComponent } from '../toast/toast.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import { MaterialLibModule } from '@app/sidenav-responsive/material-lib.module';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import { HeaderSpecificComponent } from '../header-specific/header-specific.component';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 
 @NgModule({
-  declarations: [AddressModalComponent, NotificationsComponent, FooterComponent, CategoryProductComponent, AddProductDialogComponent, ToastComponent],
+  declarations: [
+    AddressModalComponent,
+    NotificationsComponent,
+    FooterComponent,
+    CategoryProductComponent,
+    AddProductDialogComponent,
+    ToastComponent,
+    HeaderSpecificComponent
+  ],
     imports: [
         CommonModule,
         FormsModule,
@@ -70,7 +82,10 @@ import { MaterialLibModule } from '@app/sidenav-responsive/material-lib.module';
         MatListModule,
         DragDropModule,
         MaterialLibModule,
-        NgbModule
+        NgbModule,
+        MatToolbarModule,
+        MatMenuModule,
+        MatSidenavModule
     ],
   exports: [
       CommonModule,
@@ -106,6 +121,10 @@ import { MaterialLibModule } from '@app/sidenav-responsive/material-lib.module';
       ToastComponent,
       DragDropModule,
       MaterialLibModule,
+      MatToolbarModule,
+      HeaderSpecificComponent,
+      MatMenuModule,
+      MatSidenavModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [

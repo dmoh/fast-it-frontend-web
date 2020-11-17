@@ -1,3 +1,8 @@
+html, body {
+  margin: 0;
+  height: 100%;
+}
+
 .dashboard-component {
   font-family: Roboto,Helvetica,Arial,sans-serif;
 }
@@ -64,6 +69,16 @@ a {
   &:hover {
     text-decoration: none !important;
   }
+}
+
+mat-sidenav-container, mat-sidenav-content, mat-sidenav {
+  height: 100%;
+}
+mat-sidenav {
+  width: 250px;
+}
+#main-content-customer {
+  padding: 10px;
 }
 
 // @media (max-width: 768px) {

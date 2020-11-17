@@ -154,7 +154,7 @@
     <div class="col-md-6">
     </div>
       <div style="display: flex;text-align: right;justify-content: flex-end;margin-top: 2rem;" class="col-md-6">
-      <button mat-raised-button color="primary" (click)="onProceedCheckout($event)" style="align-self: flex-end">VALIDER LE PAIEMENT</button>
+      <button mat-raised-button color="primary" [disabled]="paymentValidation == true" (click)="onProceedCheckout($event)" style="align-self: flex-end">VALIDER LE PAIEMENT</button>
     </div>
   </div>
 

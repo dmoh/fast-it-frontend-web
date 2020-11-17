@@ -22,6 +22,7 @@ export class NavbarComponent implements OnInit {
   isAdmin: boolean;
   isDeliverer: boolean;
   isSuper: boolean;
+  showMenu: boolean;
   constructor(
     private mediaQueryService: MediaQueryService,
     private authentication: AuthenticationService,
@@ -56,13 +57,15 @@ export class NavbarComponent implements OnInit {
       });
 
     this.router.events.subscribe((res) => {
-      const url =  /(restaurant-dashboard|admin|delivery|customer)/gi;
+      const url =  /(restaurant-dashboard|admin|delivery|customer)/i;
       // @ts-ignore
       if (typeof res.url !== 'undefined') {
         // @ts-ignore
         if (res.url.match(url)) {
+          this.showMenu = true;
           this.isMedia = this.mediaQueryService.getMobile();
         } else {
+          this.showMenu = false;
           this.isMedia = false;
         }
       }
@@ -100,7 +103,9 @@ export class NavbarComponent implements OnInit {
 
   @HostListener('window:resize', [])
   onResize() {
-    this.isMedia = this.mediaQueryService.getMobile();
+    if (this.showMenu === true) {
+      this.isMedia = this.mediaQueryService.getMobile();
+    }
     if (!this.isMedia){
       this.sidenavService.close();
     }

@@ -50,9 +50,8 @@
   </div>
 </section> -->
 
-<mat-sidenav-container class="example-sidenav-container">
-
-  <mat-sidenav #sidebarLeft [fixedInViewport]="isMedia" mode="side" fixedTopGap="45">
+<mat-sidenav-container >
+  <mat-sidenav #sidebarLeft mode="side" opened role="navigation">
     <mat-nav-list>
       <div class="sidebar-left">
         <div style="display: flex; justify-content: center; margin-bottom: 1.5rem" class="">
@@ -95,7 +94,7 @@
   </mat-sidenav>
 
   <mat-sidenav-content>
-    <div [ngClass]="(isMedia) ? 'content-dashboard-mobile':'content-dashboard'">
+    <div id="main-content-customer">
       <section style="margin-top: 1rem" class="container-fluid">
         <div class="row">
           <div class="col-md-12">

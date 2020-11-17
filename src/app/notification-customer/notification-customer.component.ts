@@ -8,13 +8,13 @@ import {CustomerService} from "@app/customer/_services/customer.service";
 })
 export class NotificationCustomerComponent implements OnInit {
 
-  notifications: any[];
+  notificationsSave: any[];
   constructor(private customerService: CustomerService) { }
 
   ngOnInit(): void {
     this.customerService.getNotificationsCustomer()
       .subscribe((notif) => {
-        this.notifications = notif;
+        this.notificationsSave = notif;
       });
   }
 
