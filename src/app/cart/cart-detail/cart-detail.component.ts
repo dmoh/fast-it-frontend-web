@@ -13,6 +13,7 @@ import {OrderModalComponent} from '@app/restaurants/order-modal/order-modal.comp
 import {Product} from '@app/models/product';
 import set = Reflect.set;
 import {InfoModalComponent} from '@app/info-modal/info-modal.component';
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-cart-detail',
@@ -35,6 +36,7 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
   addressChose: any;
   phoneCustomer: string;
   paymentValidation: boolean;
+  stripeKey = environment.stripeKey;
 
   constructor(
     private cartService: CartService,
@@ -73,6 +75,7 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
         modalRef.componentInstance.address = null;
       } else {
         modalRef.componentInstance.address = this.userAddresses[0];
+        modalRef.componentInstance.firstname = this.userAddresses[0].firstname;
       }
       modalRef.componentInstance.phoneCustomer = this.phoneCustomer;
       modalRef.result.then((res) => {
@@ -140,7 +143,7 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
 
 
   private loadStripeElements(): void {
-    this.stripe = window['Stripe']('pk_live_51Hld3DHA30KRASuj1Ms24tlANH0q9PLtdEBgGPSt18YAJ0XezIuEVbncKqWwhLdrvPg36twvSGSlU65Oy50p81iN00tzpGjCSX');
+    this.stripe = window['Stripe'](this.stripeKey);
     this.elementStripe = this.stripe.elements();
     const style = {
       base: {

@@ -12,16 +12,16 @@
     </div>-->
     <hr>
     <div class="row">
-      <div *ngFor="let product of productList">
+      <div *ngFor="let product of products">
         <div style="display: flex; justify-content: space-between; border-right: 2px solid violet" class="col-xs-12 col-md-12">
           <div class="col-xs-12 col-md-10">
             <span style="font-size: larger; font-weight: 400"> x{{ product.quantity }} </span>
             <span style="font-size: larger; font-weight: 400; text-transform: uppercase">{{ product.name }}</span>
-            <div *ngFor="let supplement of product.supplementsProduct" style="font-size: small;font-weight: 200;display: flex; justify-content: flex-start">
+            <!--<div *ngFor="let supplement of product.supplementsProduct" style="font-size: small;font-weight: 200;display: flex; justify-content: flex-start">
               - {{ supplement.name }}
-            </div>
+            </div>-->
             <div style="font-size: small;font-weight: 400;display: flex; justify-content: flex-start">
-              <b>*<i>{{product.infoComment}}</i></b>
+              <b>*<i>{{ product.commentCustomer }}</i></b>
             </div>
           </div>
           <div class="col-xs-0 col-md-0" style="font-size: larger; font-weight: 400">{{ product.amount/100 | number : '1.2-2'}}€</div>

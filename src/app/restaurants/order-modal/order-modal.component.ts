@@ -5,6 +5,7 @@ import { Order } from '@app/_models/order';
 import { Restaurant } from '@app/_models/restaurant';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { RestaurantDashboardService } from '../restaurant-dashboard/services/restaurant-dashboard.service';
+import {Product} from "@app/models/product";
 
 @Component({
   selector: 'app-order-modal',
@@ -13,13 +14,13 @@ import { RestaurantDashboardService } from '../restaurant-dashboard/services/res
 })
 export class OrderModalComponent implements OnInit {
 
-  @Input() products: any[];
+  @Input() products: Product[];
   @Input() order: Order;
   @Input() business: Restaurant;
   @Input() additionalInfo: string;
   @Input() supplementsProduct: any[];
 
-  public productList: any[] = new Array();
+  public productList: Product[] = [];
   public message = '';
   public isRejectionMessage = false;
 
@@ -47,7 +48,6 @@ export class OrderModalComponent implements OnInit {
             return suppProduct.productId === product.id ;
           });
           product.infoComment = (prod as any).infoCommentCustomer;
-          
           this.productList.push(product);
         });
       });

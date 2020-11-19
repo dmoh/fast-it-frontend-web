@@ -33,13 +33,13 @@ export class ShowOrderComponent implements OnInit {
     this.supplementsProduct = new Array<any>();
     this.products =  new Array<any>();
     this.activedRoute.queryParams.subscribe((res) => {
-        if (res.p && res.c && res.orderId && res.restoId) {
+        if (res.c && res.orderId && res.restoId) {
           // recup mail
           this.restaurantDashboardService.checkToken(+(res.restoId), res.c, +(res.orderId))
             .subscribe((response) => {
               if (response.ok) {
                 localStorage.setItem('currentUser', '{ "token":"' + decodeURI(res.c) + '"}');
-                if (res.p) {
+                /*if (res.p) {
                   const listProductURi = decodeURI(res.p).trim().split('x')
                   .filter( product => {
                       return product !== '';
@@ -52,7 +52,7 @@ export class ShowOrderComponent implements OnInit {
                     productBis.id = product.split(' ')[3];
                     this.products.push(productBis);
                   });
-                }
+                }*/
 
                 this.businessId = (res.restoId) ? +res.restoId : this.businessId;
                 this.orderId = (res.orderId) ? +res.orderId : this.orderId;
@@ -64,7 +64,7 @@ export class ShowOrderComponent implements OnInit {
                   supplement = {
                     productId : suppProduct.split("-NEXTSUP-")[0],
                     name : suppProduct.split("-NEXTSUP-")[1],
-                  }
+                  };
                   this.supplementsProduct.push(supplement);
                 });
                 this.onShowModal();
@@ -94,14 +94,13 @@ export class ShowOrderComponent implements OnInit {
       if (+this.businessId !== +order.business.id) {
         this.router.navigate(['home']);
       } else {
-
         const modalRef = this.orderModal.open(OrderModalComponent, {
           backdrop: 'static',
           keyboard: false,
           size: 'lg',
         });
         modalRef.componentInstance.business = order.business;
-        modalRef.componentInstance.products = this.products;
+        modalRef.componentInstance.products = order.products;
         modalRef.componentInstance.order = order;
         modalRef.componentInstance.supplementsProduct = this.supplementsProduct;
         // TODO get url value commentaire order
