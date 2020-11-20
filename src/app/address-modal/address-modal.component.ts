@@ -101,7 +101,7 @@ export class AddressModalComponent implements OnInit {
       city: this.city,
       comment: this.commentAddress,
       name: this.nameCustomerCurrent.value,
-      phone: this.phoneCustomer
+      phone: this.phoneCustomerCurrent.value
     };
     this.customerService.addNewAddress(JSON.stringify(newAddress))
       .subscribe((res) => {

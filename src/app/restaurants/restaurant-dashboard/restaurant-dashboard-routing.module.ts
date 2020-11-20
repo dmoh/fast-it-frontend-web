@@ -6,6 +6,7 @@ import {OverviewComponent} from '@app/restaurants/restaurant-dashboard/overview/
 import {ProductComponent} from '@app/restaurants/restaurant-dashboard/product/product.component';
 import {CommerceComponent} from '@app/restaurants/restaurant-dashboard/commerce/commerce.component';
 import {RoleGuard} from "@app/_helpers/role.guard";
+import {OrdersCurrentComponent} from "@app/restaurants/restaurant-dashboard/orders-current/orders-current.component";
 
 
 const routes: Routes = [ {
@@ -16,6 +17,10 @@ const routes: Routes = [ {
      {
        path: 'orders',
        component: OrderComponent,
+     },
+     {
+       path: 'orders-current',
+       component: OrdersCurrentComponent,
      },
      {
        path: 'overview',

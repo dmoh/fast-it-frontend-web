@@ -10,25 +10,23 @@
       <h3>Informations complémentaires, allergies...</h3>
       <p>Je suis allergique aux fruits de mer c'est pourquoi je commande des sushi </p>
     </div>-->
-    <hr>
     <div class="row">
-      <div *ngFor="let product of products">
-        <div style="display: flex; justify-content: space-between; border-right: 2px solid violet" class="col-xs-12 col-md-12">
+        <div style="display: flex; justify-content: space-between; border-right: 2px solid violet" *ngFor="let product of products" class="col-xs-12 col-md-12">
           <div class="col-xs-12 col-md-10">
-            <span style="font-size: larger; font-weight: 400"> x{{ product.quantity }} </span>
+            <span style="font-size: larger; font-weight: 400" class="pr-2"> x<b>{{ product.quantity }}</b>   </span>
             <span style="font-size: larger; font-weight: 400; text-transform: uppercase">{{ product.name }}</span>
             <!--<div *ngFor="let supplement of product.supplementsProduct" style="font-size: small;font-weight: 200;display: flex; justify-content: flex-start">
               - {{ supplement.name }}
             </div>-->
-            <div style="font-size: small;font-weight: 400;display: flex; justify-content: flex-start">
-              <b>*<i>{{ product.commentCustomer }}</i></b>
+            <div *ngIf="product.commentCustomer != null" style="font-size: small;font-weight: 400;display: flex; justify-content: flex-start">
+              <p>Commentaire Client :<br><b>{{ product.commentCustomer }}</b></p>
             </div>
           </div>
           <div class="col-xs-0 col-md-0" style="font-size: larger; font-weight: 400">{{ product.amount/100 | number : '1.2-2'}}€</div>
         </div>
-      </div>
     </div>
-    <div style="display: flex; justify-content: space-between;
+    <hr>
+    <div class="mt-2" style="display: flex; justify-content: space-between;
       font-size: larger; font-weight: 600;
       border-bottom: 1px solid #dee2e6;">
       Total: {{order.amount/100 | number : '1.2-2'}}€

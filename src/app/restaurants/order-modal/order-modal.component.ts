@@ -24,9 +24,9 @@ export class OrderModalComponent implements OnInit {
   public message = '';
   public isRejectionMessage = false;
 
-  public firstChoice = "15 - 30";
-  public secondChoice = "30 - 45";
-  public thirdChoice = "+45";
+  public firstChoice = '15 - 30';
+  public secondChoice = '30 - 45';
+  public thirdChoice = '+45';
 
   constructor(private route: ActivatedRoute,
               public modalActive: NgbActiveModal,
@@ -77,13 +77,13 @@ export class OrderModalComponent implements OnInit {
   }
 
   onValidateRejectionMessage() {
-    let message = this.message;
+    const message = this.message;
     const dataOrder: any = {
       order_id: this.order.id,
       order_accepted_by_merchant: false,
       business_id: this.business.id,
       status: 0,
-      message,
+      rejection_message: message,
     };
     console.warn("Message de refus", message);
     this.restaurantService.refuseOrder(dataOrder).subscribe();
@@ -91,7 +91,7 @@ export class OrderModalComponent implements OnInit {
   }
 
   redirectAfterTrait() {
-    this.router.navigate(['restaurant-dashboard', this.business.id, "overview" ]);
+    this.router.navigate(['restaurant-dashboard', this.business.id, "orders" ]);
     this.modalActive.close();
   }
 

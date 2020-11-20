@@ -18,17 +18,24 @@
         <div *ngIf="order.business.city"><b>Ville:</b> {{order.business.city}}</div>
         <div *ngIf="order.business.zipcode"> <b>Code postal:</b> {{order.business.zipcode}}</div>
         <div *ngIf="order.business.phone"><b>Telephone:</b> {{order.business.phone}} </div>
+        <div>Lien:
+          <div *ngIf="order.business.street"><a
+            (click)="linkToAddresses('' + order.business.street + ', ' + order.business.zipcode + ' ' + order.business.city)">{{order.business.street}}, {{order.business.zipcode}} {{order.business.city}}</a></div>
+        </div>
       </div>
       <div class="col-md-2"></div>
       <div class="col-md-4">
         <p>
           Client
         </p>
-        <div><b>{{order.customer.lastName}} {{order.customer.firstName}}</b></div>
+        <div>Nom: <b>{{order.customer.addresses[0].name | titlecase }}</b></div>
         <div *ngIf="order.customer.addresses"><b>Adresse:</b>{{order.customer.addresses[0].street}}</div>
         <div *ngIf="order.customer.addresses"><b>Ville:</b> {{order.customer.addresses[0].city}}</div>
         <div *ngIf="order.customer.addresses"><b>Code postal:</b> {{order.customer.addresses[0].zipCode}}</div>
         <div *ngIf="order.customer.phone"><b>Telephone:</b> {{order.customer.phone}} </div>
+        <div>Lien:
+          <div *ngIf="order.customer.addresses[0].street"><a (click)="linkToAddresses('' + order.customer.addresses[0].street + ', ' + order.customer.addresses[0].zipCode + ' ' + order.customer.addresses[0].city)">{{order.customer.addresses[0].street}}, {{order.customer.addresses[0].zipCode}} {{order.customer.addresses[0].city}}</a></div>
+        </div>
       </div>
     </div>
   </div>

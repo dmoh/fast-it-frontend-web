@@ -24,7 +24,7 @@ export class DetailDeliveryComponent implements OnInit {
     private deliveryService: DeliveryService,
     private router: Router,
     private pickupOrderModal: NgbModal,
-    private route: ActivatedRoute) { 
+    private route: ActivatedRoute) {
       this.isDelivering = null;
     }
 
@@ -38,12 +38,12 @@ export class DetailDeliveryComponent implements OnInit {
       this.isDelivering = this.order.status >= 3 ;
 
       this.hasDeliveryCode = this.order.deliverCode != null;
-      
+
       this.delivererForm = this.fb.group({
         code: ["", Validators.required],
         notCode: false
       });
-    });    
+    });
   }
 
   onValidateDelivery(): void {
@@ -65,7 +65,7 @@ export class DetailDeliveryComponent implements OnInit {
 
   onTakenDelivery() {
     if (this.order && !this.isDelivering){
-      
+
       const modalRef = this.pickupOrderModal.open(PickupOrderModalComponent, {
         backdrop: 'static',
         keyboard: true,
@@ -86,7 +86,7 @@ export class DetailDeliveryComponent implements OnInit {
     let order: any;
     let dateDelivered = '@' + Math.round(Date.now()/1000) ;
 
-    order = { 
+    order = {
       order : {
         order_id: this.orderId,
         date_delivered: dateDelivered,
@@ -102,9 +102,9 @@ export class DetailDeliveryComponent implements OnInit {
     let dateTakenDeliverer = dateDelivery;
 
     let dateDelivered = '@' + Math.round(dateDelivery/1000) ;
-    
+
     let orderSave: any;
-    orderSave = { 
+    orderSave = {
       order : {
         order_id: orderId,
         deliverer_id: delivererId,
@@ -124,6 +124,21 @@ export class DetailDeliveryComponent implements OnInit {
         console.error("error", error);
       }
     );
+  }
+
+
+
+  public linkToAddresses(address: string) {
+    const direction = encodeURI(address);
+    if /* if we're on iOS, open in Apple Maps */
+    ((navigator.platform.indexOf('iPhone') !== -1) ||
+      (navigator.platform.indexOf('iPod') !== -1) ||
+      (navigator.platform.indexOf('iPad') !== -1)) {
+      window.open('maps://maps.google.com/maps?daddr=' + direction);
+    }
+    else {
+      window.open('https://maps.google.com/maps?daddr=' + direction);
+    } /* else use Google */
   }
 
 }
