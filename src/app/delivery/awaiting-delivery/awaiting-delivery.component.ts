@@ -7,6 +7,8 @@ import { Restaurant } from '@app/_models/restaurant';
 import { AuthenticationService } from '@app/_services/authentication.service';
 import { DeliveryService } from '../services/delivery.service';
 import * as fasteatconst from "@app/_util/fasteat-constants";
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { InfoModalComponent } from '@app/info-modal/info-modal.component';
 
 @Component({
   selector: 'app-awaiting-delivery',
@@ -29,6 +31,7 @@ export class AwaitingDeliveryComponent implements OnInit {
   constructor(private http: HttpClient,
      private authenticate: AuthenticationService,
      private deliveryService: DeliveryService,
+     private orderModal: NgbModal,
      private activatedRoute: ActivatedRoute,
      private router: Router) {
 
@@ -64,9 +67,19 @@ export class AwaitingDeliveryComponent implements OnInit {
           if (currentOrder.deliverer == null && deliverer.id) {
             let dateTakenDeliverer = Date.now();
             this.saveOrderDeliverer(currentOrder.id, deliverer.id , dateTakenDeliverer, 3);
+                    this.router.navigate(['/delivery/awaiting-delivery']);
           }
-          // retourne sur la page sans get param
-          this.router.navigate(['/delivery/awaiting-delivery']);
+          else {
+            const modalRef = this.orderModal.open(InfoModalComponent, {
+              backdrop: 'static',
+              keyboard: false,
+            });
+            modalRef.componentInstance.title = 'Information';
+            modalRef.componentInstance.message = 'Cette commande a déja été traitée.';
+            modalRef.result.then((close) => {
+              this.router.navigate(['/delivery/awaiting-delivery']);
+            });
+          }
         });
     });
   }
