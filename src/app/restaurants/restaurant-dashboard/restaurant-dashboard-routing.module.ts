@@ -7,6 +7,7 @@ import {ProductComponent} from '@app/restaurants/restaurant-dashboard/product/pr
 import {CommerceComponent} from '@app/restaurants/restaurant-dashboard/commerce/commerce.component';
 import {RoleGuard} from "@app/_helpers/role.guard";
 import {OrdersCurrentComponent} from "@app/restaurants/restaurant-dashboard/orders-current/orders-current.component";
+import {ContactComponent} from "@app/restaurants/restaurant-dashboard/contact/contact.component";
 
 
 const routes: Routes = [ {
@@ -30,6 +31,11 @@ const routes: Routes = [ {
        path: 'products',
        component: ProductComponent,
      },
+     {
+       path: 'contact',
+       component: ContactComponent,
+     }
+     ,
      {
        path: 'commerce',
        component: CommerceComponent,

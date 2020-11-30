@@ -109,6 +109,5 @@ export class AddressModalComponent implements OnInit {
           this.modal.close(newAddress);
         }
       });
-
   }
 }

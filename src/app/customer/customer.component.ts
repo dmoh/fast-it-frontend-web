@@ -25,6 +25,7 @@ export class CustomerComponent implements OnInit, AfterViewInit {
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   isMedia: boolean;
   mobile: boolean;
+  sideMode: string;
 
   @ViewChild('sidebarLeft')
   public sidenav: MatSidenav;
@@ -76,7 +77,10 @@ export class CustomerComponent implements OnInit, AfterViewInit {
     });
 
     if (this.isMedia){
+      this.sideMode = 'over';
       this.sidenav.close();
+    } else {
+      this.sideMode = 'side';
     }
   }
 

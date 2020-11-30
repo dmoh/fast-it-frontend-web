@@ -1,15 +1,11 @@
 <div class="">
   <div class="modal-header">
-    <h2 class="modal-title">Commande passé par le client</h2>
+    <h2 class="modal-title">Commande passée par le client</h2>
     <button type="button" class="close" (click)="modalActive.close()" aria-label="Close" >
         <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <!--<div class="mb-2">
-      <h3>Informations complémentaires, allergies...</h3>
-      <p>Je suis allergique aux fruits de mer c'est pourquoi je commande des sushi </p>
-    </div>-->
     <div class="row">
         <div style="display: flex; justify-content: space-between; border-right: 2px solid violet" *ngFor="let product of products" class="col-xs-12 col-md-12">
           <div class="col-xs-12 col-md-10">
@@ -46,7 +42,13 @@
   <div *ngIf="!isRejectionMessage" style="display: flex; justify-content: left; padding: 0 0 0.75rem 0.75rem ">
     Temps de préparation
   </div>
-  <div style="display: flex; justify-content: space-between" class="modal-footer">
+  <div *ngIf="order.status >= 2">
+    <h5 class="text-center">Cette commande a été traitée</h5>
+    <button (click)="modalActive.close('ok')" mat-raised-button color="primary">
+      OK
+    </button>
+  </div>
+  <div *ngIf="order.status == 1" style="display: flex; justify-content: space-between" class="modal-footer">
     <div *ngIf="!isRejectionMessage">
       <button mat-raised-button (click)="onValidate(firstChoice)" color="primary">{{firstChoice}}</button>
     </div>

@@ -17,15 +17,15 @@
       </div>
       <div class="w-100 text-center">
         <span *ngFor="let i of starsRestaurant">
-            <i style="font-size: medium; vertical-align: sub; color: gold " class="material-icons ">grade</i>
+            <i style="" class="material-icons grade-style">grade</i>
         </span>
       </div>
-      <span style="display: block; color: #969696" class="text-center font-italic">{{ restaurant.street }}</span>
+      <span style="display: block;color: #3c3c3c;font-size: smaller;" class="text-center font-italic">{{ restaurant.street }}</span>
     </div>
   </div>
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-9">
+      <div class="col-md-8">
         <div style="display: flex" class="navbar-restaurant">
           <nav class="nav-menu"  [class.sticky]="sticky"  style="display: flex;width: 100%;background: white;" role="navigation">
             <div *ngFor="let category of categories">
@@ -98,7 +98,7 @@
           </div>-->
         </div>
       </div>
-      <div class="col-md-3">
+      <div class="col-md-4">
         <div style="" id="container-app-cart">
           <app-cart class="container-app-cart"></app-cart>
         </div>

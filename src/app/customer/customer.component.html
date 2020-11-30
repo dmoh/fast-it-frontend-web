@@ -106,7 +106,7 @@
 </section>
 <app-header-specific (sidenavToggle)="sidenav.toggle()"></app-header-specific>-->
 <mat-sidenav-container>
-  <mat-sidenav #sidebarLeft mode="side" opened role="navigation">
+  <mat-sidenav #sidebarLeft [mode]="sideMode" opened role="navigation">
     <mat-nav-list>
       <div class="sidebar-left">
         <div style="display: flex; justify-content: center; margin-bottom: 1.5rem" class="">

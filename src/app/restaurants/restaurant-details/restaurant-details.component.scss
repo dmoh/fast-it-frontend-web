@@ -112,7 +112,10 @@
   opacity: 0.5;
 }
 
-
+.grade-style {
+  color: gold;
+  font-size: medium;
+}
 .logo-wrapper {
   width: 100px;
   height: 70px;
@@ -175,7 +178,7 @@
   width: 100%;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .header-restaurant {
     height: auto;
   }
@@ -190,10 +193,35 @@
     height: 100px;
     overflow: auto;
   }
+  .logo-wrapper {
+    width: 80px;
+    height: 62px;
+    background: white;
+    border: 2px solid #cbcdc9;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    top: -15px;
+    z-index: 5;
+  }
 
   .card-facade {
-    width: 90%;
+    width: 75%;
     margin-bottom: 1.2rem;
+    height: 130px;
+    margin-top: 5%;
+    background: #ffffffa6;
+    box-shadow: 2px 3px 12px rgb(0 0 0 / 88%);
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
+  }
+
+  .grade-style {
+    font-size: medium;
+    vertical-align: sub;
+    color: #f2f626;
   }
 
   .nav-menu {

@@ -35,5 +35,5 @@
 </div>
 <div class="modal-footer">
     <!-- todo integrer le montant total de ce produit -->
-    <button type="button" (click)="updateCart()" class="btn btn-outline-primary" >Total {{ (+(product.amount) / 100 * quantityCurrent).toFixed(2) }} €</button>
+    <button type="button" (click)="updateCart()" mat-raised-button color="primary" >Valider {{ (+(product.amount) / 100 * quantityCurrent).toFixed(2) }} €</button>
 </div>

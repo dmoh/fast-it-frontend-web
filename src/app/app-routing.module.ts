@@ -19,7 +19,7 @@ const routes: Routes = [
     {path: 'login', component: LoginComponent},
     {path: 'password', component: PasswordComponent},
     { path: 'admin', component: AdminComponent, canActivate: [AuthGuard]  },
-    { path: 'show-order', component: ShowOrderComponent },
+    { path: 'show-order/:orderId/:token', component: ShowOrderComponent },
     {path: '', redirectTo: '/home', pathMatch: 'full'}
 ];
 

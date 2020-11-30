@@ -4,6 +4,7 @@ import {AdminService} from "@app/admin/admin.service";
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {EditCommerceComponent} from "@app/admin/commerce/edit-commerce/edit-commerce.component";
 import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-commerce',
@@ -20,6 +21,7 @@ export class CommerceComponent implements OnInit {
     private adminService: AdminService,
     private modal: NgbModal,
     private snackBar: MatSnackBar,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -29,20 +31,26 @@ export class CommerceComponent implements OnInit {
   onAddCommerce() {
     this.commerce = new Restaurant();
     this.commerce.id = 0;
-    this.openModal();
+    this.openModal(true);
   }
 
   onEditCommerce(restaurant: Restaurant) {
     this.commerce = restaurant;
-    this.openModal();
+    this.router.navigate([`/restaurant-dashboard/${restaurant.id}/commerce`]);
+    // this.openModal();
   }
 
-  private openModal() {
-    const modalRef = this.modal.open(EditCommerceComponent, {
+  private openModal(isNew?: boolean) {
+    let modalRef = this.modal.open(EditCommerceComponent, {
       backdrop: 'static',
       keyboard: false,
       size: 'lg'
     });
+    if (isNew) {
+      modalRef = this.modal.open(EditCommerceComponent, {
+        size: 'lg'
+      });
+    }
     modalRef.componentInstance.commerce = this.commerce;
     modalRef.result.then((res) => {
       if (res === 'ok') {

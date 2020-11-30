@@ -15,6 +15,7 @@ import {MatRadioModule} from '@angular/material/radio';
 import {MatListModule} from '@angular/material/list';
 import {SecurityRestaurantService} from '@app/_services/security-restaurant.service';
 import { OrdersCurrentComponent } from './orders-current/orders-current.component';
+import { ContactComponent } from './contact/contact.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { OrdersCurrentComponent } from './orders-current/orders-current.componen
     OverviewComponent,
     CommerceComponent,
     UpdateDialogComponent,
-    OrdersCurrentComponent
+    OrdersCurrentComponent,
+    ContactComponent
   ],
     imports: [
         CommonModule,

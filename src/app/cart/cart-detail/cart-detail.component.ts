@@ -11,9 +11,8 @@ import {AddressModalComponent} from '@app/address-modal/address-modal.component'
 import {ToastService} from '@app/_services/toast.service';
 import {OrderModalComponent} from '@app/restaurants/order-modal/order-modal.component';
 import {Product} from '@app/models/product';
-import set = Reflect.set;
 import {InfoModalComponent} from '@app/info-modal/info-modal.component';
-import {environment} from "../../../environments/environment";
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-cart-detail',

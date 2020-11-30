@@ -28,6 +28,12 @@ export class HomeFeaturesComponent implements OnInit {
       case 'pizza-des-lacs':
         this.router.navigate(['/restaurant/23']);
         break;
+      case 'o-gout-braise':
+        this.router.navigate(['/restaurant/30']);
+        break;
+      case 'marnaz-pizza':
+        this.router.navigate(['/restaurant/31']);
+        break;
     }
   }
 
