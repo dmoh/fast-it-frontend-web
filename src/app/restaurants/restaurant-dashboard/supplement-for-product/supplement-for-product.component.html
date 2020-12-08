@@ -1,0 +1,30 @@
+<div style="padding: 1rem" class="modal-header">
+  <h4>Ajout / Edition d'un supplément</h4>
+</div>
+<div class="modal-body">
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Titre/Nom</mat-label>
+    <input [(ngModel)]="supplement.name" matInput >
+    <span matSuffix></span>
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Prix</mat-label>
+    <input [(ngModel)]="supplement.amount" matInput >
+    <span matSuffix>€</span>
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Description (facultative)</mat-label>
+    <input [(ngModel)]="supplement.description" matInput >
+    <span matSuffix></span>
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Choix max.</mat-label>
+    <input type="number" [(ngModel)]="supplement.max_choice" matInput >
+    <span matSuffix></span>
+  </mat-form-field>
+  <mat-checkbox [(ngModel)]="supplement.isAvailable" class="list-for-menu">Disponible</mat-checkbox>
+</div>
+<div class="modal-footer">
+  <button mat-raised-button style="float: left" (click)="onSubmit()" color="primary">Valider</button>
+  <button mat-raised-button (click)="modalActive.close()" style="float: right; margin-left: .5rem" color="accent">Annuler</button>
+</div>

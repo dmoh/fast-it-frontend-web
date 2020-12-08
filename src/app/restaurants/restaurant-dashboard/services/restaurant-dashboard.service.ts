@@ -6,6 +6,8 @@ import {Observable} from 'rxjs';
 import {CategoryProduct} from '@app/_models/category-product';
 import {environment} from '../../../../environments/environment';
 import {Restaurant} from '@app/_models/restaurant';
+import {ListSupplements} from "@app/_models/list-supplements";
+import {Supplement} from "@app/_models/supplement";
 
 @Injectable({
   providedIn: 'root'
@@ -155,5 +157,40 @@ export class RestaurantDashboardService {
   getBusinessProductById(id) {
     return this.http.get<any>(`${this.urlApi}/product/${id}`, this.headers);
   }
+
+  getStatsByRestaurantId(restaurantId: number, periodSelected: string) {
+    return this.http.post<any>(`${this.urlApi}/api/order/stats`, {id: restaurantId, period: periodSelected }, this.headers);
+  }
+
+  getSupplementByBusinessId(restaurantId: number): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}/business/${restaurantId}/list/supplement`, this.headers);
+  }
+
+
+  getListSupplementByBusinessId(restaurantId: number): Observable<any> {
+      return this.http.get<any>(`${this.urlApi}/business/${restaurantId}/get/list-supplement/for/product`, this.headers);
+  }
+
+  updateListSupplementByRestaurantId(restaurantId: number, listSupplement: ListSupplements): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}/business/${restaurantId}/update/list/for/product`, { listSup: listSupplement}, this.headers);
+  }
+
+  getListSupplementByProductIdAndBusinessId(restaurantId: number, productId: number): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}/business/${restaurantId}/list-supplement/product/${productId}`, this.headers);
+  }
+
+  updateListSupplementByProductIdAndBusinessId(restaurantId: number, productId: number, listSupplement: ListSupplements[]): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}/business/${restaurantId}/product/${productId}/update/list-supplement`, { listSup: listSupplement}, this.headers);
+  }
+
+
+  updateSupplementByBusinessId(restaurantId: number, sup: Supplement): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}/business/${restaurantId}/update/supplement`, { supplement: sup}, this.headers);
+  }
+  updateSupplementByProductIdBusinessId(restaurantId: number, productId: number, sup: Supplement[]): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}/business/${restaurantId}/update/product/${productId}/supplement`, { supplements: sup}, this.headers);
+  }
+
+
 
 }

@@ -7,11 +7,16 @@ import {Product} from '@app/models/product';
 import {UploadService} from '@app/_services/upload.service';
 import {CategoryProductComponent} from '@app/restaurants/restaurant-dashboard/category-product/category-product.component';
 import {AddProductDialogComponent} from '@app/restaurants/restaurant-dashboard/category-product/add-product-dialog/add-product-dialog.component';
-import {ActivatedRoute, Router} from "@angular/router";
-import {SecurityRestaurantService} from "@app/_services/security-restaurant.service";
-import {CategoryProduct} from "@app/_models/category-product";
+import {ActivatedRoute, Router} from '@angular/router';
+import {SecurityRestaurantService} from '@app/_services/security-restaurant.service';
+import {CategoryProduct} from '@app/_models/category-product';
 import {CdkDragDrop, moveItemInArray} from '@angular/cdk/drag-drop';
-import {MatSnackBar} from "@angular/material/snack-bar";
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {ListForProductComponent} from "@app/restaurants/restaurant-dashboard/list-for-product/list-for-product.component";
+import {ListSupplements} from "@app/_models/list-supplements";
+import {SupplementForProductComponent} from "@app/restaurants/restaurant-dashboard/supplement-for-product/supplement-for-product.component";
+import {Supplement} from "@app/_models/supplement";
 
 @Component({
   selector: 'app-product',
@@ -24,7 +29,9 @@ export class ProductComponent implements OnInit {
   restaurant: any;
   productsResto: Product[];
   categories: any[];
+  supplements: Supplement[];
   productBeforeUpdate: any;
+  listSupps: ListSupplements[];
   constructor(private restaurantService: RestaurantDashboardService,
               public dialog: MatDialog,
               public uploadService: UploadService,
@@ -32,6 +39,7 @@ export class ProductComponent implements OnInit {
               private activatedRoute: ActivatedRoute,
               private securityRestaurantService: SecurityRestaurantService,
               private snackBar: MatSnackBar,
+              private modalService: NgbModal
               ) { }
 
   ngOnInit(): void {
@@ -50,6 +58,7 @@ export class ProductComponent implements OnInit {
                   this.restaurant = restaurantDb.restaurant;
                 });
             }
+            this.getListSupp(restaurantObj.id);
             this.restaurantService.getProductListByBusinessId(restaurantObj.id)
               .subscribe((responseDb) => {
                 this.productsResto = responseDb.products;
@@ -65,6 +74,20 @@ export class ProductComponent implements OnInit {
       });
   }
 
+  private getListSupp(restaurantId) {
+    this.restaurantService.getListSupplementByBusinessId(restaurantId)
+      .subscribe((resList) => {
+        if (resList.ok) {
+          this.listSupps = resList.lists;
+        }
+      });
+    this.restaurantService.getSupplementByBusinessId(restaurantId)
+      .subscribe((response) => {
+        if (response.ok) {
+          this.supplements = response.supplements;
+        }
+      });
+  }
   onDelete(type: string, {product, supplement}): void {
     switch (type) {
       case 'supplement':
@@ -210,5 +233,43 @@ export class ProductComponent implements OnInit {
 
   drop(event: CdkDragDrop<CategoryProduct[]>) {
     moveItemInArray(this.categories, event.previousIndex, event.currentIndex);
+  }
+
+
+  onAddList(restaurantId, list?: ListSupplements) {
+    const modalRef = this.modalService.open(ListForProductComponent);
+    modalRef.componentInstance.restaurantId = restaurantId;
+    if (list){
+      modalRef.componentInstance.listSupplement = list;
+    } else {
+      const newList = new ListSupplements();
+      newList.id = 0;
+      newList.isAvailable = true;
+      modalRef.componentInstance.listSupplement = newList;
+    }
+    modalRef.result.then((res) => {
+      if (res === 'ok') {
+        this.getListSupp(restaurantId);
+      }
+    });
+  }
+
+  onUpdateSupplement(restaurantId: number, sup?: Supplement): void {
+    const modalRef = this.modalService.open(SupplementForProductComponent);
+    modalRef.componentInstance.restaurantId = restaurantId;
+    if (!sup) {
+      const supplement = new Supplement();
+      supplement.id = 0;
+      modalRef.componentInstance.supplement = supplement;
+      supplement.isAvailable = true;
+    } else {
+      sup.amount = sup.amount !== null && sup.amount !== 0 ? sup.amount / 100 : null;
+      modalRef.componentInstance.supplement = sup;
+    }
+    modalRef.result.then((res) => {
+      if (res === 'ok') {
+        this.getListSupp(restaurantId);
+      }
+    });
   }
 }

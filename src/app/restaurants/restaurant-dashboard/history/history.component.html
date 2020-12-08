@@ -1,0 +1,20 @@
+<section class="card">
+  <div class="card-body">
+    <h4>Statistiques (mensuelle)</h4>
+    <div  class="text-right">
+      <mat-form-field>
+        <mat-label>- Sélectionner une période -</mat-label>
+        <mat-select [(ngModel)]="period">
+          <mat-option value="11/2020" >
+            11/2020
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button class="ml-2" (click)="onExtractPeriod()" mat-raised-button color="primary">Extraire (.csv)</button>
+    </div>
+    <hr>
+    <div class="table-responsive">
+
+    </div>
+  </div>
+</section>

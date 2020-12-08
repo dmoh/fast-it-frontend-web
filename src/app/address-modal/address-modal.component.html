@@ -13,7 +13,7 @@
         <input matInput type="text" [formControl]="phoneCustomerCurrent" placeholder="0111111111">
         <mat-icon
           [class.text-danger]="phoneCustomerCurrent.invalid"
-          [class.text-success]="!phoneCustomerCurrent.invalid"   matSuffix>phone</mat-icon>
+          [class.text-success]="!phoneCustomerCurrent.invalid" matSuffix>phone</mat-icon>
           <mat-error *ngIf="phoneCustomerCurrent.invalid">{{ getErrorPhoneMessage() }}</mat-error>
       </mat-form-field>
     </p>

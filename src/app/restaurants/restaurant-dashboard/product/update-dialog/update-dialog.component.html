@@ -84,16 +84,63 @@
       </mat-form-field>
     </p>
   </div>
-  <!--<h4>Ajouter une liste</h4>
-  <div>
-    <p>
-      <mat-form-field appearance="outline">
-        <mat-label>Titre de la liste</mat-label>
-        <input style="width: 100%; height: 200px" autocomplete="off" matInput placeholder="Supplément">
-      </mat-form-field>
-    </p>
-  </div>-->
-
+  <hr>
+  <div *ngIf="product.id && product.id != 0">
+    <h4>Liste(s)</h4>
+    <div style="margin-bottom: 1rem">
+      <div style="margin-bottom: .5rem" *ngFor="let list of listAlreadyExists">
+        <div style="display: flex; width: 100%; justify-content: space-between">
+          <div style="font-weight: 600">
+            {{ list.title | titlecase}}
+            <div *ngIf="list.supplementProducts" style="font-size: x-small; color: #3b4151; font-style: italic">
+              <div class="pl-2" *ngFor="let sup of list.supplementProducts">
+                {{ sup.name }}
+              </div>
+            </div>
+          </div>
+          <div>
+          <span *ngIf="list.isForMenu && list.amount !== null" style="font-weight: bold; margin-right: .5rem">
+            {{ (+(list.amount) / 100).toFixed(2) + '€' }}
+          </span>
+            <span style="float: right; color: red" (click)="onDeleteList(list.id)" class="material-icons" title="supprimer">delete</span>
+          </div>
+        </div>
+        <hr>
+      </div>
+    </div>
+    <h4>Ajouter une liste</h4>
+    <select (change)="onChangeListSup($event)" [(ngModel)]="listSelectedId" name="" class="form-control" id="">
+      <option value="0">-Sélectionnez une liste-</option>
+      <option *ngFor="let listSup of listSupps" value="{{ listSup.id }}">
+        {{listSup.title | titlecase }}
+      </option>
+    </select>
+    <hr>
+    <h4>Supplément(s)</h4>
+    <div style="margin-bottom: 1rem">
+      <div style="margin-bottom: .5rem" *ngFor="let sup of suppAlreadyExists">
+        <div style="display: flex; width: 100%; justify-content: space-between">
+          <div style="font-weight: 600">
+            {{ sup.name | titlecase}}
+          </div>
+          <div>
+          <span *ngIf="sup.amount !== null" style="font-weight: bold; margin-right: .5rem">
+            {{ (+(sup.amount) / 100).toFixed(2) + '€' }}
+          </span>
+            <span style="float: right; color: red" (click)="onDeleteList(sup.id)" class="material-icons" title="supprimer">delete</span>
+          </div>
+        </div>
+        <hr>
+      </div>
+    </div>
+    <h4>Ajouter un supplément</h4>
+    <select (change)="onChangeSup($event)" [(ngModel)]="supSelectedId" name="" class="form-control" id="">
+      <option value="0">-Sélectionnez un supplément-</option>
+      <option *ngFor="let sup of suppAvailable" value="{{ sup.id }}">
+        {{sup.name | titlecase }}
+      </option>
+    </select>
+  </div>
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Annuler</button>

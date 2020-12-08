@@ -16,6 +16,9 @@ import {MatListModule} from '@angular/material/list';
 import {SecurityRestaurantService} from '@app/_services/security-restaurant.service';
 import { OrdersCurrentComponent } from './orders-current/orders-current.component';
 import { ContactComponent } from './contact/contact.component';
+import { HistoryComponent } from './history/history.component';
+import { ListForProductComponent } from './list-for-product/list-for-product.component';
+import { SupplementForProductComponent } from './supplement-for-product/supplement-for-product.component';
 
 
 @NgModule({
@@ -27,7 +30,10 @@ import { ContactComponent } from './contact/contact.component';
     CommerceComponent,
     UpdateDialogComponent,
     OrdersCurrentComponent,
-    ContactComponent
+    ContactComponent,
+    HistoryComponent,
+    ListForProductComponent,
+    SupplementForProductComponent
   ],
     imports: [
         CommonModule,
@@ -46,7 +52,9 @@ import { ContactComponent } from './contact/contact.component';
     CommerceComponent,
     CoreModule,
     UpdateDialogComponent,
-    OrdersCurrentComponent
+    OrdersCurrentComponent,
+    ListForProductComponent,
+    SupplementForProductComponent
   ],
   providers: [
     SecurityRestaurantService

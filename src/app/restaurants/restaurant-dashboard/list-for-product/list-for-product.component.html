@@ -1,0 +1,81 @@
+<div style="padding: 1rem" class="modal-header">
+  <h4>LISTE</h4>
+</div>
+<div class="modal-body">
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Titre</mat-label>
+    <input [(ngModel)]="listSupplement.title" matInput>
+  </mat-form-field>
+  <mat-checkbox [(ngModel)]="listSupplement.isForMenu" (click)="onChangeState()" class="list-for-menu">Liste pour menu</mat-checkbox>
+  <mat-checkbox [(ngModel)]="listSupplement.multipleChoice" class="pl-2 list-for-menu">Choix multiple</mat-checkbox>
+  <mat-checkbox [(ngModel)]="listSupplement.isRequired" class="pl-2 list-for-menu">Obligatoire</mat-checkbox>
+  <mat-form-field *ngIf="listSupplement.multipleChoice" appearance="outline" class="w-100">
+    <mat-label>Choix Max.</mat-label>
+    <input type="number" (focus)="onFocus()" [(ngModel)]="listSupplement.maxChoice" matInput>
+  </mat-form-field>
+  <hr>
+  <div>
+    <h4>Liste(s) sélectionné(es)</h4>
+    <div class="mb-2"  *ngIf="listSupplement.lists">
+      <div style="width: 100%; display: flex; justify-content: space-between" *ngFor="let list of listSupplement.lists">
+        <div>
+          {{ list.title | titlecase }}
+        </div>
+        <div>
+          <span (click)="onDeleteList(list.id)" class="material-icons text-danger">
+            delete
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div *ngIf="listSupplement.isForMenu === true">
+    Ajouter les listes pour ce menu
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Liste(s) disponible(s) </mat-label>
+      <mat-select style="z-index: 99999 !important;" (ngModelChange)="onChoiceList($event)" [formControl]="listAvailableRestaurant" multiple>
+        <mat-option [disabled]="+list.id == +listSupplement.id" *ngFor="let list of listSupplementRestaurant" [value]="list">
+          {{list.title | titlecase}}
+          <span style="float: right" matSuffix> {{ (+(list.amount) / 100).toFixed(2) + '€'}} </span>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Prix (si menu)</mat-label>
+    <input [(ngModel)]="listSupplement.amount" matInput >
+    <span matSuffix>€</span>
+  </mat-form-field>
+  <h5>
+    Elément(s) présent(s)
+  </h5>
+  <div style="margin-bottom: 1rem" *ngIf="suppSelected && suppSelected.length > 0" class="table-responsive">
+    <div *ngFor="let sup of suppSelected" style="width: 100%; display: flex; justify-content: space-between">
+      <div class="w-100" >
+        {{ sup.name }}
+      </div>
+      <div>
+        <span style="cursor:pointer;" (click)="onDeleteSup(sup.id)" class="material-icons text-danger">
+          delete
+        </span>
+      </div>
+    </div>
+  </div>
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Suppléments</mat-label>
+    <mat-select style="z-index: 99999 !important;" (ngModelChange)="onChange($event)" [formControl]="supps" multiple>
+      <mat-option *ngFor="let sup of suppList" [value]="sup">
+        {{sup.name}}
+        <span style="float: right" matSuffix> {{ (+(sup.amount) / 100).toFixed(2) + '€'}} </span>
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+
+</div>
+<div class="modal-footer">
+  <div *ngIf="error" style="display: block !important; width: 100%; margin-bottom: .5rem" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+  <button mat-raised-button style="float: left" (click)="onSubmit()" color="primary">Valider</button>
+  <button (click)="modalActive.close()" mat-raised-button style="float: right; margin-left: .5rem" color="accent">Annuler</button>
+</div>

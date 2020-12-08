@@ -32,10 +32,26 @@
               {{ product.name }}
               <div class="product-ingredient">
                 {{ product.description }}
+                <div *ngIf="product.supplementProducts && product.supplementProducts.length > 0">
+                  <div *ngFor="let sup of product.supplementProducts">
+                    <span style="font-size: smaller; color: #ccc;">
+                        {{ sup.name | titlecase }} {{ sup.amount != null && +(sup.amount) > 0 ? (+(sup.amount) / 100).toFixed(2) + '€' : ''}}
+                      </span>
+                  </div>
+                </div>
+                <div
+                  *ngIf="product.listSupplements
+                    && product.listSupplements.length > 0">
+                  <div *ngFor="let list of product.listSupplements">
+                    <div *ngFor="let sup of list.supplementProducts">
+                      <span style="font-size: smaller; color: #ccc;">{{ sup.name | titlecase }}</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             <div style="display: flex">
-              <div style="align-self: center; font-size: medium;">{{ (+(product.amount)/ 100).toFixed(2) }} €</div>
+              <div style="align-self: center; font-size: medium;">{{ (+(product.amount) / 100).toFixed(2) }} €</div>
               <div (click)="onDeleteProduct(product)" style="cursor: pointer" >
                 <i style=" position:relative; margin-left: 0;margin-top: 5px;color: #e61818;font-weight: 900;font-size: 1.5rem;padding-left: .5rem;" class="material-icons">
                 close

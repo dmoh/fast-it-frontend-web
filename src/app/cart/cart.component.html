@@ -23,6 +23,24 @@
                   <div style="font-size: smaller; color: #ccc; margin-left: -3rem;">
                     {{ product.description }}
                   </div>
+                  <div
+                    *ngIf="product.supplementProducts
+                    && product.supplementProducts.length > 0">
+                    <div *ngFor="let sup of product.supplementProducts">
+                      <span style="font-size: smaller; color: #ccc; margin-left: -3rem;">
+                        {{ sup.name | titlecase }} {{ sup.amount != null && +(sup.amount) > 0 ? (+(sup.amount) / 100).toFixed(2) + '€' : ''}}
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    *ngIf="product.listSupplements
+                    && product.listSupplements.length > 0">
+                    <div *ngFor="let list of product.listSupplements">
+                      <div *ngFor="let sup of list.supplementProducts">
+                        <span style="font-size: smaller; color: #ccc; margin-left: -3rem;">{{ sup.name | titlecase }}</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <div class="mt-2 pl-2" style="flex: auto;line-height: 1.8;font-size: 0.9rem;">{{ (product.amount / 100).toFixed(2) }}€</div>
                 <div class="mt-2 pl-2" style="/* flex: auto; */line-height: 1.5;font-size: x-small;">
@@ -30,6 +48,12 @@
                 </div>
               </div>
             </div>
+          <div *ngIf="cart.products.length > 0">
+            <div style="width: 100%; display: flex; justify-content: space-between">
+              <div style="font-size: smaller; color: #9f9f9f;">Frais de service</div>
+              <div style="font-size: smaller; color: #9f9f9f;">0.80€</div>
+            </div>
+          </div>
             <div style="color: #27b666; font-weight: bold" class="mt-2">TOTAL {{ cart.total ? (cart.total).toFixed(2) : '' }}€</div>
         </div>
     </div>
