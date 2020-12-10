@@ -68,10 +68,10 @@
       </p>
     </div>
   </div>
-  <div *ngIf="!isRejectionMessage" style="display: flex; justify-content: left; padding: 0 0 0.75rem 0.75rem ">
+  <div *ngIf="!isRejectionMessage && order.status == 1" style="display: flex; justify-content: left; padding: 0 0 0.75rem 0.75rem ">
     Temps de préparation
   </div>
-  <div *ngIf="order.status >= 2">
+  <div *ngIf="order.status >= 2" class="modal-footer">
     <h5 class="text-center">Cette commande a été traitée</h5>
     <button style="margin: 1rem" (click)="modalActive.close('ok')" mat-raised-button color="primary">
       OK
