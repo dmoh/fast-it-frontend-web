@@ -46,7 +46,13 @@ export class UpdateDialogComponent implements OnInit {
 
   onSaveProduct(product: any): void {
     if (this.product.id !== 0) {
-      this.product.hasListOrSupplement = !(this.suppAlreadyExists.length === 0 && this.listAlreadyExists.length === 0);
+      if (typeof this.suppAlreadyExists)
+      this.product.hasListOrSupplement =
+        !(typeof this.suppAlreadyExists !== 'undefined'
+          && typeof this.listAlreadyExists !== 'undefined' &&
+          this.suppAlreadyExists.length === 0
+          && this.listAlreadyExists.length === 0
+      );
       this.restaurantDashboardService
         .updateListSupplementByProductIdAndBusinessId(
           this.product.business_id, this.product.id, this.listAlreadyExists

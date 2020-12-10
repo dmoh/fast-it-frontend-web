@@ -101,7 +101,7 @@ export class ShowOrderComponent implements OnInit {
       modalRef.componentInstance.business = order.business;
       modalRef.componentInstance.products = order.products;
       modalRef.componentInstance.order = order;
-      modalRef.componentInstance.supplementsProduct = this.supplementsProduct;
+      // modalRef.componentInstance.supplementsProduct = this.supplementsProduct;
       modalRef.result.then((res) => {
         if (res) {
           this.router.navigate(['home']);

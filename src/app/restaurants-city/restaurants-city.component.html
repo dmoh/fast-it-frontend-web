@@ -87,11 +87,11 @@
                 <div class="row">
                   <div *ngFor="let restaurant of restaurants" style="" class="col-md-6">
                     <a routerLink="{{ '/restaurant/'+ restaurant.id }}">
-                      <div style="height: 170px; overflow: hidden" class="area-restaurants">
+                      <div style="" class="area-restaurants">
                         <div class="mini-card-restaurant">
                           <div style="" class="img-left">
                             <div *ngFor="let media of restaurant.medias">
-                              <img *ngIf="media.type_media == 'background_img'" style="min-height: 170px; width: 100%" src="{{ media.path_file }}" alt="{{ media.name }}">
+                              <img *ngIf="media.type_media == 'background_img'" style="" class="img-left-width" src="{{ media.path_file }}" alt="{{ media.name }}">
                             </div>
                           </div>
                           <div class="pl-2" style="position: relative; flex: 1">

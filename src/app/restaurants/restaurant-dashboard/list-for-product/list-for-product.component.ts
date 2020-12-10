@@ -29,7 +29,6 @@ export class ListForProductComponent implements OnInit {
   }
   ngOnInit(): void {
     this.suppSelected = this.listSupplement.supplementProducts;
-    console.log('listSup', this.listSupplement);
     this.restaurantDashboardService
       .getSupplementByBusinessId(this.restaurantId)
       .subscribe((res) => {
@@ -41,7 +40,6 @@ export class ListForProductComponent implements OnInit {
       .getListSupplementByBusinessId(this.restaurantId)
       .subscribe((res) => {
         if (res.ok){
-          console.log(res);
           this.listSupplementRestaurant = res.lists;
         }
       });
@@ -89,6 +87,9 @@ export class ListForProductComponent implements OnInit {
         return;
       }
     }
+    if (this.suppSelected) {
+      this.listSupplement.supplementProducts = this.suppSelected;
+    }
     this.restaurantDashboardService
       .updateListSupplementByRestaurantId(
         this.restaurantId, this.listSupplement
@@ -112,7 +113,6 @@ export class ListForProductComponent implements OnInit {
   }
 
   onDeleteSup(supId: number) {
-
     this.listSupplement.supplementProducts = this.listSupplement.supplementProducts.filter((elem) => {
       return elem.id !== supId;
     });

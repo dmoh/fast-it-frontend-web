@@ -6,6 +6,7 @@ import { Restaurant } from '@app/_models/restaurant';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { RestaurantDashboardService } from '../restaurant-dashboard/services/restaurant-dashboard.service';
 import {Product} from "@app/models/product";
+import * as orderConst from '@app/_util/fasteat-constants';
 
 @Component({
   selector: 'app-order-modal',
@@ -18,12 +19,12 @@ export class OrderModalComponent implements OnInit {
   @Input() order: Order;
   @Input() business: Restaurant;
   @Input() additionalInfo: string;
-  @Input() supplementsProduct: any[];
+  // @Input() supplementsProduct: any[];
 
   public productList: Product[] = [];
   public message = '';
   public isRejectionMessage = false;
-
+  public orderConst = orderConst;
   public firstChoice = '15 - 30';
   public secondChoice = '30 - 45';
   public thirdChoice = '+45';
@@ -44,9 +45,9 @@ export class OrderModalComponent implements OnInit {
         // product.amount = this.order.amount;
         this.restaurantService.getBusinessProductById(product.id).subscribe( prod => {
           // console.log("production", (prod as any).infoCommentCustomer);
-          product.supplementsProduct = this.supplementsProduct.filter( suppProduct => {
+          /*product.supplementProducts = this.supplementsProduct.filter( suppProduct => {
             return suppProduct.productId === product.id ;
-          });
+          });*/
           product.infoComment = (prod as any).infoCommentCustomer;
           this.productList.push(product);
         });
@@ -93,6 +94,11 @@ export class OrderModalComponent implements OnInit {
   redirectAfterTrait() {
     this.router.navigate(['restaurant-dashboard', this.business.id, "orders" ]);
     this.modalActive.close();
+  }
+
+
+  onPrint() {
+    window.print();
   }
 
 }
