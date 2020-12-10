@@ -10,6 +10,7 @@ export class ListSupplements {
   maxChoice: number;
   isForMenu: boolean;
   isRequired: boolean;
+  supplementSelected: number;
   supplementProducts: Supplement[] = []; // items de cette liste
   restaurant: Restaurant;
   lists: ListSupplements[] = [];

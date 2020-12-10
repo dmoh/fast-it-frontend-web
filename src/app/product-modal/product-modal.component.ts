@@ -28,6 +28,7 @@ export class ProductModalComponent implements OnInit {
   hasListRequired: boolean;
   showSpinner;
   @ViewChild('listSup') listSup;
+  @ViewChild('listSelected', {static: false}) listSelect;
   @Input() product: Product;
   @Input() restaurant: any;
   constructor(public modalActive: NgbActiveModal,
@@ -125,14 +126,19 @@ export class ProductModalComponent implements OnInit {
    }
  }
 
- private productListSupplement(sup: Supplement, list: ListSupplements):void {
+ private productListSupplement(sup: Supplement, list: ListSupplements) {
    if (typeof this.product.listSupplements === 'undefined') {
      this.product.listSupplements = [];
+   }
+   let elemSelected = 0;
+   if (typeof this.listSup !== 'undefined') {
+     elemSelected = this.listSup.selectedOptions.length;
    }
 
    const listAlreadyExists = this.product.listSupplements.findIndex(elem =>
      elem.id === list.id);
    this.listSelected = Object.assign({}, list);
+   this.listSelect.supplementSelected = elemSelected;
    if (listAlreadyExists === -1) {
      this.listSelected.supplementProducts = [sup];
      this.product.listSupplements = [...this.product.listSupplements, this.listSelected];

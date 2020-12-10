@@ -43,7 +43,9 @@ export class HomeFeaturesComponent implements OnInit {
       case 'wactoob':
         this.router.navigate(['/restaurant/29']);
         break;
-
+      case 'pizzeria-de-la-gare':
+        this.router.navigate(['/restaurant/33']);
+        break;
     }
   }
 

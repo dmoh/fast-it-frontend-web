@@ -17,7 +17,7 @@
   <hr>
   <div *ngIf="showSpinner" style="display: flex; justify-content: center">
     <div style="font-size: small">
-      <mat-spinner style=""></mat-spinner>
+      <mat-spinner></mat-spinner>
     </div>
   </div>
   <div *ngIf="supplementProducts.length > 0" class="mb-2">
@@ -43,8 +43,8 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
       <div *ngIf="list.lists">
-        <mat-selection-list (selectionChange)="onChange($event, list)">
-          <mat-list-option *ngFor="let listSup of list.lists" [value]="listSup">
+        <mat-selection-list (selectionChange)="onChange($event, list)" #listSelected>
+          <mat-list-option *ngFor="let listSup of list.lists" [value]="listSup" >
             {{listSup.title | titlecase}}
           </mat-list-option>
         </mat-selection-list>
@@ -54,6 +54,7 @@
           {{sup.name | titlecase }}
         </mat-list-option>
       </mat-selection-list>
+
       <mat-radio-group
         style="display: flex;
         flex-direction: column"
@@ -93,6 +94,8 @@
             (click)="updateCart()"
             mat-raised-button
             color="primary"
-            [disabled]="this.hasListRequired"
+            [disabled]="this.hasListRequired
+            && this.listRequired
+            && this.listRequired.length > 0"
     >Valider {{ (+(product.amount) / 100 * quantityCurrent).toFixed(2) }} €</button>
 </div>
