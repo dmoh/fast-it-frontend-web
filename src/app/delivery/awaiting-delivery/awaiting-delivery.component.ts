@@ -27,7 +27,7 @@ export class AwaitingDeliveryComponent implements OnInit {
   error: string;
   headers: any;
   fastEatConst = fasteatconst;
-  
+
   constructor(private http: HttpClient,
      private authenticate: AuthenticationService,
      private deliveryService: DeliveryService,
@@ -41,7 +41,7 @@ export class AwaitingDeliveryComponent implements OnInit {
 
     this.deliverer = new Deliverer();
     this.deliverer.orders = new Array();
-    
+
     if (this.activatedRoute.snapshot.paramMap.get('id') != null) {
       this.orderId = this.activatedRoute.snapshot.paramMap.get('id');
       // add method affecter livreur
@@ -50,7 +50,7 @@ export class AwaitingDeliveryComponent implements OnInit {
       // get Orders awaiting delivery
       this.deliveryService.getCurrentOrders().subscribe((delivererCurrent) => {
         console.log("delivererCurrentOrder", delivererCurrent);
-        this.deliverer = delivererCurrent; 
+        this.deliverer = delivererCurrent;
         this.orders = (this.deliverer.orders != null) ? this.deliverer.orders : new Array();
       });
     }
@@ -75,7 +75,11 @@ export class AwaitingDeliveryComponent implements OnInit {
               keyboard: false,
             });
             modalRef.componentInstance.title = 'Information';
-            modalRef.componentInstance.message = 'Cette commande a déja été traitée.';
+            let delivererEmail = '.';
+            if (typeof this.deliverer !== 'undefined' && typeof this.deliverer.email !== 'undefined') {
+              delivererEmail = ' par ' + this.deliverer.email;
+            }
+            modalRef.componentInstance.message = 'Cette livraison a été récupérée' + delivererEmail;
             modalRef.result.then((close) => {
               this.router.navigate(['/delivery/awaiting-delivery']);
             });
@@ -84,14 +88,14 @@ export class AwaitingDeliveryComponent implements OnInit {
     });
   }
 
-  
+
   private saveOrderDeliverer(orderId, delivererId, dateDelivery, status) {
     let dateTakenDeliverer = dateDelivery;
 
     let dateDelivered = '@' + Math.round(dateDelivery/1000) ;
-    
+
     let orderSave: any;
-    orderSave = { 
+    orderSave = {
       order : {
         order_id: orderId,
         deliverer_id: delivererId,
@@ -105,7 +109,7 @@ export class AwaitingDeliveryComponent implements OnInit {
   getLibelleStatus(status: string) {
     let libelleStatus = "";
     switch (status) {
-      case '2': 
+      case '2':
         libelleStatus = "En attente de récuperation"
         break;
       case '3':
