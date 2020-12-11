@@ -96,16 +96,7 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
           travelMode: google.maps.TravelMode.DRIVING,
         }, (response, status) => {
           if (response.rows === null) {
-            const modalError = this.infoModal.open(InfoModalComponent, {
-              backdrop: 'static',
-              keyboard: false
-            });
-            modalError.componentInstance.title = 'Erreur';
-            modalError.componentInstance.message = 'Cette adresse est introuvable.';
-            modalError.result.then(() => {
-              this.router.navigate(['cart-detail']);
-              return;
-            });
+            this.showModalErrorAddress();
           }
           if (response.rows[0].elements[0].status === 'OK') {
             const responseDistance = response.rows[0].elements[0];
@@ -126,6 +117,8 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
                   });
                 });
               });
+          } else {
+            this.showModalErrorAddress();
           }
         });
       });
@@ -138,6 +131,19 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
 
   private loadStripe(): void {
     this.loadStripeElements();
+  }
+
+  private showModalErrorAddress() {
+    const modalError = this.infoModal.open(InfoModalComponent, {
+      backdrop: 'static',
+      keyboard: false
+    });
+    modalError.componentInstance.title = 'Erreur';
+    modalError.componentInstance.message = 'Cette adresse est introuvable.';
+    modalError.result.then(() => {
+      this.router.navigate(['cart-detail']);
+      return;
+    });
   }
 
 
