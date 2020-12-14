@@ -35,6 +35,7 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
   addressChose: any;
   phoneCustomer: string;
   paymentValidation: boolean;
+  responseDistanceGoogle: any;
   stripeKey = environment.stripeKey;
 
   constructor(
@@ -100,6 +101,7 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
           }
           if (response.rows[0].elements[0].status === 'OK') {
             const responseDistance = response.rows[0].elements[0];
+            this.responseDistanceGoogle = responseDistance;
             this.cartService.getCostDelivery(responseDistance)
               .subscribe((resp) => {
                 setTimeout(() => {
@@ -140,10 +142,7 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
     });
     modalError.componentInstance.title = 'Erreur';
     modalError.componentInstance.message = 'Cette adresse est introuvable.';
-    modalError.result.then(() => {
-      this.router.navigate(['cart-detail']);
-      return;
-    });
+    modalError.componentInstance.isCartError = true;
   }
 
 
@@ -211,7 +210,11 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
               this.paymentValidation = false;
               this.showLoader = false;
               // save order payment succeeded
-              this.cartService.saveOrder({stripeResponse: responsePayment, cartDetail: this.cartCurrent })
+              this.cartService.saveOrder({
+                stripeResponse: responsePayment,
+                cartDetail: this.cartCurrent,
+                distanceInfos: this.responseDistanceGoogle
+              })
                 .subscribe((confCode) => {
                   const codeModal = this.codeConfirmationModal.open(ConfirmationCodePaymentModalComponent,
                     { backdrop: 'static', keyboard: false, size: 'lg' });

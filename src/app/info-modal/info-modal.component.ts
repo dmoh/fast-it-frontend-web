@@ -1,5 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, Optional} from '@angular/core';
 import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-info-modal',
@@ -9,9 +10,22 @@ import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 export class InfoModalComponent implements OnInit {
   @Input() title: string;
   @Input() message: string;
-  constructor(public modalActive: NgbActiveModal) { }
+  @Optional() isCartError: boolean;
+  constructor(
+    public modalActive: NgbActiveModal,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
+  }
+
+  onValidate() {
+    if (typeof this.isCartError !== 'undefined' && this.isCartError === true) {
+      this.router.navigate(['cart-detail']);
+      this.modalActive.close();
+    } else {
+      this.modalActive.close();
+    }
   }
 
 }

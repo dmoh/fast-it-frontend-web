@@ -43,18 +43,18 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
       <div *ngIf="list.lists">
-        <mat-selection-list (selectionChange)="onChange($event, list)" #listSelected>
+        <mat-selection-list  (selectionChange)="onChange($event, list)" >
           <mat-list-option *ngFor="let listSup of list.lists" [value]="listSup" >
-            {{listSup.title | titlecase}}
+            {{ listSup.title | titlecase }}
           </mat-list-option>
         </mat-selection-list>
       </div>
-      <mat-selection-list *ngIf="+(list.maxChoice) > 1" (selectionChange)="onChange($event, list)" #listSup>
-        <mat-list-option *ngFor="let sup of list.supplementProducts" [value]="sup">
+      <mat-selection-list  #listSdf *ngIf="+(list.maxChoice) > 1" (selectionChange)="onChange($event, list)" >
+        <mat-list-option  *ngFor="let sup of list.supplementProducts" [value]="sup">
           {{sup.name | titlecase }}
         </mat-list-option>
+        <input type="hidden" value="{{ listSdf.selectedOptions.selected.length }}" [(ngModel)]="listSeee">
       </mat-selection-list>
-
       <mat-radio-group
         style="display: flex;
         flex-direction: column"

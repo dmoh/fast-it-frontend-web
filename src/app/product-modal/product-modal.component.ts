@@ -25,10 +25,11 @@ export class ProductModalComponent implements OnInit {
   listSelected: ListSupplements;
   supplementsSelected = new FormControl();
   listRequired: ListSupplements[] = [];
+  listSeee: number;
   hasListRequired: boolean;
   showSpinner;
   @ViewChild('listSup') listSup;
-  @ViewChild('listSelected', {static: false}) listSelect;
+  @ViewChild('listSdf') listSdf;
   @Input() product: Product;
   @Input() restaurant: any;
   constructor(public modalActive: NgbActiveModal,
@@ -98,7 +99,9 @@ export class ProductModalComponent implements OnInit {
  }
 
  onChange(event: MatSelectionListChange, list: ListSupplements) {
+
    this.productListSupplement(event.option.value, list);
+   console.warn(event.option);
  }
 
 
@@ -108,6 +111,7 @@ export class ProductModalComponent implements OnInit {
  onChangeSupplement(event: MatSelectionListChange): void {
    const supplementSelected = event.option.value;
    if (event.option.selected) {
+
       if (supplementSelected.amount !== null && +(supplementSelected.amount) > 0) {
         this.product.amount += supplementSelected.amount;
       }
@@ -130,21 +134,27 @@ export class ProductModalComponent implements OnInit {
    if (typeof this.product.listSupplements === 'undefined') {
      this.product.listSupplements = [];
    }
-   let elemSelected = 0;
-   if (typeof this.listSup !== 'undefined') {
-     elemSelected = this.listSup.selectedOptions.length;
-   }
-
    const listAlreadyExists = this.product.listSupplements.findIndex(elem =>
      elem.id === list.id);
+
    this.listSelected = Object.assign({}, list);
-   this.listSelect.supplementSelected = elemSelected;
+
+    // this.listSelect.supplementSelected = elemSelected;
    if (listAlreadyExists === -1) {
      this.listSelected.supplementProducts = [sup];
      this.product.listSupplements = [...this.product.listSupplements, this.listSelected];
+
    } else {
      this.product.listSupplements[listAlreadyExists].supplementProducts = [sup];
+     if (this.product.listSupplements[listAlreadyExists].maxChoice
+       && +(this.product.listSupplements[listAlreadyExists].maxChoice)
+       >= this.product.listSupplements[listAlreadyExists].supplementProducts.length) {
+       this.product.listSupplements[listAlreadyExists].isAvailable = false;
+     } else {
+       this.product.listSupplements[listAlreadyExists].isAvailable = true;
+     }
    }
+
    this.listRequired = this.listRequired.filter((elem) => {
      return elem.id !== this.listSelected.id;
    });

@@ -5,16 +5,85 @@
       <mat-form-field>
         <mat-label>- Sélectionner une période -</mat-label>
         <mat-select [(ngModel)]="period">
-          <mat-option value="11/2020" >
+          <mat-option value="11/2020">
             11/2020
+          </mat-option>
+          <mat-option value="12/2020">
+            12/2020
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <button class="ml-2" (click)="onExtractPeriod()" mat-raised-button color="primary">Extraire (.csv)</button>
+      <button class="ml-2" (click)="onExtractPeriod()" mat-raised-button color="primary">Valider</button>
     </div>
     <hr>
-    <div class="table-responsive">
+    <div *ngIf="amount && +amount == 0">
+      <h4 style="text-transform: uppercase">AUCUN Résultat</h4>
+    </div>
+    <div *ngIf="dataSource" class="w-100 table-responsive">
+      <div style="padding: 1rem; display: flex; justify-content: space-between">
+        <div>
+          <h4 style="font-size: x-large; font-weight: 200">Commande(s) du ({{period}})</h4>
+        </div>
+        <div>
+          <a class="text-right" *ngIf="filename" href="{{ urlApi }}/{{filename}}" [download]="filename" mat-raised-button color="primary">Extraire(.csv)</a>
+        </div>
+      </div>
+      <div *ngIf="response" style="padding: 1rem; display: flex; justify-content: space-between">
+        <div>
+          <h4 style="font-size: large; font-weight: 200">Total Part Commerce: <b>{{response.amount}}</b> </h4>
+          <h4 style="font-size: large; font-weight: 200">Total montant commande: <b>{{response.total_amount}}</b> </h4>
+          <h4 style="font-size: large; font-weight: 200">Nombre de commande: <b>{{response.delivery_count}}</b> </h4>
+        </div>
+      </div>
+      <div *ngIf="amount && +amount > 0" class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource" matSort matSortActive="delivery_cost" matSortDirection="asc">
+          <!-- ID Column -->
+          <ng-container matColumnDef="date">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
+            <td mat-cell *matCellDef="let row"> {{row.payedAt.date | date: "dd/MM/yyyy"}} </td>
+          </ng-container>
 
+
+          <ng-container matColumnDef="hour">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Heure </th>
+            <td mat-cell *matCellDef="let row"> {{row.payedAt.date | date: "HH:mm"}} </td>
+          </ng-container>
+
+
+          <!-- Progress Column -->
+          <ng-container matColumnDef="progress">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Part Commerce </th>
+            <td mat-cell *matCellDef="let row"> {{(((+row.amount - +row.delivery_cost) / 100) - row.margin_fastit).toFixed(2) }}€</td>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Frais de livraison </th>
+            <td mat-cell *matCellDef="let row"> {{row.delivery_cost / 100 | number : '1.2-2'}} </td>
+          </ng-container>
+
+          <!-- Color Column -->
+          <ng-container matColumnDef="color">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Part Fastit </th>
+            <td mat-cell *matCellDef="let row" [style.color]="row.margin_fastit"> {{ row.margin_fastit }}€ </td>
+          </ng-container>
+
+          <ng-container matColumnDef="total">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Total </th>
+            <td mat-cell *matCellDef="let row" [style.color]="row.amount"> {{ (row.amount/ 100).toFixed(2) }}€ </td>
+            <td mat-footer-cell *matFooterCellDef> {{ amount | currency }} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+          <!-- Row shown when there is no matching data.
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+          </tr>-->
+        </table>
+        <!--<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>-->
+      </div>
     </div>
   </div>
 </section>

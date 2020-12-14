@@ -158,7 +158,7 @@ export class RestaurantDashboardService {
     return this.http.get<any>(`${this.urlApi}/product/${id}`, this.headers);
   }
 
-  getStatsByRestaurantId(restaurantId: number, periodSelected: string) {
+  getStatsByRestaurantId(restaurantId: number, periodSelected: string): Observable<any> {
     return this.http.post<any>(`${this.urlApi}/api/order/stats`, {id: restaurantId, period: periodSelected }, this.headers);
   }
 
