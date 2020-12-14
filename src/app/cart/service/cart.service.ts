@@ -6,6 +6,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {AuthenticationService} from '@app/_services/authentication.service';
 import {Router} from '@angular/router';
 import {environment} from '../../../environments/environment';
+import {isNumeric} from "tslint";
 
 @Injectable({
   providedIn: 'root'
@@ -42,7 +43,7 @@ export class CartService {
         const arrayProductsCurrent = this.cartCurrent.products;
         const index = arrayProductsCurrent.findIndex(prod => prod.id === product.id);
         if (index !== -1) {
-            this.cartCurrent.products[index].quantity = product.quantity;
+            this.cartCurrent.products[index] = product;
         } else {
             this.cartCurrent.products.push(product);
         }
@@ -95,6 +96,16 @@ export class CartService {
     this.cartCurrent.total = 0;
     this.cartCurrent.total += 0.80;
     this.cartCurrent.products.forEach((prod: Product) => {
+      if (prod.supplementProducts && prod.supplementProducts.length > 0) {
+       /* prod.supplementProducts.forEach((elem) => {
+          if (elem.amount && +(elem.amount) > 0) {
+            console.warn('elem', elem.name);
+            console.warn('price', elem.amount);
+            this.cartCurrent.total += +(elem.amount) / 100;
+            // todo voir pour la quantité des suppléments
+          }
+        });*/
+      }
       this.cartCurrent.total += +(prod.quantity * prod.amount) / 100;
     });
     this.cartCurrent.total += +(this.cartCurrent.deliveryCost);

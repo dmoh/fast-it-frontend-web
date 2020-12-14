@@ -23,6 +23,7 @@ export class NavbarComponent implements OnInit {
   isDeliverer: boolean;
   isSuper: boolean;
   showMenu: boolean;
+  modeSide: string;
   constructor(
     private mediaQueryService: MediaQueryService,
     private authentication: AuthenticationService,
@@ -36,7 +37,7 @@ export class NavbarComponent implements OnInit {
 
 
   ngOnInit(): void {
-
+    this.modeSide = 'side';
     this.cartService.cartUpdated.subscribe((cartUpdated: Cart) => this.cart = cartUpdated);
     this.authentication.currentUser.subscribe((res) => {
       this.user = !res ? new User() : res;
@@ -105,8 +106,10 @@ export class NavbarComponent implements OnInit {
   onResize() {
     if (this.showMenu === true) {
       this.isMedia = this.mediaQueryService.getMobile();
+      this.modeSide = 'over';
     }
     if (!this.isMedia){
+      this.modeSide = 'side';
       this.sidenavService.close();
     }
   }

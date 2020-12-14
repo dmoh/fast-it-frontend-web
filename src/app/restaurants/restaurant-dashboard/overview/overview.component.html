@@ -46,8 +46,9 @@
             <th class="border-0">Rèf.</th>
             <th class="border-0">Date</th>
             <th class="border-0">Heure</th>
-            <th class="border-0">Montant</th>
-            <!--<th class="border-0">Part Commerce</th>-->
+            <th class="border-0">Part Commerce</th>
+            <th class="border-0">Part Fastit</th>
+            <th class="border-0">Montant Total</th>
           </tr>
           </thead>
           <tbody>
@@ -69,14 +70,19 @@
               </td>
               <td>
                 <div class="">
-                  <span style="font-size: x-small">{{ (+(o.order.amount) / 100).toFixed(2) + '€' }}</span>
+                  <span style="font-size: x-small">{{ ((+(o.order.amount) - (o.order.margin_fastit * 100))  / 100).toFixed(2) + '€' }}</span>
                 </div>
               </td>
-              <!--<td>
+              <td>
                 <div class="">
-                  <span>{{ ((o.order.amount/ 100) - ((+(o.order.amount) / 100) * 0.23)).toFixed(2) + '€' }}</span>
+                  <span  style="font-size: x-small">{{ (o.order.margin_fastit).toFixed(2) + '€' }}</span>
                 </div>
-              </td>-->
+              </td>
+              <td>
+                <div class="">
+                  <span  style="font-size: x-small">{{ (+(o.order.amount) / 100 ).toFixed(2) + '€' }}</span>
+                </div>
+              </td>
             </tr>
           </tbody>
         </table>

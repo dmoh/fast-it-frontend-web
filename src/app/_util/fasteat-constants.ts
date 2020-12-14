@@ -5,3 +5,6 @@ export const status = {
     ORDER_CLOSED_WITH_SUCCESS: 4,
     ORDER_REFUSED: 0,
 };
+export const order = {
+  SERVICE_CHARGE: 80
+};

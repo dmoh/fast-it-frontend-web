@@ -14,6 +14,11 @@ import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatListModule} from '@angular/material/list';
 import {SecurityRestaurantService} from '@app/_services/security-restaurant.service';
+import { OrdersCurrentComponent } from './orders-current/orders-current.component';
+import { ContactComponent } from './contact/contact.component';
+import { HistoryComponent } from './history/history.component';
+import { ListForProductComponent } from './list-for-product/list-for-product.component';
+import { SupplementForProductComponent } from './supplement-for-product/supplement-for-product.component';
 
 
 @NgModule({
@@ -23,7 +28,12 @@ import {SecurityRestaurantService} from '@app/_services/security-restaurant.serv
     ProductComponent,
     OverviewComponent,
     CommerceComponent,
-    UpdateDialogComponent
+    UpdateDialogComponent,
+    OrdersCurrentComponent,
+    ContactComponent,
+    HistoryComponent,
+    ListForProductComponent,
+    SupplementForProductComponent
   ],
     imports: [
         CommonModule,
@@ -41,7 +51,10 @@ import {SecurityRestaurantService} from '@app/_services/security-restaurant.serv
     OverviewComponent,
     CommerceComponent,
     CoreModule,
-    UpdateDialogComponent
+    UpdateDialogComponent,
+    OrdersCurrentComponent,
+    ListForProductComponent,
+    SupplementForProductComponent
   ],
   providers: [
     SecurityRestaurantService

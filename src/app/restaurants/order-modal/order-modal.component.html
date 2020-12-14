@@ -1,37 +1,60 @@
 <div class="">
   <div class="modal-header">
-    <h2 class="modal-title">Commande passé par le client</h2>
+    <h2 class="modal-title">Commande <b>#{{ order.id }}</b></h2>
     <button type="button" class="close" (click)="modalActive.close()" aria-label="Close" >
         <span aria-hidden="true">&times;</span>
+        <button mat-raised-button class="pl-3" (click)="onPrint()" color="primary">Imprimer</button>
     </button>
   </div>
   <div class="modal-body">
-    <!--<div class="mb-2">
-      <h3>Informations complémentaires, allergies...</h3>
-      <p>Je suis allergique aux fruits de mer c'est pourquoi je commande des sushi </p>
-    </div>-->
-    <hr>
     <div class="row">
-      <div *ngFor="let product of productList">
-        <div style="display: flex; justify-content: space-between; border-right: 2px solid violet" class="col-xs-12 col-md-12">
-          <div class="col-xs-12 col-md-10">
-            <span style="font-size: larger; font-weight: 400"> x{{ product.quantity }} </span>
+        <div style="display: flex; justify-content: space-between; border-right: 2px solid violet" *ngFor="let product of products" class="col-xs-12 col-md-12">
+          <div style="margin-bottom: .8rem;" class="col-xs-12 col-md-10">
+            <span style="font-size: larger; font-weight: 400" class="pr-2"> x<b>{{ product.quantity }}</b> </span>
             <span style="font-size: larger; font-weight: 400; text-transform: uppercase">{{ product.name }}</span>
-            <div *ngFor="let supplement of product.supplementsProduct" style="font-size: small;font-weight: 200;display: flex; justify-content: flex-start">
-              - {{ supplement.name }}
+            <div *ngIf="product.supplementProducts && product.supplementProducts.length > 0" class="div-supplement">
+              <h4 class="order-h4"><span style="font-size: xx-small;padding-right: .2rem;" class="material-icons">radio_button_unchecked</span>Supplément(s)</h4>
+              <div *ngFor="let supplement of product.supplementProducts" class="supplement-name">
+                <span style="font-size: small; padding-right: .3rem" class="material-icons">subdirectory_arrow_right</span> <b class="supplement-name">{{ supplement.name | titlecase }}</b>
+              </div>
             </div>
-            <div style="font-size: small;font-weight: 400;display: flex; justify-content: flex-start">
-              <b>*<i>{{product.infoComment}}</i></b>
+            <div *ngIf="product.listSupplements && product.listSupplements.length > 0">
+              <div *ngFor="let listS of product.listSupplements" class="div-supplement">
+                <h4 class="order-h4"><span style="font-size: xx-small;padding-right: .2rem;" class="material-icons">radio_button_unchecked</span>{{ listS.title | titlecase }}</h4>
+                <div *ngIf="listS.supplementProducts && listS.supplementProducts.length > 0">
+                  <div *ngFor="let supplement of listS.supplementProducts" class="div-supplement-name">
+                    <span style="font-size: small; padding-right: .3rem" class="material-icons">subdirectory_arrow_right</span> <b class="supplement-name">{{ supplement.name | titlecase }}</b>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="product.commentCustomer != null" style="font-size: small;font-weight: 400;display: flex; justify-content: flex-start">
+              <p>Commentaire Client :<br><b>{{ product.commentCustomer }}</b></p>
             </div>
           </div>
-          <div class="col-xs-0 col-md-0" style="font-size: larger; font-weight: 400">{{ product.amount/100 | number : '1.2-2'}}€</div>
+          <div class="col-xs-0 col-md-0" style="font-size: larger; font-weight: 400">{{ (product.amount * product.quantity) /100 | number : '1.2-2'}}€</div>
         </div>
+    </div>
+    <hr>
+    <div style="display: block; padding-left: 1rem" *ngIf="order.customer" class="row">
+      <h4>Information Client</h4>
+      <!--<div>
+        Nom: <span><b>{{ order.customer.addresses[0].name }}</b></span>
+      </div>-->
+      <div>
+        Téléphone: <a style="text-decoration: none" href="tel:{{ order.customer.phone }}"><b>{{ order.customer.phone }}</b></a>
+      </div>
+      <div>
+        Adresse:
+        <span>
+          <b>{{ order.customer.addresses[0].street | titlecase }}, {{ order.customer.addresses[0].zipCode }}, {{ order.customer.addresses[0].city | titlecase }}</b>
+        </span>
       </div>
     </div>
-    <div style="display: flex; justify-content: space-between;
-      font-size: larger; font-weight: 600;
-      border-bottom: 1px solid #dee2e6;">
-      Total: {{order.amount/100 | number : '1.2-2'}}€
+    <hr>
+    <div class="mt-2 mb-2" style="display: flex; width: 100%; justify-content: flex-end;
+      font-size: larger; font-weight: 600;">
+      Total: {{ (+(order.amount) - +(orderConst.order.SERVICE_CHARGE) - +(order.delivery_cost))/100 | number : '1.2-2'}}€
     </div>
   </div>
 
@@ -45,10 +68,16 @@
       </p>
     </div>
   </div>
-  <div *ngIf="!isRejectionMessage" style="display: flex; justify-content: left; padding: 0 0 0.75rem 0.75rem ">
+  <div *ngIf="!isRejectionMessage && order.status == 1" style="display: flex; justify-content: left; padding: 0 0 0.75rem 0.75rem ">
     Temps de préparation
   </div>
-  <div style="display: flex; justify-content: space-between" class="modal-footer">
+  <div *ngIf="order.status >= 2" class="modal-footer">
+    <h5 class="text-center">Cette commande a été traitée</h5>
+    <button style="margin: 1rem" (click)="modalActive.close('ok')" mat-raised-button color="primary">
+      OK
+    </button>
+  </div>
+  <div *ngIf="order.status == 1" style="display: flex; justify-content: space-between" class="modal-footer">
     <div *ngIf="!isRejectionMessage">
       <button mat-raised-button (click)="onValidate(firstChoice)" color="primary">{{firstChoice}}</button>
     </div>

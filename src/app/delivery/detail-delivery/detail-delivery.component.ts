@@ -24,27 +24,27 @@ export class DetailDeliveryComponent implements OnInit {
     private deliveryService: DeliveryService,
     private router: Router,
     private pickupOrderModal: NgbModal,
-    private route: ActivatedRoute) { 
+    private route: ActivatedRoute) {
       this.isDelivering = null;
     }
 
   ngOnInit(): void {
     this.isValid = true;
     this.orderId = this.route.snapshot.paramMap.get('id');
-    
+
     this.deliveryService.getDeliverer().subscribe( deliverer => {
       console.log("deliverer", deliverer);
-      this.deliveryService.getOrderById(+this.orderId).subscribe( order => {
-        console.log("order", order);
+      this.deliveryService.getOrderById(+this.orderId).subscribe( orderById => {
+        console.log("order", orderById);
 
-        console.log(order.deliverer?.id);
+        console.log(orderById.deliverer?.id);
         console.log(deliverer.id);
-        if (order.deliverer?.id !== deliverer.id) {
+        if (orderById.deliverer?.id !== deliverer.id) {
           this.router.navigate(['/delivery/awaiting-delivery']);
         }
-        // let order: Order = new Order();
-        this.order = order;
-        this.isDelivering = this.order.status >= 3 ;
+        let order: Order = new Order();
+        this.order = orderById;
+        this.isDelivering = this.order.status >= 3 && this.order.date_delivered == null ;
 
         this.hasDeliveryCode = this.order.deliverCode != null;
         
@@ -57,15 +57,17 @@ export class DetailDeliveryComponent implements OnInit {
   }
 
   onValidateDelivery(): void {
-    if (this.hasDeliveryCode && !this.delivererForm.value.notCode) {
-      this.isValid = this.delivererForm.value.code === this.order.deliverCode;
-    }
-
-    if (this.delivererForm.value.notCode || this.isValid) {
-      this.finalizeDelivery();
-    }
-    else {
-      return;
+    if (this.isDelivering) {
+      if (this.hasDeliveryCode && !this.delivererForm.value.notCode) {
+        this.isValid = this.delivererForm.value.code === this.order.deliverCode;
+      }
+  
+      if (this.delivererForm.value.notCode || this.isValid) {
+        this.finalizeDelivery();
+      }
+      else {
+        return;
+      }
     }
   }
 
@@ -75,7 +77,7 @@ export class DetailDeliveryComponent implements OnInit {
 
   onTakenDelivery() {
     if (this.order && !this.isDelivering){
-      
+
       const modalRef = this.pickupOrderModal.open(PickupOrderModalComponent, {
         backdrop: 'static',
         keyboard: true,
@@ -96,7 +98,7 @@ export class DetailDeliveryComponent implements OnInit {
     let order: any;
     let dateDelivered = '@' + Math.round(Date.now()/1000) ;
 
-    order = { 
+    order = {
       order : {
         order_id: this.orderId,
         date_delivered: dateDelivered,
@@ -112,9 +114,9 @@ export class DetailDeliveryComponent implements OnInit {
     let dateTakenDeliverer = dateDelivery;
 
     let dateDelivered = '@' + Math.round(dateDelivery/1000) ;
-    
+
     let orderSave: any;
-    orderSave = { 
+    orderSave = {
       order : {
         order_id: orderId,
         deliverer_id: delivererId,
@@ -134,6 +136,21 @@ export class DetailDeliveryComponent implements OnInit {
         console.error("error", error);
       }
     );
+  }
+
+
+
+  public linkToAddresses(address: string) {
+    const direction = encodeURI(address);
+    if /* if we're on iOS, open in Apple Maps */
+    ((navigator.platform.indexOf('iPhone') !== -1) ||
+      (navigator.platform.indexOf('iPod') !== -1) ||
+      (navigator.platform.indexOf('iPad') !== -1)) {
+      window.open('maps://maps.google.com/maps?daddr=' + direction);
+    }
+    else {
+      window.open('https://maps.google.com/maps?daddr=' + direction);
+    } /* else use Google */
   }
 
 }

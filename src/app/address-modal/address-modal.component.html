@@ -10,10 +10,23 @@
     <p>
       <mat-form-field style="width: 100%;" appearance="outline">
         <mat-label>Téléphone*</mat-label>
-        <input matInput type="text" [(ngModel)]="phoneCustomer" placeholder="Placeholder">
+        <input matInput type="text" [formControl]="phoneCustomerCurrent" placeholder="0111111111">
         <mat-icon
-          [class.text-danger]="!phoneCustomer || phoneCustomer.length < 10"
-          [class.text-success]="phoneCustomer != null && phoneCustomer.length >= 10"   matSuffix>phone</mat-icon>
+          [class.text-danger]="phoneCustomerCurrent.invalid"
+          [class.text-success]="!phoneCustomerCurrent.invalid" matSuffix>phone</mat-icon>
+          <mat-error *ngIf="phoneCustomerCurrent.invalid">{{ getErrorPhoneMessage() }}</mat-error>
+      </mat-form-field>
+    </p>
+  </div>
+  <div class="form-group">
+    <p>
+      <mat-form-field style="width: 100%;" appearance="outline">
+        <mat-label>Nom*</mat-label>
+        <input matInput type="text" [formControl]="nameCustomerCurrent" placeholder="">
+        <mat-icon
+          [class.text-danger]="nameCustomerCurrent.invalid"
+          [class.text-success]="!nameCustomerCurrent.invalid" matSuffix>{{ !nameCustomerCurrent.invalid ? 'sentiment_satisfied_alt' : 'sentiment_very_dissatisfied' }}</mat-icon>
+        <mat-error *ngIf="nameCustomerCurrent.invalid">{{ getErrorNameMessage() }}</mat-error>
       </mat-form-field>
     </p>
   </div>
@@ -39,9 +52,10 @@
     <div class="mt-2">
       <div class="modal-footer">
         <button
-          [disabled]="!phoneCustomer
-        || phoneCustomer.trim() == ''
-        || phoneCustomer.length < 10"
+          [disabled]="
+        nameCustomerCurrent.invalid
+        || phoneCustomerCurrent.invalid
+        "
           (click)="onChooseAddress('default')" mat-raised-button color="primary">
           Je choisis cette adresse
         </button>
@@ -53,15 +67,6 @@
   <div class="mt-3" *ngIf="!addressByDefault">
     <h4 class="font-weight-light ">On livre vos plats préférés à l'adresse suivante</h4>
     <div >
-        <div class="form-group">
-          <p>
-            <mat-form-field style="width: 100%;" appearance="outline">
-              <mat-label>Nom (Facultatif)</mat-label>
-              <input matInput type="text" [(ngModel)]="addressName" placeholder="Placeholder">
-              <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
-            </mat-form-field>
-          </p>
-        </div>
       <!--<div class="form-group">
         <p>
           <mat-form-field style="width: 100%;" appearance="outline">
@@ -119,7 +124,13 @@
       </div>
         <div class="mt-2 modal-footer">
           <div>
-            <button mat-raised-button [disabled]="!phoneCustomer || phoneCustomer.trim() == '' || zipcode.trim() == '' || city.trim() == '' || street.trim() == ''"  type="button" (click)="onSaveNewAddress()"  color="primary">Valider</button>
+            <button mat-raised-button [disabled]="
+           zipcode.trim() == ''
+            || city.trim() == ''
+            || street.trim() == ''
+            || nameCustomerCurrent.invalid
+            || phoneCustomerCurrent.invalid
+            "  type="button" (click)="onSaveNewAddress()"  color="primary">Valider</button>
           </div>
         </div>
     </div>

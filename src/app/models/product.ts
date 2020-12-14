@@ -1,4 +1,6 @@
 import {CategoryProduct} from "@app/_models/category-product";
+import {ListSupplements} from "@app/_models/list-supplements";
+import {Supplement} from "@app/_models/supplement";
 
 export class Product {
     name: string = '';
@@ -25,4 +27,8 @@ export class Product {
     additionalInformations?: string = '';
     isAvailable?: boolean = true;
     is_available?: boolean;
+    hasListOrSupplement: boolean = false;
+    listSupplements: ListSupplements[] = [];
+    supplementProducts: Supplement[] = [];
 }
+

@@ -34,6 +34,13 @@ ul {
   color: #3e3e3e;
   margin-bottom: 1rem;
   cursor: pointer;
+  height: 170px;
+  overflow: hidden
+}
+
+.img-left-width {
+  min-height: 170px;
+  width: 100%;
 }
 a:hover {
   text-decoration: none;
@@ -45,8 +52,9 @@ a:hover {
   margin-top: .3rem;
   background: #fff;
   border-radius: 3px;
-  right: 0;
-  box-shadow: 1px 1px 1px rgba(0,0,0,0.3);
+  right: 5px;
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+  bottom: 5px;
 }
 
 .info-minimum-accepted {
@@ -66,5 +74,14 @@ a:hover {
 @media (max-width: 768px) {
   .img-left {
     width: 80px;
+  }
+
+  .area-restaurants {
+    height: 100px !important;
+  }
+
+  .img-left-width {
+    min-height: 100px;
+    width: 100%;
   }
 }

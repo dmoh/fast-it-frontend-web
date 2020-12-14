@@ -5,6 +5,8 @@ import { Order } from '@app/_models/order';
 import { Restaurant } from '@app/_models/restaurant';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { RestaurantDashboardService } from '../restaurant-dashboard/services/restaurant-dashboard.service';
+import {Product} from "@app/models/product";
+import * as orderConst from '@app/_util/fasteat-constants';
 
 @Component({
   selector: 'app-order-modal',
@@ -13,19 +15,19 @@ import { RestaurantDashboardService } from '../restaurant-dashboard/services/res
 })
 export class OrderModalComponent implements OnInit {
 
-  @Input() products: any[];
+  @Input() products: Product[];
   @Input() order: Order;
   @Input() business: Restaurant;
   @Input() additionalInfo: string;
-  @Input() supplementsProduct: any[];
+  // @Input() supplementsProduct: any[];
 
-  public productList: any[] = new Array();
+  public productList: Product[] = [];
   public message = '';
   public isRejectionMessage = false;
-
-  public firstChoice = "15 - 30";
-  public secondChoice = "30 - 45";
-  public thirdChoice = "+45";
+  public orderConst = orderConst;
+  public firstChoice = '15 - 30';
+  public secondChoice = '30 - 45';
+  public thirdChoice = '+45';
 
   constructor(private route: ActivatedRoute,
               public modalActive: NgbActiveModal,
@@ -43,11 +45,10 @@ export class OrderModalComponent implements OnInit {
         // product.amount = this.order.amount;
         this.restaurantService.getBusinessProductById(product.id).subscribe( prod => {
           // console.log("production", (prod as any).infoCommentCustomer);
-          product.supplementsProduct = this.supplementsProduct.filter( suppProduct => {
+          /*product.supplementProducts = this.supplementsProduct.filter( suppProduct => {
             return suppProduct.productId === product.id ;
-          });
+          });*/
           product.infoComment = (prod as any).infoCommentCustomer;
-          
           this.productList.push(product);
         });
       });
@@ -77,13 +78,13 @@ export class OrderModalComponent implements OnInit {
   }
 
   onValidateRejectionMessage() {
-    let message = this.message;
+    const message = this.message;
     const dataOrder: any = {
       order_id: this.order.id,
       order_accepted_by_merchant: false,
       business_id: this.business.id,
       status: 0,
-      message,
+      rejection_message: message,
     };
     console.warn("Message de refus", message);
     this.restaurantService.refuseOrder(dataOrder).subscribe();
@@ -91,8 +92,13 @@ export class OrderModalComponent implements OnInit {
   }
 
   redirectAfterTrait() {
-    this.router.navigate(['restaurant-dashboard', this.business.id, "overview" ]);
+    this.router.navigate(['restaurant-dashboard', this.business.id, "orders" ]);
     this.modalActive.close();
+  }
+
+
+  onPrint() {
+    window.print();
   }
 
 }

@@ -40,6 +40,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import { HeaderSpecificComponent } from '../header-specific/header-specific.component';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatSortModule} from "@angular/material/sort";
 
 
 @NgModule({
@@ -85,7 +86,8 @@ import {MatSidenavModule} from '@angular/material/sidenav';
         NgbModule,
         MatToolbarModule,
         MatMenuModule,
-        MatSidenavModule
+        MatSidenavModule,
+        MatSortModule
     ],
   exports: [
       CommonModule,
@@ -124,7 +126,8 @@ import {MatSidenavModule} from '@angular/material/sidenav';
       MatToolbarModule,
       HeaderSpecificComponent,
       MatMenuModule,
-      MatSidenavModule
+      MatSidenavModule,
+      MatSortModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [

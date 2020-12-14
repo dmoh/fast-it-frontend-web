@@ -15,10 +15,66 @@
         {{ (+(product.amount) / 100).toFixed(2) }}€
     </div>
   <hr>
+  <div *ngIf="showSpinner" style="display: flex; justify-content: center">
+    <div style="font-size: small">
+      <mat-spinner></mat-spinner>
+    </div>
+  </div>
+  <div *ngIf="supplementProducts.length > 0" class="mb-2">
+    <h5 class="font-weight-bold">Suppléments</h5>
+      <mat-selection-list (selectionChange)="onChangeSupplement($event)">
+        <mat-list-option  *ngFor="let sup of supplementProducts; let index = index " [selected]="product.supplementProducts && product.supplementProducts[index] && product.supplementProducts[index].id == sup.id" [value]="sup">
+          {{sup.name | titlecase}} {{ sup.amount != null && +(sup.amount) > 0 ? (+(sup.amount) / 100).toFixed(2) + '€' : ''}}
+        </mat-list-option>
+      </mat-selection-list>
+  </div>
+  <div *ngFor="let list of lists" class="mb-2">
+    <mat-accordion  class="mb-2">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-checkbox *ngIf="list.isForMenu" class="pl-2 list-for-menu">{{ list.title | titlecase }}</mat-checkbox>
+          <span *ngIf="!list.isForMenu" class="pl-2 list-for-menu">{{ list.title | titlecase }}</span>
+        </mat-panel-title>
+        <mat-panel-description>
+          <span style="float: right" *ngIf="list.isForMenu">
+            {{ list.amount !== null ? (list.amount / 100).toFixed(2) + '€' : null }}
+          </span>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <div *ngIf="list.lists">
+        <mat-selection-list  (selectionChange)="onChange($event, list)" >
+          <mat-list-option *ngFor="let listSup of list.lists" [value]="listSup" >
+            {{ listSup.title | titlecase }}
+          </mat-list-option>
+        </mat-selection-list>
+      </div>
+      <mat-selection-list  #listSdf *ngIf="+(list.maxChoice) > 1" (selectionChange)="onChange($event, list)" >
+        <mat-list-option  *ngFor="let sup of list.supplementProducts" [value]="sup">
+          {{sup.name | titlecase }}
+        </mat-list-option>
+        <input type="hidden" value="{{ listSdf.selectedOptions.selected.length }}" [(ngModel)]="listSeee">
+      </mat-selection-list>
+      <mat-radio-group
+        style="display: flex;
+        flex-direction: column"
+        *ngIf="(+(list.maxChoice) == 1
+        || list.maxChoice == null)
+        && list.isRequired == true"
+        (change)="onRadioChange($event, list)"
+        aria-label="Select an option" >
+        <mat-radio-button
+          *ngFor="let sup of list.supplementProducts;
+          let index = index"
+          [value]="sup">{{ sup.name | titlecase }}</mat-radio-button>
+      </mat-radio-group>
+    </mat-expansion-panel>
+    </mat-accordion>
+  </div>
     <div style="text-align: center">
-        <button type="button" mat-raised-button color="primary" (click)="updateQuantity('less')" ><i style="vertical-align:middle" class="material-icons">remove</i></button>
+        <button type="button" mat-raised-button color="primary" (click)="updateQuantity('less')" ><i style="vertical-align:middle; font-size: medium" class="material-icons">remove</i></button>
         <span style="font-size: x-large; padding-left: 2rem; padding-right: 2rem" >{{ quantityCurrent }}</span>
-        <button type="button" mat-raised-button color="primary" (click)="updateQuantity('more')"><i style="vertical-align:middle" class="material-icons">add</i></button>
+        <button type="button" mat-raised-button color="primary" (click)="updateQuantity('more')"><i style="vertical-align:middle; font-size: medium" class="material-icons">add</i></button>
         <span *ngIf="infos"></span>
     </div>
   <div *ngIf="product.addComment">
@@ -34,6 +90,12 @@
   </div>
 </div>
 <div class="modal-footer">
-    <!-- todo integrer le montant total de ce produit -->
-    <button type="button" (click)="updateCart()" class="btn btn-outline-primary" >Total {{ (+(product.amount) / 100 * quantityCurrent).toFixed(2) }} €</button>
+    <button type="button"
+            (click)="updateCart()"
+            mat-raised-button
+            color="primary"
+            [disabled]="this.hasListRequired
+            && this.listRequired
+            && this.listRequired.length > 0"
+    >Valider {{ (+(product.amount) / 100 * quantityCurrent).toFixed(2) }} €</button>
 </div>

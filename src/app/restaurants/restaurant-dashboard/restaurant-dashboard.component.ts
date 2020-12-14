@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import {AfterViewInit, Component, EventEmitter, HostListener, OnInit, Output, ViewChild} from '@angular/core';
 import {RestaurantDashboardService} from '@app/restaurants/restaurant-dashboard/services/restaurant-dashboard.service';
 import {Restaurant} from '@app/_models/restaurant';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -18,11 +18,12 @@ export class RestaurantDashboardComponent implements OnInit, AfterViewInit {
   restaurant: Restaurant;
   products: any[];
   restaurantId: number;
-  
+  modeSide: string;
   isMedia: boolean;
 
-  @ViewChild('sidebarLeft') 
+  @ViewChild('sidebarLeft')
   public sidenav: MatSidenav;
+  @Output() sidenavChange = new EventEmitter<MatSidenav>();
 
   constructor(
     private restaurantService: RestaurantDashboardService,
@@ -63,6 +64,11 @@ export class RestaurantDashboardComponent implements OnInit, AfterViewInit {
     }
   }
   ngOnInit(): void {
+    if (window.innerWidth > 992) {
+      this.modeSide = 'side';
+    } else {
+      this.modeSide = 'over';
+    }
     // this.activatedRoute
     //   .queryParams.subscribe((res) => {
     //    if (res.orderId) {
@@ -119,7 +125,7 @@ export class RestaurantDashboardComponent implements OnInit, AfterViewInit {
 
     //      }
     //   });
-    this.isMedia = this.mediaQueryService.getMobile(); 
+    this.isMedia = this.mediaQueryService.getMobile();
 }
 
 @HostListener('window:resize', [])
@@ -127,17 +133,19 @@ onResize() {
   this.isMedia = this.mediaQueryService.getMobile();
   if (!this.isMedia) {
     this.sidenav.open();
+    this.modeSide = 'side';
   }
   if (this.isMedia) {
+    this.modeSide = 'over';
     this.sidenav.close();
   }
 }
 
 
-  ngAfterViewInit() { 
+  ngAfterViewInit() {
     this.sidenavService.sideNavToggleSubject.subscribe(()=> {
        return this.sidenav.toggle();
      });
-  } 
-  
+  }
+
 }

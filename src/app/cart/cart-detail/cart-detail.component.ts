@@ -11,8 +11,8 @@ import {AddressModalComponent} from '@app/address-modal/address-modal.component'
 import {ToastService} from '@app/_services/toast.service';
 import {OrderModalComponent} from '@app/restaurants/order-modal/order-modal.component';
 import {Product} from '@app/models/product';
-import set = Reflect.set;
 import {InfoModalComponent} from '@app/info-modal/info-modal.component';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-cart-detail',
@@ -35,6 +35,8 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
   addressChose: any;
   phoneCustomer: string;
   paymentValidation: boolean;
+  responseDistanceGoogle: any;
+  stripeKey = environment.stripeKey;
 
   constructor(
     private cartService: CartService,
@@ -73,6 +75,7 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
         modalRef.componentInstance.address = null;
       } else {
         modalRef.componentInstance.address = this.userAddresses[0];
+        modalRef.componentInstance.firstname = this.userAddresses[0].firstname;
       }
       modalRef.componentInstance.phoneCustomer = this.phoneCustomer;
       modalRef.result.then((res) => {
@@ -94,19 +97,11 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
           travelMode: google.maps.TravelMode.DRIVING,
         }, (response, status) => {
           if (response.rows === null) {
-            const modalError = this.infoModal.open(InfoModalComponent, {
-              backdrop: 'static',
-              keyboard: false
-            });
-            modalError.componentInstance.title = 'Erreur';
-            modalError.componentInstance.message = 'Cette adresse est introuvable.';
-            modalError.result.then(() => {
-              this.router.navigate(['cart-detail']);
-              return;
-            });
+            this.showModalErrorAddress();
           }
           if (response.rows[0].elements[0].status === 'OK') {
             const responseDistance = response.rows[0].elements[0];
+            this.responseDistanceGoogle = responseDistance;
             this.cartService.getCostDelivery(responseDistance)
               .subscribe((resp) => {
                 setTimeout(() => {
@@ -124,6 +119,8 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
                   });
                 });
               });
+          } else {
+            this.showModalErrorAddress();
           }
         });
       });
@@ -138,9 +135,19 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
     this.loadStripeElements();
   }
 
+  private showModalErrorAddress() {
+    const modalError = this.infoModal.open(InfoModalComponent, {
+      backdrop: 'static',
+      keyboard: false
+    });
+    modalError.componentInstance.title = 'Erreur';
+    modalError.componentInstance.message = 'Cette adresse est introuvable.';
+    modalError.componentInstance.isCartError = true;
+  }
+
 
   private loadStripeElements(): void {
-    this.stripe = window['Stripe']('pk_live_51Hld3DHA30KRASuj1Ms24tlANH0q9PLtdEBgGPSt18YAJ0XezIuEVbncKqWwhLdrvPg36twvSGSlU65Oy50p81iN00tzpGjCSX');
+    this.stripe = window['Stripe'](this.stripeKey);
     this.elementStripe = this.stripe.elements();
     const style = {
       base: {
@@ -203,7 +210,11 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
               this.paymentValidation = false;
               this.showLoader = false;
               // save order payment succeeded
-              this.cartService.saveOrder({stripeResponse: responsePayment, cartDetail: this.cartCurrent })
+              this.cartService.saveOrder({
+                stripeResponse: responsePayment,
+                cartDetail: this.cartCurrent,
+                distanceInfos: this.responseDistanceGoogle
+              })
                 .subscribe((confCode) => {
                   const codeModal = this.codeConfirmationModal.open(ConfirmationCodePaymentModalComponent,
                     { backdrop: 'static', keyboard: false, size: 'lg' });

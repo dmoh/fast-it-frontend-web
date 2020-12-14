@@ -20,6 +20,7 @@ export class ShowOrderComponent implements OnInit {
   products: any[];
   orderId: number = 0;
   businessId: number = 0;
+  token: string;
 
   constructor(
     private activedRoute: ActivatedRoute,
@@ -32,14 +33,15 @@ export class ShowOrderComponent implements OnInit {
   ngOnInit(): void {
     this.supplementsProduct = new Array<any>();
     this.products =  new Array<any>();
-    this.activedRoute.queryParams.subscribe((res) => {
-        if (res.p && res.c && res.orderId && res.restoId) {
+    this.token =  this.activedRoute.snapshot.params.token;
+    this.orderId =  this.activedRoute.snapshot.params.orderId;
+      if (this.token && this.orderId) {
           // recup mail
-          this.restaurantDashboardService.checkToken(+(res.restoId), res.c, +(res.orderId))
+          this.restaurantDashboardService.checkToken(this.token, +(this.orderId))
             .subscribe((response) => {
               if (response.ok) {
-                localStorage.setItem('currentUser', '{ "token":"' + decodeURI(res.c) + '"}');
-                if (res.p) {
+                localStorage.setItem('currentUser', '{ "token":"' + decodeURI(this.token) + '"}');
+                /*if (res.p) {
                   const listProductURi = decodeURI(res.p).trim().split('x')
                   .filter( product => {
                       return product !== '';
@@ -52,21 +54,21 @@ export class ShowOrderComponent implements OnInit {
                     productBis.id = product.split(' ')[3];
                     this.products.push(productBis);
                   });
-                }
+                }*/
 
-                this.businessId = (res.restoId) ? +res.restoId : this.businessId;
-                this.orderId = (res.orderId) ? +res.orderId : this.orderId;
+                // this.businessId = (res.restoId) ? +res.restoId : this.businessId;
+                this.orderId = (this.orderId) ? +this.orderId : this.orderId;
 
                 // createProductList
-                const listSuppProduct: any[] = decodeURI(res.suppProducts).trim().split(' ');
+                /*const listSuppProduct: any[] = decodeURI(res.suppProducts).trim().split(' ');
                 listSuppProduct.forEach( suppProduct => {
                   let supplement: any = { };
                   supplement = {
                     productId : suppProduct.split("-NEXTSUP-")[0],
                     name : suppProduct.split("-NEXTSUP-")[1],
-                  }
+                  };
                   this.supplementsProduct.push(supplement);
-                });
+                });*/
                 this.onShowModal();
               } else if (response.error)  {
                 const modalRef = this.orderModal.open(InfoModalComponent, {
@@ -85,28 +87,27 @@ export class ShowOrderComponent implements OnInit {
         } else {
           this.router.navigate(['home']);
         }
-      });
+
   }
 
   onShowModal() {
     this.restaurantDashboardService.getOrderById(+this.orderId).subscribe( order => {
       // test si l'id de la commande est identique au commercant actuel
-      if (+this.businessId !== +order.business.id) {
-        this.router.navigate(['home']);
-      } else {
-
-        const modalRef = this.orderModal.open(OrderModalComponent, {
-          backdrop: 'static',
-          keyboard: false,
-          size: 'lg',
-        });
-        modalRef.componentInstance.business = order.business;
-        modalRef.componentInstance.products = this.products;
-        modalRef.componentInstance.order = order;
-        modalRef.componentInstance.supplementsProduct = this.supplementsProduct;
-        // TODO get url value commentaire order
-      }
-
+      const modalRef = this.orderModal.open(OrderModalComponent, {
+        backdrop: 'static',
+        keyboard: false,
+        size: 'lg',
+      });
+      modalRef.componentInstance.business = order.business;
+      modalRef.componentInstance.products = order.products;
+      modalRef.componentInstance.order = order;
+      // modalRef.componentInstance.supplementsProduct = this.supplementsProduct;
+      modalRef.result.then((res) => {
+        if (res) {
+          this.router.navigate(['home']);
+        }
+      });
+      // TODO get url value commentaire order
     });
   }
 
