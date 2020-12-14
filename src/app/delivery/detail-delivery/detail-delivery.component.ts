@@ -31,19 +31,29 @@ export class DetailDeliveryComponent implements OnInit {
   ngOnInit(): void {
     this.isValid = true;
     this.orderId = this.route.snapshot.paramMap.get('id');
+    
+    this.deliveryService.getDeliverer().subscribe( deliverer => {
+      console.log("deliverer", deliverer);
+      this.deliveryService.getOrderById(+this.orderId).subscribe( order => {
+        console.log("order", order);
 
-    this.deliveryService.getOrderById(+this.orderId).subscribe( order => {
-      // let order: Order = new Order();
-      this.order = order;
-      this.isDelivering = this.order.status >= 3 ;
+        console.log(order.deliverer?.id);
+        console.log(deliverer.id);
+        if (order.deliverer?.id !== deliverer.id) {
+          this.router.navigate(['/delivery/awaiting-delivery']);
+        }
+        // let order: Order = new Order();
+        this.order = order;
+        this.isDelivering = this.order.status >= 3 ;
 
-      this.hasDeliveryCode = this.order.deliverCode != null;
-      
-      this.delivererForm = this.fb.group({
-        code: ["", Validators.required],
-        notCode: false
-      });
-    });    
+        this.hasDeliveryCode = this.order.deliverCode != null;
+        
+        this.delivererForm = this.fb.group({
+          code: ["", Validators.required],
+          notCode: false
+        });
+      });  
+    });  
   }
 
   onValidateDelivery(): void {

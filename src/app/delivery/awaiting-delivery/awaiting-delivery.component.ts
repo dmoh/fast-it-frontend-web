@@ -67,7 +67,8 @@ export class AwaitingDeliveryComponent implements OnInit {
           if (currentOrder.deliverer == null && deliverer.id) {
             let dateTakenDeliverer = Date.now();
             this.saveOrderDeliverer(currentOrder.id, deliverer.id , dateTakenDeliverer, 3);
-                    this.router.navigate(['/delivery/awaiting-delivery']);
+            // this.router.navigate(['/delivery/awaiting-delivery']);
+            this.router.navigate([`/delivery/detail-delivery/${currentOrder.id}`]);
           }
           else {
             const modalRef = this.orderModal.open(InfoModalComponent, {
