@@ -67,7 +67,7 @@ export class AwaitingDeliveryComponent implements OnInit {
           if (currentOrder.deliverer == null && deliverer.id) {
             let dateTakenDeliverer = Date.now();
             this.saveOrderDeliverer(currentOrder.id, deliverer.id , dateTakenDeliverer, 3);
-                    this.router.navigate(['/delivery/awaiting-delivery']);
+            // this.router.navigate(['/delivery/awaiting-delivery']);
           }
           else {
             const modalRef = this.orderModal.open(InfoModalComponent, {
@@ -103,7 +103,9 @@ export class AwaitingDeliveryComponent implements OnInit {
         // status: 3,
       }
     };
-    this.deliveryService.saveOrderDeliverer(orderSave).subscribe();
+    this.deliveryService.saveOrderDeliverer(orderSave).subscribe( orderSaved => {
+      this.router.navigate([`/delivery/detail-delivery/${orderId}`]);
+    });
   }
 
   getLibelleStatus(status: string) {

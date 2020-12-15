@@ -32,30 +32,42 @@ export class DetailDeliveryComponent implements OnInit {
     this.isValid = true;
     this.orderId = this.route.snapshot.paramMap.get('id');
 
-    this.deliveryService.getOrderById(+this.orderId).subscribe( order => {
-      // let order: Order = new Order();
-      this.order = order;
-      this.isDelivering = this.order.status >= 3 ;
+    this.deliveryService.getDeliverer().subscribe( deliverer => {
+      console.log("deliverer", deliverer);
+      this.deliveryService.getOrderById(+this.orderId).subscribe( orderById => {
+        console.log("order", orderById);
 
-      this.hasDeliveryCode = this.order.deliverCode != null;
+        console.log(orderById.deliverer?.id);
+        console.log(deliverer.id);
+        if (orderById.deliverer?.id !== deliverer.id) {
+          this.router.navigate(['/delivery/awaiting-delivery']);
+        }
+        let order: Order = new Order();
+        this.order = orderById;
+        this.isDelivering = this.order.status >= 3 && this.order.date_delivered == null ;
 
-      this.delivererForm = this.fb.group({
-        code: ["", Validators.required],
-        notCode: false
-      });
-    });
+        this.hasDeliveryCode = this.order.deliverCode != null;
+        
+        this.delivererForm = this.fb.group({
+          code: ["", Validators.required],
+          notCode: false
+        });
+      });  
+    });  
   }
 
   onValidateDelivery(): void {
-    if (this.hasDeliveryCode && !this.delivererForm.value.notCode) {
-      this.isValid = this.delivererForm.value.code === this.order.deliverCode;
-    }
-
-    if (this.delivererForm.value.notCode || this.isValid) {
-      this.finalizeDelivery();
-    }
-    else {
-      return;
+    if (this.isDelivering) {
+      if (this.hasDeliveryCode && !this.delivererForm.value.notCode) {
+        this.isValid = this.delivererForm.value.code === this.order.deliverCode;
+      }
+  
+      if (this.delivererForm.value.notCode || this.isValid) {
+        this.finalizeDelivery();
+      }
+      else {
+        return;
+      }
     }
   }
 
