@@ -41,6 +41,7 @@ import { HeaderSpecificComponent } from '../header-specific/header-specific.comp
 import {MatMenuModule} from '@angular/material/menu';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatSortModule} from "@angular/material/sort";
+import { TipModalComponent } from '../tip-modal/tip-modal.component';
 
 
 @NgModule({
@@ -51,7 +52,8 @@ import {MatSortModule} from "@angular/material/sort";
     CategoryProductComponent,
     AddProductDialogComponent,
     ToastComponent,
-    HeaderSpecificComponent
+    HeaderSpecificComponent,
+    TipModalComponent
   ],
     imports: [
         CommonModule,
@@ -127,7 +129,8 @@ import {MatSortModule} from "@angular/material/sort";
       HeaderSpecificComponent,
       MatMenuModule,
       MatSidenavModule,
-      MatSortModule
+      MatSortModule,
+      TipModalComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [

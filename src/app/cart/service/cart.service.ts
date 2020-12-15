@@ -95,6 +95,11 @@ export class CartService {
   public generateTotalCart(isCheckout?: boolean): void {
     this.cartCurrent.total = 0;
     this.cartCurrent.total += 0.80;
+    if (typeof this.cartCurrent.tipDelivererAmount !== 'undefined'
+      && +this.cartCurrent.tipDelivererAmount > 0
+    ) {
+      this.cartCurrent.total += +this.cartCurrent.tipDelivererAmount;
+    }
     this.cartCurrent.products.forEach((prod: Product) => {
       if (prod.supplementProducts && prod.supplementProducts.length > 0) {
        /* prod.supplementProducts.forEach((elem) => {
@@ -145,5 +150,11 @@ export class CartService {
 
   getBusinessCurrent() {
     return this.cartCurrent.restaurant;
+  }
+
+  setTipDelivererAmount(tipAmount: number) {
+    this.cartCurrent.tipDelivererAmount = tipAmount;
+    this.generateTotalCart();
+    this.emitCartSubject();
   }
 }
