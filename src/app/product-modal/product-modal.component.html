@@ -50,17 +50,20 @@
         </mat-selection-list>
       </div>
       <mat-selection-list  #listSdf *ngIf="+(list.maxChoice) > 1" (selectionChange)="onChange($event, list)" >
-        <mat-list-option  *ngFor="let sup of list.supplementProducts" [value]="sup">
+        <mat-list-option
+          *ngFor="let sup of list.supplementProducts" [value]="sup">
           {{sup.name | titlecase }}
-        </mat-list-option>
+        </mat-list-option><!--&& product.listSupplements[1].supplementProducts.length == +list.maxChoice -->
         <input type="hidden" value="{{ listSdf.selectedOptions.selected.length }}" [(ngModel)]="listSeee">
       </mat-selection-list>
       <mat-radio-group
         style="display: flex;
         flex-direction: column"
         *ngIf="(+(list.maxChoice) == 1
-        || list.maxChoice == null)
-        && list.isRequired == true"
+        || list.maxChoice == null
+        || +(list.maxChoice) == 0
+        )
+        || list.isRequired == true"
         (change)="onRadioChange($event, list)"
         aria-label="Select an option" >
         <mat-radio-button

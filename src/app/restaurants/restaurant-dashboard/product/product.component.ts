@@ -108,6 +108,42 @@ export class ProductComponent implements OnInit {
     }
   }
 
+  onDeleteCategory(categoryId: number) {
+    this.restaurantService.deleteCategoryId(categoryId)
+      .subscribe((res) => {
+        if (res.ok) {
+          this.snackBar.open('La catégorie est supprimée !', 'OK');
+          this.categories = this.categories.filter((cat) => {
+            return cat.id !== categoryId;
+          });
+        }
+      });
+  }
+
+  onDeleteList(listId: number) {
+    this.restaurantService.deleteListId(listId)
+      .subscribe((res) => {
+        if (res.ok) {
+          this.snackBar.open('La liste est supprimée !', 'OK');
+          this.listSupps = this.listSupps.filter((list) => {
+            return list.id !== listId;
+          });
+        }
+      });
+  }
+
+
+  onDeleteSupplement(supId: number) {
+    this.restaurantService.deleteSupplementId(supId)
+      .subscribe((res) => {
+        if (res.ok) {
+          this.snackBar.open('Le supplément est supprimé!', 'OK');
+          this.supplements = this.supplements.filter((supplement) => {
+            return supplement.id !== supId;
+          });
+        }
+      });
+  }
 
   openDialog(product?: Product): void {
     if (!product) {
@@ -135,25 +171,26 @@ export class ProductComponent implements OnInit {
           return prod;
         });
       } else {
-        result.business_id = this.restaurant.id;
-        const formData = new FormData();
-        const updatedProduct = result;
-        console.warn('res', result);
-        if (updatedProduct.category.id === 0) {
-          result.category = null;
+        if (result) {
+          result.business_id = this.restaurant.id;
+          const formData = new FormData();
+          const updatedProduct = result;
+          if (updatedProduct.category.id === 0) {
+            result.category = null;
+          }
+          formData.append('product', JSON.stringify(result));
+          if (result.photo) {
+            formData.append('photo', result.photo);
+            delete result.photo;
+          }
+          this.uploadService.upload(formData, 0, true)
+            .subscribe((resp) => {
+                this.reloadProduct(this.restaurant.id);
+              }, (error) => {
+                console.warn(error);
+              }
+            );
         }
-        formData.append('product', JSON.stringify(result));
-        if (result.photo) {
-          formData.append('photo', result.photo);
-          delete result.photo;
-        }
-        this.uploadService.upload(formData, 0, true)
-          .subscribe((resp) => {
-              this.reloadProduct(this.restaurant.id);
-            }, (error) => {
-              console.warn(error);
-            }
-          );
       }
     });
   }

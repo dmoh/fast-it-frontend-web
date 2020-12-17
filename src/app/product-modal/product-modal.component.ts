@@ -111,7 +111,6 @@ export class ProductModalComponent implements OnInit {
  onChangeSupplement(event: MatSelectionListChange): void {
    const supplementSelected = event.option.value;
    if (event.option.selected) {
-
       if (supplementSelected.amount !== null && +(supplementSelected.amount) > 0) {
         this.product.amount += supplementSelected.amount;
       }
@@ -143,7 +142,6 @@ export class ProductModalComponent implements OnInit {
    if (listAlreadyExists === -1) {
      this.listSelected.supplementProducts = [sup];
      this.product.listSupplements = [...this.product.listSupplements, this.listSelected];
-
    } else {
      this.product.listSupplements[listAlreadyExists].supplementProducts = [sup];
      if (this.product.listSupplements[listAlreadyExists].maxChoice

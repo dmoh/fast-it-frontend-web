@@ -192,5 +192,17 @@ export class RestaurantDashboardService {
   }
 
 
+  deleteCategoryId(categoryId: number): Observable<any> {
+    return this.http.delete(`${this.urlApi}/business/delete/category/${categoryId}`, this.headers);
+  }
 
+
+  deleteListId(listId: number): Observable<any> {
+    return this.http.delete(`${this.urlApi}/business/delete/list/${listId}`, this.headers);
+  }
+
+
+  deleteSupplementId(supId: number): Observable<any> {
+    return this.http.delete(`${this.urlApi}/business/delete/supplement/${supId}`, this.headers);
+  }
 }
