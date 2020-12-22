@@ -46,6 +46,15 @@ export class HomeFeaturesComponent implements OnInit {
       case 'pizzeria-de-la-gare':
         this.router.navigate(['/restaurant/33']);
         break;
+      case 'the-old-school-fast-food':
+        this.router.navigate(['/restaurant/41']);
+        break;
+      case 'pizza':
+        this.router.navigate(['/restaurant/43']);
+        break;
+      case 'pizzeria-nonna-rosa':
+        this.router.navigate(['/restaurant/39']);
+        break;
     }
   }
 

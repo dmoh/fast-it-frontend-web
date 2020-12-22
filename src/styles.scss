@@ -175,3 +175,13 @@ ul {
   /* flex-grow: 1; */
   margin-right: 16px;
 }
+
+table .restaurant-detail .table thead th {
+  vertical-align: bottom;
+  border-bottom: none;
+}
+table .restaurant-detail .table th, table .restaurant-detail .table td {
+  padding: 0.75rem;
+  vertical-align: top;
+  border-top: none;
+}

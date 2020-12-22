@@ -28,8 +28,19 @@
       <div class="col-md-8">
         <div style="display: flex" class="navbar-restaurant">
           <nav class="nav-menu"  [class.sticky]="sticky"  style="display: flex;width: 100%;background: white;" role="navigation">
-            <div *ngFor="let category of categories">
-              <a (click)="scroll( category.category_name )" class="menu-title cursor-pointer">{{ category.category_name | titlecase }}</a>
+            <div *ngIf="categories && categories.length >= 5" class="table-responsive">
+              <table style="width: 100%" class="restaurant-detail table table-responsive">
+                <thead>
+                  <th *ngFor="let category of categories" [style]="'width: calc(100% /' +  categories.length + ')'">
+                    <a (click)="scroll( category.category_name )" class="menu-title cursor-pointer">{{ category.category_name | titlecase }}</a>
+                  </th>
+                </thead>
+              </table>
+            </div>
+            <div style="display: flex;justify-content: space-evenly;width: 100%;" *ngIf="categories && categories.length < 5">
+              <div *ngFor="let category of categories">
+                <a (click)="scroll( category.category_name )" class="menu-title cursor-pointer">{{ category.category_name | titlecase }}</a>
+              </div>
             </div>
           </nav>
         </div>
