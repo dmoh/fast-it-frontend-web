@@ -1,4 +1,20 @@
 <div class="dashboard-component">
+  <div class="card">
+    <div class="card-body">
+      <h5 style="font-size: 1.4rem; text-transform: uppercase">Promotion</h5>
+      <button mat-raised-button [disabled]="!restaurant" (click)="addSpecialOffer(restaurant.id)" color="primary">Ajouter une promotion</button>
+      <hr>
+      <div *ngIf="specialOffers">
+        <div *ngFor="let offer of specialOffers">
+          <div class="w-100">
+            <div>Titre Affiché au client: <b>{{ offer.title | titlecase }}</b></div>
+            <div>Montant de l'offre: <b>{{ offer.specialOfferAmount }}€</b> </div>
+            <div>Montant minimum pour en bénéficer: <b>{{ offer.minimumAmountForOffer }}€</b></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="card" style="padding: 1rem; border-radius: 0 !important;">
     <div class="w-100">
       <h5 style="font-size: 1.4rem; text-transform: uppercase">Catégories de produits</h5>

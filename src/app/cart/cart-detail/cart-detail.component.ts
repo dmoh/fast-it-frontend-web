@@ -56,6 +56,7 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.paymentValidation = false;
     // Choix de l'adresse
     this.cartService.cartUpdated.subscribe((cartUpdated: Cart) => {
       this.cartCurrent = cartUpdated;
@@ -63,6 +64,7 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
         this.route.navigate(['home']);
       }
     });
+    // check if restau not closed
     this.userService.getUserAddresses().subscribe((result) => {
       this.showLoader = false;
       this.phoneCustomer = result.data[0].phone;
@@ -192,35 +194,56 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
       this.showLoader = true;
       this.paymentValidation = true;
       event.preventDefault();
-      this.cartService.getTokenPaymentIntent(+(this.cartCurrent.total) * 100).subscribe((token: any ) => {
-          this.clientSecret = token.client_secret;
-          this.stripe.confirmCardPayment(this.clientSecret, {
-            payment_method: {
-              card: this.card,
-              billing_details: {
-                name: 'Customer' // TODO ADD REAL NAME
-              }
-            }
-          }).then((result) => {
-            if (result.error) {
-              const modalRef = this.infoModal.open(InfoModalComponent, {
-                backdrop: 'static',
-                keyboard: false
+      this.cartService.getTokenPaymentIntent(+(this.cartCurrent.total) * 100, this.cartCurrent.restaurant.id).subscribe((token: any ) => {
+          if (token.errorClosed) {
+            this.showLoader = false;
+            const modalRef = this.infoModal.open(InfoModalComponent, {
+              backdrop: 'static',
+              keyboard: false
+            });
+            modalRef.componentInstance.title = 'Erreur';
+            modalRef.componentInstance.message = token.errorClosed;
+            modalRef.result.then(() => {
+              this.cartService.UpdateCart('empty-cart');
+              this.cartService.cartUpdated.subscribe((cartUpdated: Cart) => {
+                this.cartCurrent = cartUpdated;
+                setTimeout(() => {
+                  window.location.href = `${window.location.origin}/home`;
+                }, 100);
+                // this.router.navigate(['customer/notification']);
               });
-              modalRef.componentInstance.title = 'Erreur';
-              modalRef.componentInstance.message = result.error.message;
-            } else {
-              // The payment has been processed!
-              const responsePayment = result.paymentIntent;
-              if (responsePayment.status === 'succeeded') {
-                this.paymentValidation = false;
+            });
+          } else {
+            this.clientSecret = token.client_secret;
+            this.stripe.confirmCardPayment(this.clientSecret, {
+              payment_method: {
+                card: this.card,
+                billing_details: {
+                  name: 'Customer' // TODO ADD REAL NAME
+                }
+              }
+            }).then((result) => {
+              if (result.error) {
                 this.showLoader = false;
-                // save order payment succeeded
-                this.cartService.saveOrder({
-                  stripeResponse: responsePayment,
-                  cartDetail: this.cartCurrent,
-                  distanceInfos: this.responseDistanceGoogle
-                }).subscribe((confCode) => {
+                const modalRef = this.infoModal.open(InfoModalComponent, {
+                  backdrop: 'static',
+                  keyboard: false
+                });
+                modalRef.componentInstance.title = 'Erreur';
+                modalRef.componentInstance.message = result.error.message;
+                modalRef.result.then(() => this.ngOnInit());
+              } else {
+                // The payment has been processed!
+                const responsePayment = result.paymentIntent;
+                if (responsePayment.status === 'succeeded') {
+                  this.paymentValidation = false;
+                  this.showLoader = false;
+                  // save order payment succeeded
+                  this.cartService.saveOrder({
+                    stripeResponse: responsePayment,
+                    cartDetail: this.cartCurrent,
+                    distanceInfos: this.responseDistanceGoogle
+                  }).subscribe((confCode) => {
                     const codeModal = this.codeConfirmationModal.open(ConfirmationCodePaymentModalComponent,
                       { backdrop: 'static', keyboard: false, size: 'lg' });
                     codeModal.componentInstance.infos = confCode;
@@ -234,25 +257,29 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
                               this.cartService.UpdateCart('empty-cart');
                               this.cartService.cartUpdated.subscribe((cartUpdated: Cart) => {
                                 this.cartCurrent = cartUpdated;
-                                this.router.navigate(['customer/notification']);
+                                setTimeout(() => {
+                                  window.location.href = `${window.location.origin}/customer/notification`;
+                                }, 100);
+                                // this.router.navigate(['customer/notification']);
                               });
                             }
                           });
                       }
                     });
                   });
-              } else {
-                this.showLoader = false;
-                this.paymentValidation = false;
-                const modalRef = this.infoModal.open(InfoModalComponent, {
-                  backdrop: 'static',
-                  keyboard: false
-                });
-                modalRef.componentInstance.title = 'Information';
-                modalRef.componentInstance.message = 'Le paiement n\'a pas aboutit :( ';
+                } else {
+                  this.showLoader = false;
+                  this.paymentValidation = false;
+                  const modalRef = this.infoModal.open(InfoModalComponent, {
+                    backdrop: 'static',
+                    keyboard: false
+                  });
+                  modalRef.componentInstance.title = 'Information';
+                  modalRef.componentInstance.message = 'Le paiement n\'a pas aboutit :( ';
+                }
               }
-            }
-          });
+            });
+          }
         }, (error) => {
           if (/Expired JWT/.test(error)) {
             this.route.navigate(['/login']);

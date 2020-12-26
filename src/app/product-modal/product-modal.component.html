@@ -21,12 +21,20 @@
     </div>
   </div>
   <div *ngIf="supplementProducts.length > 0" class="mb-2">
-    <h5 class="font-weight-bold">Suppléments</h5>
-      <mat-selection-list (selectionChange)="onChangeSupplement($event)">
-        <mat-list-option  *ngFor="let sup of supplementProducts; let index = index " [selected]="product.supplementProducts && product.supplementProducts[index] && product.supplementProducts[index].id == sup.id" [value]="sup">
-          {{sup.name | titlecase}} {{ sup.amount != null && +(sup.amount) > 0 ? (+(sup.amount) / 100).toFixed(2) + '€' : ''}}
-        </mat-list-option>
-      </mat-selection-list>
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+              Suppléments
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-selection-list (selectionChange)="onChangeSupplement($event)">
+          <mat-list-option  *ngFor="let sup of supplementProducts; let index = index " [selected]="product.supplementProducts && product.supplementProducts[index] && product.supplementProducts[index].id == sup.id" [value]="sup">
+            {{sup.name | titlecase}} {{ sup.amount != null && +(sup.amount) > 0 ? (+(sup.amount) / 100).toFixed(2) + '€' : ''}}
+          </mat-list-option>
+        </mat-selection-list>
+      </mat-expansion-panel>
+    </mat-accordion>
   </div>
   <div *ngFor="let list of lists" class="mb-2">
     <mat-accordion  class="mb-2">

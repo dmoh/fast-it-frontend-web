@@ -1,6 +1,13 @@
 <section class="cart mt-3">
     <div>
-        <button [disabled]="cart.products.length == 0" mat-raised-button [color]="cart.products.length > 0 ? 'primary' : 'danger'" (click)="seeCart()" >VOIR MON PANIER</button>
+        <button
+          [disabled]="cart.products.length == 0"
+          mat-raised-button
+          [color]="cart.products.length > 0 ? 'primary' : 'danger'" (click)="seeCart()" >
+           <!--<span style="background: #a719ca; padding: .3rem; border-radius: 2px; line-height: 2; padding-top: -4px;">
+             {{ cart.products.length }}
+           </span>--><span>  VOIR MON PANIER  </span><span style="background: #a719ca; padding: .3rem; border-radius: 2px; line-height: 2; padding-top: -4px;">{{ cart.total ? (cart.total).toFixed(2) : '' }}€</span>
+        </button>
     </div>
     <div class="cart-current pt-3">
         <div *ngIf="cart.products.length == 0">
@@ -48,6 +55,16 @@
                 </div>
               </div>
             </div>
+          <div *ngIf="
+          cart.restaurant.specialOffer
+          && +(cart.restaurant.specialOffer.minimumAmountForOffer)
+          <= +(cart.totalAmountProduct)
+          ">
+            <div style="width: 100%;display: flex;justify-content: space-between;background: #dffadf;padding: .5rem;">
+              <div style="font-size: smaller; color: #0fb24f;">OFFRE</div>
+              <div style="font-size: smaller; color: #0fb24f;">-{{ cart.restaurant.specialOffer.specialOfferAmount }}€</div>
+            </div>
+          </div>
           <div *ngIf="cart.products.length > 0">
             <div style="width: 100%; display: flex; justify-content: space-between">
               <div style="font-size: smaller; color: #9f9f9f;">Frais de service</div>

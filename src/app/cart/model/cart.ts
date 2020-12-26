@@ -1,4 +1,5 @@
 import {Product} from '@app/models/product';
+import {Restaurant} from "@app/_models/restaurant";
 
 export class Cart {
     products: Product[] = [];
@@ -7,7 +8,9 @@ export class Cart {
     total: number = 0;
     tipDelivererAmount: number = 0;
     serviceCharge?: number = 0;
-    restaurant?: any;
+    restaurant?: Restaurant;
     isValidate?: boolean = false;
     hasServiceCharge: boolean = false;
+    totalAmountProduct?: number = 0;
+    amountWithoutSpecialOffer: number = 0;
 }

@@ -17,6 +17,8 @@ import {ListForProductComponent} from "@app/restaurants/restaurant-dashboard/lis
 import {ListSupplements} from "@app/_models/list-supplements";
 import {SupplementForProductComponent} from "@app/restaurants/restaurant-dashboard/supplement-for-product/supplement-for-product.component";
 import {Supplement} from "@app/_models/supplement";
+import {SpecialOfferModalComponent} from "@app/restaurants/restaurant-dashboard/special-offer-modal/special-offer-modal.component";
+import {SpecialOffer} from "@app/_models/special-offer";
 
 @Component({
   selector: 'app-product',
@@ -32,6 +34,7 @@ export class ProductComponent implements OnInit {
   supplements: Supplement[];
   productBeforeUpdate: any;
   listSupps: ListSupplements[];
+  specialOffers: SpecialOffer[];
   constructor(private restaurantService: RestaurantDashboardService,
               public dialog: MatDialog,
               public uploadService: UploadService,
@@ -50,6 +53,7 @@ export class ProductComponent implements OnInit {
     this.securityRestaurantService.getRestaurant()
       .subscribe((restaurantObj) => {
         if (!isNaN(restaurantObj.id)) {
+          this.getSpecialOffers(restaurantObj.id);
           this.restaurantService.getRestaurantDatas(restaurantObj.id).subscribe((res) => {
             this.restaurant = RestaurantDashboardComponent.extractRestaurantData('business', res);
             if (this.restaurant === null && +(restaurantObj.id) > 0) {
@@ -308,5 +312,23 @@ export class ProductComponent implements OnInit {
         this.getListSupp(restaurantId);
       }
     });
+  }
+
+  addSpecialOffer(restaurantId: number) {
+    const modalRef = this.modalService.open(SpecialOfferModalComponent);
+    modalRef.componentInstance.restaurantId = restaurantId;
+    modalRef.result.then((res) => {
+      if (res && res === 'ok') {
+        this.getSpecialOffers(restaurantId);
+      }
+    });
+  }
+
+
+  private getSpecialOffers(restaurantId) {
+    this.restaurantService.getSpecialOfferByBusinessId(restaurantId)
+      .subscribe((responseDb) => {
+        this.specialOffers = responseDb.specialOffers;
+      });
   }
 }

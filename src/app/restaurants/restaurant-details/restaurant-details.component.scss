@@ -178,9 +178,32 @@
   width: 100%;
 }
 
+
+.back-to-top {
+  color: darkviolet;
+  font-size: 2rem;
+  position: fixed;
+  bottom: 5px;
+  right: 5px;
+  transform: rotate(-90deg);
+  cursor: pointer;
+}
+
 @media (max-width: 767px) {
   .header-restaurant {
     height: auto;
+  }
+
+  .back-to-top {
+    color: darkviolet;
+    font-size: 3rem;
+    width: 30px;
+    height: 36px;
+    position: fixed;
+    bottom: 6rem;
+    right: 5px;
+    transform: rotate(-90deg);
+    cursor: pointer;
   }
 
   .container-app-cart {

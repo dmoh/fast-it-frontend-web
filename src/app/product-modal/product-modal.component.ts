@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, Optional, ViewChild} from '@angular/core';
 import {Product} from '../models/product';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {CartService} from '../cart/service/cart.service';
@@ -9,6 +9,7 @@ import {Supplement} from "@app/_models/supplement";
 import {FormControl} from "@angular/forms";
 import {MatSelectionListChange} from "@angular/material/list";
 import {MatRadioChange} from "@angular/material/radio";
+import {SpecialOffer} from "@app/_models/special-offer";
 
 @Component({
   selector: 'app-product-modal',
@@ -32,6 +33,7 @@ export class ProductModalComponent implements OnInit {
   @ViewChild('listSdf') listSdf;
   @Input() product: Product;
   @Input() restaurant: any;
+  @Optional() specialOffer: SpecialOffer;
   constructor(public modalActive: NgbActiveModal,
               private cartService: CartService,
               private productService: ProductService
@@ -94,14 +96,15 @@ export class ProductModalComponent implements OnInit {
       this.product.quantity = this.quantityCurrent;
       this.product.remaining_quantity -= this.quantityCurrent;
       this.product = Object.assign({}, this.product);
+      if (typeof this.specialOffer !== 'undefined') {
+        this.restaurant.specialOffer = this.specialOffer;
+      }
       this.cartService.UpdateCart('add', this.product, this.restaurant );
       this.modalActive.close(this.product);
  }
 
  onChange(event: MatSelectionListChange, list: ListSupplements) {
-
    this.productListSupplement(event.option.value, list);
-   console.warn(event.option);
  }
 
 

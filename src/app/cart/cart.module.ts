@@ -5,6 +5,7 @@ import { CartRoutingModule } from './cart-routing.module';
 import {CartComponent} from './cart.component';
 import { CartDetailComponent } from './cart-detail/cart-detail.component';
 import {MatButtonModule} from "@angular/material/button";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 
 @NgModule({
@@ -13,6 +14,7 @@ import {MatButtonModule} from "@angular/material/button";
         CommonModule,
         CartRoutingModule,
         MatButtonModule,
+        MatProgressSpinnerModule,
 
     ],
    exports: [

@@ -1,0 +1,32 @@
+<div style="padding: 1rem" class="modal-header">
+  <h4>Promotion</h4>
+</div>
+<div *ngIf="specialOfferForm" class="modal-body">
+  <form [formGroup]="specialOfferForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Titre</mat-label>
+      <input type="text" formControlName="title" matInput>
+    </mat-form-field>
+    <mat-checkbox formControlName="isActive" class="list-for-menu">Activé</mat-checkbox>
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Code promotionel</mat-label>
+      <input type="text" formControlName="promotionalCode" matInput>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Montant</mat-label>
+      <input type="text" formControlName="specialOfferAmount" matInput>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Montant Mini pour bénéficier de cette offre</mat-label>
+      <input type="text" formControlName="minimumAmountForOffer" matInput>
+    </mat-form-field>
+    <button
+      type="submit"
+      mat-raised-button
+      color="primary"
+      [disabled]="specialOfferForm.invalid"
+    >Valider</button>
+  </form>
+</div>
+<div class="modal-footer">
+</div>

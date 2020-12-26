@@ -1,5 +1,6 @@
 import {Media} from "@app/_models/media";
 import {User} from "@app/_models/user";
+import {SpecialOffer} from "@app/_models/special-offer";
 
 export class Restaurant {
   id: number = 0;
@@ -23,4 +24,5 @@ export class Restaurant {
   estimatedPreparationTime: string = '';
   tags: any[] = [];
   managers: User[] = [];
+  specialOffer: SpecialOffer;
 }

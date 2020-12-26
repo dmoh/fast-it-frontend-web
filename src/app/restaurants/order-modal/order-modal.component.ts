@@ -19,7 +19,6 @@ export class OrderModalComponent implements OnInit {
   @Input() order: Order;
   @Input() business: Restaurant;
   @Input() additionalInfo: string;
-  // @Input() supplementsProduct: any[];
 
   public productList: Product[] = [];
   public message = '';
@@ -52,7 +51,6 @@ export class OrderModalComponent implements OnInit {
           this.productList.push(product);
         });
       });
-      console.log("productList",this.productList);
     }
 
   }
@@ -67,10 +65,14 @@ export class OrderModalComponent implements OnInit {
       time,
     };
     // todo accept Order
-    this.restaurantService.acceptOrder(dataOrder).subscribe();
+    this.restaurantService.acceptOrder(dataOrder).subscribe((res) => {
+      if (res.ok) {
+        this.order.status = 2;
+      }
+    });
     // todo response-merchant
     this.restaurantService.saveResponseMerchant(dataOrder).subscribe();
-    this.redirectAfterTrait();
+    // this.redirectAfterTrait();
   }
 
   onRejectOrder(event: any) {
@@ -86,7 +88,6 @@ export class OrderModalComponent implements OnInit {
       status: 0,
       rejection_message: message,
     };
-    console.warn("Message de refus", message);
     this.restaurantService.refuseOrder(dataOrder).subscribe();
     this.redirectAfterTrait();
   }

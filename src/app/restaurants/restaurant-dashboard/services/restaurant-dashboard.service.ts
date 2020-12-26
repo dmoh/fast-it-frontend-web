@@ -8,6 +8,7 @@ import {environment} from '../../../../environments/environment';
 import {Restaurant} from '@app/_models/restaurant';
 import {ListSupplements} from "@app/_models/list-supplements";
 import {Supplement} from "@app/_models/supplement";
+import {SpecialOffer} from "@app/_models/special-offer";
 
 @Injectable({
   providedIn: 'root'
@@ -204,5 +205,14 @@ export class RestaurantDashboardService {
 
   deleteSupplementId(supId: number): Observable<any> {
     return this.http.delete(`${this.urlApi}/business/delete/supplement/${supId}`, this.headers);
+  }
+
+  updateSpecialOfferByBusinessId(restaurantId: number, sp: SpecialOffer): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}/business/${restaurantId}/update/special-offer`, { specialOffer: sp}, this.headers);
+  }
+
+
+  getSpecialOfferByBusinessId(restaurantId: number): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}/special-offer/business/${restaurantId}`, this.headers);
   }
 }

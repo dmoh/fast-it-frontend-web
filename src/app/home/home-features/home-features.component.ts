@@ -55,6 +55,15 @@ export class HomeFeaturesComponent implements OnInit {
       case 'pizzeria-nonna-rosa':
         this.router.navigate(['/restaurant/39']);
         break;
+      case 'kebab-des-lacs':
+        this.router.navigate(['/restaurant/37']);
+        break;
+      case 'bontacos':
+        this.router.navigate(['/restaurant/35']);
+        break;
+      case 'seven-7':
+        this.router.navigate(['/restaurant/42']);
+        break;
     }
   }
 

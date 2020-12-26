@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
-import {CartService} from "@app/cart/service/cart.service";
-import {Cart} from "@app/cart/model/cart";
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
+import {CartService} from '@app/cart/service/cart.service';
+import {Cart} from '@app/cart/model/cart';
 
 @Component({
   selector: 'app-tip-modal',
@@ -12,7 +12,7 @@ export class TipModalComponent implements OnInit {
 
   cart: Cart;
   @Input() tipAmount: number;
-  constructor(private modalActive: NgbActiveModal,
+  constructor(public modalActive: NgbActiveModal,
               private cartService: CartService
   ) { }
 

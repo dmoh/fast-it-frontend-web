@@ -19,6 +19,7 @@ import { ContactComponent } from './contact/contact.component';
 import { HistoryComponent } from './history/history.component';
 import { ListForProductComponent } from './list-for-product/list-for-product.component';
 import { SupplementForProductComponent } from './supplement-for-product/supplement-for-product.component';
+import { SpecialOfferModalComponent } from './special-offer-modal/special-offer-modal.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { SupplementForProductComponent } from './supplement-for-product/suppleme
     ContactComponent,
     HistoryComponent,
     ListForProductComponent,
-    SupplementForProductComponent
+    SupplementForProductComponent,
+    SpecialOfferModalComponent
   ],
     imports: [
         CommonModule,
@@ -54,7 +56,8 @@ import { SupplementForProductComponent } from './supplement-for-product/suppleme
     UpdateDialogComponent,
     OrdersCurrentComponent,
     ListForProductComponent,
-    SupplementForProductComponent
+    SupplementForProductComponent,
+    SpecialOfferModalComponent
   ],
   providers: [
     SecurityRestaurantService

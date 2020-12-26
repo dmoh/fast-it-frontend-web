@@ -94,12 +94,8 @@ export class CartService {
 
   public generateTotalCart(isCheckout?: boolean): void {
     this.cartCurrent.total = 0;
-    this.cartCurrent.total += 0.80;
-    if (typeof this.cartCurrent.tipDelivererAmount !== 'undefined'
-      && +this.cartCurrent.tipDelivererAmount > 0
-    ) {
-      this.cartCurrent.total += +this.cartCurrent.tipDelivererAmount;
-    }
+    this.cartCurrent.totalAmountProduct = 0;
+    this.cartCurrent.amountWithoutSpecialOffer = 0;
     this.cartCurrent.products.forEach((prod: Product) => {
       if (prod.supplementProducts && prod.supplementProducts.length > 0) {
        /* prod.supplementProducts.forEach((elem) => {
@@ -112,14 +108,33 @@ export class CartService {
         });*/
       }
       this.cartCurrent.total += +(prod.quantity * prod.amount) / 100;
+      this.cartCurrent.totalAmountProduct += +(prod.quantity * prod.amount) / 100;
+      this.cartCurrent.amountWithoutSpecialOffer += +(prod.quantity * prod.amount) / 100;
     });
+    if (typeof this.cartCurrent.restaurant.specialOffer !== 'undefined') {
+      if (
+        +(this.cartCurrent.restaurant.specialOffer.minimumAmountForOffer) <=
+        +(this.cartCurrent.total)
+      ){
+        this.cartCurrent.total -= +(this.cartCurrent.restaurant.specialOffer.specialOfferAmount);
+      }
+    }
+    if (typeof this.cartCurrent.tipDelivererAmount !== 'undefined'
+      && +this.cartCurrent.tipDelivererAmount > 0
+    ) {
+      this.cartCurrent.total += +this.cartCurrent.tipDelivererAmount;
+      this.cartCurrent.amountWithoutSpecialOffer += +this.cartCurrent.tipDelivererAmount;
+    }
+    this.cartCurrent.total += 0.80;
+    this.cartCurrent.amountWithoutSpecialOffer += 0.80;
     this.cartCurrent.total += +(this.cartCurrent.deliveryCost);
+    this.cartCurrent.amountWithoutSpecialOffer += +(this.cartCurrent.deliveryCost);
     this.emitCartSubject();
   }
 
-  getTokenPaymentIntent(amountCart: number, currencyCart: string = 'EUR'): Observable<any> {
+  getTokenPaymentIntent(amountCart: number, restId: number, currencyCart: string = 'EUR'): Observable<any> {
     return this.http.post<any>(`${this.urlApi}payment/token-payment`,
-      { amount: amountCart, currency: currencyCart }, this.headers);
+      { amount: amountCart, currency: currencyCart, restaurantId: restId }, this.headers);
   }
 
 
@@ -143,6 +158,10 @@ export class CartService {
       responseCustomer, this.headers);
   }
 
+
+  getStateRestaurant(restaurantId: number): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}business/state/${restaurantId}`, this.headers);
+  }
 
   getProducts() {
     return this.cartCurrent.products;

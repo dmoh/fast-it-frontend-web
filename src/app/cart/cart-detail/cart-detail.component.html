@@ -101,13 +101,24 @@
     </div>
   </div>
   <hr>
-  <div *ngIf="hasAddressSelected" class="row">
+  <div class="row">
     <div class="col-md-6">
     </div>
     <div style="display: flex" class="col-md-6">
-      <div style="flex: 1">Frais de livraison</div>
-      <div *ngIf="cartCurrent.deliveryCost"
-      >{{ cartCurrent.deliveryCost }} €</div>
+      <div style="flex: 1">
+        Frais de livraison
+        <p style="font-size: x-small"><em>(entièrement reversé au livreur)</em></p>
+      </div>
+      <div>
+        <div *ngIf="!cartCurrent.deliveryCost">
+          <div style="font-size: small">
+            <mat-spinner></mat-spinner>
+          </div>
+        </div>
+        <div *ngIf="cartCurrent.deliveryCost">
+          {{ cartCurrent.deliveryCost }} €
+        </div>
+      </div>
     </div>
   </div>
   <div class="row">
@@ -121,12 +132,44 @@
   </div>
   <div class="row">
     <div class="col-md-6">
-
+    </div>
+    <div
+      *ngIf="
+      cartCurrent.restaurant.specialOffer
+      && cartCurrent.restaurant.specialOffer.title
+      && cartCurrent.total
+      && cartCurrent.totalAmountProduct
+      && +(cartCurrent.restaurant.specialOffer.minimumAmountForOffer)
+      <= +(cartCurrent.totalAmountProduct)
+      " style="display: flex;align-items: center;background: #eefed5;" class="col-md-6">
+      <div style="flex: 1">
+        <span style="font-size: x-large; color: green">OFFRE</span>
+      </div>
+      <div style="padding: .5rem">
+        <div *ngIf="cartCurrent.restaurant.specialOffer.specialOfferAmount">
+          <span style="font-size: x-large; color: green"> - {{ cartCurrent.restaurant.specialOffer.specialOfferAmount }}€</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
     </div>
     <hr>
     <div style="display: flex" class="col-md-6">
       <div style="flex: 1">TOTAL</div>
-      <div>{{ (cartCurrent.total.toFixed(2)).replace('.', ',') }} €</div>
+      <div>
+        <span style="text-decoration: line-through; color: red; padding-right: .5rem" *ngIf="
+        cartCurrent.amountWithoutSpecialOffer
+        && cartCurrent.amountWithoutSpecialOffer > 0
+        &&
+        cartCurrent.restaurant.specialOffer
+        && +(cartCurrent.restaurant.specialOffer.minimumAmountForOffer)
+        <= +(cartCurrent.totalAmountProduct)
+      ">
+          {{ (cartCurrent.amountWithoutSpecialOffer.toFixed(2)).replace('.', ',') }} €
+        </span>
+        {{ (cartCurrent.total.toFixed(2)).replace('.', ',') }} €</div>
     </div>
   </div>
   <hr>
@@ -152,14 +195,6 @@
 
   <div class="row">
     <div class="col-md-12">
-      <!--<form id="payment-form">
-        <div id="card-element">
-        </div>
-
-        <div id="card-errors" role="alert"></div>
-
-        <button id="submit">Livrez-moi!</button>
-      </form>-->
     </div>
   </div>
 </section>

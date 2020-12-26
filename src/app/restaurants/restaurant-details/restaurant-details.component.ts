@@ -17,6 +17,7 @@ import {RestaurantDashboardService} from '@app/restaurants/restaurant-dashboard/
 import {ActivatedRoute} from '@angular/router';
 import {SecurityRestaurantService} from '@app/_services/security-restaurant.service';
 import {InfoModalComponent} from '@app/info-modal/info-modal.component';
+import {SpecialOffer} from "@app/_models/special-offer";
 
 @Component({
   selector: 'app-restaurant-details',
@@ -37,6 +38,7 @@ export class RestaurantDetailsComponent implements OnInit, AfterViewInit{
   nothingToShow: string;
   sticky: boolean = false;
   menuPosition: any;
+  specialOffer: SpecialOffer;
 
 
   @ViewChild('stickyMenu', {static: false}) menuElement: ElementRef;
@@ -55,6 +57,12 @@ export class RestaurantDetailsComponent implements OnInit, AfterViewInit{
     this.starsRestaurant = [1, 3, 4, 5, 4];
     this.route.params.subscribe((params => {
       this.restaurantId = +params.id;
+      this.restaurantService.getSpecialOfferByBusinessId(this.restaurantId)
+        .subscribe((res) => {
+          if (res.specialOffers && res.specialOffers.length > 0) {
+            this.specialOffer = res.specialOffers[0];
+          }
+        });
       this.restaurantService.getRestaurantMedias(this.restaurantId)
         .subscribe((res) => {
           res.forEach((media) => {
@@ -111,11 +119,6 @@ export class RestaurantDetailsComponent implements OnInit, AfterViewInit{
   }
 
   ngAfterViewInit() {
-    /*setTimeout(() => {
-      console.log(this.menuPosition);
-      this.menuPosition = this.menuElement.nativeElement.offsetTop;
-      console.log(this.menuPosition);
-    }, 10000);-->*/
   }
 
   scroll(id) {
@@ -142,6 +145,9 @@ export class RestaurantDetailsComponent implements OnInit, AfterViewInit{
       if (product.is_available === true || product.is_available === null) {
         const modal = this.modal.open(ProductModalComponent);
         modal.componentInstance.product = product;
+        if (this.specialOffer) {
+          modal.componentInstance.specialOffer = this.specialOffer;
+        }
         modal.componentInstance.restaurant = this.restaurant;
         modal.result.then((prod: Product) => {
           if (prod) {
