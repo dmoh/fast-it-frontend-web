@@ -1,5 +1,5 @@
 import {Product} from '@app/models/product';
-import {Restaurant} from "@app/_models/restaurant";
+import {Restaurant} from '@app/_models/restaurant';
 
 export class Cart {
     products: Product[] = [];

@@ -29,7 +29,9 @@
           </mat-panel-title>
         </mat-expansion-panel-header>
         <mat-selection-list (selectionChange)="onChangeSupplement($event)">
-          <mat-list-option  *ngFor="let sup of supplementProducts; let index = index " [selected]="product.supplementProducts && product.supplementProducts[index] && product.supplementProducts[index].id == sup.id" [value]="sup">
+          <mat-list-option
+            *ngFor="let sup of supplementProducts; let index = index "
+            [value]="sup">
             {{sup.name | titlecase}} {{ sup.amount != null && +(sup.amount) > 0 ? (+(sup.amount) / 100).toFixed(2) + '€' : ''}}
           </mat-list-option>
         </mat-selection-list>
@@ -43,6 +45,7 @@
         <mat-panel-title>
           <mat-checkbox *ngIf="list.isForMenu" class="pl-2 list-for-menu">{{ list.title | titlecase }}</mat-checkbox>
           <span *ngIf="!list.isForMenu" class="pl-2 list-for-menu">{{ list.title | titlecase }}</span>
+          <span style="padding-left: .2rem"><b>{{ +list.maxChoice > 1 ? '(max: ' + list.maxChoice + ')' : '' }}</b></span>
         </mat-panel-title>
         <mat-panel-description>
           <span style="float: right" *ngIf="list.isForMenu">
@@ -51,15 +54,25 @@
         </mat-panel-description>
       </mat-expansion-panel-header>
       <div *ngIf="list.lists">
-        <mat-selection-list  (selectionChange)="onChange($event, list)" >
+        <mat-selection-list (selectionChange)="onChange($event, list)" >
           <mat-list-option *ngFor="let listSup of list.lists" [value]="listSup" >
-            {{ listSup.title | titlecase }}
+            <div>
+              {{ listSup.title | titlecase }}
+            </div>
+            <div style="align-items: flex-end">
+              Choix max: <b>{{ listSup.maxChoice }}</b>
+            </div>
           </mat-list-option>
         </mat-selection-list>
       </div>
-      <mat-selection-list  #listSdf *ngIf="+(list.maxChoice) > 1" (selectionChange)="onChange($event, list)" >
+      <mat-selection-list
+        #listSdf
+        *ngIf="+(list.maxChoice) > 1"
+        (selectionChange)="onChange($event, list)" >
         <mat-list-option
-          *ngFor="let sup of list.supplementProducts" [value]="sup">
+          *ngFor="let sup of list.supplementProducts"
+          [disabled]="list.isAvailable == false && sup.isSelected != true"
+          [value]="sup">
           {{sup.name | titlecase }}
         </mat-list-option><!--&& product.listSupplements[1].supplementProducts.length == +list.maxChoice -->
         <input type="hidden" value="{{ listSdf.selectedOptions.selected.length }}" [(ngModel)]="listSeee">

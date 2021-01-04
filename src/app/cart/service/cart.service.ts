@@ -40,13 +40,21 @@ export class CartService {
         if (!this.cartCurrent) {
             this.cartCurrent = new Cart();
         }
-        const arrayProductsCurrent = this.cartCurrent.products;
-        const index = arrayProductsCurrent.findIndex(prod => prod.id === product.id);
-        if (index !== -1) {
-            this.cartCurrent.products[index] = product;
+        if (this.cartCurrent.products.length === 0) {
+          product.indexProduct = 1;
         } else {
-            this.cartCurrent.products.push(product);
+          product.indexProduct = this.cartCurrent.products.length++;
         }
+        // let indexProd = 0;
+        if (this.cartCurrent.products.length > 0) {
+          this.cartCurrent.products = this.cartCurrent.products.filter((prod) => {
+            return typeof prod !== 'undefined' && prod !== null ? prod : '';
+          });
+        }
+
+        this.cartCurrent.products = [...this.cartCurrent.products, product];
+        console.warn('products', this.cartCurrent.products);
+
         this.cartCurrent.restaurant = restaurant;
         this.generateTotalCart();
         this.emitCartSubject();
@@ -97,19 +105,21 @@ export class CartService {
     this.cartCurrent.totalAmountProduct = 0;
     this.cartCurrent.amountWithoutSpecialOffer = 0;
     this.cartCurrent.products.forEach((prod: Product) => {
-      if (prod.supplementProducts && prod.supplementProducts.length > 0) {
-       /* prod.supplementProducts.forEach((elem) => {
-          if (elem.amount && +(elem.amount) > 0) {
-            console.warn('elem', elem.name);
-            console.warn('price', elem.amount);
-            this.cartCurrent.total += +(elem.amount) / 100;
-            // todo voir pour la quantité des suppléments
-          }
-        });*/
+      if (typeof prod !== 'undefined' && prod !== null) {
+        if (typeof prod.supplementProducts !== 'undefined' && prod.supplementProducts.length > 0) {
+          /* prod.supplementProducts.forEach((elem) => {
+             if (elem.amount && +(elem.amount) > 0) {
+               console.warn('elem', elem.name);
+               console.warn('price', elem.amount);
+               this.cartCurrent.total += +(elem.amount) / 100;
+               // todo voir pour la quantité des suppléments
+             }
+           });*/
+        }
+        this.cartCurrent.total += +(prod.quantity * prod.amount) / 100;
+        this.cartCurrent.totalAmountProduct += +(prod.quantity * prod.amount) / 100;
+        this.cartCurrent.amountWithoutSpecialOffer += +(prod.quantity * prod.amount) / 100;
       }
-      this.cartCurrent.total += +(prod.quantity * prod.amount) / 100;
-      this.cartCurrent.totalAmountProduct += +(prod.quantity * prod.amount) / 100;
-      this.cartCurrent.amountWithoutSpecialOffer += +(prod.quantity * prod.amount) / 100;
     });
     if (typeof this.cartCurrent.restaurant.specialOffer !== 'undefined') {
       if (
@@ -132,9 +142,14 @@ export class CartService {
     this.emitCartSubject();
   }
 
-  getTokenPaymentIntent(amountCart: number, restId: number, currencyCart: string = 'EUR'): Observable<any> {
+  getTokenPaymentIntent(amountCart: number, restId: number, delivery: number, currencyCart: string = 'EUR'): Observable<any> {
     return this.http.post<any>(`${this.urlApi}payment/token-payment`,
-      { amount: amountCart, currency: currencyCart, restaurantId: restId }, this.headers);
+      {
+        amount: amountCart,
+        currency: currencyCart,
+        restaurantId: restId,
+        deliveryCost: delivery
+      }, this.headers);
   }
 
 

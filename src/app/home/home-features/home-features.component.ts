@@ -64,6 +64,9 @@ export class HomeFeaturesComponent implements OnInit {
       case 'seven-7':
         this.router.navigate(['/restaurant/42']);
         break;
+      case 'panama':
+        this.router.navigate(['/restaurant/40']);
+        break;
     }
   }
 

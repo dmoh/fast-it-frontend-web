@@ -127,7 +127,7 @@
           <span *ngIf="sup.amount !== null" style="font-weight: bold; margin-right: .5rem">
             {{ (+(sup.amount) / 100).toFixed(2) + '€' }}
           </span>
-            <span style="float: right; color: red" (click)="onDeleteList(sup.id)" class="material-icons" title="supprimer">delete</span>
+            <span style="float: right; color: red" (click)="onDeleteSup(sup.id)" class="material-icons cursor-pointer" title="supprimer">delete</span>
           </div>
         </div>
         <hr>

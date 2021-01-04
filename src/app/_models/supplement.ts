@@ -9,4 +9,5 @@ export class Supplement {
   max_choice: number;
   isAvailable: boolean;
   restaurant?: Restaurant;
+  isSelected: boolean = false;
 }

@@ -24,7 +24,7 @@ export class CartComponent implements OnInit {
       this.hasProduct = false;
     }
 
-    this.qMax = [1, 2, 3, 4, 5, 6, 7, 8];
+    this.qMax = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   }
 
   onUpdateCart(event, product: Product): void {
@@ -32,7 +32,7 @@ export class CartComponent implements OnInit {
     this.cartService.UpdateCart('update', product);
   }
 
-  onDelete(product: Product) {
+  onDelete(product: Product, indexProduct: number) {
     if (this.cart.products.length <= 1) {
       this.cartService.emptyCart();
     } else {
@@ -41,5 +41,9 @@ export class CartComponent implements OnInit {
   }
   seeCart(): void {
     this.route.navigate(['cart-detail']);
+  }
+
+  onEmptyCart() {
+    this.cartService.emptyCart();
   }
 }

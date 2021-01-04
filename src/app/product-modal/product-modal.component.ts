@@ -10,6 +10,7 @@ import {FormControl} from "@angular/forms";
 import {MatSelectionListChange} from "@angular/material/list";
 import {MatRadioChange} from "@angular/material/radio";
 import {SpecialOffer} from "@app/_models/special-offer";
+import {type} from "os";
 
 @Component({
   selector: 'app-product-modal',
@@ -18,7 +19,7 @@ import {SpecialOffer} from "@app/_models/special-offer";
 })
 export class ProductModalComponent implements OnInit {
 
-  quantityCurrent: number;
+  quantityCurrent: number = 1;
   cartCurrent: Cart;
   infos: string;
   lists: ListSupplements[] = [];
@@ -70,13 +71,6 @@ export class ProductModalComponent implements OnInit {
 
     this.cartService.cartUpdated.subscribe((cartUp: Cart) => {
         this.cartCurrent = cartUp;
-        const index = this.cartCurrent.products.findIndex(prod => prod.id === this.product.id);
-        if (index !== -1) {
-            this.quantityCurrent = +this.cartCurrent.products[index].quantity;
-            this.product = this.cartCurrent.products[index];
-        } else {
-            this.quantityCurrent = 1;
-        }
     });
 
   }
@@ -94,67 +88,153 @@ export class ProductModalComponent implements OnInit {
 
  updateCart(): void {
       this.product.quantity = this.quantityCurrent;
-      this.product.remaining_quantity -= this.quantityCurrent;
+      // this.product.remaining_quantity -= this.quantityCurrent;
       this.product = Object.assign({}, this.product);
       if (typeof this.specialOffer !== 'undefined') {
         this.restaurant.specialOffer = this.specialOffer;
       }
-      this.cartService.UpdateCart('add', this.product, this.restaurant );
-      this.modalActive.close(this.product);
+      this.cartService.UpdateCart('add', this.product, this.restaurant);
+      setTimeout(() => {
+        this.modalActive.close(this.product);
+      }, 100);
  }
 
  onChange(event: MatSelectionListChange, list: ListSupplements) {
-   this.productListSupplement(event.option.value, list);
+   const sup = event.option.value;
+   sup.isSelected = event.option.selected;
+   this.productListSupplement(sup, list, event);
  }
 
 
  onRadioChange(event: MatRadioChange, list: ListSupplements) {
-    this.productListSupplement(event.value, list);
+    const sup = event.value;
+   if (typeof this.product.listSupplements === 'undefined') {
+     this.product.listSupplements = [];
+   }
+   const indexListAlreadyExists = this.product.listSupplements.findIndex(elem =>
+     elem.id === list.id);
+   this.listSelected = Object.assign({}, list);
+
+   if (indexListAlreadyExists === -1) {
+     this.listSelected.supplementProducts = [sup];
+     this.product.listSupplements = [...this.product.listSupplements, this.listSelected];
+     console.warn('aj list', this.product.listSupplements);
+   } else if (indexListAlreadyExists !== -1) {
+     this.product
+       .listSupplements[indexListAlreadyExists]
+       .supplementProducts = this.product
+       .listSupplements[indexListAlreadyExists]
+       .supplementProducts
+       .filter(s => typeof s !== 'undefined' && s != null);
+   }
+   this.listRequired = this.listRequired.filter(
+     elem => elem != null
+       && typeof elem !== 'undefined'
+       && elem.id !== this.listSelected.id);
+   if (this.listRequired.length === 0 && this.hasListRequired === true) {
+     this.hasListRequired = !this.hasListRequired;
+   }
  }
  onChangeSupplement(event: MatSelectionListChange): void {
    const supplementSelected = event.option.value;
    if (event.option.selected) {
-      if (supplementSelected.amount !== null && +(supplementSelected.amount) > 0) {
+
+     if (supplementSelected.amount !== null && +(supplementSelected.amount) > 0) {
         this.product.amount += supplementSelected.amount;
       }
       if (typeof this.product.supplementProducts === 'undefined' || this.product.supplementProducts.length === 0) {
         this.product.supplementProducts = [event.option.value];
-      }
-      const index = this.product.supplementProducts.findIndex((elem) => elem.id = supplementSelected.id);
-      if (index === -1) {
-        this.product.supplementProducts = [...this.supplementProducts, supplementSelected];
+      } else {
+        this.product.supplementProducts = [...this.product.supplementProducts, event.option.value];
       }
     } else {
-     this.product.supplementProducts = this.product.supplementProducts.filter((elem) => elem.id !== supplementSelected.id);
      if (supplementSelected.amount !== null && +(supplementSelected.amount) > 0) {
        this.product.amount -= supplementSelected.amount;
+       this.product.supplementProducts = this.product.supplementProducts.filter((sup) => {
+         return +(sup.id) !== +(supplementSelected.id) ? sup : '';
+       });
      }
    }
  }
 
- private productListSupplement(sup: Supplement, list: ListSupplements) {
+ private productListSupplement(sup: Supplement, list: ListSupplements, event?: MatSelectionListChange) {
    if (typeof this.product.listSupplements === 'undefined') {
      this.product.listSupplements = [];
    }
-   const listAlreadyExists = this.product.listSupplements.findIndex(elem =>
-     elem.id === list.id);
-
+   const indexListAlreadyExists = this.product.listSupplements.findIndex(elem =>
+    elem.id === list.id);
    this.listSelected = Object.assign({}, list);
 
-    // this.listSelect.supplementSelected = elemSelected;
-   if (listAlreadyExists === -1) {
+   if (indexListAlreadyExists === -1 && sup.isSelected === true) {
      this.listSelected.supplementProducts = [sup];
      this.product.listSupplements = [...this.product.listSupplements, this.listSelected];
-   } else {
-     this.product.listSupplements[listAlreadyExists].supplementProducts = [sup];
-     if (this.product.listSupplements[listAlreadyExists].maxChoice
-       && +(this.product.listSupplements[listAlreadyExists].maxChoice)
-       >= this.product.listSupplements[listAlreadyExists].supplementProducts.length) {
-       this.product.listSupplements[listAlreadyExists].isAvailable = false;
-     } else {
-       this.product.listSupplements[listAlreadyExists].isAvailable = true;
+     console.warn('aj list', this.product.listSupplements);
+
+   } else if (indexListAlreadyExists !== -1 && sup.isSelected === true) {
+     this.product
+       .listSupplements[indexListAlreadyExists]
+       .supplementProducts = this.product
+       .listSupplements[indexListAlreadyExists]
+       .supplementProducts
+       .filter(s => typeof s !== 'undefined' && s != null);
+     if (
+       this.product
+         .listSupplements[indexListAlreadyExists]
+         .supplementProducts.length <= +(list.maxChoice)
+     ) {
+         this.product
+           .listSupplements[indexListAlreadyExists]
+           .supplementProducts = [
+           ...this.product
+             .listSupplements[indexListAlreadyExists]
+             .supplementProducts, sup
+         ];
+
+         if (this.product
+           .listSupplements[indexListAlreadyExists]
+           .supplementProducts.length === list.maxChoice) {
+           list.isAvailable = false;
+         }
+       } else {
+       if (
+         this.product
+           .listSupplements[indexListAlreadyExists]
+           .supplementProducts.length > +(list.maxChoice)
+       ) {
+         event.option.selected = false;
+         this.product.listSupplements[indexListAlreadyExists].isAvailable = false;
+         list.isAvailable = false;
+         this.product.listSupplements[indexListAlreadyExists].supplementProducts.forEach((elem) => {
+           if (elem) {
+             if (+(elem.id) === +(sup.id)) {
+               elem.isSelected = false;
+             }
+           }
+         });
+         list.supplementProducts.forEach((elem) => {
+           if (+(elem.id) === +(sup.id)) {
+             elem.isSelected = false;
+           }
+         });
+       }
      }
+   } else if (sup.isSelected === false) {
+     list.isAvailable = true;
+     this.product
+       .listSupplements[indexListAlreadyExists].isAvailable = true;
+     this.product
+       .listSupplements[indexListAlreadyExists]
+       .supplementProducts = this.product
+       .listSupplements[indexListAlreadyExists]
+       .supplementProducts
+       .filter(supplement =>
+         +(sup.id) !== +(supplement.id)
+         && typeof supplement !== 'undefined'
+         && supplement != null
+       );
    }
+
+   console.log('list du produit', this.product.listSupplements);
 
    this.listRequired = this.listRequired.filter((elem) => {
      return elem.id !== this.listSelected.id;

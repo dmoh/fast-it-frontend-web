@@ -43,6 +43,7 @@
                   *ngIf="product.listSupplements
                     && product.listSupplements.length > 0">
                   <div *ngFor="let list of product.listSupplements">
+                    <div style="font-size: smaller; font-style: italic; color: grey">{{ list.title | titlecase }}</div>
                     <div *ngFor="let sup of list.supplementProducts">
                       <span style="font-size: smaller; color: #ccc;">{{ sup.name | titlecase }}</span>
                     </div>

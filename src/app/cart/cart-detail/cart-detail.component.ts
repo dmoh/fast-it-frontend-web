@@ -110,10 +110,9 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
                 setTimeout(() => {
                   this.showLoader = false;
                 }, 1000);
-                const pro = new Promise((resolve, rej) => {
+                const pro = new Promise(() => {
                   this.cartService.setDeliveryCost(resp.deliveryInfos);
                   this.hasAddressSelected = true;
-                  resolve('ok');
                 });
                 pro.then((respPro) => {
                   this.cartService.generateTotalCart(true);
@@ -194,7 +193,11 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
       this.showLoader = true;
       this.paymentValidation = true;
       event.preventDefault();
-      this.cartService.getTokenPaymentIntent(+(this.cartCurrent.total) * 100, this.cartCurrent.restaurant.id).subscribe((token: any ) => {
+      this.cartService.getTokenPaymentIntent(
+        +(this.cartCurrent.total) * 100,
+        this.cartCurrent.restaurant.id,
+        this.cartCurrent.deliveryCost
+      ).subscribe((token: any ) => {
           if (token.errorClosed) {
             this.showLoader = false;
             const modalRef = this.infoModal.open(InfoModalComponent, {
@@ -212,6 +215,19 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
                 }, 100);
                 // this.router.navigate(['customer/notification']);
               });
+            });
+          } else if (token.errorDelivery) {
+            this.showLoader = false;
+            const modalRef = this.infoModal.open(InfoModalComponent, {
+              backdrop: 'static',
+              keyboard: false
+            });
+            modalRef.componentInstance.title = 'Erreur';
+            modalRef.componentInstance.message = token.errorDelivery;
+            modalRef.result.then(() => {
+              setTimeout(() => {
+                window.location.href = `${window.location.origin}/cart-detail`;
+              }, 100);
             });
           } else {
             this.clientSecret = token.client_secret;

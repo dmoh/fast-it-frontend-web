@@ -30,5 +30,6 @@ export class Product {
     hasListOrSupplement: boolean = false;
     listSupplements: ListSupplements[] = [];
     supplementProducts: Supplement[] = [];
+    indexProduct?: number;
 }
 

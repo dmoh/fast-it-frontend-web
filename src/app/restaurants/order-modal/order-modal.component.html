@@ -14,8 +14,9 @@
             <span style="font-size: larger; font-weight: 400; text-transform: uppercase">{{ product.name }}</span>
             <div *ngIf="product.supplementProducts && product.supplementProducts.length > 0" class="div-supplement">
               <h4 class="order-h4"><span style="font-size: xx-small;padding-right: .2rem;" class="material-icons">radio_button_unchecked</span>Supplément(s)</h4>
-              <div *ngFor="let supplement of product.supplementProducts" class="supplement-name">
+              <div *ngFor="let supplement of product.supplementProducts" style="padding-left: 3rem" class="supplement-name">
                 <span style="font-size: small; padding-right: .3rem" class="material-icons">subdirectory_arrow_right</span> <b class="supplement-name">{{ supplement.name | titlecase }}</b>
+                <b class="supplement-name">{{ supplement.amount != null && supplement.amount != 0 ? (supplement.amount / 100).toFixed(2) + '€' : ''}}</b>
               </div>
             </div>
             <div *ngIf="product.listSupplements && product.listSupplements.length > 0">

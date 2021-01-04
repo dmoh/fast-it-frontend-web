@@ -5,8 +5,8 @@ import { map } from 'rxjs/operators';
 import {User} from '@app/_models/user';
 import {environment} from '@environments/environment';
 import {Router} from '@angular/router';
-import {CartService} from "@app/cart/service/cart.service";
-import jwt_decode from "jwt-decode";
+import {CartService} from '@app/cart/service/cart.service';
+import jwt_decode from 'jwt-decode';
 
 
 

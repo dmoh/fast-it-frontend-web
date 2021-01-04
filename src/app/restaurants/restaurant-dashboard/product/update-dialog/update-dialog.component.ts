@@ -119,6 +119,12 @@ export class UpdateDialogComponent implements OnInit {
       return +elem.id !== +listId;
     });
   }
+  onDeleteSup(supId: number) {
+    this.suppAlreadyExists = this.suppAlreadyExists.filter((elem) => {
+      return +elem.id !== +supId;
+    });
+  }
+
   onChangeListSup(event) {
     // const indexF = event.target.options.selectedIndex;
     this.listSupps.forEach((elem, index) => {
