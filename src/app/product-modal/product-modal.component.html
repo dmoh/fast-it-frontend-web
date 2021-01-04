@@ -84,7 +84,7 @@
         || list.maxChoice == null
         || +(list.maxChoice) == 0
         )
-        || list.isRequired == true"
+        && list.isRequired == true"
         (change)="onRadioChange($event, list)"
         aria-label="Select an option" >
         <mat-radio-button
