@@ -63,21 +63,6 @@
             </div>
           </a>
         </div>
-        <!--
-        <div class="wrapper-link-sidebar">
-          <a routerLink="/infos/contact">
-            <div>
-              Contact
-            </div>
-          </a>
-        </div>
-        <div class="wrapper-link-sidebar">
-          <a routerLink="/infos/export">
-            <div>
-              Export
-            </div>
-          </a>
-        </div>-->
       </div>
     </div>
     <div class="content-restaurant-dashboard">
@@ -96,22 +81,6 @@
       <section style="margin-top: 1rem; height: 100vh" class="container-fluid">
         <!-- 5 last orders -->
         <div class="row">
-         <!-- <div class="col-md-12">
-            <h3 *ngIf="customer.firstname" class="">{{ customer.firstname | titlecase }}</h3>
-            <h3 class="">
-              {{ customer.email }}
-              <button class="text-right float-right" (click)="onReadNotifications()" [disabled]="notifications.length == 0" [matMenuTriggerFor]="menu">
-                <span style="cursor: pointer"
-                      matBadge="{{ notifications.length > 0 ? notifications.length : '' }}"
-                      matBadgeOverlap="false"
-                      matBadgeColor="warn"
-                      class="float-right material-icons"
-                >
-                notifications</span>
-              </button>
-              <span class="float-right mr-3 material-icons">person</span>
-            </h3>
-          </div> -->
         </div>
         <mat-menu #menu="matMenu">
           <button *ngFor="let notif of notifications"  mat-menu-item>{{ notif.message }}</button>

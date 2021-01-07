@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {RestaurantDashboardService} from "@app/restaurants/restaurant-dashboard/services/restaurant-dashboard.service";
 
 @Component({
   selector: 'app-contact',
@@ -11,7 +12,8 @@ export class ContactComponent implements OnInit {
 
   contactForm: FormGroup;
   constructor(private fb: FormBuilder,
-              private snackbar: MatSnackBar
+              private snackbar: MatSnackBar,
+              private restaurantDashboardService: RestaurantDashboardService
               ) { }
 
   ngOnInit(): void {
@@ -25,12 +27,12 @@ export class ContactComponent implements OnInit {
     if (this.contactForm.invalid) {
       return;
     }
-
-    console.log(this.contactForm);
     const contact = {
       subject: this.contactForm.value.subject,
       message: this.contactForm.value.message
     };
+    // this.restaurantDashboardService
+
 
   }
 

@@ -7,6 +7,7 @@ import {SecurityRestaurantService} from '@app/_services/security-restaurant.serv
 import { MatSidenav } from '@angular/material/sidenav';
 import { SidenavService } from '@app/sidenav-responsive/sidenav.service';
 import { MediaQueryService } from '@app/_services/media-query.service';
+import {AuthenticationService} from "@app/_services/authentication.service";
 
 @Component({
   selector: 'app-restaurant-dashboard',
@@ -32,7 +33,8 @@ export class RestaurantDashboardComponent implements OnInit, AfterViewInit {
     private modal: NgbModal,
     private mediaQueryService: MediaQueryService,
     private sidenavService: SidenavService,
-    private router: Router
+    private router: Router,
+    private authenticationService: AuthenticationService
   ) { }
 
   static extractRestaurantData(typeData: string, arrayBusinessDatas: any[]) {
@@ -69,62 +71,50 @@ export class RestaurantDashboardComponent implements OnInit, AfterViewInit {
     } else {
       this.modeSide = 'over';
     }
-    // this.activatedRoute
-    //   .queryParams.subscribe((res) => {
-    //    if (res.orderId) {
-    //      this.restaurantService.getOrderById(res.orderId)
-    //        .subscribe((order) => {
-    //          const modalRef = this.modal.open(OrderModalComponent, {
-    //            backdrop: 'static',
-    //            keyboard: false,
-    //            size: 'lg'
-    //          });
-    //        });
-    //    }
-    // });
-    this.activatedRoute
-      .queryParams
-      .subscribe((params) => {
-         if (params.products && params.orderId) {
-
-         }
+    if  (localStorage.getItem('restaurant') != null) {
+      this.restaurantId = +(JSON.parse(localStorage.getItem('restaurant')).id);
+      this.authenticationService.checkIsManager(this.restaurantId)
+        .subscribe((response) => {
+          if (response.error) {
+            this.router.navigate(['/home']);
+            return false;
+          } else {
+            this.securityRestaurantService.setRestaurant({id: this.restaurantId});
+            this.restaurant = RestaurantDashboardComponent.extractRestaurantData('business', response);
+            if (this.restaurant === null) {
+              this.restaurantService.getRestaurantInfosById(this.restaurantId)
+                .subscribe((restaurantDb) => {
+                  this.restaurant = restaurantDb.restaurant;
+                });
+            }
+            this.products = RestaurantDashboardComponent.extractRestaurantData('product', response);
+          }
+        });
+    } else {
+      this.activatedRoute.params.subscribe((params) => {
+        this.restaurantId = +(params.id);
+        const resId = +(params.id);
+        this.authenticationService.checkIsManager(this.restaurantId)
+          .subscribe((response) => {
+            if (response.error) {
+              this.router.navigate(['/home']);
+              return false;
+            } else {
+              this.securityRestaurantService.setRestaurant({id: resId});
+              this.restaurant = RestaurantDashboardComponent.extractRestaurantData('business', response);
+              if (this.restaurant === null) {
+                this.restaurantService.getRestaurantInfosById(resId)
+                  .subscribe((restaurantDb) => {
+                    this.restaurant = restaurantDb.restaurant;
+                  });
+              }
+              this.products = RestaurantDashboardComponent.extractRestaurantData('product', response);
+            }
+          });
       });
-    this.activatedRoute.params.subscribe((params) => {
-      this.restaurantId = +(params.id);
-      this.securityRestaurantService.setRestaurant({id: this.restaurantId});
-      this.restaurantService.getRestaurantDatas(this.restaurantId).subscribe((res) => {
-        this.restaurant = RestaurantDashboardComponent.extractRestaurantData('business', res);
-        if (this.restaurant === null) {
-          this.restaurantService.getRestaurantInfosById(this.restaurantId)
-            .subscribe((restaurantDb) => {
-              this.restaurant = restaurantDb.restaurant;
-            });
-        }
-        this.products = RestaurantDashboardComponent.extractRestaurantData('product', res);
-      } );
-    });
-    // this.activatedRoute
-    //   .queryParams.subscribe((res) => {
 
-    //    if (res.orderId) {
-    //      this.restaurantService.getOrderById(res.orderId)
-    //        .subscribe((order) => {
-    //          const modalRef = this.modal.open(OrderModalComponent, {
-    //            backdrop: 'static',
-    //            keyboard: false,
-    //            size: 'lg'
-    //          });
-    //          // modalRef.componentInstance.products =
-    //        })
-    //    }
-    // });
-    // this.activatedRoute
-    //   .queryParams
-    //   .subscribe((params) => {
-    //      if (params.products && params.orderId) {
+    }
 
-    //      }
-    //   });
     this.isMedia = this.mediaQueryService.getMobile();
 }
 

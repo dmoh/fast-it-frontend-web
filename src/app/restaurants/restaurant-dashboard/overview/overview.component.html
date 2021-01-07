@@ -3,6 +3,11 @@
     <div class="card-body">
       <div style="width: 100%" class="d-md-flex align-items-center">
         <div>
+          <div *ngIf="restaurant" class="mb-3 mt-3">
+            <mat-slide-toggle style="font-size: x-large" [disabled]="!restaurant" (change)="onChange($event, restaurant.id)" [(ngModel)]="restaurant.closed">
+              {{ restaurant.closed == true ? 'Ouvrir le restaurant' : 'Fermé le Restaurant' }}
+            </mat-slide-toggle>
+          </div>
           <h4 class="card-title">Résumé des ventes</h4>
           <h5 class="card-subtitle">Mois en cours</h5>
         </div>

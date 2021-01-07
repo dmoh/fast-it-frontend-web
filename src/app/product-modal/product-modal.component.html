@@ -45,7 +45,7 @@
         <mat-panel-title>
           <mat-checkbox *ngIf="list.isForMenu" class="pl-2 list-for-menu">{{ list.title | titlecase }}</mat-checkbox>
           <span *ngIf="!list.isForMenu" class="pl-2 list-for-menu">{{ list.title | titlecase }}</span>
-          <span style="padding-left: .2rem"><b>{{ +list.maxChoice > 1 ? '(max: ' + list.maxChoice + ')' : '' }}</b></span>
+          <span style="padding-left: .2rem"><b>{{ +list.maxChoice > 1 ? '(max ' + list.maxChoice + ')' : '' }}</b></span>
         </mat-panel-title>
         <mat-panel-description>
           <span style="float: right" *ngIf="list.isForMenu">

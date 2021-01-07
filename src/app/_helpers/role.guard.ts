@@ -12,7 +12,6 @@ export class RoleGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     const currentUser = this.authenticationService.currentUserValue;
     const currentRoles = this.authenticationService.currentRolesValue;
-    console.log(route.params.id);
     if (currentUser) {
         if (currentRoles === null) {
           this.router.navigate(['/home']);

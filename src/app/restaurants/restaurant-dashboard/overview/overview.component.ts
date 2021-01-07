@@ -4,6 +4,9 @@ import {RestaurantDashboardService} from '@app/restaurants/restaurant-dashboard/
 import {RestaurantDashboardComponent} from '@app/restaurants/restaurant-dashboard/restaurant-dashboard.component';
 import {Restaurant} from '@app/_models/restaurant';
 import {SecurityRestaurantService} from '@app/_services/security-restaurant.service';
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {AdminService} from "@app/admin/admin.service";
+import {ActivatedRoute, Router} from "@angular/router";
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
@@ -17,20 +20,42 @@ export class OverviewComponent implements OnInit {
   countOrderCurrentMonth: string;
   amountOrderCurrentMonth: string;
   date: Date;
+  restId: number;
   dateDisplay: string;
   constructor(private restaurantService: RestaurantDashboardService,
-              private securityRestaurantService: SecurityRestaurantService
-              ) { }
+              private securityRestaurantService: SecurityRestaurantService,
+              private snackBar: MatSnackBar,
+              private adminService: AdminService,
+              private router: Router,
+              private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.date = new Date();
     this.dateDisplay  = this.date.toLocaleString();
+    if (localStorage.getItem('restaurant') != null) {
+      this.restId = JSON.parse(localStorage.getItem('restaurant')).id;
+      this.getRestaurant(this.restId);
+    } else {
+      const urlArray = this.router.url.split('/');
+      urlArray.forEach((elem) => {
+        if (/[0-9]/.test(elem.trim())) {
+          this.restId = +(elem.trim());
+          this.getRestaurant(this.restId);
+          return;
+        }
+      });
+
+    }
+  }
+
+  private getRestaurant(restId: number) {
     this.securityRestaurantService.getRestaurant()
       .subscribe((restaurantData) => {
-        this.restaurantService.getOrderAnalize(restaurantData.id)
+        this.restaurantService.getOrderAnalize(restId)
           .subscribe((response) => {
             this.amountOrderCurrentMonth = ((response.amount).toFixed(2)).replace('.', ',');
             this.countOrderCurrentMonth = response.count;
+            this.restaurant = response.restaurant;
             const ctx = document.getElementById('myChart');
             this.chart = new Chart(ctx, {
               type: 'bar',
@@ -69,13 +94,25 @@ export class OverviewComponent implements OnInit {
               }
             });
           });
-        this.restaurantService.getOrdersDatas(restaurantData.id).subscribe((res) => {
+        this.restaurantService.getOrdersDatas(restId).subscribe((res) => {
           this.orders = RestaurantDashboardComponent.extractRestaurantData('order', res);
-          this.restaurantService.getOpinionByBusinessId(restaurantData.id)
+          this.restaurantService.getOpinionByBusinessId(restId)
             .subscribe((re) => {
               this.opinions = re;
             });
         });
-    });
+      });
+  }
+  onChange(event, commerce) {
+    this.adminService.changeCommerceState(this.restaurant.id, this.restaurant.closed)
+      .subscribe((res) => {
+        let info = `Le Restaurant est ouvert`;
+        if (this.restaurant.closed === true) {
+          info = `Le Restaurant est fermé`;
+        }
+        this.snackBar.open(info, 'OK', {
+          duration: 5000
+        });
+      });
   }
 }

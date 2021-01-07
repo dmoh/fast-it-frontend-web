@@ -15,7 +15,6 @@ import { SidenavResponsiveComponent } from './sidenav-responsive/sidenav-respons
 const routes: Routes = [
     {path: 'home', component: HomeComponent},
     {path: 'restaurants-city', component: RestaurantsCityComponent},
-    // {path: 'test', component: SidenavResponsiveComponent},
     {path: 'login', component: LoginComponent},
     {path: 'password', component: PasswordComponent},
     { path: 'admin', component: AdminComponent, canActivate: [AuthGuard]  },
