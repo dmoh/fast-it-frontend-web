@@ -39,5 +39,12 @@ export class AdminService {
     return this.http.get<any>(`${this.urlApi}/deliverer/list`,
       this.headers);
   }
+  postDelivererList(period: string, periodEnd?: string): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}/deliverer/period/list`,
+      {
+        periodBegin: period,
+      },
+      this.headers);
+  }
 
 }

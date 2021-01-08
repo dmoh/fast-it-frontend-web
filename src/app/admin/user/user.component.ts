@@ -1,15 +1,37 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {AdminService} from "@app/admin/admin.service";
 import {Deliverer} from "@app/_models/deliverer";
+import {MatTableDataSource} from "@angular/material/table";
+import {MatSort} from "@angular/material/sort";
 
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.scss']
 })
-export class UserComponent implements OnInit {
+export class UserComponent implements OnInit, AfterViewInit {
   month: string;
   deliverers: Deliverer[];
+  displayedColumns: string[] = ['id', 'email', 'phone', 'siret', 'ca', 'nbDeliveries'];
+  dataSource: MatTableDataSource<Deliverer[]>;
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
+  periodBegin: string;
+  periodEnd: string;
+  periods: any[] = [
+    {
+      value: '11/2020',
+      label: '11/2020'
+    },
+    {
+      value: '12/2020',
+      label: '12/2020'
+    },
+    {
+      value: '01/2021',
+      label: '01/2021'
+    },
+  ];
+
   constructor(
     private adminService: AdminService
   ) { }
@@ -17,9 +39,39 @@ export class UserComponent implements OnInit {
   ngOnInit(): void {
     this.adminService.getDelivererList()
       .subscribe((res) => {
+        this.dataSource = new MatTableDataSource<Deliverer[]>(res.deliverers);
         this.deliverers = res.deliverers;
         this.month = res.month;
+        setTimeout(() => {
+          this.dataSource.sort = this.sort;
+        }, 100);
       });
   }
 
+
+  ngAfterViewInit() {
+  }
+
+  private getByPeriod() {
+    this.adminService.postDelivererList(this.periodBegin)
+      .subscribe((res) => {
+        this.dataSource = new MatTableDataSource<Deliverer[]>(res.deliverers);
+        this.deliverers = res.deliverers;
+        this.month = res.month;
+        setTimeout(() => {
+          this.dataSource.sort = this.sort;
+        }, 100);
+      });
+  }
+
+
+  onValidate() {
+    if (this.periodBegin) {
+      this.getByPeriod();
+    }
+  }
+
+  onChange(event) {
+    console.warn(this.periodBegin);
+  }
 }
