@@ -8,6 +8,7 @@ import {NotificationCustomerComponent} from "@app/notification-customer/notifica
 import {CommentComponent} from "@app/customer/comment/comment.component";
 import {AdminComponent} from "@app/admin/admin.component";
 import {CommerceComponent} from "@app/admin/commerce/commerce.component";
+import {UserComponent} from "@app/admin/user/user.component";
 
 
 const routes: Routes = [
@@ -21,6 +22,10 @@ const routes: Routes = [
       {
         path: 'commerce',
         component: CommerceComponent,
+      },
+      {
+        path: 'user',
+        component: UserComponent,
       }
     ]
   }

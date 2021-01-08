@@ -71,25 +71,23 @@ export class RestaurantDashboardComponent implements OnInit, AfterViewInit {
     } else {
       this.modeSide = 'over';
     }
-    if  (localStorage.getItem('restaurant') != null) {
+    if (localStorage.getItem('restaurant') != null) {
       this.restaurantId = +(JSON.parse(localStorage.getItem('restaurant')).id);
-      this.authenticationService.checkIsManager(this.restaurantId)
-        .subscribe((response) => {
-          if (response.error) {
-            this.router.navigate(['/home']);
-            return false;
-          } else {
-            this.securityRestaurantService.setRestaurant({id: this.restaurantId});
-            this.restaurant = RestaurantDashboardComponent.extractRestaurantData('business', response);
-            if (this.restaurant === null) {
-              this.restaurantService.getRestaurantInfosById(this.restaurantId)
-                .subscribe((restaurantDb) => {
-                  this.restaurant = restaurantDb.restaurant;
-                });
-            }
-            this.products = RestaurantDashboardComponent.extractRestaurantData('product', response);
+      const urlArray = this.router.url.split('/');
+      let isSameRestaurantId = true;
+      urlArray.forEach((elem) => {
+        if (/[0-9]/.test(elem.trim())) {
+          if (this.restaurantId !== +(elem.trim())) {
+            isSameRestaurantId = false;
+            this.getRestaurant(+(elem.trim()));
           }
-        });
+        }
+      });
+      setTimeout(() => {
+        if (isSameRestaurantId === true) {
+          this.getRestaurant(this.restaurantId);
+        }
+      }, 10);
     } else {
       this.activatedRoute.params.subscribe((params) => {
         this.restaurantId = +(params.id);
@@ -118,6 +116,26 @@ export class RestaurantDashboardComponent implements OnInit, AfterViewInit {
     this.isMedia = this.mediaQueryService.getMobile();
 }
 
+
+private getRestaurant(restId: number) {
+  this.authenticationService.checkIsManager(restId)
+    .subscribe((response) => {
+      if (response.error) {
+        this.router.navigate(['/home']);
+        return false;
+      } else {
+        this.securityRestaurantService.setRestaurant({id: restId});
+        this.restaurant = RestaurantDashboardComponent.extractRestaurantData('business', response);
+        if (this.restaurant === null) {
+          this.restaurantService.getRestaurantInfosById(restId)
+            .subscribe((restaurantDb) => {
+              this.restaurant = restaurantDb.restaurant;
+            });
+        }
+        this.products = RestaurantDashboardComponent.extractRestaurantData('product', response);
+      }
+    });
+}
 @HostListener('window:resize', [])
 onResize() {
   this.isMedia = this.mediaQueryService.getMobile();

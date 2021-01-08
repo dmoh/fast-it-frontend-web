@@ -34,7 +34,23 @@ export class OverviewComponent implements OnInit {
     this.dateDisplay  = this.date.toLocaleString();
     if (localStorage.getItem('restaurant') != null) {
       this.restId = JSON.parse(localStorage.getItem('restaurant')).id;
-      this.getRestaurant(this.restId);
+      let isSameRestaurantId = true;
+      const urlArray = this.router.url.split('/');
+      urlArray.forEach((elem) => {
+        if (/[0-9]/.test(elem.trim())) {
+          if (this.restId !== +(elem.trim())) {
+            isSameRestaurantId = false;
+            this.restId = +(elem.trim());
+            this.getRestaurant(this.restId);
+            return;
+          }
+        }
+      });
+      setTimeout(() => {
+        if (isSameRestaurantId === true) {
+          this.getRestaurant(this.restId);
+        }
+      }, 10);
     } else {
       const urlArray = this.router.url.split('/');
       urlArray.forEach((elem) => {
@@ -44,7 +60,6 @@ export class OverviewComponent implements OnInit {
           return;
         }
       });
-
     }
   }
 

@@ -14,4 +14,5 @@ export class User {
   addresses: any[];
   phone: string = '';
   roles?: string[] = [];
+
 }

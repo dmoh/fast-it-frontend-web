@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import {environment} from "../../environments/environment";
-import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {AuthenticationService} from "@app/_services/authentication.service";
-import {Router} from "@angular/router";
-import {Observable} from "rxjs";
+import {environment} from '../../environments/environment';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {AuthenticationService} from '@app/_services/authentication.service';
+import {Router} from '@angular/router';
+import {Observable} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -34,5 +34,10 @@ export class AdminService {
       this.headers);
   }
 
+
+  getDelivererList(): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}/deliverer/list`,
+      this.headers);
+  }
 
 }

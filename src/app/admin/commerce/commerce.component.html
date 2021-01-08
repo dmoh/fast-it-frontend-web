@@ -3,7 +3,7 @@
     <div style="width: 100%; justify-content: space-between" class="d-md-flex align-items-center">
       <div>
         <h4 class="card-title">Commerces</h4>
-        <h5 class="card-subtitle">Nombres</h5>
+        <h5 *ngIf="nbCommerce" style="font-size: x-large" class="card-subtitle">Nombres <em><b>{{ nbCommerce }}</b></em></h5>
       </div>
       <div class="">
         <div>

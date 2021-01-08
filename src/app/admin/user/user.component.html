@@ -1,1 +1,30 @@
-<p>user works!</p>
+<section class="card">
+  <div class="card-body">
+    <h4>Livreurs</h4>
+    <h5 *ngIf="month">Bilan du <em>{{ month }}</em></h5>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Email</th>
+            <th>Tèl</th>
+            <th>Siret</th>
+            <th>C.A. du mois <b>{{ month }}</b></th>
+            <th>Nb de courses</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let deliverer of deliverers">
+            <td>{{ deliverer.id }}</td>
+            <td>{{ deliverer.email }}</td>
+            <td>{{ deliverer.phone }}</td>
+            <td>{{ !deliverer.siret ? '--' : deliverer.siret }}</td>
+            <td>{{ (+(deliverer.ca) / 100).toFixed(2) }}€</td>
+            <td>{{ deliverer.nbDeliveries }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

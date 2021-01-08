@@ -18,12 +18,12 @@
   position: fixed;
   bottom: 0;
   top: 0;
+  overflow: auto;
 }
 
 .content-restaurant-dashboard {
   background-color: #fdfdfdf0;
-  margin-left: 250px;
-  width: calc(100% - 250px);
+  width:100%;
 }
 
 
@@ -60,4 +60,11 @@ a {
   &:hover {
     text-decoration: none !important;
   }
+}
+
+mat-sidenav-container, mat-sidenav-content, mat-sidenav {
+  height: 100%;
+}
+mat-sidenav {
+  width: 250px;
 }

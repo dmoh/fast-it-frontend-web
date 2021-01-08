@@ -17,6 +17,7 @@ export class CommerceComponent implements OnInit {
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
   commerces: Restaurant[];
+  nbCommerce: number;
   constructor(
     private adminService: AdminService,
     private modal: NgbModal,
@@ -64,6 +65,7 @@ export class CommerceComponent implements OnInit {
       .subscribe((response) => {
         if (response.ok) {
           this.commerces = response.restaurants;
+          this.nbCommerce = response.nbCommerce;
         }
       });
   }
