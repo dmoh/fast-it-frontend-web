@@ -8,16 +8,18 @@ import { CommerceComponent } from './commerce/commerce.component';
 import { UserComponent } from './user/user.component';
 import { EditCommerceComponent } from './commerce/edit-commerce/edit-commerce.component';
 import {CoreModule} from "@app/core/core.module";
+import { DeliveriesComponent } from './deliveries/deliveries.component';
+import { AssignDeliverisComponent } from './assign-deliveris/assign-deliveris.component';
 
 
 @NgModule({
-  declarations: [AdminComponent, CommerceComponent, UserComponent, EditCommerceComponent],
+  declarations: [AdminComponent, CommerceComponent, UserComponent, EditCommerceComponent, DeliveriesComponent, AssignDeliverisComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,
     CoreModule,
     MatMenuModule,
   ],
-  exports: [AdminComponent, EditCommerceComponent]
+  exports: [AdminComponent, EditCommerceComponent, DeliveriesComponent, AssignDeliverisComponent]
 })
 export class AdminModule { }

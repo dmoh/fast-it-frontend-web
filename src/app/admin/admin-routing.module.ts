@@ -9,6 +9,7 @@ import {CommentComponent} from "@app/customer/comment/comment.component";
 import {AdminComponent} from "@app/admin/admin.component";
 import {CommerceComponent} from "@app/admin/commerce/commerce.component";
 import {UserComponent} from "@app/admin/user/user.component";
+import {DeliveriesComponent} from "@app/admin/deliveries/deliveries.component";
 
 
 const routes: Routes = [
@@ -26,6 +27,10 @@ const routes: Routes = [
       {
         path: 'user',
         component: UserComponent,
+      },
+      {
+        path: 'deliveries',
+        component: DeliveriesComponent,
       }
     ]
   }

@@ -47,4 +47,14 @@ export class AdminService {
       this.headers);
   }
 
+  getDeliveries(): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}/order/delivery/resume`,
+      this.headers);
+  }
+
+
+  updateDeliveries(orderIdMax: number): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}/order/${orderIdMax}/deliveries/after`,
+      this.headers);
+  }
 }
