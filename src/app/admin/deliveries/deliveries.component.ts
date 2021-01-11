@@ -33,21 +33,6 @@ export class DeliveriesComponent implements OnInit {
     const subscribe = source.subscribe(val => {
       this.second = val;
       this.getDeliveriesDb();
-      /*const or = +this.deliveriesAttemptingByRestaurant.length;
-      this.adminService.updateDeliveries(
-        this.deliveriesAttemptingByRestaurant[or - 2].order_id
-      )
-      .subscribe((res) => {
-          if (res.deliveriesAttemptingByRestaurant) {
-            res.deliveriesAttemptingByRestaurant.forEach((order) =>  {
-              const ind = this.deliveriesAttemptingByRestaurant.findIndex((elem) => order.order_id === elem.order_id);
-              if (ind === -1) {
-                this.deliveriesAttemptingByRestaurant =  [...this.deliveriesAttemptingByRestaurant, order];
-              }
-            });
-          }
-        });*/
-      // this.adminService.updateDeliveries()
     });
     setTimeout(() => {
       subscribe.unsubscribe();
@@ -60,18 +45,31 @@ export class DeliveriesComponent implements OnInit {
     this.adminService.getDeliveries()
       .subscribe((response) => {
         if (response.deliveriesAttemptingByRestaurant) {
+          this.deliveriesAttemptingByRestaurant = [];
           this.deliveriesAttemptingByRestaurant = response.deliveriesAttemptingByRestaurant;
         }
         if (response.deliveriesAttemptingByDeliverers) {
+          this.deliveriesAttemptingByDeliverers = [];
           this.deliveriesAttemptingByDeliverers = response.deliveriesAttemptingByDeliverers;
         }
         if (typeof response.deliveriesTakenByDeliverer !== 'undefined') {
+          this.deliveriesTakenByDeliverer = [];
           this.deliveriesTakenByDeliverer = response.deliveriesTakenByDeliverer;
+          /*if (this.deliveriesAttemptingByDeliverers && this.deliveriesAttemptingByDeliverers.length > 0) {
+            this.deliveriesAttemptingByDeliverers = this.deliveriesAttemptingByDeliverers.filter((elem) => {
+              const index = this.deliveriesTakenByDeliverer.findIndex(order => +order.order_id === +elem.order_id);
+              if (index === -1) {
+                return elem;
+              }
+            });
+          }*/
         }
         if (response.deliveriesEnded) {
+          this.deliveriesEnded = [];
           this.deliveriesEnded = response.deliveriesEnded;
         }
         if (response.deliveriesRefused) {
+          this.deliveriesRefused = [];
           this.deliveriesRefused = response.deliveriesRefused;
         }
         if (response.deliveriesDay) {
