@@ -70,6 +70,12 @@ export class HomeFeaturesComponent implements OnInit {
       case 'bonneville-kebab':
         this.router.navigate(['/restaurant/47']);
         break;
+      case 'efsane-kebab':
+        this.router.navigate(['/restaurant/49']);
+        break;
+      case 'dolce-pizza':
+        this.router.navigate(['/restaurant/38']);
+        break;
     }
   }
 
