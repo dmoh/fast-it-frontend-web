@@ -10,16 +10,17 @@ import { EditCommerceComponent } from './commerce/edit-commerce/edit-commerce.co
 import {CoreModule} from "@app/core/core.module";
 import { DeliveriesComponent } from './deliveries/deliveries.component';
 import { AssignDeliverisComponent } from './assign-deliveris/assign-deliveris.component';
+import { AssignedDeliveryModalComponent } from './assigned-delivery-modal/assigned-delivery-modal.component';
 
 
 @NgModule({
-  declarations: [AdminComponent, CommerceComponent, UserComponent, EditCommerceComponent, DeliveriesComponent, AssignDeliverisComponent],
+  declarations: [AdminComponent, CommerceComponent, UserComponent, EditCommerceComponent, DeliveriesComponent, AssignDeliverisComponent, AssignedDeliveryModalComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,
     CoreModule,
     MatMenuModule,
   ],
-  exports: [AdminComponent, EditCommerceComponent, DeliveriesComponent, AssignDeliverisComponent]
+  exports: [AdminComponent, EditCommerceComponent, DeliveriesComponent, AssignDeliverisComponent, AssignedDeliveryModalComponent]
 })
 export class AdminModule { }

@@ -7,3 +7,17 @@ a {
   padding-top: .5rem;
   background: white;
 }
+
+.card-order {
+  cursor: pointer;
+  margin-bottom: .5rem;
+  padding: .5rem;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  flex-direction: row !important;
+  transition: all 1s;
+  &:hover {
+    background: yellow;
+  }
+}

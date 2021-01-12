@@ -4,6 +4,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {AuthenticationService} from '@app/_services/authentication.service';
 import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
+import {order} from "@app/_util/fasteat-constants";
 
 @Injectable({
   providedIn: 'root'
@@ -55,6 +56,15 @@ export class AdminService {
 
   updateDeliveries(orderIdMax: number): Observable<any> {
     return this.http.get<any>(`${this.urlApi}/order/${orderIdMax}/deliveries/after`,
+      this.headers);
+  }
+
+  assignDelivery(deliverer: number, orderAssigned: any): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}/deliverer/assign/order`,
+      {
+        delivererId: deliverer,
+        orderDelivery: orderAssigned,
+      },
       this.headers);
   }
 }

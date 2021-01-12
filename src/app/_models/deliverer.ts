@@ -8,4 +8,5 @@ export class Deliverer extends User {
     siret: string;
     ca?: string;
     nbDeliveries?: number;
+    deliverer_email?: string;
 }

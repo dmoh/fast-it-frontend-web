@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { timer } from 'rxjs';
-import {AdminService} from "@app/admin/admin.service";
+import {AdminService} from '@app/admin/admin.service';
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {AssignedDeliveryModalComponent} from "@app/admin/assigned-delivery-modal/assigned-delivery-modal.component";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 
 @Component({
@@ -17,18 +20,17 @@ export class DeliveriesComponent implements OnInit {
   deliveriesEnded: any[] = [];
   deliveriesRefused: any[] = [];
 
-  constructor(private adminService: AdminService) {
-    /*const source = timer(1000, 1000);
-    const subscribe = source.subscribe(val => this.second = val);
-    setTimeout(() => {
-       subscribe.unsubscribe();
-    }, 9000);*/
+  constructor(
+    private adminService: AdminService,
+    private modal: NgbModal,
+    private snackBar: MatSnackBar
+              ) {
   }
 
   ngOnInit(): void {
     this.getDeliveriesDb();
 
-    const source = timer(4000, 20000);
+    const source = timer(4000, 7000);
 
     const subscribe = source.subscribe(val => {
       this.second = val;
@@ -37,23 +39,22 @@ export class DeliveriesComponent implements OnInit {
     setTimeout(() => {
       subscribe.unsubscribe();
     }, 1000000);
-
   }
 
 
   private getDeliveriesDb() {
     this.adminService.getDeliveries()
       .subscribe((response) => {
+        this.deliveriesAttemptingByRestaurant = [];
         if (response.deliveriesAttemptingByRestaurant) {
-          this.deliveriesAttemptingByRestaurant = [];
           this.deliveriesAttemptingByRestaurant = response.deliveriesAttemptingByRestaurant;
         }
+        this.deliveriesAttemptingByDeliverers = [];
         if (response.deliveriesAttemptingByDeliverers) {
-          this.deliveriesAttemptingByDeliverers = [];
           this.deliveriesAttemptingByDeliverers = response.deliveriesAttemptingByDeliverers;
         }
+        this.deliveriesTakenByDeliverer = [];
         if (typeof response.deliveriesTakenByDeliverer !== 'undefined') {
-          this.deliveriesTakenByDeliverer = [];
           this.deliveriesTakenByDeliverer = response.deliveriesTakenByDeliverer;
           /*if (this.deliveriesAttemptingByDeliverers && this.deliveriesAttemptingByDeliverers.length > 0) {
             this.deliveriesAttemptingByDeliverers = this.deliveriesAttemptingByDeliverers.filter((elem) => {
@@ -64,17 +65,28 @@ export class DeliveriesComponent implements OnInit {
             });
           }*/
         }
+        this.deliveriesEnded = [];
         if (response.deliveriesEnded) {
-          this.deliveriesEnded = [];
           this.deliveriesEnded = response.deliveriesEnded;
         }
+        this.deliveriesRefused = [];
         if (response.deliveriesRefused) {
-          this.deliveriesRefused = [];
           this.deliveriesRefused = response.deliveriesRefused;
         }
         if (response.deliveriesDay) {
           this.deliveriesDay = response.deliveriesDay;
         }
       });
+  }
+
+  onAssignedDeliverer(orderDelivery: any): void {
+   const modalRef = this.modal.open(AssignedDeliveryModalComponent);
+   modalRef.componentInstance.orderDelivery = orderDelivery;
+   modalRef.result.then((res) => {
+     if (res) {
+       this.snackBar.open('Assigné avec succès', 'ok');
+       this.getDeliveriesDb();
+     }
+   });
   }
 }

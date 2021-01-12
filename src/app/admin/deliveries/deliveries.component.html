@@ -2,6 +2,8 @@
   <div class="card-body">
     <h2>Livraisons du {{ deliveriesDay }}</h2>
     <hr>
+    <div>
+    </div>
     <div class="row sticky-top">
       <div class="col-md-3 text-center border-right">
         <h4 style="font-weight: 200; font-size: larger">
@@ -38,12 +40,14 @@
     <div class="row">
       <div style="background: #efefef;padding-top: .5rem;" class="col-md-3">
         <div>
-          <div *ngFor="let orderDelivery of deliveriesAttemptingByRestaurant" [ngStyle]="{
-          transition: 'all 2s',
-          'background-color':second >= 50 ? 'red' : 'white',
-          color: second >= 50 ? 'white' : 'inherit'
-          }"
-            style="margin-bottom: .5rem; padding: .5rem;display: flex;width: 100%;justify-content: space-between; flex-direction: row !important;" class="card">
+          <div
+            *ngFor="let orderDelivery of deliveriesAttemptingByRestaurant"
+            [ngStyle]="{
+            transition: 'all 2s',
+            'background-color':second >= 50 ? 'red' : 'white',
+            color: second >= 50 ? 'white' : 'inherit'
+            }"
+            class="card card-order">
             <div style="display: flex; flex-direction: column; justify-content: space-between">
               <div>
                 <h5 style="font-size: larger">
@@ -56,6 +60,21 @@
               </div>
               <div style="align-self: flex-end;width: 100%;text-align: left;">
                 <span>Temps: {{ second }}s</span>
+              </div>
+              <div *ngIf="orderDelivery.deliverer_id && +orderDelivery.deliverer_id > 0" style="padding: .3rem; color: white !important; background: #5b5b5b;border-radius: 3px;">
+                <h4 style="margin-bottom: 0 !important;">Livreur</h4>
+                <span style="text-transform: lowercase" class="d-block">
+                <b style="font-size: x-small">
+                  <em>
+                    {{ orderDelivery.deliverer_email }}
+                  </em>
+                </b>
+              </span>
+                <span>
+                <a href="tel:{{ orderDelivery.deliverer_phone }}">
+                  {{ orderDelivery.deliverer_phone }}
+                </a>
+                </span>
               </div>
             </div>
             <div>
@@ -88,8 +107,7 @@
           transition: 'all 2s',
           'background-color':second >= 50 ? 'red' : 'white',
           color: second >= 50 ? 'white' : 'inherit'
-          }"
-               style="margin-bottom: .5rem; padding: .5rem;display: flex;width: 100%;justify-content: space-between; flex-direction: row !important;" class="card">
+          }" (click)="onAssignedDeliverer(orderDelivery)" class="card card-order">
             <div style="display: flex; flex-direction: column; justify-content: space-between">
               <div>
                 <h5 style="font-size: larger">
@@ -135,7 +153,7 @@
           'background-color':second >= 50 ? 'red' : 'white',
           color: second >= 50 ? 'white' : 'inherit'
           }"
-               style="margin-bottom: .5rem; padding: .5rem;display: flex;width: 100%;justify-content: space-between; flex-direction: row !important;" class="card">
+               (click)="onAssignedDeliverer(orderDelivery)" class="card card-order">
             <div style="display: flex; flex-direction: column; justify-content: space-between">
               <div>
                 <h5 style="font-size: larger">
@@ -162,7 +180,7 @@
                 <a href="tel:{{ orderDelivery.deliverer_phone }}">
                   {{ orderDelivery.deliverer_phone }}
                 </a>
-              </span>
+                </span>
               </div>
             </div>
             <div>
@@ -196,7 +214,7 @@
           'background-color':second >= 50 ? 'red' : 'white',
           color: second >= 50 ? 'white' : 'inherit'
           }"
-               style="margin-bottom: .5rem; padding: .5rem;display: flex;width: 100%;justify-content: space-between; flex-direction: row !important;" class="card">
+               (click)="onAssignedDeliverer(orderDelivery)" class="card card-order">
             <div style="display: flex; flex-direction: column; justify-content: space-between">
               <div>
                 <h5 style="font-size: larger">
@@ -246,9 +264,9 @@
                 </a>
               </span>
               <span>{{ orderDelivery.customerCity | titlecase }}</span>
-              <div style="font-size: small;position: absolute;bottom: 3px;">
+              <!--<div style="font-size: small;position: absolute;bottom: 3px;">
                 Livrée à <b><em>{{ orderDelivery.date_delivered.date | date: "HH:mm:ss" }}</em></b>
-              </div>
+              </div>-->
             </div>
           </div>
         </div>
