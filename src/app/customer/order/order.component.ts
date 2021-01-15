@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {User} from '@app/_models/user';
 import {CustomerService} from '@app/customer/_services/customer.service';
-import * as fasteatconst from "@app/_util/fasteat-constants";
+import * as fasteatconst from '@app/_util/fasteat-constants';
+import {Order} from '@app/_models/order';
 @Component({
   selector: 'app-order',
   templateUrl: './order.component.html',
@@ -18,6 +19,10 @@ export class OrderComponent implements OnInit {
       .subscribe((response) => {
         this.customer.orders = response;
       });
+  }
+
+  onShowOrder(order: Order) {
+
   }
 
 }

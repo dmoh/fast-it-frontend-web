@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from "@angular/router";
+import {RestaurantDashboardService} from "@app/restaurants/restaurant-dashboard/services/restaurant-dashboard.service";
+import {Restaurant} from "@app/_models/restaurant";
 
 @Component({
   selector: 'app-home-features',
@@ -8,12 +10,24 @@ import {Router} from "@angular/router";
 })
 export class HomeFeaturesComponent implements OnInit {
 
-  constructor(private router: Router) { }
+  restaurants: Restaurant[];
+  constructor(private router: Router,
+              private restaurantService: RestaurantDashboardService
+              ) { }
 
   ngOnInit(): void {
+    this.restaurantService
+      .getAllbusinesses()
+      .subscribe((res) => {
+        if (res.ok) {
+          this.restaurants = res.restaurants;
+        }
+      });
   }
 
-
+  goToRestaurantBy(id: number) {
+    this.router.navigate([`/restaurant/${id}`]);
+  }
   goTo(restaurant: string) {
     switch (restaurant) {
       case 'pizza-bella':
@@ -75,6 +89,15 @@ export class HomeFeaturesComponent implements OnInit {
         break;
       case 'dolce-pizza':
         this.router.navigate(['/restaurant/38']);
+        break;
+      case 'jem-s-kebab':
+        this.router.navigate(['/restaurant/48']);
+        break;
+      case 'brasserie-la-rochoise':
+        this.router.navigate(['/restaurant/50']);
+        break;
+      case 'la-cabane-a-pizza':
+        this.router.navigate(['/restaurant/51']);
         break;
     }
   }

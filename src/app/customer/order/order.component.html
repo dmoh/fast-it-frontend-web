@@ -2,6 +2,7 @@
   <table class="table table-striped">
     <thead>
       <tr>
+        <th>Id</th>
         <th>Date</th>
         <th>Heure</th>
         <th>Prix</th>
@@ -10,7 +11,8 @@
       </tr>
     </thead>
     <tbody *ngIf="customer">
-      <tr *ngFor="let order of customer.orders">
+      <tr *ngFor="let order of customer.orders" (click)="onShowOrder(order)">
+        <td>{{ order.id }}</td>
         <td>{{ order.date.date | date: 'dd/MM/yyyy' }}</td>
         <td>{{ order.date.date | date: 'hh:mm' }}</td>
         <td>{{ (+(order.amount)).toFixed(2) }}€</td>

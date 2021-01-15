@@ -15,6 +15,7 @@ export class Restaurant {
   phone:string = '';
   deleted: boolean = false;
   closed: boolean = false;
+  active: boolean = true;
   numSiret: string = '';
   numSiren: string = '';
   opinions: any[] = [];
@@ -25,4 +26,6 @@ export class Restaurant {
   tags: any[] = [];
   managers: User[] = [];
   specialOffer: SpecialOffer;
+  pathFile?: string;
 }
+

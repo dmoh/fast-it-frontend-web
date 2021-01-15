@@ -215,4 +215,9 @@ export class RestaurantDashboardService {
   getSpecialOfferByBusinessId(restaurantId: number): Observable<any> {
     return this.http.get<any>(`${this.urlApi}/special-offer/business/${restaurantId}`, this.headers);
   }
+
+  getAllbusinesses(): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}/business/all`, this.headers);
+
+  }
 }

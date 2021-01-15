@@ -6,9 +6,10 @@ import { ProfilComponent } from './profil/profil.component';
 import {CoreModule} from '@app/core/core.module';
 import { NotificationCustomerComponent } from '../notification-customer/notification-customer.component';
 import { CommentComponent } from './comment/comment.component';
+import { OrderModalComponent } from './order/order-modal/order-modal.component';
 
 @NgModule({
-  declarations: [CustomerComponent, OrderComponent, ProfilComponent, NotificationCustomerComponent, CommentComponent],
+  declarations: [CustomerComponent, OrderComponent, ProfilComponent, NotificationCustomerComponent, CommentComponent, OrderModalComponent],
     imports: [
       CoreModule,
       CustomerRoutingModule,
@@ -19,7 +20,8 @@ import { CommentComponent } from './comment/comment.component';
     ProfilComponent,
     CoreModule,
     NotificationCustomerComponent,
-    CommentComponent
+    CommentComponent,
+    OrderModalComponent
   ]
 })
 export class CustomerModule { }
