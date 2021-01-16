@@ -41,12 +41,7 @@ export class OrderModalComponent implements OnInit {
       this.products.forEach( myProduct => {
         let product: any;
         product = myProduct;
-        // product.amount = this.order.amount;
         this.restaurantService.getBusinessProductById(product.id).subscribe( prod => {
-          // console.log("production", (prod as any).infoCommentCustomer);
-          /*product.supplementProducts = this.supplementsProduct.filter( suppProduct => {
-            return suppProduct.productId === product.id ;
-          });*/
           product.infoComment = (prod as any).infoCommentCustomer;
           this.productList.push(product);
         });

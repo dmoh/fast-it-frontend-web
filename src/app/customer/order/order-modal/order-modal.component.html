@@ -1,9 +1,8 @@
-<!--<div class="">
+<div class="">
   <div class="modal-header">
     <h2 class="modal-title">Commande <b>#{{ order.id }}</b></h2>
     <button type="button" class="close" (click)="modalActive.close()" aria-label="Close" >
       <span aria-hidden="true">&times;</span>
-      <button mat-raised-button class="pl-3" (click)="onPrint()" color="primary">Imprimer</button>
     </button>
   </div>
   <div class="modal-body">
@@ -37,46 +36,29 @@
       </div>
     </div>
     <hr>
-    <div style="display: block; padding-left: 1rem" *ngIf="order.customer" class="row">
-      <h4>Information Client</h4>
-      <!!!!!--<div>
-        Nom: <span><b>{{ order.customer.addresses[0].name }}</b></span>
-      </div>
-      <div>
-        Téléphone: <a style="text-decoration: none" href="tel:{{ order.customer.phone }}"><b>{{ order.customer.phone }}</b></a>
-      </div>
-      <div>
-        Adresse:
-        <span>
-          <b>{{ order.customer.addresses[0].street | titlecase }}, {{ order.customer.addresses[0].zipCode }}, {{ order.customer.addresses[0].city | titlecase }}</b>
-        </span>
-      </div>
-    </div>
+    <!--<div style="display: block; padding-left: 1rem" *ngIf="order.customer" class="row">
+     <h4>Information Client</h4>
+     <iv>
+       Nom: <span><b>{{ order.customer.addresses[0].name }}</b></span>
+     </div>
+     <div>
+       Téléphone: <a style="text-decoration: none" href="tel:{{ order.customer.phone }}"><b>{{ order.customer.phone }}</b></a>
+     </div>
+     <div>
+       Adresse:
+       <span>
+         <b>{{ order.customer.addresses[0].street | titlecase }}, {{ order.customer.addresses[0].zipCode }}, {{ order.customer.addresses[0].city | titlecase }}</b>
+       </span>
+     </div>
+    </div>-->
     <hr>
     <div class="mt-2 mb-2" style="display: flex; width: 100%; justify-content: flex-end;
       font-size: larger; font-weight: 600;">
     </div>
   </div>
-  <div *ngIf="order.status >= 2" class="modal-footer">
-    <h5 class="text-center">Cette commande a été traitée</h5>
+  <div  style="display: flex; justify-content: space-between" class="modal-footer">
     <button style="margin: 1rem" (click)="modalActive.close('ok')" mat-raised-button color="primary">
       OK
     </button>
   </div>
-  <div *ngIf="order.status == 1" style="display: flex; justify-content: space-between" class="modal-footer">
-    <div *ngIf="!isRejectionMessage">
-      <button mat-raised-button (click)="onValidate(firstChoice)" color="primary">{{firstChoice}}</button>
-    </div>
-    <div *ngIf="!isRejectionMessage">
-      <button mat-raised-button (click)="onValidate(secondChoice)" color="primary">{{secondChoice}}</button>
-    </div>
-    <div *ngIf="!isRejectionMessage">
-      <button mat-raised-button (click)="onValidate(thirdChoice)" color="primary">{{thirdChoice}}</button>
-    </div>
-    <button *ngIf="isRejectionMessage" mat-raised-button (click)="onValidateRejectionMessage()" color="warn">Envoyer refus</button>
-    <div>
-      <mat-slide-toggle (change)="onRejectOrder($event)">Refuser</mat-slide-toggle>
-    </div>
-  </div>
 </div>
--->

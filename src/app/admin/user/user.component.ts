@@ -12,7 +12,7 @@ import {MatSort} from "@angular/material/sort";
 export class UserComponent implements OnInit, AfterViewInit {
   month: string;
   deliverers: Deliverer[];
-  displayedColumns: string[] = ['id', 'email', 'phone', 'siret', 'ca', 'nbDeliveries'];
+  displayedColumns: string[] = ['id', 'email', 'phone', 'siret', 'ca', 'nbDeliveries', 'ratio'];
   dataSource: MatTableDataSource<Deliverer[]>;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
   periodBegin: string;
