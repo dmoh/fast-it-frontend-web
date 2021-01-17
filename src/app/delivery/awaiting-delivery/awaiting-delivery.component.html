@@ -24,8 +24,6 @@
         <td>{{ order.date.date | date: 'HH:mm' }}</td>
         <td>{{ order.delivery_cost / 100 }}</td>
         <td>
-          <!-- <span matBadge="{{getLibelleStatus(order.status)}}" matBadgePosition="before" matBadgeColor="accent">
-          </span> -->
           <div [ngSwitch]="order.status">
             <span *ngSwitchCase="fastEatConst.status.WAITING_TAKING_BY_DELIVER " class="badge badge-warning">
               En prépation

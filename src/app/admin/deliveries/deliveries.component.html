@@ -59,7 +59,7 @@
                 Payé à <b><em>{{ orderDelivery.payedAt.date | date: "HH:mm:ss" }}</em></b>
               </div>
               <div style="align-self: flex-end;width: 100%;text-align: left;">
-                <span>Temps: {{ second }}s</span>
+                <span>Cycle: {{ second }}</span>
               </div>
               <div *ngIf="orderDelivery.deliverer_id && +orderDelivery.deliverer_id > 0" style="padding: .3rem; color: white !important; background: #5b5b5b;border-radius: 3px;">
                 <h4 style="margin-bottom: 0 !important;">Livreur</h4>
@@ -113,13 +113,14 @@
                 <h5 style="font-size: larger">
                   <b class="d-block"><em>#{{ orderDelivery.order_id }} </em></b>
                   <b style="text-transform: uppercase;">{{ orderDelivery.restaurant_name | titlecase }}</b>
+                  <b></b>
                 </h5>
               </div>
               <div>
                 Payé à <b><em>{{ orderDelivery.payedAt.date | date: "HH:mm:ss" }}</em></b>
               </div>
               <div style="align-self: flex-end;width: 100%;text-align: left;">
-                <span>Temps: {{ second }}s</span>
+                <span>Cycle: {{ second }}</span>
               </div>
             </div>
             <div>

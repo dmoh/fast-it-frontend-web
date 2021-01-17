@@ -21,14 +21,15 @@ export class AwaitingDeliveryComponent implements OnInit {
   schedulePrepartionTimes: any[] = [];
   commerce: Restaurant;
   deliverer: Deliverer;
-  orders: any[];
+  orders: any[] = [];
   order: Order;
   orderId: string;
   error: string;
   headers: any;
   fastEatConst = fasteatconst;
 
-  constructor(private http: HttpClient,
+  constructor(
+    private http: HttpClient,
      private authenticate: AuthenticationService,
      private deliveryService: DeliveryService,
      private orderModal: NgbModal,
@@ -40,7 +41,7 @@ export class AwaitingDeliveryComponent implements OnInit {
   ngOnInit(): void {
 
     this.deliverer = new Deliverer();
-    this.deliverer.orders = new Array();
+    this.deliverer.orders = [];
 
     if (this.activatedRoute.snapshot.paramMap.get('id') != null) {
       this.orderId = this.activatedRoute.snapshot.paramMap.get('id');
@@ -49,9 +50,8 @@ export class AwaitingDeliveryComponent implements OnInit {
     } else {
       // get Orders awaiting delivery
       this.deliveryService.getCurrentOrders().subscribe((delivererCurrent) => {
-        console.log("delivererCurrentOrder", delivererCurrent);
         this.deliverer = delivererCurrent;
-        this.orders = (this.deliverer.orders != null) ? this.deliverer.orders : new Array();
+        this.orders = (this.deliverer.orders != null) ? this.deliverer.orders : [];
       });
     }
   }
@@ -65,9 +65,8 @@ export class AwaitingDeliveryComponent implements OnInit {
         this.deliveryService.getDeliverer().subscribe( (deliverer) => {
           // console.log("deliverer", deliverer);
           if (currentOrder.deliverer == null && deliverer.id) {
-            let dateTakenDeliverer = Date.now();
+            const dateTakenDeliverer = Date.now();
             this.saveOrderDeliverer(currentOrder.id, deliverer.id , dateTakenDeliverer, 3);
-            // this.router.navigate(['/delivery/awaiting-delivery']);
           }
           else {
             const modalRef = this.orderModal.open(InfoModalComponent, {

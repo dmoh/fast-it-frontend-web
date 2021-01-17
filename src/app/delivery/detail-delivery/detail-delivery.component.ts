@@ -33,12 +33,7 @@ export class DetailDeliveryComponent implements OnInit {
     this.orderId = this.route.snapshot.paramMap.get('id');
 
     this.deliveryService.getDeliverer().subscribe( deliverer => {
-      console.log("deliverer", deliverer);
       this.deliveryService.getOrderById(+this.orderId).subscribe( orderById => {
-        console.log("order", orderById);
-
-        console.log(orderById.deliverer?.id);
-        console.log(deliverer.id);
         if (orderById.deliverer?.id !== deliverer.id) {
           this.router.navigate(['/delivery/awaiting-delivery']);
         }
@@ -47,13 +42,13 @@ export class DetailDeliveryComponent implements OnInit {
         this.isDelivering = this.order.status >= 3 && this.order.date_delivered == null ;
 
         this.hasDeliveryCode = this.order.deliverCode != null;
-        
+
         this.delivererForm = this.fb.group({
           code: ["", Validators.required],
           notCode: false
         });
-      });  
-    });  
+      });
+    });
   }
 
   onValidateDelivery(): void {
@@ -61,7 +56,7 @@ export class DetailDeliveryComponent implements OnInit {
       if (this.hasDeliveryCode && !this.delivererForm.value.notCode) {
         this.isValid = this.delivererForm.value.code === this.order.deliverCode;
       }
-  
+
       if (this.delivererForm.value.notCode || this.isValid) {
         this.finalizeDelivery();
       }
@@ -87,7 +82,6 @@ export class DetailDeliveryComponent implements OnInit {
       modalRef.componentInstance.order = this.order;
       modalRef.result.then((result) => {
         if (result.response) {
-          console.log(result);
           this.saveOrderDeliverer(this.order.id, this.order.deliverer.id, Date.now(), true);
         }
       });
@@ -124,11 +118,9 @@ export class DetailDeliveryComponent implements OnInit {
         status: 3,
       }
     };
-    console.log(orderSave);
     this.deliveryService.saveOrderDeliverer(orderSave).subscribe(
       next => {
         if (refresh) {
-          console.warn("success", next);
           window.location.reload();
         }
       },
