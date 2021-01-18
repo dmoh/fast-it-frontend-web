@@ -35,9 +35,7 @@
             </div>
           </td>
           <td>
-            <div class="">
-              <span>{{ commerce.enabled }}</span>
-            </div>
+            <mat-slide-toggle (change)="onActivate($event, commerce)" [(ngModel)]="commerce.active"></mat-slide-toggle>
           </td>
           <td>
             <div class="">

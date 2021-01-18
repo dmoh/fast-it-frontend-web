@@ -218,6 +218,5 @@ export class RestaurantDashboardService {
 
   getAllbusinesses(): Observable<any> {
     return this.http.get<any>(`${this.urlApi}/business/all`, this.headers);
-
   }
 }

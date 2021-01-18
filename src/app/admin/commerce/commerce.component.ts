@@ -88,6 +88,21 @@ export class CommerceComponent implements OnInit {
       });
     console.log('commerce', {com: commerce, ev: event});
   }
+
+  onActivate(event, commerce: Restaurant) {
+    this.adminService.activateCommerce(commerce.id, commerce.active)
+      .subscribe((res) => {
+        let info = `Restaurant ${commerce.name} est inactif`;
+        if (commerce.active === true) {
+          info = `Restaurant ${commerce.name} est actif`;
+        }
+        this.snackBar.open(info, 'ok', {
+          duration: 5000,
+          horizontalPosition: this.horizontalPosition,
+          verticalPosition: this.verticalPosition,
+        });
+      });
+  }
 }
 
 

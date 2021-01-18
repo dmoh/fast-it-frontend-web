@@ -47,6 +47,17 @@ p {
   font-family: 'Raleway', sans-serif;
 }
 
+.img-wrapper {
+  overflow: hidden;
+  position: relative;
+  height: 180px;
+}
+.opaque {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,.5);
+}
 .reduce-padding {
   padding: .4rem !important;
 }

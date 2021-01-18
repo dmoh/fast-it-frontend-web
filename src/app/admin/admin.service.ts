@@ -67,4 +67,12 @@ export class AdminService {
       },
       this.headers);
   }
+
+
+  activateCommerce(restaurantId: number, state: boolean): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}/business/${restaurantId}/activate`,
+      {
+        restaurantIdCurrent: restaurantId, isActivate: state },
+      this.headers);
+  }
 }

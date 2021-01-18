@@ -111,9 +111,9 @@
         <p style="font-size: x-small"><em>(entièrement reversé au livreur)</em></p>
       </div>
       <div>
-        <div *ngIf="!cartCurrent.deliveryCost">
+        <div *ngIf="showLoaderCost == true">
           <div style="font-size: small">
-            <mat-spinner></mat-spinner>
+            <mat-spinner diameter="20"></mat-spinner>
           </div>
         </div>
         <div *ngIf="cartCurrent.deliveryCost">

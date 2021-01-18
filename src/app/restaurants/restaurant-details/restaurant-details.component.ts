@@ -18,6 +18,7 @@ import {ActivatedRoute} from '@angular/router';
 import {SecurityRestaurantService} from '@app/_services/security-restaurant.service';
 import {InfoModalComponent} from '@app/info-modal/info-modal.component';
 import {SpecialOffer} from "@app/_models/special-offer";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-restaurant-details',
@@ -47,6 +48,7 @@ export class RestaurantDetailsComponent implements OnInit, AfterViewInit{
               private cartService: CartService,
               private restaurantService: RestaurantDashboardService,
               private route: ActivatedRoute,
+              private snackBar: MatSnackBar,
               private securityRestaurantService: SecurityRestaurantService
               ) {
 
@@ -151,6 +153,12 @@ export class RestaurantDetailsComponent implements OnInit, AfterViewInit{
         modal.componentInstance.restaurant = this.restaurant;
         modal.result.then((prod: Product) => {
           if (prod) {
+
+            this.snackBar.open(`${this.capitalizeFirstLetter(prod.name)} a été ajouté au panier`, 'ok', {
+              duration: 3000,
+              verticalPosition: 'top',
+              horizontalPosition: 'center'
+            });
             this.cartService.cartUpdated.subscribe((cart: Cart) => this.cartCurrent = cart);
           }
         });
@@ -158,6 +166,9 @@ export class RestaurantDetailsComponent implements OnInit, AfterViewInit{
     }
   }
 
+  capitalizeFirstLetter(word: string) {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+  }
 
   @HostListener('window:scroll', ['$event'])
   handleScroll(){

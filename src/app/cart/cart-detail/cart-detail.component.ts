@@ -13,7 +13,8 @@ import {OrderModalComponent} from '@app/restaurants/order-modal/order-modal.comp
 import {Product} from '@app/models/product';
 import {InfoModalComponent} from '@app/info-modal/info-modal.component';
 import {environment} from '../../../environments/environment';
-import {TipModalComponent} from "@app/tip-modal/tip-modal.component";
+import {TipModalComponent} from '@app/tip-modal/tip-modal.component';
+import { timer } from 'rxjs';
 
 @Component({
   selector: 'app-cart-detail',
@@ -38,7 +39,7 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
   paymentValidation: boolean;
   responseDistanceGoogle: any;
   stripeKey = environment.stripeKey;
-
+  showLoaderCost: boolean = false;
   constructor(
     private cartService: CartService,
     private userService: UserService,
@@ -67,6 +68,7 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
     // check if restau not closed
     this.userService.getUserAddresses().subscribe((result) => {
       this.showLoader = false;
+      this.showLoaderCost = true;
       this.phoneCustomer = result.data[0].phone;
       this.userAddresses = result.data[0].addresses;
       const modalRef = this.addressConfirmationModal.open(AddressModalComponent, {
@@ -82,6 +84,13 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
       }
       modalRef.componentInstance.phoneCustomer = this.phoneCustomer;
       modalRef.result.then((res) => {
+        const source = timer(2500, 2000);
+        const rr = source.subscribe((val) => {
+          this.showLoaderCost = false;
+        });
+        setTimeout(() => {
+          rr.unsubscribe();
+        }, 10000);
         const origin = `${this.cartCurrent.restaurant.street},
          ${this.cartCurrent.restaurant.city},
          ${this.cartCurrent.restaurant.zipcode}`
@@ -99,26 +108,21 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
           destinations: [addressChoosen],
           travelMode: google.maps.TravelMode.DRIVING,
         }, (response, status) => {
+
           if (response.rows === null) {
             this.showModalErrorAddress();
           }
-          if (response.rows[0].elements[0].status === 'OK') {
+          else if (response.rows[0].elements[0].status === 'OK') {
             const responseDistance = response.rows[0].elements[0];
             this.responseDistanceGoogle = responseDistance;
             this.cartService.getCostDelivery(responseDistance)
               .subscribe((resp) => {
-                setTimeout(() => {
-                  this.showLoader = false;
-                }, 1000);
-                const pro = new Promise(() => {
-                  this.cartService.setDeliveryCost(resp.deliveryInfos);
-                  this.hasAddressSelected = true;
-                });
-                pro.then((respPro) => {
-                  this.cartService.generateTotalCart(true);
-                  this.cartService.cartUpdated.subscribe((cartUpdated: Cart) => {
-                    this.cartCurrent = cartUpdated;
-                  });
+                this.cartCurrent.deliveryCost = resp.deliveryInfos;
+                this.cartService.setDeliveryCost(resp.deliveryInfos);
+                this.hasAddressSelected = true;
+                this.cartService.generateTotalCart(true);
+                this.cartService.cartUpdated.subscribe((cartUpdated: Cart) => {
+                  this.cartCurrent = cartUpdated;
                 });
               });
           } else {
@@ -275,7 +279,7 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
                                 this.cartCurrent = cartUpdated;
                                 setTimeout(() => {
                                   window.location.href = `${window.location.origin}/customer/notification`;
-                                }, 100);
+                                }, 50);
                                 // this.router.navigate(['customer/notification']);
                               });
                             }
