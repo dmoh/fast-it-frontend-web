@@ -74,7 +74,7 @@ export class LoginComponent implements OnInit {
         return;
       }
       registerPass = registerPass.trim();
-      const rPaswd = /^[a-zA-Z0-9\-_.!@#$&*]{8,15}$/;
+      const rPaswd = /^[a-zA-Z0-9\-_.!@#$&*]{8,15}/;
       if (registerPass.match(rPaswd) === null) {
         this.error = 'Le mot de passe contient un ou des caractère(s) non autorisé(s)';
         return;

@@ -41,34 +41,7 @@ export class ShowOrderComponent implements OnInit {
             .subscribe((response) => {
               if (response.ok) {
                 localStorage.setItem('currentUser', '{ "token":"' + decodeURI(this.token) + '"}');
-                /*if (res.p) {
-                  const listProductURi = decodeURI(res.p).trim().split('x')
-                  .filter( product => {
-                      return product !== '';
-                  });
-                  listProductURi.forEach( product => {
-                    const productBis: any = { };
-                    productBis.quantity = product.split(' ')[0];
-                    productBis.name = product.split(' ')[1];
-                    productBis.amount = product.split(' ')[2];
-                    productBis.id = product.split(' ')[3];
-                    this.products.push(productBis);
-                  });
-                }*/
-
-                // this.businessId = (res.restoId) ? +res.restoId : this.businessId;
                 this.orderId = (this.orderId) ? +this.orderId : this.orderId;
-
-                // createProductList
-                /*const listSuppProduct: any[] = decodeURI(res.suppProducts).trim().split(' ');
-                listSuppProduct.forEach( suppProduct => {
-                  let supplement: any = { };
-                  supplement = {
-                    productId : suppProduct.split("-NEXTSUP-")[0],
-                    name : suppProduct.split("-NEXTSUP-")[1],
-                  };
-                  this.supplementsProduct.push(supplement);
-                });*/
                 this.onShowModal();
               } else if (response.error)  {
                 const modalRef = this.orderModal.open(InfoModalComponent, {

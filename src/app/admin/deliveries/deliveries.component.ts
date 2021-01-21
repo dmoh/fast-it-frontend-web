@@ -56,14 +56,6 @@ export class DeliveriesComponent implements OnInit {
         this.deliveriesTakenByDeliverer = [];
         if (typeof response.deliveriesTakenByDeliverer !== 'undefined') {
           this.deliveriesTakenByDeliverer = response.deliveriesTakenByDeliverer;
-          /*if (this.deliveriesAttemptingByDeliverers && this.deliveriesAttemptingByDeliverers.length > 0) {
-            this.deliveriesAttemptingByDeliverers = this.deliveriesAttemptingByDeliverers.filter((elem) => {
-              const index = this.deliveriesTakenByDeliverer.findIndex(order => +order.order_id === +elem.order_id);
-              if (index === -1) {
-                return elem;
-              }
-            });
-          }*/
         }
         this.deliveriesEnded = [];
         if (response.deliveriesEnded) {

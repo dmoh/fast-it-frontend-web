@@ -1,9 +1,9 @@
 <div class="">
   <div class="modal-header">
     <h2 class="modal-title">Commande <b>#{{ order.id }}</b></h2>
+    <button mat-raised-button class="pl-3" (click)="onPrint()" color="primary">Imprimer</button>
     <button type="button" class="close" (click)="modalActive.close()" aria-label="Close" >
         <span aria-hidden="true">&times;</span>
-        <button mat-raised-button class="pl-3" (click)="onPrint()" color="primary">Imprimer</button>
     </button>
   </div>
   <div class="modal-body">
@@ -73,7 +73,8 @@
     Temps de préparation
   </div>
   <div *ngIf="order.status >= 2" class="modal-footer">
-    <h5 class="text-center">Cette commande a été traitée</h5>
+    <h5 class="text-left">Cette commande a été traitée.
+      <b *ngIf="order.estimatedPreparationTime">Temps de prépa. choisi <em>{{ order.estimatedPreparationTime }}</em></b></h5>
     <button style="margin: 1rem" (click)="modalActive.close('ok')" mat-raised-button color="primary">
       OK
     </button>
