@@ -171,6 +171,9 @@
               <div style="font-size: small">
                 Payé à <b><em>{{ orderDelivery.payedAt.date | date: "HH:mm:ss" }}</em></b>
               </div>
+              <div>
+                <span>Tps Prépa. {{ orderDelivery.preparationTime ? orderDelivery.preparationTime : ''}}</span>
+              </div>
               <div style="align-self: flex-end;width: 100%;text-align: left;">
                 <span style="font-size: small">Temps: {{ second }}s</span>
               </div>
@@ -209,6 +212,9 @@
                   {{ orderDelivery.customer_email }}
                 </a>
               </span>
+              <span *ngIf="orderDelivery.timeDisplayedToCustomer" class="d-block">
+                Tps affiché au client <b>{{ orderDelivery.timeDisplayedToCustomer }}</b>
+              </span>
               <span>{{ orderDelivery.customerCity | titlecase }}</span>
             </div>
           </div>
@@ -231,6 +237,9 @@
               </div>
               <div style="font-size: small">
                 Payé à <b><em>{{ orderDelivery.payedAt.date | date: "HH:mm:ss" }}</em></b>
+              </div>
+              <div>
+                <span>Tps Prépa. {{ orderDelivery.preparationTime ? orderDelivery.preparationTime : ''}}</span>
               </div>
               <div style="align-self: flex-end;width: 100%;text-align: left;">
                 <span style="font-size: small">Temps: {{ second }}s</span>
@@ -270,8 +279,11 @@
                   {{ orderDelivery.customer_email }}
                 </a>
               </span>
+              <span *ngIf="orderDelivery.timeDisplayedToCustomer" class="d-block">
+                Tps affiché au client <b>{{ orderDelivery.timeDisplayedToCustomer }}</b>
+              </span>
               <span>{{ orderDelivery.customerCity | titlecase }}</span>
-              <div style="font-size: small;position: absolute;bottom: 3px;">
+              <div style="font-size: small; display: block !important;">
                 Livrée à <b><em>{{ orderDelivery.date_delivered.date | date: "HH:mm:ss" }}</em></b>
               </div>
             </div>

@@ -15,6 +15,7 @@ export class Order {
   cartDetail: Cart;
   status: number;
   estimatedPreparationTime: string;
+  preparationTime: string;
   // tslint:disable-next-line:variable-name
   delivery_cost: number;
 }

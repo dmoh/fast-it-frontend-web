@@ -26,6 +26,9 @@ export class OrderModalComponent implements OnInit {
   public orderConst = orderConst;
   public firstChoice = '15 - 30';
   public secondChoice = '30 - 45';
+  public choiceFour   = '45 - 60';
+  public choiceFive   = '60 - 75';
+  public choiceSix   = '75 - 90';
   public thirdChoice = '+45';
 
   constructor(private route: ActivatedRoute,

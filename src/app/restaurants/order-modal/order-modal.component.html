@@ -74,7 +74,7 @@
   </div>
   <div *ngIf="order.status >= 2" class="modal-footer">
     <h5 class="text-left">Cette commande a été traitée.
-      <b *ngIf="order.estimatedPreparationTime">Temps de prépa. choisi <em>{{ order.estimatedPreparationTime }}</em></b></h5>
+      <b *ngIf="order.preparationTime">Temps de prépa. choisi <em>{{ order.preparationTime }}</em></b></h5>
     <button style="margin: 1rem" (click)="modalActive.close('ok')" mat-raised-button color="primary">
       OK
     </button>
@@ -88,6 +88,15 @@
     </div>
     <div *ngIf="!isRejectionMessage">
       <button mat-raised-button (click)="onValidate(thirdChoice)" color="primary">{{thirdChoice}}</button>
+    </div>
+    <div *ngIf="!isRejectionMessage">
+      <button mat-raised-button (click)="onValidate(choiceFour)" color="primary">{{thirdChoice}}</button>
+    </div>
+    <div *ngIf="!isRejectionMessage">
+      <button mat-raised-button (click)="onValidate(choiceFive)" color="primary">{{thirdChoice}}</button>
+    </div>
+    <div *ngIf="!isRejectionMessage">
+      <button mat-raised-button (click)="onValidate(choiceSix)" color="primary">{{thirdChoice}}</button>
     </div>
     <button *ngIf="isRejectionMessage" mat-raised-button (click)="onValidateRejectionMessage()" color="warn">Envoyer refus</button>
     <div>
