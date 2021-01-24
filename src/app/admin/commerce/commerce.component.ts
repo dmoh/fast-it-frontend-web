@@ -5,6 +5,8 @@ import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {EditCommerceComponent} from "@app/admin/commerce/edit-commerce/edit-commerce.component";
 import {MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition} from "@angular/material/snack-bar";
 import {Router} from "@angular/router";
+import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
+import {CategoryProduct} from "@app/_models/category-product";
 
 @Component({
   selector: 'app-commerce',
@@ -101,6 +103,28 @@ export class CommerceComponent implements OnInit {
           horizontalPosition: this.horizontalPosition,
           verticalPosition: this.verticalPosition,
         });
+      });
+  }
+  drop(event: CdkDragDrop<Restaurant[]>) {
+    moveItemInArray(this.commerces, event.previousIndex, event.currentIndex);
+  }
+
+
+  onValidatePosition() {
+    let commercePosition = [];
+    this.commerces.forEach((restaurant, index) => {
+      commercePosition = [...commercePosition, {restaurantId: restaurant.id, position: index++}];
+    });
+
+    this.adminService.updatePositionCommerce(commercePosition)
+      .subscribe((res) => {
+        if (res.ok) {
+          this.snackBar.open('Positionnement des restaurants enregistrées!', 'OK', {
+            duration: 5000,
+            horizontalPosition: 'center',
+            verticalPosition: 'top',
+          });
+        }
       });
   }
 }

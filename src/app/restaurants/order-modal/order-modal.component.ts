@@ -29,7 +29,6 @@ export class OrderModalComponent implements OnInit {
   public choiceFour   = '45 - 60';
   public choiceFive   = '60 - 75';
   public choiceSix   = '75 - 90';
-  public thirdChoice = '+45';
 
   constructor(private route: ActivatedRoute,
               public modalActive: NgbActiveModal,
@@ -101,3 +100,5 @@ export class OrderModalComponent implements OnInit {
   }
 
 }
+
+

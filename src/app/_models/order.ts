@@ -11,7 +11,7 @@ export class Order {
   deliverCode: string = null;
   payedAt: string = null;
   orderAcceptedByMerchant?: boolean;
-  idReference?: string = null; // AAAAMMNUMID EXemple: 20200800000001
+  idReference?: string = null;
   cartDetail: Cart;
   status: number;
   estimatedPreparationTime: string;

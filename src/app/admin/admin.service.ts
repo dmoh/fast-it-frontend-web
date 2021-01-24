@@ -75,4 +75,11 @@ export class AdminService {
         restaurantIdCurrent: restaurantId, isActivate: state },
       this.headers);
   }
+
+  updatePositionCommerce(arrOfPosition: any[]): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}/business/position/update`,
+      {
+        restaurants: arrOfPosition },
+      this.headers);
+  }
 }

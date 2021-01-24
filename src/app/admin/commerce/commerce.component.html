@@ -11,10 +11,10 @@
         </div>
       </div>
     </div>
-    <div class="table-responsive">
+    <div class="table-responsive" style="position: relative">
       <table class="table table-striped no-wrap v-middle">
         <thead>
-        <tr>
+        <tr >
           <th class="border-0">Rèf.</th>
           <th class="border-0">Nom</th>
           <th class="border-0">Actif</th>
@@ -22,8 +22,8 @@
           <th class="broder-0">Fermé</th>
         </tr>
         </thead>
-        <tbody>
-        <tr class="pd-top-bottom-1" *ngFor="let commerce of commerces">
+        <tbody cdkDropList cdkDropListOrientation="vertical"  (cdkDropListDropped)="drop($event)">
+        <tr class="pd-top-bottom-1" *ngFor="let commerce of commerces"  cdkDrag>
           <td>
             <div class="">
               <span>{{ commerce.id }}</span>
@@ -49,6 +49,9 @@
         </tr>
         </tbody>
       </table>
+    </div>
+    <div>
+      <button  mat-raised-button color="primary" (click)="onValidatePosition()">Valider le positionnement</button>
     </div>
   </div>
 </div>

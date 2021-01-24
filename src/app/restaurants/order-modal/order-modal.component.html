@@ -87,16 +87,13 @@
       <button mat-raised-button (click)="onValidate(secondChoice)" color="primary">{{secondChoice}}</button>
     </div>
     <div *ngIf="!isRejectionMessage">
-      <button mat-raised-button (click)="onValidate(thirdChoice)" color="primary">{{thirdChoice}}</button>
+      <button mat-raised-button (click)="onValidate(choiceFour)" color="primary">45 - 1h</button>
     </div>
     <div *ngIf="!isRejectionMessage">
-      <button mat-raised-button (click)="onValidate(choiceFour)" color="primary">{{thirdChoice}}</button>
+      <button mat-raised-button (click)="onValidate(choiceFive)" color="primary">1h - 1h15</button>
     </div>
     <div *ngIf="!isRejectionMessage">
-      <button mat-raised-button (click)="onValidate(choiceFive)" color="primary">{{thirdChoice}}</button>
-    </div>
-    <div *ngIf="!isRejectionMessage">
-      <button mat-raised-button (click)="onValidate(choiceSix)" color="primary">{{thirdChoice}}</button>
+      <button mat-raised-button (click)="onValidate(choiceSix)" color="primary">1h15 - 1h30</button>
     </div>
     <button *ngIf="isRejectionMessage" mat-raised-button (click)="onValidateRejectionMessage()" color="warn">Envoyer refus</button>
     <div>
