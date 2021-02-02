@@ -30,7 +30,7 @@ export class AwaitingDeliveryComponent implements OnInit {
   fastEatConst = fasteatconst;
 
   userNameNoLimit = "fasteat74@gmail.com";
-  nbDeliveryMax = 2;
+  nbDeliveryMax = 1;
 
   constructor(private http: HttpClient,
      private authenticate: AuthenticationService,
