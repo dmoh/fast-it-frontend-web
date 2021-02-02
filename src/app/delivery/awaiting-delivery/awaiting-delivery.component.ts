@@ -9,6 +9,7 @@ import { DeliveryService } from '../services/delivery.service';
 import * as fasteatconst from "@app/_util/fasteat-constants";
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { InfoModalComponent } from '@app/info-modal/info-modal.component';
+import { Test } from 'tslint';
 
 @Component({
   selector: 'app-awaiting-delivery',
@@ -28,8 +29,10 @@ export class AwaitingDeliveryComponent implements OnInit {
   headers: any;
   fastEatConst = fasteatconst;
 
-  constructor(
-    private http: HttpClient,
+  userNameNoLimit = "fasteat74@gmail.com";
+  nbDeliveryMax = 2;
+
+  constructor(private http: HttpClient,
      private authenticate: AuthenticationService,
      private deliveryService: DeliveryService,
      private orderModal: NgbModal,
@@ -43,19 +46,41 @@ export class AwaitingDeliveryComponent implements OnInit {
     this.deliverer = new Deliverer();
     this.deliverer.orders = [];
 
-    if (this.activatedRoute.snapshot.paramMap.get('id') != null) {
-      this.orderId = this.activatedRoute.snapshot.paramMap.get('id');
-      // add method affecter livreur
-      this.doAffectDeliverer(+this.orderId);
-    } else {
-      // get Orders awaiting delivery
-      this.deliveryService.getCurrentOrders().subscribe((delivererCurrent) => {
-        this.deliverer = delivererCurrent;
-        this.orders = (this.deliverer.orders != null) ? this.deliverer.orders : [];
-      });
-    }
+    this.deliveryService.getCurrentOrders().subscribe((delivererCurrent) => {
+      if (this.activatedRoute.snapshot.paramMap.get('id') != null ) {
+        // console.log("Orders count", delivererCurrent?.orders?.find(order => order?.date_taken_deliverer != null) );
+        // TODO: 10.01.2021 Ajouter 2 constantes ( Mail livreur admin && Nb de courses possible )
+        const canAffectDeliverer = delivererCurrent?.email === this.userNameNoLimit ||
+        // delivererCurrent?.orders?.find(order => order?.date_taken_deliverer != null).length < 3;
+        delivererCurrent?.orders?.length < this.nbDeliveryMax;
+
+        this.orderId = this.activatedRoute.snapshot.paramMap.get('id');
+        if (canAffectDeliverer) {
+          // add method affecter livreur
+          this.doAffectDeliverer(+this.orderId);
+        } else {
+          this.showModalInfo('Information', `${this.nbDeliveryMax} Livraisons maximum !`);
+        }
+      } else {
+        // get Orders awaiting delivery
+          this.deliverer = delivererCurrent;
+          this.orders = (this.deliverer.orders != null) ? this.deliverer.orders : new Array();
+        }
+    });
   }
 
+
+  private showModalInfo(title: string, message: string) {
+    const modalRef = this.orderModal.open(InfoModalComponent, {
+      backdrop: 'static',
+      keyboard: false,
+    });
+    modalRef.componentInstance.title = title;
+    modalRef.componentInstance.message = message;
+    modalRef.result.then((close) => {
+      this.router.navigate(['/delivery/awaiting-delivery']);
+    });
+  }
 
   // Affecter un livreur  à une commande
   private doAffectDeliverer(orderId: number) {
@@ -63,25 +88,19 @@ export class AwaitingDeliveryComponent implements OnInit {
       this.order = currentOrder;
       // console.log("currentOrder", currentOrder);
         this.deliveryService.getDeliverer().subscribe( (deliverer) => {
-          // console.log("deliverer", deliverer);
-          if (currentOrder.deliverer == null && deliverer.id) {
+          console.log("deliverer", deliverer);
+
+          if ( currentOrder.deliverer == null && deliverer.id ) {
             const dateTakenDeliverer = Date.now();
             this.saveOrderDeliverer(currentOrder.id, deliverer.id , dateTakenDeliverer, 3);
           }
           else {
-            const modalRef = this.orderModal.open(InfoModalComponent, {
-              backdrop: 'static',
-              keyboard: false,
-            });
-            modalRef.componentInstance.title = 'Information';
             let delivererEmail = '.';
             if (typeof this.deliverer !== 'undefined' && typeof this.deliverer.email !== 'undefined') {
               delivererEmail = ' par ' + this.deliverer.email;
             }
-            modalRef.componentInstance.message = 'Cette livraison a été récupérée' + delivererEmail;
-            modalRef.result.then((close) => {
-              this.router.navigate(['/delivery/awaiting-delivery']);
-            });
+            delivererEmail = 'Cette livraison a été récupérée' + delivererEmail;
+            this.showModalInfo('Information', delivererEmail);
           }
         });
     });

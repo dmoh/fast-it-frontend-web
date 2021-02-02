@@ -58,6 +58,11 @@ p {
   height: 100%;
   background: rgba(0,0,0,.5);
 }
+
+.img-baker {
+  width: 390px;
+  height: auto;
+}
 .separator {
 
   margin-top: .1rem;
@@ -74,7 +79,9 @@ p {
     background: #ccc;
   }
 }
-
+.h2-baker {
+  font-size: 2.2rem;
+}
 .reduce-padding {
   padding: .4rem !important;
 }
@@ -84,7 +91,13 @@ p {
     height: 350px;
     margin-bottom: 1rem;
   }
+  .img-baker {
+    width: 100%;
+  }
 
+  .h2-baker {
+    font-size: 1.5rem;
+  }
   .mini-card-restaurant {
     height: 95px;
   }
