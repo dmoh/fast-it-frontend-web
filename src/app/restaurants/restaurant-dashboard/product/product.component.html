@@ -1,5 +1,196 @@
 <div class="dashboard-component">
   <div class="card">
+    <div *ngIf="productsResto" class="card-body">
+      <h5 style="font-size: 1.4rem; text-transform: uppercase">Rechercher un produit</h5>
+      <p>
+        <mat-form-field appearance="outline">
+          <mat-label>Rechercher un produit</mat-label>
+          <input
+            [(ngModel)]="findProduct"
+            (keydown)="onSearchProduct()"
+            (keypress)="onSearchProduct()"
+            (keyup)="onSearchProduct()"
+            matInput placeholder="Placeholder">
+          <mat-icon matSuffix></mat-icon>
+        </mat-form-field>
+      </p>
+      <div *ngIf="arraySearchProduct" class="row">
+        <div *ngFor="let product of arraySearchProduct" class="col-md-3">
+          <div style="padding: 0" class="card-body">
+            <div *ngIf="product.urlPhoto.trim() !== ''" style="padding: 0" class="wrapper-img">
+              <img src="{{ product.urlPhoto }}" alt="" width="100%" height="auto">
+            </div>
+            <div class="infos-product">
+              <div class="mt-1 name-product">
+                {{ product.name }}
+                <span style="float: right">{{ (+(product.amount)/100).toFixed(2) +'€'}}</span>
+              </div>
+              <div style="justify-content: space-between" class="mt-3 mb-3 description-product d-flex w-100">
+                <div>
+                  {{ product.description }}
+                </div>
+                <div>
+                  <mat-slide-toggle [(ngModel)]="product.isAvailable" (change)="onChangeStateProduct(product)" >{{ product.isAvailable == true ? 'Disponible' : 'Indisponible' }}</mat-slide-toggle>
+                </div>
+              </div>
+              <!--<div *ngIf="product.supplementsProduct.length > 0">
+                <h6 style="font-size: .8rem">Supplément(s) éventuel(s)</h6>
+                <ul>
+                  <li *ngFor="let sup of product.supplementsProduct">
+                    <span (click)="onDelete('supplement', {product: product, supplement: sup.id})"
+                          class="material-icons"
+                          style="cursor: pointer; font-size: large; color: red; padding-right: .5rem">
+                      remove
+                    </span>
+                    {{ sup.name }} <span style="float: right; font-weight: 200">{{ +(sup.amount) > 0 ? (+(sup.amount) / 100).toFixed(0) + '€' : 'Sans Frais'  }}</span>
+                  </li>
+                </ul>
+              </div>-->
+              <div class="rating-product">
+              <span class="material-icons rating-stars">
+                star
+              </span>
+                <span class="material-icons rating-stars">
+                star
+              </span>
+                <span class="material-icons rating-stars">
+                star
+              </span>
+                <span class="material-icons rating-stars">
+                star
+              </span>
+                <span class="material-icons rating-stars">
+                star
+              </span>
+              <span *ngIf="hasRoleSuperAdmin" style="float:right">
+                <span (click)="openDialog(product)" title="Modifier" style="color: #0B7FC7; font-size: 1.1rem;padding-right:  .7rem" class="material-icons">
+                  edit
+                </span>
+                <span title="Supprimer" style="color: red; font-size: 1.1rem" class="material-icons">
+                  delete
+                </span>
+              </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--<h5><mat-slide-toggle>Vue Tableau</mat-slide-toggle></h5>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>Date</th>
+          <th>Image</th>
+          <th>Produit</th>
+          <th>Qté</th>
+          <th>Montant (unitaire)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let product of productsResto">
+          <td>{{ product.createdAt }}</td>
+          <td>
+          <span *ngIf="product.urlPhoto && product.urlPhoto.trim() != ''">
+            <a href="{{ product.urlPhoto }}" target="_blank">
+              <span class="material-icons">
+                photo
+              </span>
+            </a>
+          </span>
+          </td>
+          <td>{{ product.name }}</td>
+          <td>{{ product.remaining_quantity }}</td>
+          <td>{{ ((+(product.amount) / 100).toFixed(2)).replace('.', ',') + '€' }}</td>
+          <sds!--<td>{{ ((p.product.amount/ 100) - ((+(p.product.amount) / 100) * 0.23)).toFixed(2) + '€' }}</td>
+          <td>{{ (((+(p.product.amount) / 100) * 0.23)).toFixed(2) + '€' }}</td>--sds>
+        </tr>
+        </tbody>
+      </table>
+
+    </div>-->
+  </div>
+  <div style="padding: .7rem" class="card">
+    <h5 style="font-size: 1.4rem">
+      PRODUITS
+      <span *ngIf="productsResto">({{ productsResto.length }})</span> <span style="float: right">
+
+      <button *ngIf="hasRoleSuperAdmin" (click)="openDialog()" mat-raised-button color="primary">
+        Ajouter
+      </button>
+      </span>
+    </h5>
+    <div class="row">
+      <div *ngFor="let product of  productsResto" class="col-md-3">
+        <div style="margin: 1rem 0; background: white; border: none " class="card">
+          <!--<div (click)="onDelete('product', {product: product, supplement:'' })" class="delete-element" style="padding-top:.3rem; /*text-align: center; vertical-align:middle;font-size: x-large; color: white; */">
+          <span style="color: white; font-size: x-large; cursor:pointer; " class="material-icons">
+            cancel
+          </span>
+          </div>-->
+          <div style="padding: 0" class="card-body">
+            <div style="padding: 0" class="wrapper-img">
+              <img src="{{ product.urlPhoto }}" alt="" width="100%" height="auto">
+            </div>
+            <div class="infos-product">
+              <div class="mt-1 name-product">
+                {{ product.name }}
+                <span style="float: right">{{ (+(product.amount)/100).toFixed(2) +'€'}}</span>
+              </div>
+              <div style="justify-content: space-between" class="mt-3 mb-3 description-product d-flex w-100">
+                <div>
+                  {{ product.description }}
+                </div>
+                <div>
+                  <mat-slide-toggle [(ngModel)]="product.isAvailable" (change)="onChangeStateProduct(product)" >{{ product.isAvailable == true ? 'Disponible' : 'Indisponible' }}</mat-slide-toggle>
+                </div>
+              </div>
+              <!--<div *ngIf="product.supplementsProduct.length > 0">
+                <h6 style="font-size: .8rem">Supplément(s) éventuel(s)</h6>
+                <ul>
+                  <li *ngFor="let sup of product.supplementsProduct">
+                    <span (click)="onDelete('supplement', {product: product, supplement: sup.id})"
+                          class="material-icons"
+                          style="cursor: pointer; font-size: large; color: red; padding-right: .5rem">
+                      remove
+                    </span>
+                    {{ sup.name }} <span style="float: right; font-weight: 200">{{ +(sup.amount) > 0 ? (+(sup.amount) / 100).toFixed(0) + '€' : 'Sans Frais'  }}</span>
+                  </li>
+                </ul>
+              </div>-->
+              <div class="rating-product">
+              <span class="material-icons rating-stars">
+                star
+              </span>
+                <span class="material-icons rating-stars">
+                star
+              </span>
+                <span class="material-icons rating-stars">
+                star
+              </span>
+                <span class="material-icons rating-stars">
+                star
+              </span>
+                <span class="material-icons rating-stars">
+                star
+              </span>
+                <span *ngIf="hasRoleSuperAdmin" style="float:right">
+                <span (click)="openDialog(product)" title="Modifier" style="color: #0B7FC7; font-size: 1.1rem;padding-right:  .7rem" class="material-icons">
+                  edit
+                </span>
+                <span title="Supprimer" style="color: red; font-size: 1.1rem" class="material-icons">
+                  delete
+                </span>
+              </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
     <div class="card-body">
       <h5 style="font-size: 1.4rem; text-transform: uppercase">Promotion</h5>
       <button mat-raised-button [disabled]="!restaurant" (click)="addSpecialOffer(restaurant.id)" color="primary">Ajouter une promotion</button>
@@ -68,7 +259,7 @@
         </div>
       </div>
     </div>
-    <div *ngIf="categories">
+    <!--<div *ngIf="categories">
       <div *ngFor="let category of categories">
         <div class="card category">
           <div  class="card-body">
@@ -89,106 +280,9 @@
           </div>
         </div>
       </div>
-    </div>
+    </div>-->
     <hr>
-    <h5 style="font-size: 1.4rem">PRODUITS <span *ngIf="productsResto">({{ productsResto.length }})</span> <span style="float: right"><button (click)="openDialog()" mat-raised-button color="primary">Ajouter</button></span></h5>
-    <h5><mat-slide-toggle>Vue Tableau</mat-slide-toggle></h5>
-    <div class="table-responsive">
-      <table class="table table-striped">
-        <thead>
-        <tr>
-          <th>Date</th>
-          <th>Image</th>
-          <th>Produit</th>
-          <th>Qté</th>
-          <th>Montant (unitaire)</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let product of productsResto">
-          <td>{{ product.createdAt }}</td>
-          <td>
-          <span *ngIf="product.urlPhoto && product.urlPhoto.trim() != ''">
-            <a href="{{ product.urlPhoto }}" target="_blank">
-              <span class="material-icons">
-                photo
-              </span>
-            </a>
-          </span>
-          </td>
-          <td>{{ product.name }}</td>
-          <td>{{ product.remaining_quantity }}</td>
-          <td>{{ ((+(product.amount) / 100).toFixed(2)).replace('.', ',') + '€' }}</td>
-          <!--<td>{{ ((p.product.amount/ 100) - ((+(p.product.amount) / 100) * 0.23)).toFixed(2) + '€' }}</td>
-          <td>{{ (((+(p.product.amount) / 100) * 0.23)).toFixed(2) + '€' }}</td>-->
-        </tr>
-        </tbody>
-      </table>
 
-    </div>
-    <div class="row">
-      <div *ngFor="let product of  productsResto" class="col-md-3">
-        <div style="margin: 1rem 0; background: white; border: none " class="card">
-          <div (click)="onDelete('product', {product: product, supplement:'' })" class="delete-element" style="padding-top:.3rem; /*text-align: center; vertical-align:middle;font-size: x-large; color: white; */">
-          <span style="color: white; font-size: x-large; cursor:pointer; " class="material-icons">
-            cancel
-          </span>
-          </div>
-          <div style="padding: 0" class="card-body">
-            <div style="padding: 0" class="wrapper-img">
-              <img src="{{ product.urlPhoto }}" alt="" width="100%" height="auto">
-            </div>
-            <div class="infos-product">
-              <div class="mt-1 name-product">
-                {{ product.name }}
-                <span style="float: right">{{ (+(product.amount)/100).toFixed(2) +'€'}}</span>
-              </div>
-              <div class="mt-1 mb-2 description-product">
-                {{ product.description }}
-              </div>
-              <!--<div *ngIf="product.supplementsProduct.length > 0">
-                <h6 style="font-size: .8rem">Supplément(s) éventuel(s)</h6>
-                <ul>
-                  <li *ngFor="let sup of product.supplementsProduct">
-                    <span (click)="onDelete('supplement', {product: product, supplement: sup.id})"
-                          class="material-icons"
-                          style="cursor: pointer; font-size: large; color: red; padding-right: .5rem">
-                      remove
-                    </span>
-                    {{ sup.name }} <span style="float: right; font-weight: 200">{{ +(sup.amount) > 0 ? (+(sup.amount) / 100).toFixed(0) + '€' : 'Sans Frais'  }}</span>
-                  </li>
-                </ul>
-              </div>-->
-              <div class="rating-product">
-              <span class="material-icons rating-stars">
-                star
-              </span>
-                <span class="material-icons rating-stars">
-                star
-              </span>
-                <span class="material-icons rating-stars">
-                star
-              </span>
-                <span class="material-icons rating-stars">
-                star
-              </span>
-                <span class="material-icons rating-stars">
-                star
-              </span>
-                <span style="float:right">
-                <span (click)="openDialog(product)" title="Modifier" style="color: #0B7FC7; font-size: 1.1rem;padding-right:  .7rem" class="material-icons">
-                  edit
-                </span>
-                <span title="Supprimer" style="color: red; font-size: 1.1rem" class="material-icons">
-                  delete
-                </span>
-              </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 
 </div>

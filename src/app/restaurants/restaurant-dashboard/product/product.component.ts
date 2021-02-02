@@ -34,7 +34,10 @@ export class ProductComponent implements OnInit {
   supplements: Supplement[];
   productBeforeUpdate: any;
   listSupps: ListSupplements[];
+  findProduct: string = '';
+  arraySearchProduct: Product[] = [];
   specialOffers: SpecialOffer[];
+  hasRoleSuperAdmin: boolean = false;
   constructor(private restaurantService: RestaurantDashboardService,
               public dialog: MatDialog,
               public uploadService: UploadService,
@@ -43,7 +46,15 @@ export class ProductComponent implements OnInit {
               private securityRestaurantService: SecurityRestaurantService,
               private snackBar: MatSnackBar,
               private modalService: NgbModal
-              ) { }
+              ) {
+    // Check if has role Super Admin
+    if (localStorage.getItem('roles')){
+      const roles = JSON.parse(localStorage.getItem('roles'));
+      if (roles.indexOf('ROLE_SUPER_ADMIN') !== -1) {
+        this.hasRoleSuperAdmin = true;
+      }
+    }
+  }
 
   ngOnInit(): void {
     this.updateProductList();
@@ -62,7 +73,9 @@ export class ProductComponent implements OnInit {
                   this.restaurant = restaurantDb.restaurant;
                 });
             }
-            this.getListSupp(restaurantObj.id);
+            if (this.hasRoleSuperAdmin) {
+              this.getListSupp(restaurantObj.id);
+            }
             this.restaurantService.getProductListByBusinessId(restaurantObj.id)
               .subscribe((responseDb) => {
                 this.productsResto = responseDb.products;
@@ -330,5 +343,38 @@ export class ProductComponent implements OnInit {
       .subscribe((responseDb) => {
         this.specialOffers = responseDb.specialOffers;
       });
+  }
+
+  onChangeStateProduct(product: Product): void {
+    this.restaurantService.updateStateProduct(product.id, product.isAvailable)
+      .subscribe((res) => {
+        if (res.ok) {
+          const message = product.isAvailable === true ? 'Produit disponible' : 'Produit Indisponible';
+          this.snackBar.open(message, 'ok', {
+            duration: 3000
+          });
+        }
+    });
+  }
+
+
+  onSearchProduct(): void {
+    if (this.findProduct.trim().length >= 2) {
+        this.productsResto.forEach((elem) => {
+          const regExp = new RegExp(`(\s*)(${ this.findProduct })+(\s*)`, 'i');
+          if (regExp.test(elem.name)) {
+            const index = this.arraySearchProduct
+              .findIndex((prod) => +elem.id === +prod.id);
+            if (index === -1) {
+              this.arraySearchProduct = [elem, ...this.arraySearchProduct];
+            }
+          } else {
+            this.arraySearchProduct = this.arraySearchProduct
+              .filter((prod) => +prod.id !== +elem.id);
+          }
+        });
+    } else if (this.findProduct.trim().length < 2) {
+      this.arraySearchProduct = [];
+    }
   }
 }

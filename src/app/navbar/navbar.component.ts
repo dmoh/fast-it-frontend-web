@@ -8,6 +8,7 @@ import {RestaurantDashboardService} from '@app/restaurants/restaurant-dashboard/
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { SidenavService } from '@app/sidenav-responsive/sidenav.service';
+import {AdminService} from "@app/admin/admin.service";
 
 @Component({
   selector: 'app-navbar',
@@ -24,6 +25,8 @@ export class NavbarComponent implements OnInit {
   isSuper: boolean;
   showMenu: boolean;
   modeSide: string;
+  alertMessage: string;
+  classAlertMessage: string;
   constructor(
     private mediaQueryService: MediaQueryService,
     private authentication: AuthenticationService,
@@ -31,6 +34,7 @@ export class NavbarComponent implements OnInit {
     private cartService: CartService,
     private snackBar: MatSnackBar,
     private restaurantDashboardService: RestaurantDashboardService,
+    private adminService: AdminService,
     private router: Router,
     private route: ActivatedRoute
   ) { }
@@ -42,6 +46,15 @@ export class NavbarComponent implements OnInit {
     this.authentication.currentUser.subscribe((res) => {
       this.user = !res ? new User() : res;
     });
+
+    /*this.adminService
+      .getAlertMessage()
+      .subscribe((res) => {
+        if (res.ok) {
+          this.alertMessage = res.alertMessage;
+          this.classAlertMessage = res.classAlertMessage;
+        }
+      });*/
     this.authentication.currentRoles
       .subscribe((res) => {
         if (res !== null) {

@@ -219,4 +219,16 @@ export class RestaurantDashboardService {
   getAllbusinesses(): Observable<any> {
     return this.http.get<any>(`${this.urlApi}/business/all`, this.headers);
   }
+
+
+  updateStateProduct(productCurrentId: number, state: boolean): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}/product/state/update`, {
+      product:
+        {
+          id: productCurrentId,
+          isAvailable: state
+        }
+      },
+      this.headers);
+  }
 }

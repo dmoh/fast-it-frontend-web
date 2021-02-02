@@ -42,12 +42,22 @@
     </div>
   </div>
 </nav>
-<!--<div class="container-fluid">
+<!--<div *ngIf="alertMessage" class="container-fluid">
   <div class="row">
     <div style="margin-left: 0;padding-left: 0; padding-right: 0;" class="col-md-12">
-      <div style="margin-bottom: 0 !important; font-size: x-small" class="alert alert-success text-center" role="alert">
-        <i class="em em-tada" aria-role="presentation" aria-label="PARTY POPPER"></i>LA 1000<sup>éme</sup> COMMANDE OFFERTE ! LIVRAISON COMPRISE ! <i class="em em-tada" aria-role="presentation" aria-label="PARTY POPPER"></i>
+      <div style="margin-bottom: 0 !important; font-size: x-small" class="alert alert-warning text-center" role="alert">
+        {{ alertMessage | uppercase }}
+
       </div>
     </div>
   </div>
-</div>-->
+  <div *ngIf="alertMessage" class="container-fluid">
+  <div class="row">
+    <div style="margin-left: 0;padding-left: 0; padding-right: 0;" class="col-md-12">
+      <div style="margin-bottom: 0 !important; font-size: x-small" class="alert alert-warning text-center" role="alert">
+       Les livraisons sont momentanément indisponibles !
+      </div>
+    </div>
+  </div>
+
+</div> -->

@@ -58,6 +58,23 @@ p {
   height: 100%;
   background: rgba(0,0,0,.5);
 }
+.separator {
+
+  margin-top: .1rem;
+  width: 43px;
+  background: #da2be2;
+  margin-bottom: 1rem;
+  height: 4px;
+
+
+  &:after {
+    content: '';
+    height: 3px;
+    width: 40px;
+    background: #ccc;
+  }
+}
+
 .reduce-padding {
   padding: .4rem !important;
 }

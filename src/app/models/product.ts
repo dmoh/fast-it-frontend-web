@@ -31,5 +31,6 @@ export class Product {
     listSupplements: ListSupplements[] = [];
     supplementProducts: Supplement[] = [];
     indexProduct?: number;
+    isShow: boolean = true;
 }
 

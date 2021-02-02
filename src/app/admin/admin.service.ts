@@ -82,4 +82,10 @@ export class AdminService {
         restaurants: arrOfPosition },
       this.headers);
   }
+
+
+  getAlertMessage(): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}/alert/message/all`,
+      this.headers);
+  }
 }
