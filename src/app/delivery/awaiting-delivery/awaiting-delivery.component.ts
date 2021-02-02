@@ -51,7 +51,7 @@ export class AwaitingDeliveryComponent implements OnInit {
         // console.log("Orders count", delivererCurrent?.orders?.find(order => order?.date_taken_deliverer != null) );
         // TODO: 10.01.2021 Ajouter 2 constantes ( Mail livreur admin && Nb de courses possible )
         const canAffectDeliverer = delivererCurrent?.email === this.userNameNoLimit ||
-        delivererCurrent?.orders?.find(order => order?.date_taken_deliverer != null).length < 3;
+        delivererCurrent?.orders?.find(order => order?.date_taken_deliverer != null).length < this.nbDeliveryMax;
         // delivererCurrent?.orders?.length < this.nbDeliveryMax;
 
         this.orderId = this.activatedRoute.snapshot.paramMap.get('id');
