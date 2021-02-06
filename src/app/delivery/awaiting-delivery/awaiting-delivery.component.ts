@@ -51,8 +51,7 @@ export class AwaitingDeliveryComponent implements OnInit {
 
         // TODO: 10.01.2021 Ajouter 2 constantes ( Mail livreur admin && Nb de courses possible 06/02/2021 en bdd)
         const canAffectDeliverer = delivererCurrent?.email?.toLowerCase() == this.userNameNoLimit.toLowerCase() ||
-        awaitingDelivery.length <= this.nbDeliveryMax - 1;
-        // delivererCurrent?.orders?.length < this.nbDeliveryMax;
+        awaitingDelivery.length + 1 <= this.nbDeliveryMax;
         
         this.orderId = this.activatedRoute.snapshot.paramMap.get('id');
         if (canAffectDeliverer) {
