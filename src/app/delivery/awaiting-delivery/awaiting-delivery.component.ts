@@ -48,10 +48,10 @@ export class AwaitingDeliveryComponent implements OnInit {
     this.deliveryService.getCurrentOrders().subscribe((delivererCurrent) => {
       if (this.activatedRoute.snapshot.paramMap.get('id') != null ) {
         const awaitingDelivery = delivererCurrent?.orders?.filter(order => order?.date_delivered == null);
-
+        console.log(awaitingDelivery);
         // TODO: 10.01.2021 Ajouter 2 constantes ( Mail livreur admin && Nb de courses possible 06/02/2021 en bdd)
-        const canAffectDeliverer = delivererCurrent?.email?.toLowerCase() == this.userNameNoLimit.toLowerCase() ||
-        awaitingDelivery.length + 1 <= this.nbDeliveryMax;
+        const canAffectDeliverer = delivererCurrent?.email?.toLowerCase() == this.userNameNoLimit.toLowerCase() || awaitingDelivery == null ||
+        awaitingDelivery?.length + 1 <= this.nbDeliveryMax;
         
         this.orderId = this.activatedRoute.snapshot.paramMap.get('id');
         if (canAffectDeliverer) {
