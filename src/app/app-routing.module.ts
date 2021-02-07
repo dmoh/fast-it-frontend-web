@@ -10,6 +10,7 @@ import {AdminComponent} from '@app/admin/admin.component';
 import {PasswordComponent} from '@app/password/password.component';
 import {Page404Component} from "@app/page404/page404.component";
 import { SidenavResponsiveComponent } from './sidenav-responsive/sidenav-responsive.component';
+import {LegacyComponent} from "@app/legacy/legacy.component";
 
 
 const routes: Routes = [
@@ -18,6 +19,7 @@ const routes: Routes = [
     {path: 'login', component: LoginComponent},
     {path: 'password', component: PasswordComponent},
     { path: 'admin', component: AdminComponent, canActivate: [AuthGuard]  },
+    { path: 'legacy', component: LegacyComponent  },
     { path: 'show-order/:orderId/:token', component: ShowOrderComponent },
     {path: '', redirectTo: '/home', pathMatch: 'full'}
 ];

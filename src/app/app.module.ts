@@ -30,6 +30,7 @@ import { InfoModalComponent } from './info-modal/info-modal.component';
 import { PickupOrderModalComponent } from './pickup-order-modal/pickup-order-modal.component';
 import { SidenavService } from './sidenav-responsive/sidenav.service';
 import { SidenavResponsiveComponent } from './sidenav-responsive/sidenav-responsive.component';
+import { LegacyComponent } from './legacy/legacy.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { SidenavResponsiveComponent } from './sidenav-responsive/sidenav-respons
     InfoModalComponent,
     PickupOrderModalComponent,
     SidenavResponsiveComponent,
+    LegacyComponent,
   ],
   imports: [
     BrowserModule,
@@ -79,7 +81,8 @@ import { SidenavResponsiveComponent } from './sidenav-responsive/sidenav-respons
         CheckoutComponent,
         Page404Component,
         PasswordComponent,
-        InfoModalComponent
+        InfoModalComponent,
+        LegacyComponent
     ]
 })
 export class AppModule { }

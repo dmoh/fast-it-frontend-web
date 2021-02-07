@@ -14,6 +14,7 @@
     background-blend-mode: overlay;
     border: 1px solid #e185ff78;
 ">
+
     <div class="col-md-6" style="align-self: center; text-align: left; display: flex; flex-direction: column; justify-content: space-between; height: 100%">
       <div>
         <h2 class="h2-baker" style=" text-transform: capitalize; font-weight: 600; font-family: 'Roboto Condensed', sans-serif;">
@@ -39,26 +40,38 @@
     </div>
   </div>
 </section>
-<section class="d-block container pt-5">
+<section class="d-block container-fluid pt-5">
   <h2 style="font-size: 1.5rem" class="text-center">Quelles  <span style="color: #d800ff">envies</span>, aujourd'hui ?</h2>
+  <div *ngIf="restaurants" class="text-center">
+    <p>
+      <mat-form-field style="width: 50%" class="example-full-width">
+        <mat-label style="font-size: large; padding-bottom: 0; margin-bottom:  0">Trouver un restaurant</mat-label>
+        <input
+          [(ngModel)]="findRestaurant"
+          (keydown)="onSearchRestaurant()"
+          (keypress)="onSearchRestaurant()"
+          (keyup)="onSearchRestaurant()"
+          autocomplete="off"
+          matInput placeholder="Ex. Pizza" >
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </p>
+  </div>
+
   <div style="margin-top: 3rem" *ngIf="restaurants" class="row">
     <div
       *ngFor="let restaurant of restaurants"
       (click)="goToRestaurantBy(restaurant.id)"
-      class="col-md-4 mb-2 cursor-pointer">
+      class="col-md-3 mb-2 cursor-pointer">
       <div style=" position: relative" class="wrapper-img-left box-shadow-orange">
         <div style="position:absolute; z-index: 2000; top: 8px">
-          <!--<span style="padding: .4rem;background: #e5e5e5;font-size: smaller;border-radius: 5px;border: 1px solid #ccc;">
-            <span style="font-size: smaller" class="material-icons">schedule</span>
-            {{ restaurant.estimatedPreparationTime.replace(',', ' - ') + 'min' }}
-          </span>-->
         </div>
         <div
           class="img-wrapper"
           [ngStyle]="{background: 'url(' + restaurant.pathFile + ')', 'background-size': 'cover', 'background-position': 'center' }"
         >
           <div *ngIf="restaurant.closed == true" class="opaque text-center">
-            <h3 style="color: white;margin-top: 4.5rem;font-size: x-large;font-weight: 200;font-family: 'Oswald';">Momentanément indisponible en livraison</h3>
+            <h3 style="color: white;margin-top: 4.5rem;font-size: large;font-weight: 200;font-family: 'Oswald';">Momentanément indisponible en livraison</h3>
           </div>
         </div>
         <div style=" bottom: 0; width: 100%;overflow: hidden;" class="desc-bottom reduce-padding">

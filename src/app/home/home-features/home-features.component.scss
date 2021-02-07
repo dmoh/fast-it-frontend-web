@@ -86,6 +86,21 @@ p {
   padding: .4rem !important;
 }
 
+::ng-deep .mat-focused .mat-form-field-label {
+  /*change color of label*/
+  color: #b22aef !important;
+}
+
+::ng-deep.mat-form-field-underline {
+  /*change color of underline*/
+  background-color: #c61ac0 !important;
+}
+
+::ng-deep.mat-form-field-ripple {
+  /*change color of underline when focused*/
+  background-color: #ad2bec !important;;
+}
+
 @media (max-width: 768px) {
   .wrap-burger {
     height: 350px;

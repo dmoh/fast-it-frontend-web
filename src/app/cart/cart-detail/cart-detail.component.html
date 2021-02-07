@@ -90,15 +90,21 @@
   <div class="row">
     <div class="col-md-12">
       <h4>Adresse de livraison</h4>
-      <div *ngIf="addressChose">
-        Rue: <b>{{ addressChose.street }}</b>
+      <div *ngIf="addressChose" style="line-height: 3">
+        <div>
+          Nom: <b><em>{{ addressChose.name | titlecase }}</em></b>
+        </div>
+        <div>
+          Rue: <b>{{ addressChose.street }}</b>
         <div>
           Ville: <b>{{ addressChose.city }}</b>
         </div>
         <div>
           Code postale: <b>{{ addressChose.zipcode }}</b>
         </div>
+        <button mat-raised-button color="primary" (click)="onUpdateAddress()">Modifier l'adresse</button>
       </div>
+    </div>
     </div>
   </div>
   <hr>
@@ -196,6 +202,45 @@
 
   <div class="row">
     <div class="col-md-12">
+    </div>
+  </div>
+</section>
+<section class="footer mt-2">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-6">
+        <div>
+          <h5 class="font-large">Être en avance sur tout le monde ?</h5>
+        </div>
+        <div>
+          <!--<p>
+            <mat-form-field style="width: 100%;" appearance="outline">
+              <mat-label>C'est là ! Newsletter</mat-label>
+              <input matInput type="text" name="username" placeholder="Placeholder">
+              <mat-icon matSuffix>alternate_email</mat-icon>
+            </mat-form-field>
+          </p>-->
+        </div>
+      </div>
+      <div class="border-left col-md-6">
+        <div>
+          <h5  class="font-large">FAST-IT</h5>
+        </div>
+        <div>
+          28 Allée Ampère, 74300 Cluses
+        </div>
+        <div>
+          contact@fast-it.fr
+        </div>
+        <div>
+          <a style="color: white " routerLink="/legacy">Conditions Générales</a>
+        </div>
+      </div>
+    </div>
+    <div style="padding: .5rem" class="row mt-3">
+      <div class="col-md-12 text-center">
+        Tous droits réservés
+      </div>
     </div>
   </div>
 </section>

@@ -57,6 +57,10 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.onUpdateAddress();
+  }
+
+  onUpdateAddress() {
     this.paymentValidation = false;
     // Choix de l'adresse
     this.cartService.cartUpdated.subscribe((cartUpdated: Cart) => {
@@ -71,6 +75,7 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
       this.showLoaderCost = true;
       this.phoneCustomer = result.data[0].phone;
       this.userAddresses = result.data[0].addresses;
+      this.addressChose = null;
       const modalRef = this.addressConfirmationModal.open(AddressModalComponent, {
         backdrop: 'static',
         keyboard: false,
@@ -80,7 +85,7 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
         modalRef.componentInstance.address = null;
       } else {
         modalRef.componentInstance.address = this.userAddresses[0];
-        modalRef.componentInstance.firstname = this.userAddresses[0].firstname;
+        modalRef.componentInstance.nameCustomer = this.userAddresses[0].name;
       }
       modalRef.componentInstance.phoneCustomer = this.phoneCustomer;
       modalRef.result.then((res) => {
@@ -99,7 +104,7 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
         this.userService.savePhoneNumber(res.phone)
           .subscribe((responseServer) => {
           });
-        this.addressChose = res;
+        this.addressChose = Object.assign({}, res);
         const addressChoosen = `${res.street}, ${res.city}, ${res.zipcode}`;
         // send result google for calculate backend side
         const directionsService = new google.maps.DistanceMatrixService();

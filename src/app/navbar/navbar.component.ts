@@ -8,7 +8,7 @@ import {RestaurantDashboardService} from '@app/restaurants/restaurant-dashboard/
 import {ActivatedRoute, Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { SidenavService } from '@app/sidenav-responsive/sidenav.service';
-import {AdminService} from "@app/admin/admin.service";
+import {AdminService} from '@app/admin/admin.service';
 
 @Component({
   selector: 'app-navbar',

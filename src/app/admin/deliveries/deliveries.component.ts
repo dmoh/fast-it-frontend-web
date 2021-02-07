@@ -29,9 +29,7 @@ export class DeliveriesComponent implements OnInit {
 
   ngOnInit(): void {
     this.getDeliveriesDb();
-
     const source = timer(4000, 7000);
-
     const subscribe = source.subscribe(val => {
       this.second = val;
       this.getDeliveriesDb();
