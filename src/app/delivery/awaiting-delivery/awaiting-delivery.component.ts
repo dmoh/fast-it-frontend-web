@@ -38,7 +38,6 @@ export class AwaitingDeliveryComponent implements OnInit {
      private orderModal: NgbModal,
      private activatedRoute: ActivatedRoute,
      private router: Router) {
-
   }
 
   ngOnInit(): void {
@@ -48,12 +47,12 @@ export class AwaitingDeliveryComponent implements OnInit {
 
     this.deliveryService.getCurrentOrders().subscribe((delivererCurrent) => {
       if (this.activatedRoute.snapshot.paramMap.get('id') != null ) {
-        // console.log("Orders count", delivererCurrent?.orders?.find(order => order?.date_taken_deliverer != null) );
-        // TODO: 10.01.2021 Ajouter 2 constantes ( Mail livreur admin && Nb de courses possible )
-        const canAffectDeliverer = delivererCurrent?.email === this.userNameNoLimit ||
-        delivererCurrent?.orders?.find(order => order?.date_taken_deliverer != null).length <= this.nbDeliveryMax;
-        // delivererCurrent?.orders?.length < this.nbDeliveryMax;
+        const awaitingDelivery = delivererCurrent?.orders?.filter(order => order?.date_delivered == null);
 
+        // TODO: 10.01.2021 Ajouter 2 constantes ( Mail livreur admin && Nb de courses possible 06/02/2021 en bdd)
+        const canAffectDeliverer = delivererCurrent?.email?.toLowerCase() == this.userNameNoLimit.toLowerCase() ||
+        awaitingDelivery.length + 1 <= this.nbDeliveryMax;
+        
         this.orderId = this.activatedRoute.snapshot.paramMap.get('id');
         if (canAffectDeliverer) {
           // add method affecter livreur
