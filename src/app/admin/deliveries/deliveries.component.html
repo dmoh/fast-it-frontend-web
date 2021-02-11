@@ -43,11 +43,17 @@
           <div
             *ngFor="let orderDelivery of deliveriesAttemptingByRestaurant"
             [ngStyle]="{
+            position: 'relative',
             transition: 'all 2s',
-            'background-color':second >= 50 ? 'red' : 'white',
+            'background-color': orderDelivery.status == 0 || orderDelivery.status == '0' ? 'orange' : 'white',
+            'padding': orderDelivery.status == 0 || orderDelivery.status == '0' ? '0' : '0.5rem',
             color: second >= 50 ? 'white' : 'inherit'
             }"
             class="card card-order">
+            <div *ngIf="orderDelivery.status == 0 || orderDelivery.status == '0'" style="position: absolute; width: 100%; height: 100%; background: rgba(0,0,0,0.3)">
+              <h3 style="text-align: center;color: white;margin-top: 1.5rem;font-size: large;font-weight: 200;font-family: 'Oswald', sans-serif;">
+                REFUS #{{ orderDelivery.order_id }}</h3>
+            </div>
             <div style="display: flex; flex-direction: column; justify-content: space-between">
               <div>
                 <h5 style="font-size: larger">
@@ -119,6 +125,9 @@
               <div>
                 Payé à <b><em>{{ orderDelivery.payedAt.date | date: "HH:mm:ss" }}</em></b>
               </div>
+              <div *ngIf="orderDelivery.merchantValidateAt && orderDelivery.merchantValidateAt != null" style="font-size: smaller">
+                Validé par Com. à : <b><em>{{ orderDelivery.merchantValidateAt.date | date: "HH:mm:ss" }}</em></b>
+              </div>
               <div>
                 <span>Tps Prépa. {{ orderDelivery.preparationTime ? orderDelivery.preparationTime : ''}}</span>
               </div>
@@ -170,6 +179,9 @@
               </div>
               <div style="font-size: small">
                 Payé à <b><em>{{ orderDelivery.payedAt.date | date: "HH:mm:ss" }}</em></b>
+              </div>
+              <div *ngIf="orderDelivery.merchantValidateAt && orderDelivery.merchantValidateAt != null" style="font-size: smaller">
+                Validé par Com. à : <b><em>{{ orderDelivery.merchantValidateAt.date | date: "HH:mm:ss" }}</em></b>
               </div>
               <div>
                 <span>Tps Prépa. {{ orderDelivery.preparationTime ? orderDelivery.preparationTime : ''}}</span>
@@ -237,6 +249,9 @@
               </div>
               <div style="font-size: small">
                 Payé à <b><em>{{ orderDelivery.payedAt.date | date: "HH:mm:ss" }}</em></b>
+              </div>
+              <div *ngIf="orderDelivery.merchantValidateAt && orderDelivery.merchantValidateAt != null" style="font-size: smaller">
+                Validé par Com. à : <b><em>{{ orderDelivery.merchantValidateAt.date | date: "HH:mm:ss" }}</em></b>
               </div>
               <div>
                 <span>Tps Prépa. {{ orderDelivery.preparationTime ? orderDelivery.preparationTime : ''}}</span>

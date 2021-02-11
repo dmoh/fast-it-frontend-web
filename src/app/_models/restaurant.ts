@@ -27,5 +27,6 @@ export class Restaurant {
   managers: User[] = [];
   specialOffer: SpecialOffer;
   pathFile?: string;
+  caCurrentMonth?: number;
 }
 

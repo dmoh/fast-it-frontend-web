@@ -11,16 +11,18 @@ import {CoreModule} from "@app/core/core.module";
 import { DeliveriesComponent } from './deliveries/deliveries.component';
 import { AssignDeliverisComponent } from './assign-deliveris/assign-deliveris.component';
 import { AssignedDeliveryModalComponent } from './assigned-delivery-modal/assigned-delivery-modal.component';
+import { FirstPageComponent } from './first-page/first-page.component';
+import { AlertManagerComponent } from './first-page/alert-manager/alert-manager.component';
 
 
 @NgModule({
-  declarations: [AdminComponent, CommerceComponent, UserComponent, EditCommerceComponent, DeliveriesComponent, AssignDeliverisComponent, AssignedDeliveryModalComponent],
+  declarations: [AdminComponent, CommerceComponent, UserComponent, EditCommerceComponent, DeliveriesComponent, AssignDeliverisComponent, AssignedDeliveryModalComponent, FirstPageComponent, AlertManagerComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,
     CoreModule,
     MatMenuModule,
   ],
-  exports: [AdminComponent, EditCommerceComponent, DeliveriesComponent, AssignDeliverisComponent, AssignedDeliveryModalComponent]
+  exports: [AdminComponent, EditCommerceComponent, DeliveriesComponent, AssignDeliverisComponent, AssignedDeliveryModalComponent, FirstPageComponent, AlertManagerComponent]
 })
 export class AdminModule { }

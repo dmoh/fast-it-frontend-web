@@ -30,6 +30,14 @@ export class UserComponent implements OnInit, AfterViewInit {
       value: '01/2021',
       label: '01/2021'
     },
+    {
+      value: '02/2021',
+      label: '02/2021'
+    },
+    {
+      value: '02/2021',
+      label: '02/2021'
+    }
   ];
 
   constructor(

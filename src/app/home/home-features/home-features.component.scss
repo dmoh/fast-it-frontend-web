@@ -101,10 +101,17 @@ p {
   background-color: #ad2bec !important;;
 }
 
+.width-input {
+  width: 50%
+}
+
 @media (max-width: 768px) {
   .wrap-burger {
     height: 350px;
     margin-bottom: 1rem;
+  }
+  .width-input {
+    width: 100%;
   }
   .img-baker {
     width: 100%;

@@ -1,11 +1,44 @@
-<section class="container pt-2 ">
+<section class="container-fluid pt-2 ">
   <div class="row">
     <div class="col-md-12">
-      <h1 style="color: #e22be2;padding: 1rem;font-weight: 500;" class="text-uppercase text-center">NOUVEAUTé
+      <h1 style="color: #e22be2;padding: 1rem;font-weight: 500;" class="text-uppercase text-center">NOUVEAUTés
       </h1>
     </div>
   </div>
-  <div class="row" style="
+  <div *ngIf="newestRestaurants" class="row">
+    <div
+      *ngFor="let restaurant of newestRestaurants"
+      (click)="goToRestaurantBy(restaurant.id)"
+      class="col-md-3 mb-2 cursor-pointer">
+      <div style=" position: relative" class="wrapper-img-left box-shadow-orange">
+        <div style="position:absolute; z-index: 2000; top: 8px">
+        </div>
+        <div
+          class="img-wrapper"
+          [ngStyle]="{background: 'url(' + restaurant.pathFile + ')', 'background-size': 'cover', 'background-position': 'center' }"
+        >
+          <div *ngIf="restaurant.closed == true" class="opaque text-center">
+            <h3 style="color: white;margin-top: 4.5rem;font-size: large;font-weight: 200;font-family: 'Oswald';">Momentanément indisponible en livraison</h3>
+          </div>
+        </div>
+        <div style=" bottom: 0; width: 100%;overflow: hidden;" class="desc-bottom reduce-padding">
+          <h4 style="margin-bottom: 0 !important; font-size: 1.2rem;text-transform: capitalize; font-weight: 600; font-family: 'Roboto Condensed', sans-serif;">{{ restaurant.name | titlecase }}
+            <span style="float: right;font-size: small;font-weight: 100;font-family: 'Roboto', sans-serif;">{{ restaurant.estimatedPreparationTime.replace(',', ' - ') + 'min' }}</span>
+          </h4>
+          <div *ngIf="restaurant.description && restaurant.description != null">
+            <span style="font-weight: 200; font-size: smaller">{{ restaurant.description | titlecase }}</span>
+          </div>
+          <div class="divider"></div>
+          <div class="">
+            <div>
+              <p style="font-size: small; font-weight: 200; font-style: italic">{{ restaurant.zipcode }}, {{ restaurant.city | titlecase }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--<div class="row" style="
     padding: .5rem;
     background: url(assets/bg-slider-home02.jpg) 7% 50% no-repeat rgba(192, 46, 235, 0.039);
     /* background-size: contain; */
@@ -38,13 +71,13 @@
         <img src="assets/header_boulangerie.png" class="img-baker" alt="boulangerie">
       </div>
     </div>
-  </div>
+  </div>-->
 </section>
 <section class="d-block container-fluid pt-5">
   <h2 style="font-size: 1.5rem" class="text-center">Quelles  <span style="color: #d800ff">envies</span>, aujourd'hui ?</h2>
   <div *ngIf="restaurants" class="text-center">
     <p>
-      <mat-form-field style="width: 50%" class="example-full-width">
+      <mat-form-field style="" class="example-full-width width-input">
         <mat-label style="font-size: large; padding-bottom: 0; margin-bottom:  0">Trouver un restaurant</mat-label>
         <input
           [(ngModel)]="findRestaurant"
@@ -75,9 +108,12 @@
           </div>
         </div>
         <div style=" bottom: 0; width: 100%;overflow: hidden;" class="desc-bottom reduce-padding">
-          <h4 style="font-size: 1.2rem;text-transform: capitalize; font-weight: 600; font-family: 'Roboto Condensed', sans-serif;">{{ restaurant.name | titlecase }}
+          <h4 style="margin-bottom: 0 !important; font-size: 1.2rem;text-transform: capitalize; font-weight: 600; font-family: 'Roboto Condensed', sans-serif;">{{ restaurant.name | titlecase }}
           <span style="float: right;font-size: small;font-weight: 100;font-family: 'Roboto', sans-serif;">{{ restaurant.estimatedPreparationTime.replace(',', ' - ') + 'min' }}</span>
           </h4>
+          <div *ngIf="restaurant.description && restaurant.description != null">
+            <span style="font-weight: 200; font-size: smaller">{{ restaurant.description | titlecase }}</span>
+          </div>
           <div class="divider"></div>
           <div class="">
             <div>

@@ -13,8 +13,9 @@ export class HomeFeaturesComponent implements OnInit {
   restaurants: Restaurant[];
   findRestaurant: string = '';
   arraySearchResturant: Restaurant[];
-  allRestaurants: Restaurant[]
-;  constructor(private router: Router,
+  allRestaurants: Restaurant[];
+  newestRestaurants: Restaurant[];
+  constructor(private router: Router,
               private restaurantService: RestaurantDashboardService
               ) { }
 
@@ -24,6 +25,11 @@ export class HomeFeaturesComponent implements OnInit {
       .subscribe((res) => {
         if (res.ok) {
           this.restaurants = res.restaurants;
+          /*const sortNewestRestaurants = res.restaurants.sort((n1, n2) => n2.id - n1.id);
+          this.newestRestaurants = sortNewestRestaurants.filter((elem, index) => {
+            const forbiddenId = [63, 62];
+            return index < 5 && forbiddenId.indexOf(+(elem.id)) === -1;
+          });*/
           this.allRestaurants = res.restaurants;
         }
       });
