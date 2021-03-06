@@ -39,8 +39,6 @@
             <mat-slide-toggle (change)="onActivate($event, commerce)" [(ngModel)]="commerce.active"></mat-slide-toggle>
           </td>
           <td>
-            <span *ngIf="commerce.caCurrentMonth">{{ commerce.caCurrentMonth.toFixed(2) }}€</span>
-            <span *ngIf="!commerce.caCurrentMonth">0.00€</span>
           </td>
           <td>
             <div class="">

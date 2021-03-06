@@ -1,0 +1,49 @@
+<div class="modal-header">
+  <h1>Gestion des Utilisateurs</h1>
+</div>
+<div class="modal-body">
+  <h2>Ajouter le role livreur</h2>
+  <mat-form-field appearance="outline">
+    <mat-label>Trouver un utilisateur</mat-label>
+      <input matInput [(ngModel)]="userEmail" type="text">
+  </mat-form-field>
+  <button
+    mat-raised-button
+    (click)="onSearchUser()"
+    color="primary">
+    Valider
+  </button>
+  <div class="">
+    <div *ngIf="users">
+      <div >
+        <div class="table-responsive">
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Email</th>
+                <th>Livreur</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let user of users">
+                <td>{{ user.id }}</td>
+                <td>{{ user.email }}</td>
+                <td>
+                    <mat-slide-toggle (change)="onUpdateRoleUser(user)" [(ngModel)]="user.hasRoleDeliverer"></mat-slide-toggle>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="!users || users.length == 0">
+      <h3>AUCUN UTILISATEUR</h3>
+    </div>
+  </div>
+</div>
+
+<div class="modal-footer">
+  <button mat-raised-button (click)="modalActive.close('ok')" color="warn">Fermer</button>
+</div>

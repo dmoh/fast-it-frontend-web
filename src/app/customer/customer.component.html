@@ -191,7 +191,8 @@
           </div>
         </div>
         <mat-menu #menu="matMenu">
-          <button *ngFor="let notif of notifications"  mat-menu-item>{{ notif.message }}</button>
+          <button *ngFor="let notif of notifications"  mat-menu-item>
+            {{ notif.message }}</button>
         </mat-menu>
         <div class="row">
           <div class="col-md-12">

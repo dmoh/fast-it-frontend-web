@@ -13,16 +13,17 @@ import { AssignDeliverisComponent } from './assign-deliveris/assign-deliveris.co
 import { AssignedDeliveryModalComponent } from './assigned-delivery-modal/assigned-delivery-modal.component';
 import { FirstPageComponent } from './first-page/first-page.component';
 import { AlertManagerComponent } from './first-page/alert-manager/alert-manager.component';
+import { ModalUserComponent } from './modal-user/modal-user.component';
 
 
 @NgModule({
-  declarations: [AdminComponent, CommerceComponent, UserComponent, EditCommerceComponent, DeliveriesComponent, AssignDeliverisComponent, AssignedDeliveryModalComponent, FirstPageComponent, AlertManagerComponent],
+  declarations: [AdminComponent, CommerceComponent, UserComponent, EditCommerceComponent, DeliveriesComponent, AssignDeliverisComponent, AssignedDeliveryModalComponent, FirstPageComponent, AlertManagerComponent, ModalUserComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,
     CoreModule,
     MatMenuModule,
   ],
-  exports: [AdminComponent, EditCommerceComponent, DeliveriesComponent, AssignDeliverisComponent, AssignedDeliveryModalComponent, FirstPageComponent, AlertManagerComponent]
+  exports: [AdminComponent, EditCommerceComponent, DeliveriesComponent, AssignDeliverisComponent, AssignedDeliveryModalComponent, FirstPageComponent, AlertManagerComponent, ModalUserComponent]
 })
 export class AdminModule { }

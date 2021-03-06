@@ -88,4 +88,16 @@ export class AdminService {
     return this.http.get<any>(`${this.urlApi}/alert/message/all`,
       this.headers);
   }
+
+  findUserByEmail(emailCurrent): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}/user/email`,
+      { email: emailCurrent },
+      this.headers);
+  }
+
+  updateRoleUser(dataUser: any): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}/user/role/update`,
+      { user: dataUser },
+      this.headers);
+  }
 }

@@ -102,6 +102,9 @@
         <div>
           Code postale: <b>{{ addressChose.zipcode }}</b>
         </div>
+         <div>
+           Tél: <b style="font-size: x-large;">{{ addressChose.phone }}</b>
+         </div>
         <button mat-raised-button color="primary" (click)="onUpdateAddress()">Modifier l'adresse</button>
       </div>
     </div>
@@ -181,6 +184,12 @@
   </div>
   <hr>
   <div class="row">
+    <div class="col-md-6"></div>
+    <div class="col-md-6">
+      <mat-slide-toggle [(ngModel)]="hasAboveEighteen">J'atteste avoir plus de 18 ans (obligatoire)</mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="infoOk">J'atteste de  l'exactitude des informations saisies (téléphone, adresse de livraison, email)(obligatoire)</mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="agreeWithLegacy">J'ai lu et J'accepte <a (click)="onShowTerms()" style="text-decoration: underline; color: dodgerblue">les conditions générales de vente</a></mat-slide-toggle>
+    </div>
   </div>
   <div class="row">
       <div style="display: flex; justify-content: center" class="col-md-12">
@@ -196,7 +205,7 @@
     <div class="col-md-6">
     </div>
       <div style="display: flex;text-align: right;justify-content: flex-end;margin-top: 2rem;" class="col-md-6">
-      <button mat-raised-button color="primary" [disabled]="paymentValidation == true" (click)="onProceedCheckout($event)" style="align-self: flex-end">VALIDER LE PAIEMENT</button>
+      <button mat-raised-button color="primary" [disabled]="paymentValidation == true || infoOk == false || agreeWithLegacy == false || hasAboveEighteen == false" (click)="onProceedCheckout($event)" style="align-self: flex-end">VALIDER LE PAIEMENT</button>
     </div>
   </div>
 

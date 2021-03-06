@@ -5,13 +5,13 @@
       <div class="container-fluid">
         <div *ngIf="notificationsSave" class="row">
           <div *ngFor="let notify of notificationsSave" class="col-md-6">
-            <div class="alert alert-info alert-with-icon">
+            <div *ngIf="notify.message != null" class="alert alert-info alert-with-icon">
               <i  class="material-icons">notifications</i>
               <span style="font-size: smaller" >{{ notify.message }}</span>
-              <span style="font-size: smaller"  class="float-right">
-                {{ notify.sended_at.date | date: 'dd/MM/yyyy' }}, à
-                {{ (notify.sended_at.date | date: 'HH:mm').replace(':', 'h') }}
-              </span>
+              <!--<span style="font-size: smaller"  class="float-right">
+                {{ notify.sended_at.date | date: 'dd/MM/y' }}, à
+                {{ notify.sended_at.date | date: 'HH:mm' }}
+              </span>-->
             </div>
           </div>
         </div>

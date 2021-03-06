@@ -3,8 +3,8 @@
     <thead>
       <tr>
         <th>Id</th>
-        <th>Date</th>
-        <th>Heure</th>
+        <!--<th>Date</th>
+        <th>Heure</th>-->
         <th>Prix</th>
         <th>Voir commande</th>
         <th>Donner le code</th>
@@ -14,8 +14,8 @@
     <tbody *ngIf="customer">
       <tr *ngFor="let order of customer.orders" class="row-table" >
         <td>{{ order.id }}</td>
-        <td>{{ order.date.date | date: 'dd/MM/yyyy' }}</td>
-        <td>{{ order.date.date | date: 'hh:mm' }}</td>
+        <!--<td>{{ order.date.date | date: 'dd/MM/yyyy' }}</td>
+        <td>{{ order.date.date | date: 'hh:mm' }}</td>-->
         <td>{{ (+(order.amount)).toFixed(2) }}€</td>
         <td>
           <button mat-raised-button color="primary" (click)="onShowOrder(order)">

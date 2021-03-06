@@ -15,6 +15,7 @@ import {InfoModalComponent} from '@app/info-modal/info-modal.component';
 import {environment} from '../../../environments/environment';
 import {TipModalComponent} from '@app/tip-modal/tip-modal.component';
 import { timer } from 'rxjs';
+import {TermsModalComponent} from '@app/terms-modal/terms-modal.component';
 
 @Component({
   selector: 'app-cart-detail',
@@ -39,6 +40,9 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
   paymentValidation: boolean;
   responseDistanceGoogle: any;
   stripeKey = environment.stripeKey;
+  hasAboveEighteen: boolean = false;
+  infoOk: boolean = false;
+  agreeWithLegacy: boolean = false;
   showLoaderCost: boolean = false;
   constructor(
     private cartService: CartService,
@@ -261,7 +265,7 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
                 // The payment has been processed!
                 const responsePayment = result.paymentIntent;
                 if (responsePayment.status === 'succeeded') {
-                  this.paymentValidation = false;
+                  this.paymentValidation = true;
                   this.showLoader = false;
                   // save order payment succeeded
                   this.cartService.saveOrder({
@@ -349,6 +353,11 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
       product.quantity++;
     }
     this.cartService.UpdateCart('update', product);
+  }
+
+
+  onShowTerms() {
+    this.infoModal.open(TermsModalComponent, {size: 'lg'});
   }
 
 

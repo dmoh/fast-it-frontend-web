@@ -8,8 +8,8 @@
       <tr>
         <th>Numéro de commande</th>
         <th>Restaurant</th>
-        <th>Date</th>
-        <th>Heure</th>
+        <!--<th>Date</th>
+        <th>Heure</th>-->
         <th>Cout de la livraison</th>
         <th>Status</th>
         <!-- <th>Notification</th> -->
@@ -20,8 +20,8 @@
         <td>{{ order.id }}</td>
         <td *ngIf="order.business.name">{{ order.business.name }}</td>
         <td *ngIf="!order.business.name"> </td>
-        <td>{{ order.date.date | date: 'dd/MM/yyyy' }}</td>
-        <td>{{ order.date.date | date: 'HH:mm' }}</td>
+        <!--<td>{{ order.date.date | date: 'dd/MM/y' }}</td>
+        <td>{{ order.date.date | date: 'HH:mm' }}</td>-->
         <td>{{ order.delivery_cost / 100 }}</td>
         <td>
           <div [ngSwitch]="order.status">

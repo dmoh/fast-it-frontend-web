@@ -3,6 +3,8 @@ import {AdminService} from "@app/admin/admin.service";
 import {Deliverer} from "@app/_models/deliverer";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {ModalUserComponent} from "@app/admin/modal-user/modal-user.component";
 
 @Component({
   selector: 'app-user',
@@ -35,13 +37,18 @@ export class UserComponent implements OnInit, AfterViewInit {
       label: '02/2021'
     },
     {
-      value: '02/2021',
-      label: '02/2021'
+      value: '03/2021',
+      label: '03/2021'
+    },
+    {
+      value: '04/2021',
+      label: '04/2021'
     }
   ];
 
   constructor(
-    private adminService: AdminService
+    private adminService: AdminService,
+    private modal: NgbModal
   ) { }
 
   ngOnInit(): void {
@@ -81,5 +88,14 @@ export class UserComponent implements OnInit, AfterViewInit {
 
   onChange(event) {
     console.warn(this.periodBegin);
+  }
+
+  onAddDeliverer() {
+    const modalRef = this.modal.open(ModalUserComponent);
+    modalRef.result.then((res) => {
+      if (res) {
+        this.ngOnInit();
+      }
+    });
   }
 }
