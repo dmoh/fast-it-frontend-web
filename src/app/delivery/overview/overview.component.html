@@ -1,10 +1,42 @@
 <div class="wrapper">
   <div class="card">
     <div class="card-body">
+      <div [formGroup]="dtRangeForm" class="form-group row mx-auto text-center align-items-center">
+        <p class="mr-3">
+          Du: 
+          <mat-form-field class="full-width" appearance="outline" floatLabel="always">
+            <mat-label>Date de début</mat-label>
+            <input matInput [matDatepicker]="dtstart" formControlName="dtstart" placeholder="Date de début">
+            <mat-datepicker-toggle matSuffix [for]="dtstart"></mat-datepicker-toggle>
+            <mat-datepicker #dtstart></mat-datepicker>
+          </mat-form-field>
+        </p>
+        <p class="mr-3">
+          Au:
+          <mat-form-field class="full-width" appearance="outline" floatLabel="always">
+            <mat-label>Date de fin</mat-label>  
+            <input matInput [matDatepicker]="dtend" formControlName="dtend" placeholder="Date de fin">
+            <mat-datepicker-toggle matSuffix [for]="dtend"></mat-datepicker-toggle>
+            <mat-datepicker #dtend></mat-datepicker>
+          </mat-form-field>
+        </p>
+        <button
+        class="ml-3 mb-3"
+        mat-raised-button
+        color="primary"
+        type="button"
+        (click)="onValidate()">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+          Valider
+        </button>
+      </div>
+
+      <!-- <p>Selected range: {{dtRangeForm.value | json}}</p> -->
+
       <div style="width: 100%" class="d-md-flex align-items-center">
         <div>
           <h4 class="card-title">Résumé des livraisons</h4>
-          <h5 class="card-subtitle">Mois en cours</h5>
+          <h5 class="card-subtitle">Date selectionnée {{ period }}</h5>
         </div>
         <div style="">
           <div>
@@ -16,10 +48,10 @@
       </div>
       <div class="row">
         <div class="col-lg-4">
-          <h1 *ngIf="amountOrderCurrentMonth" class="mb-0 mt-4 font-xx-large">{{ amountOrderCurrentMonth }} €</h1>
-          <h6 class="font-light text-muted">Montant total des livraisons (du mois)</h6>
-          <h3 *ngIf="countOrderCurrentMonth" class="mt-4 mb-0 font-x-large">{{ countOrderCurrentMonth }}</h3>
-          <h6 class="font-light text-muted">Livraisons du mois (en cours)</h6>
+          <h1 *ngIf="amountOrderCurrent" class="mb-0 mt-4 font-xx-large">{{ amountOrderCurrent }} €</h1>
+          <h6 class="font-light text-muted">Montant total des livraisons (du {{period}})</h6>
+          <h3 *ngIf="countOrderCurrent" class="mt-4 mb-0 font-x-large">{{ countOrderCurrent }}</h3>
+          <h6 class="font-light text-muted">Livraisons du {{period}}</h6>
         </div>
         <div  class="col-lg-8">
           <canvas id="myChart" style="width: 100%; height: 250px !important;">{{ chart }}</canvas>
@@ -32,7 +64,7 @@
       <div style="width: 100%" class="d-md-flex align-items-center">
         <div>
           <h4 class="card-title">Dernières livraisons</h4>
-          <h5 class="card-subtitle">Mois en cours</h5>
+          <h5 class="card-subtitle">{{period}}</h5>
         </div>
         <div style="">
           <div>
