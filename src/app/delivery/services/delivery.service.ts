@@ -59,8 +59,13 @@ export class DeliveryService {
       this.headers);
   }
 
-  getOrderAnalize(id: number): Observable<any> {
-    return this.http.get<any>(`${this.urlApi}/deliverer/${id}/analyze`,
+  getOrderAnalize(id: number, request = null): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}/deliverer/${id}/analyze`, request, 
+      this.headers);
+  }
+
+  getOrdersDelivererAnalize(request: any): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}/deliverer/order`, request, 
       this.headers);
   }
 

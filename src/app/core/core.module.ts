@@ -42,6 +42,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatSortModule} from "@angular/material/sort";
 import { TipModalComponent } from '../tip-modal/tip-modal.component';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 
 @NgModule({
@@ -136,6 +137,7 @@ import { TipModalComponent } from '../tip-modal/tip-modal.component';
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    { provide: MAT_DATE_LOCALE, useValue: 'fr-FR' },
     MatDialog, MatBottomSheet
   ],
   entryComponents: [
