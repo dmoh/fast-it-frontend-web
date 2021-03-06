@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Chart } from 'chart.js';
-import {RestaurantDashboardService} from "@app/restaurants/restaurant-dashboard/services/restaurant-dashboard.service";
-import {RestaurantDashboardComponent} from "@app/restaurants/restaurant-dashboard/restaurant-dashboard.component";
-import {Restaurant} from "@app/_models/restaurant";
 import { DeliveryService } from '../services/delivery.service';
 import { Deliverer } from '@app/_models/deliverer';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { DatePipe } from '@angular/common';
+import { forkJoin, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-overview',
   templateUrl: './overview.component.html',
@@ -14,28 +15,76 @@ export class OverviewComponent implements OnInit {
   chart = [];
   orders: any[];
   opinions: any[];
-  restaurant: Restaurant;
   deliverer: Deliverer;
-  countOrderCurrentMonth: string;
-  amountOrderCurrentMonth: string;
+  countOrderCurrent: string;
+  amountOrderCurrent: string;
+  dtRangeForm: FormGroup;
   date: Date;
   dateDisplay: string;
-  constructor(private restaurantService: RestaurantDashboardService, private  deliveryService: DeliveryService) { }
+  period: string;
+  rangeDate : any;
+  observableList : Array<Observable<any>>;
+  loading: boolean;
+
+  constructor(
+    private  deliveryService: DeliveryService,
+    private formBuilder: FormBuilder,
+    ) {
+      
+    const dtstart = new Date();
+    const dtend = new Date();
+
+    this.dtRangeForm = this.formBuilder.group({
+      dtstart: dtstart,
+      dtend: dtend
+    });
+  }
 
   ngOnInit(): void {
-    this.orders = [];
+    this.orders = new Array<any>();
     this.date = new Date();
     this.dateDisplay  = this.date.toLocaleString();
-    this.deliveryService.getOrderAnalize(1)
-      .subscribe((response) => {
-        console.log(response);
-        this.amountOrderCurrentMonth = ((response.delivery_cost).toFixed(2)).replace('.', ',');
-        this.countOrderCurrentMonth = response.count;
+
+    this.getAnalyseDeliverer();
+  }
+
+  onValidate() {
+    this.getAnalyseDeliverer();
+  }
+
+  private getAnalyseDeliverer() {
+    this.rangeDate = {dtstart : this.dtRangeForm.value.dtstart.toLocaleDateString(), dtend : this.dtRangeForm.value.dtend.toLocaleDateString()};
+
+    this.observableList = new Array<Observable<any>> ();
+    this.observableList.push(this.deliveryService.getOrderAnalize(1, this.rangeDate));
+    this.observableList.push(this.deliveryService.getOrdersDelivererAnalize(this.rangeDate));
+
+    const exec = forkJoin( [this.deliveryService.getOrderAnalize(1, this.rangeDate),this.deliveryService.getOrdersDelivererAnalize(this.rangeDate)] )
+    .pipe(
+      map( ([analyseOrder, deliverer]) => {
+        return {analyseOrder, deliverer}
+      })
+    );
+
+    this.loading = true;
+    exec.subscribe( result => {
+      console.log('response',result);
+      this.getAnalyze(result.analyseOrder);
+      this.orders = result.deliverer.orders;
+      console.log("terminate");
+      this.loading = false;
+    });
+  }  
+  
+  private getAnalyze (response: any) {
+        this.amountOrderCurrent = ((response.delivery_cost).toFixed(2)).replace('.', ',');
+        this.countOrderCurrent = response.count;
+        this.period = response.period;
         const ctx = document.getElementById('myChart');
         this.chart = new Chart(ctx, {
           type: 'bar',
           data: {
-            labels: [response.month],
+            labels: [response.period],
             datasets: [{
               label: 'Livraisons par mois',
               data: [response.delivery_cost],
@@ -68,39 +117,5 @@ export class OverviewComponent implements OnInit {
             }
           }
         });
-      });
-
-    
-    // this.restaurantService.getOrdersDatas(1).subscribe((res) => {
-    //   console.warn('res', res);
-    //   this.orders = RestaurantDashboardComponent.extractRestaurantData('order', res);
-    //   console.warn('analyze', this.orders);
-
-    // });
-    
-    this.deliveryService.getInfosDeliverer().subscribe((res) => {
-      this.deliverer = res;
-      if (this.deliverer) {
-        if (this.deliverer.orders) {
-          // ajouter param dans le back end pour filtrer les commandes livré
-          this.orders = this.deliverer.orders
-            .filter( order => {
-              let dateDeliv :any = (order.date_delivered);
-
-              const isCurrentMonth = (dateDeliv != null) ? new Date(dateDeliv.date).getMonth() == new Date().getMonth() : false;
-              const isCurrentYear = (dateDeliv != null) ? new Date(dateDeliv.date).getFullYear() == new Date().getFullYear() : false;
-              return (isCurrentMonth && isCurrentYear);
-            })
-            .sort(function(a, b) {
-              return b.id - a.id;
-            });
-        }
-      }
-
-      console.warn('res', res);
-      console.warn('analyze', this.orders);
-
-    });
-
   }
 }
