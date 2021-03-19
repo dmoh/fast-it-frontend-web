@@ -23,7 +23,6 @@ export class OrderComponent implements OnInit {
   ngOnInit(): void {
     this.securityRestaurantService.getRestaurant()
       .subscribe((res) => {
-        console.log({restaurId: res});
         this.restaurantService.getOrdersDatas(res.id)
           .subscribe((response) => {
             this.orders = [];

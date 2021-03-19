@@ -31,16 +31,20 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-8">
-        <div style="display: flex" class="navbar-restaurant">
-          <nav class="nav-menu"  [class.sticky]="sticky"  style="display: flex;width: 100%;background: white;" role="navigation">
+        <div style="display: flex" id="nav-div" class="navbar-restaurant sticky-top">
+          <nav class="nav-menu"   style="display: flex;width: 100%;background: white; padding: 1.3rem; position: relative" role="navigation">
+            <div style="position: absolute;/* top: 20px; */right: 0px;height: 100%;"><span style="font-size: large;vertical-align: middle;" class="material-icons">arrow_forward</span></div>
             <div *ngIf="categories && categories.length >= 5" class="table-responsive">
-              <table style="width: 100%" class="restaurant-detail table table-responsive">
-                <thead>
-                  <th *ngFor="let category of categories" [style]="'width: calc(100% /' +  categories.length + ')'">
-                    <a (click)="scroll( category.category_name )" class="menu-title cursor-pointer">{{ category.category_name | titlecase }}</a>
-                  </th>
-                </thead>
-              </table>
+              <div id="div-to-modify" style="display: flex; width: 100%; overflow-x: scroll; margin-bottom: 0 !important;"  class="restaurant-detail table-responsive nav-header-menu" >
+                <div class="d-flex">
+                  <div [ngStyle]="{'border': 'none'}" class="nav-header-menu"  style="display: flex" *ngFor="let category of categories ; let index = index" >
+                    <div>
+                      <a  (click)="scroll( category.category_name )" style="white-space: nowrap !important;font-size: inherit;font-weight: 400;" class="menu-title cursor-pointer">{{ category.category_name | titlecase }}</a>
+                    </div>
+                    <div style="width: 24px"></div>
+                  </div>
+                </div>
+              </div>
             </div>
             <div style="display: flex;justify-content: space-evenly;width: 100%;" *ngIf="categories && categories.length < 5">
               <div *ngFor="let category of categories">
@@ -59,7 +63,7 @@
             *Chacun de nos burgers comporte une portion de frite   <i class="em em-blush" aria-role="presentation" aria-label="SMILING FACE WITH SMILING EYES"></i>
           </div>
         </div>
-        <div *ngIf="restaurant.id == 22" style="padding: 0.3rem; box-shadow: 2px 5px 10px rgba(0,0,0,0.03)" class="w-100">
+        <!--<div *ngIf="restaurant.id == 22" style="padding: 0.3rem; box-shadow: 2px 5px 10px rgba(0,0,0,0.03)" class="w-100">
           <div style="padding: .5rem">
             <div style="padding: 1.4rem; line-height: 1; font-size: xx-large; text-align: center; text-transform: uppercase;"
                  class="alert alert-success text-center" role="alert"
@@ -67,13 +71,13 @@
               TOUS LES MIDIS, à partir de 20€ D'ACHAT 1 CHEESEBURGER OFFERT
             </div>
           </div>
-        </div>
+        </div>-->
         <div *ngIf="
         this.specialOffer
         && this.specialOffer.title
         && this.specialOffer.isActive" style="padding: 0.3rem; box-shadow: 2px 5px 10px rgba(0,0,0,0.03)" class="w-100">
           <div style="padding: .5rem">
-            <h4 style="padding: 1.4rem; line-height: 1; font-size: xx-large; text-align: center; text-transform: uppercase;  background: #d21313;  color: white;">{{ specialOffer.title | titlecase }}</h4>
+            <h4 style="padding: 1.4rem; line-height: 1; font-size: xx-large; text-align: center; text-transform: uppercase;  background: #e717d4;  color: white;">{{ specialOffer.title | titlecase }}</h4>
           </div>
         </div>
         <div class="pb-2 container">

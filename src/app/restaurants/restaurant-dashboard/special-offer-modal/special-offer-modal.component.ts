@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, Optional} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {SpecialOffer} from "@app/_models/special-offer";
 import {RestaurantDashboardService} from "@app/restaurants/restaurant-dashboard/services/restaurant-dashboard.service";
@@ -14,10 +14,19 @@ export class SpecialOfferModalComponent implements OnInit {
   specialOffer: SpecialOffer = new SpecialOffer();
   specialOfferForm: FormGroup;
   @Input() restaurantId: number;
+  @Optional() specialOfferSelected: SpecialOffer;
   constructor(private modalAcitve: NgbActiveModal,
               private fb: FormBuilder, private restaurantDashboardService: RestaurantDashboardService) { }
 
   ngOnInit(): void {
+    if (this.specialOfferSelected) {
+      this.specialOffer = this.specialOfferSelected;
+      this.specialOffer.restaurantId = this.restaurantId;
+    }
+    this.generateForm();
+  }
+
+  generateForm() {
     this.specialOfferForm = this.fb.group(
       {
         title: [this.specialOffer.title, [Validators.required, Validators.minLength(5)]],

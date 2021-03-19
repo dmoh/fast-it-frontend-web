@@ -75,7 +75,7 @@
               </td>
               <td>
                 <div class="">
-                  <span style="font-size: x-small">{{ ((+(o.order.amount) - (o.order.delivery_cost) - (o.order.margin_fastit * 100))  / 100).toFixed(2) + '€' }}</span>
+                  <span style="font-size: x-small">{{ ((+(o.order.amount) - (o.order.delivery_cost) - (o.order.stripeFee * 100) - (o.order.margin_fastit * 100))  / 100).toFixed(2) + '€' }}</span>
                 </div>
               </td>
               <td>

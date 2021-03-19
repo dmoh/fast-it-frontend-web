@@ -216,6 +216,10 @@ export class RestaurantDashboardService {
     return this.http.get<any>(`${this.urlApi}/special-offer/business/${restaurantId}`, this.headers);
   }
 
+  getAllBusinessesWithOffers(): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}/special-offer/all`, this.headers);
+  }
+
   getAllbusinesses(): Observable<any> {
     return this.http.get<any>(`${this.urlApi}/business/all`, this.headers);
   }
@@ -231,4 +235,7 @@ export class RestaurantDashboardService {
       },
       this.headers);
   }
+
+
+
 }

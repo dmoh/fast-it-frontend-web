@@ -1,10 +1,12 @@
 <div class="">
   <div class="modal-header">
     <h2 class="modal-title">Commande <b>#{{ order.id }}</b></h2>
-    <button mat-raised-button class="pl-3" (click)="onPrint()" color="primary">Imprimer</button>
-    <button type="button" class="close" (click)="modalActive.close()" aria-label="Close" >
+    <div>
+      <button mat-raised-button class="pl-3" (click)="onPrint()" color="primary">Imprimer</button>
+      <button type="button" class="close" (click)="modalActive.close()" aria-label="Close" >
         <span aria-hidden="true">&times;</span>
-    </button>
+      </button>
+    </div>
   </div>
   <div class="modal-body">
     <div class="row">
@@ -55,7 +57,7 @@
     <hr>
     <div class="mt-2 mb-2" style="display: flex; width: 100%; justify-content: flex-end;
       font-size: larger; font-weight: 600;">
-      Total: {{ (+(order.amount) - +(orderConst.order.SERVICE_CHARGE) - +(order.delivery_cost))/100 | number : '1.2-2'}}€
+     <!-- Total: {{ (+(order.amount) - +(orderConst.order.SERVICE_CHARGE) - +(order.delivery_cost))/100 | number : '1.2-2'}}€-->
     </div>
   </div>
 

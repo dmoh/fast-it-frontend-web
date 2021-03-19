@@ -90,7 +90,7 @@ export class OrderModalComponent implements OnInit {
   }
 
   redirectAfterTrait() {
-    this.router.navigate(['restaurant-dashboard', this.business.id, "orders" ]);
+    this.router.navigate(['restaurant-dashboard', this.business.id, 'orders' ]);
     this.modalActive.close();
   }
 

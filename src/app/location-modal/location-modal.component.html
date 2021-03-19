@@ -1,0 +1,45 @@
+<div style="text-align: center" class="modal-header">
+  <h1 class="text-center">Détails de Livraison</h1>
+  <span (click)="modalActive.close()"  class="cursor-pointer text-right material-icons">close</span>
+</div>
+<div class="modal-body">
+  <div class="w-100">
+    <div>
+      <div style="display: flex; justify-content: space-between">
+        <div>
+          <span class="material-icons">location_on</span>
+        </div>
+        <div *ngIf="cityDatas" style="align-self: center;">
+          {{ cityDatas.city }}
+        </div>
+        <div>
+          <button mat-raised-button (click)="onShowInput()" style="color: black; cursor: pointer">modifier</button>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="showInput" class="w-100 content-center">
+      <div class="d-flex">
+        <div class="input-group pt-2">
+          <mat-form-field style="width: 100%;" appearance="outline">
+            <mat-label>Adresse de livraison</mat-label>
+            <input matInput
+                   autocomplete="off"
+                   type="text"
+                   id="locate-me"
+                   ngx-google-places-autocomplete
+                   [options]='options'
+                   #placesRef="ngx-places"
+                   (onAddressChange)="handleAddressChange($event)"
+            >
+            <mat-icon matSuffix></mat-icon>
+          </mat-form-field>
+        </div>
+      </div>
+      <div>
+        <div>
+          <button mat-raised-button [disabled]="!selectedAddress" (click)="onValidateLocation()" color="primary">Valider</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

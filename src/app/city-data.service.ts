@@ -18,6 +18,9 @@ export class CityDataService {
 
   constructor(private http: HttpClient, private authenticate: AuthenticationService, private router: Router) {
     this.headers = new HttpHeaders({'Content-Type': 'application/json; charset=utf-8'});
+    if (localStorage.getItem('cityData')) {
+      this.setCityData(JSON.parse(localStorage.getItem('cityData')));
+    }
   }
 
   setCityData(cityData: any) {

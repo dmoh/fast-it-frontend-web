@@ -32,6 +32,9 @@ import { SidenavService } from './sidenav-responsive/sidenav.service';
 import { SidenavResponsiveComponent } from './sidenav-responsive/sidenav-responsive.component';
 import { LegacyComponent } from './legacy/legacy.component';
 import { TermsModalComponent } from './terms-modal/terms-modal.component';
+import { MatCarouselModule } from '@ngbmodule/material-carousel';
+import { LocationModalComponent } from './location-modal/location-modal.component';
+
 
 @NgModule({
   declarations: [
@@ -53,6 +56,7 @@ import { TermsModalComponent } from './terms-modal/terms-modal.component';
     SidenavResponsiveComponent,
     LegacyComponent,
     TermsModalComponent,
+    LocationModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -64,7 +68,8 @@ import { TermsModalComponent } from './terms-modal/terms-modal.component';
     RestaurantDashboardModule,
     CustomerModule,
     DeliveryModule,
-    AdminModule
+    AdminModule,
+    MatCarouselModule.forRoot()
   ],
   providers: [
     CityDataService,
@@ -85,7 +90,8 @@ import { TermsModalComponent } from './terms-modal/terms-modal.component';
         PasswordComponent,
         InfoModalComponent,
         LegacyComponent,
-        TermsModalComponent
+        TermsModalComponent,
+        LocationModalComponent
     ]
 })
 export class AppModule { }

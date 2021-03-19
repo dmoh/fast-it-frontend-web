@@ -53,8 +53,6 @@ export class CartService {
         }
 
         this.cartCurrent.products = [...this.cartCurrent.products, product];
-        console.warn('products', this.cartCurrent.products);
-
         this.cartCurrent.restaurant = restaurant;
         this.generateTotalCart();
         this.emitCartSubject();
@@ -135,20 +133,25 @@ export class CartService {
       this.cartCurrent.total += +this.cartCurrent.tipDelivererAmount;
       this.cartCurrent.amountWithoutSpecialOffer += +this.cartCurrent.tipDelivererAmount;
     }
-    this.cartCurrent.total += 0.80;
-    this.cartCurrent.amountWithoutSpecialOffer += 0.80;
+    // this.cartCurrent.total += 0.80;
+    // this.cartCurrent.amountWithoutSpecialOffer += 0.80;
     this.cartCurrent.total += +(this.cartCurrent.deliveryCost);
     this.cartCurrent.amountWithoutSpecialOffer += +(this.cartCurrent.deliveryCost);
+    this.cartCurrent.stripeFee = (this.cartCurrent.total - (this.cartCurrent.total * 0.986)) + 0.35;
+    const fee = (this.cartCurrent.stripeFee).toFixed(2);
+    this.cartCurrent.total += parseFloat(fee);
+    this.cartCurrent.amountWithoutSpecialOffer += parseFloat(fee);
     this.emitCartSubject();
   }
 
-  getTokenPaymentIntent(amountCart: number, restId: number, delivery: number, currencyCart: string = 'EUR'): Observable<any> {
+  getTokenPaymentIntent(amountCart: number, restId: number, delivery: number, stripe?: number, currencyCart: string = 'EUR'): Observable<any> {
     return this.http.post<any>(`${this.urlApi}payment/token-payment`,
       {
         amount: amountCart,
         currency: currencyCart,
         restaurantId: restId,
-        deliveryCost: delivery
+        deliveryCost: delivery,
+        stripeFee: stripe
       }, this.headers);
   }
 

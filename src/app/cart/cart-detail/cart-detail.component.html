@@ -137,7 +137,8 @@
     <hr>
     <div style="display: flex" class="col-md-6">
       <div style="flex: 1">Frais de service</div>
-      <div>0.80 €</div>
+      <div *ngIf="cartCurrent.stripeFee"> {{ cartCurrent.stripeFee.toFixed(2) }}€</div>
+      <!--<div> 0.80€</div>-->
     </div>
   </div>
   <div class="row">
@@ -184,8 +185,8 @@
   </div>
   <hr>
   <div class="row">
-    <div class="col-md-6"></div>
-    <div class="col-md-6">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
       <mat-slide-toggle [(ngModel)]="hasAboveEighteen">J'atteste avoir plus de 18 ans (obligatoire)</mat-slide-toggle>
       <mat-slide-toggle [(ngModel)]="infoOk">J'atteste de  l'exactitude des informations saisies (téléphone, adresse de livraison, email)(obligatoire)</mat-slide-toggle>
       <mat-slide-toggle [(ngModel)]="agreeWithLegacy">J'ai lu et J'accepte <a (click)="onShowTerms()" style="text-decoration: underline; color: dodgerblue">les conditions générales de vente</a></mat-slide-toggle>

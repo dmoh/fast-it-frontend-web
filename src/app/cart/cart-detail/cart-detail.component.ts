@@ -209,7 +209,8 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
       this.cartService.getTokenPaymentIntent(
         +(this.cartCurrent.total) * 100,
         this.cartCurrent.restaurant.id,
-        this.cartCurrent.deliveryCost
+        this.cartCurrent.deliveryCost,
+        this.cartCurrent.stripeFee
       ).subscribe((token: any ) => {
           if (token.errorClosed) {
             this.showLoader = false;
@@ -287,8 +288,8 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
                               this.cartService.cartUpdated.subscribe((cartUpdated: Cart) => {
                                 this.cartCurrent = cartUpdated;
                                 setTimeout(() => {
-                                  window.location.href = `${window.location.origin}/customer/notification`;
-                                }, 50);
+                                  window.location.href = `${window.location.origin}/customer/order`;
+                                }, 5);
                                 // this.router.navigate(['customer/notification']);
                               });
                             }

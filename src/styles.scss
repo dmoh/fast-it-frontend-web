@@ -21,8 +21,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   padding-bottom: .4375em !important;
 }
 
-$background-color-primary: #c823f1;
-/*$background-color-primary: #f1d723;
+$background-color-primary: #fff;
+/*$background-color-primary: #c823f1;
+$background-color-primary: #f1d723;
 $btn-color-primary: #dcc738;*/
 $btn-color-primary: #d840ff;
 $btn-color-secondary: white;
@@ -165,6 +166,16 @@ ul {
 }
 
 /********END DRAG N DROP *************/
+
+.carousel-indicators {
+  bottom: 1px;
+  display: flex;
+  /* left: 50%; */
+  outline: none;
+  position: absolute;
+  transform: translateX(-50%);
+  z-index: 1;
+}
 .cdk-global-overlay-wrapper, .cdk-overlay-container {
   z-index: 9990 !important;
 }
@@ -184,4 +195,11 @@ table .restaurant-detail .table th, table .restaurant-detail .table td {
   padding: 0.75rem;
   vertical-align: top;
   border-top: none;
+}
+
+
+.mat-fab .mat-button-wrapper {
+  padding: 0px 0 !important;
+  display: inline-block;
+  line-height: 24px;
 }

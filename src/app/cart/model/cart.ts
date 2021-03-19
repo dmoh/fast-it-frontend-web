@@ -12,5 +12,6 @@ export class Cart {
     isValidate?: boolean = false;
     hasServiceCharge: boolean = false;
     totalAmountProduct?: number = 0;
+    stripeFee?: number = 0;
     amountWithoutSpecialOffer: number = 0;
 }

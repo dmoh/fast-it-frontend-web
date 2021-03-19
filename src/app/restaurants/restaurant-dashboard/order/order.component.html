@@ -14,14 +14,14 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let order of orders ">
+      <tr *ngFor="let order of orders " >
         <td style="font-size: x-small">{{ order.idReference }}</td>
         <td style="font-size: x-small">{{ order.payedAt.date | date: "dd/MM/yyyy" }}</td>
         <td style="font-size: x-small">{{ order.payedAt.date | date: "HH:mm:ss" }}</td>
         <td style="font-size: x-small">{{ (+(order.amount) / 100).toFixed(2) + '€' }}</td>
         <td>
           <div class="">
-            <span style="font-size: x-small">{{ ((+(order.amount) - +(order.delivery_cost)  - +(order.margin_fastit * 100))  / 100).toFixed(2) + '€' }}</span>
+            <span style="font-size: x-small">{{ ((+(order.amount) - +(order.delivery_cost) - (order.stripe) - +(order.margin_fastit * 100))  / 100).toFixed(2) + '€' }}</span>
           </div>
         </td>
         <td>
@@ -31,7 +31,7 @@
         </td>
         <td>
           <div class="">
-            <span  style="font-size: x-small">{{ (+(order.amount) / 100 ).toFixed(2) + '€' }}</span>
+            <span  style="font-size: x-small">{{ ((+(order.amount) - (order.stripeFee * 100))  / 100 ).toFixed(2) + '€' }}</span>
           </div>
         </td>
         <!--<td>{{ ((order.amount/ 100) - ((+(order.amount) / 100) * 0.23)).toFixed(2) + '€' }}</td>

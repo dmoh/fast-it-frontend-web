@@ -8,6 +8,7 @@ import {CartComponent} from "../cart/cart.component";
 import { OrderModalComponent } from './order-modal/order-modal.component';
 import { ShowOrderComponent } from './show-order/show-order.component';
 import {InfoModalComponent} from "@app/info-modal/info-modal.component";
+import {NgbDropdownModule} from "@ng-bootstrap/ng-bootstrap";
 
 
 @NgModule({
@@ -16,10 +17,11 @@ import {InfoModalComponent} from "@app/info-modal/info-modal.component";
       OrderModalComponent,
       ShowOrderComponent,
   ],
-  imports: [
-    CoreModule,
-    RestaurantsRoutingModule
-  ],
+    imports: [
+        CoreModule,
+        RestaurantsRoutingModule,
+        NgbDropdownModule
+    ],
   entryComponents: [
       NavbarComponent,
       ProductModalComponent,

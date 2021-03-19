@@ -195,12 +195,15 @@
       <h5 style="font-size: 1.4rem; text-transform: uppercase">Promotion</h5>
       <button mat-raised-button [disabled]="!restaurant" (click)="addSpecialOffer(restaurant.id)" color="primary">Ajouter une promotion</button>
       <hr>
-      <div *ngIf="specialOffers">
+      <div *ngIf="specialOffers && restaurant">
         <div *ngFor="let offer of specialOffers">
           <div class="w-100">
             <div>Titre Affiché au client: <b>{{ offer.title | titlecase }}</b></div>
             <div>Montant de l'offre: <b>{{ offer.specialOfferAmount }}€</b> </div>
             <div>Montant minimum pour en bénéficer: <b>{{ offer.minimumAmountForOffer }}€</b></div>
+          </div>
+          <div>
+            <button mat-raised-button color="primary" (click)="updateSpecialOffer(offer, restaurant.id)">Modifier</button>
           </div>
         </div>
       </div>

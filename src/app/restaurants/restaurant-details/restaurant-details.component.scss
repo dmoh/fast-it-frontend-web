@@ -42,7 +42,7 @@
   padding: 0.4rem;
   background: #ffffff;
   transition: all 0.5s ease-in-out;
-  border: 1px solid #a5a5a521;
+  border: 1px solid #E2E2E2;
   cursor: pointer;
   height: 130px;
   width: 100%;
@@ -188,6 +188,23 @@
   transform: rotate(-90deg);
   cursor: pointer;
 }
+
+
+
+
+
+.nav-header-menu::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.nav-header-menu {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+
+
 
 @media (max-width: 767px) {
   .header-restaurant {

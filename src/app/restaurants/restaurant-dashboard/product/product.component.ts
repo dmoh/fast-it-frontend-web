@@ -337,6 +337,17 @@ export class ProductComponent implements OnInit {
     });
   }
 
+  updateSpecialOffer(sp: SpecialOffer, restaurantId: number) {
+    const modalRef = this.modalService.open(SpecialOfferModalComponent);
+    modalRef.componentInstance.restaurantId = restaurantId;
+    modalRef.componentInstance.specialOfferSelected = sp;
+    modalRef.result.then((res) => {
+      if (res && res === 'ok') {
+        this.getSpecialOffers(restaurantId);
+      }
+    });
+  }
+
 
   private getSpecialOffers(restaurantId) {
     this.restaurantService.getSpecialOfferByBusinessId(restaurantId)

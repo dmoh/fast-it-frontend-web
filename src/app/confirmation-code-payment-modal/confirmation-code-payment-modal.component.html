@@ -1,14 +1,17 @@
 <section style="padding: 1rem">
   <header class="modal-header">
     <h1 class="text-success text-center">Paiement Accepté :) </h1>
+    <span style="font-size: large">Maintenant, il ne reste plus qu'à patienter, sagement, que le commerce valide votre commande. Vous receverez par la suite un mail avec le temps d'estimation de livraison, n'hésitez pas à vous rendre dans votre profil dans la rubrique "Mes Commandes" et à actualiser pour suivre l'état de celle-ci</span>
   </header>
   <div class="modal-body pb-0">
     <p style="color: black;font-style: italic; font-size: small" >Dans un souci de suivi et de traçabilité. Pouvez-vous donner ce code au livreur ?</p>
     <div style="padding-bottom: .5rem; text-align: center; color: red; font-size: x-large">
       <span style="display: block; padding-bottom: .5rem">CODE POUR LE LIVREUR</span>
       <span>{{ infos.code }}</span>
+
     </div>
     <div class="modal-footer">
+      <h3></h3>
       <button class="mr-2" (click)="onCheckResponseCustomer('ok')" mat-raised-button color="primary">Je donne le code</button>
       <button (click)="onCheckResponseCustomer('no')"  mat-raised-button color="warn">Non, merci</button>
     </div>

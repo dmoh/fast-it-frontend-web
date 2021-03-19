@@ -1,19 +1,20 @@
-<nav class="navbar navbar-expand navbar-light bg-light">
+<nav style="
+    border-bottom: 1px solid #eec3f9;" class="navbar navbar-expand navbar-light bg-light">
   <div class="container">
     <button *ngIf="isMedia || showMenu" mat-icon-button color="white" (click)="onToggleSideNav()">
-      <mat-icon>menu</mat-icon>
+      <mat-icon style="color: #c823f1">menu</mat-icon>
     </button>
-    <a class="navbar-brand" routerLink="/home" style="font-style: italic; font-weight: bold; color: white"> <!--<img src="logo_png.png"/>--> FAST-IT</a>
+    <a class="navbar-brand" routerLink="/home" style="font-style: italic; font-weight: bold; color: #c145e1"> <!--<img src="logo_png.png"/>--> Fast-it</a>
     <div class="collapse navbar-collapse">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
           <a style="display: flex; flex-direction: row"  *ngIf="cart.total > 0" [ngClass]="{'not-allowed': cart.total == 0}" class="nav-link btn btn-sm" routerLink="/cart-detail">
-            <div style="color: white; font-size: large;padding-right: .4rem;" class="material-icons">shopping_basket</div><div *ngIf="cart.total > 0" style="color: white; font-size: small">{{ cart.total.toFixed(2) }} €</div>
+            <div style="color: #c145e1; font-size: large;padding-right: .4rem;" class="material-icons">shopping_basket</div><div *ngIf="cart.total > 0" style="color: white; font-size: small">{{ cart.products.length }}</div>
           </a>
         </li>
         <li >
           <button *ngIf="user.token" mat-button [matMenuTriggerFor]="menu">
-            <div style="color: white;font-size: large;padding-right: .4rem; cursor: pointer" class="material-icons">home</div>
+            <div style="color: #c145e1;font-size: large;padding-right: .4rem; cursor: pointer" class="material-icons">home</div>
           </button>
           <mat-menu #menu="matMenu">
             <button *ngIf="user.token"  mat-menu-item>
@@ -33,10 +34,10 @@
         <li class="nav-item">
           <div style="display: flex">
             <a *ngIf="user.token" class="nav-link" title="Se déconnecter" (click)="onLogout()" style="color: white">
-              <div style="color: white;font-size: large;padding-right: .4rem; cursor: pointer" class="material-icons">power_settings_new</div>
+              <div style="color: #c145e1;font-size: large;padding-right: .4rem; cursor: pointer" class="material-icons">power_settings_new</div>
             </a>
           </div>
-          <a *ngIf="!user.token" class="nav-link" routerLink="/login" style="color: white"><div style="color: white;font-size: large;padding-right: .4rem; cursor: pointer" class="material-icons">account_circle</div></a>
+          <a *ngIf="!user.token" class="nav-link" routerLink="/login" style="color: white"><div style="color: #c146e1;font-size: x-large;padding-right: .4rem; cursor: pointer" class="material-icons">account_circle</div></a>
         </li>
       </ul>
     </div>
@@ -69,12 +70,12 @@
     </div>
   </div>
 
-</div>-->
-<!--<div class="container-fluid">
+</div>
+<div class="container-fluid">
   <div class="row">
     <div style="padding-left: 0; padding-right: 0" class="col-md-12">
       <div style="margin-bottom: 0 !important; font-size: x-small" class="alert alert-success text-center" role="alert">
-        La 3000<sup>éme</sup> commande offerte! Livraison comprise! (Indice: la commande 2988 est passée) <i class="em em-blush" aria-role="presentation" aria-label="SMILING FACE WITH SMILING EYES"></i>
+        La 5000<sup>éme</sup> commande offerte! Livraison comprise! (Indice: la commande 4970 est passée) <i class="em em-blush" aria-role="presentation" aria-label="SMILING FACE WITH SMILING EYES"></i>
       </div>
     </div>
   </div>

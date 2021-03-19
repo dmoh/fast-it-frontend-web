@@ -42,13 +42,13 @@ export class RestaurantDetailsComponent implements OnInit, AfterViewInit{
   specialOffer: SpecialOffer;
 
 
-  @ViewChild('stickyMenu', {static: false}) menuElement: ElementRef;
 
   constructor(private modal: NgbModal,
               private cartService: CartService,
               private restaurantService: RestaurantDashboardService,
               private route: ActivatedRoute,
               private snackBar: MatSnackBar,
+              private el: ElementRef,
               private securityRestaurantService: SecurityRestaurantService
               ) {
 
@@ -123,6 +123,9 @@ export class RestaurantDetailsComponent implements OnInit, AfterViewInit{
   ngAfterViewInit() {
   }
 
+  getCategories() {
+    return this.categories.filter((elem, index) => index > 3);
+  }
   scroll(id) {
       const elmnt = document.getElementById(id);
       elmnt.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'});
@@ -166,15 +169,31 @@ export class RestaurantDetailsComponent implements OnInit, AfterViewInit{
     }
   }
 
-  capitalizeFirstLetter(word: string) {
+  checkOverflowing() {
+    const element = document.getElementById('nav-div');
+
+    const curOverflow = element.style.overflow;
+
+    if (!curOverflow || curOverflow === 'visible') {
+      element.style.overflow = 'hidden';
+    }
+
+    const isOverflowing = element.clientWidth < element.scrollWidth || element.clientHeight < element.scrollHeight;
+
+    element.style.overflow = curOverflow;
+
+    if (isOverflowing) {
+      document.getElementById('div-to-modify').classList.add('someclass');
+    } else {
+      document.getElementById('div-to-modify').classList.add('whenthereisoverflow');
+    }
+  }
+
+
+    capitalizeFirstLetter(word: string) {
     return word.charAt(0).toUpperCase() + word.slice(1);
   }
 
-  @HostListener('window:scroll', ['$event'])
-  handleScroll(){
-    const windowScroll = window.pageYOffset;
-    this.sticky = windowScroll >= this.menuPosition;
-  }
 
 
 }

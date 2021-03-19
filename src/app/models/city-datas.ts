@@ -4,5 +4,6 @@ export class CityDatas {
         public name: string,
         public city: string,
         public zipcode: string,
+        public zipCode: string
     ){}
 }

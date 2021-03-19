@@ -28,5 +28,7 @@ export class Restaurant {
   specialOffer: SpecialOffer;
   pathFile?: string;
   caCurrentMonth?: number;
+  titleOffer?: string;
+  isNew?: boolean;
 }
 
