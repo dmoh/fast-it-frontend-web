@@ -34,6 +34,9 @@ import { LegacyComponent } from './legacy/legacy.component';
 import { TermsModalComponent } from './terms-modal/terms-modal.component';
 import { MatCarouselModule } from '@ngbmodule/material-carousel';
 import { LocationModalComponent } from './location-modal/location-modal.component';
+import { CategoryViewComponent } from './category-view/category-view.component';
+import { LocationComponent } from './location/location.component';
+import { ShimmerViewComponent } from './shimmer-view/shimmer-view.component';
 
 
 @NgModule({
@@ -57,6 +60,9 @@ import { LocationModalComponent } from './location-modal/location-modal.componen
     LegacyComponent,
     TermsModalComponent,
     LocationModalComponent,
+    CategoryViewComponent,
+    LocationComponent,
+    ShimmerViewComponent,
   ],
   imports: [
     BrowserModule,
@@ -91,7 +97,10 @@ import { LocationModalComponent } from './location-modal/location-modal.componen
         InfoModalComponent,
         LegacyComponent,
         TermsModalComponent,
-        LocationModalComponent
+        LocationModalComponent,
+        CategoryViewComponent,
+        LocationComponent,
+        ShimmerViewComponent
     ]
 })
 export class AppModule { }

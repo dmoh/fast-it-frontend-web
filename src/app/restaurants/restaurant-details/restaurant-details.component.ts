@@ -40,8 +40,7 @@ export class RestaurantDetailsComponent implements OnInit, AfterViewInit{
   sticky: boolean = false;
   menuPosition: any;
   specialOffer: SpecialOffer;
-
-
+  showRightArrow: boolean = false;
 
   constructor(private modal: NgbModal,
               private cartService: CartService,
@@ -121,6 +120,20 @@ export class RestaurantDetailsComponent implements OnInit, AfterViewInit{
   }
 
   ngAfterViewInit() {
+    const wWidth = window.innerWidth;
+    let divWidth = 0;
+    setTimeout(() => {
+      divWidth = document.getElementById('div-to-modify').scrollWidth;
+      this.calculateDiv(wWidth, divWidth);
+    }, 4000);
+
+
+  }
+
+  calculateDiv(w, d) {
+    if (+w < +d ) {
+      this.showRightArrow = true;
+    }
   }
 
   getCategories() {
@@ -169,25 +182,9 @@ export class RestaurantDetailsComponent implements OnInit, AfterViewInit{
     }
   }
 
-  checkOverflowing() {
-    const element = document.getElementById('nav-div');
-
-    const curOverflow = element.style.overflow;
-
-    if (!curOverflow || curOverflow === 'visible') {
-      element.style.overflow = 'hidden';
-    }
-
-    const isOverflowing = element.clientWidth < element.scrollWidth || element.clientHeight < element.scrollHeight;
-
-    element.style.overflow = curOverflow;
-
-    if (isOverflowing) {
-      document.getElementById('div-to-modify').classList.add('someclass');
-    } else {
-      document.getElementById('div-to-modify').classList.add('whenthereisoverflow');
-    }
-  }
+  /*checkOverflowing() {
+    const element = document.getElementById('div-to-modify');
+  }*/
 
 
     capitalizeFirstLetter(word: string) {

@@ -1,11 +1,12 @@
-import {Component, ElementRef, OnDestroy, OnInit, HostListener} from '@angular/core';
-import {Router} from '@angular/router';
+import {Component, ElementRef, OnDestroy, OnInit, HostListener, Output, EventEmitter, Input} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
 import {CityDataService} from '../city-data.service';
-import { MatCarousel, MatCarouselComponent } from '@ngbmodule/material-carousel';
-import {RestaurantDashboardService} from "@app/restaurants/restaurant-dashboard/services/restaurant-dashboard.service";
-import {RestaurantsCityComponent} from "@app/restaurants-city/restaurants-city.component";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {LocationModalComponent} from "@app/location-modal/location-modal.component";
+import {RestaurantDashboardService} from '@app/restaurants/restaurant-dashboard/services/restaurant-dashboard.service';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {LocationModalComponent} from '@app/location-modal/location-modal.component';
+import {AdminService} from '@app/admin/admin.service';
+import {CategoryBusiness} from '@app/_models/category-business';
+import {CategoryRestaurantService} from '@app/_services/category-restaurant.service';
 
 
 @Component({
@@ -21,6 +22,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   slideHeight: string = '200px';
   maintainAspectRatio: boolean = false;
   showingLeftPart: boolean = true;
+  @Input() closeModal;
   slides: any[] = [
     {
       image: 'https://mediafastitprod.s3.eu-west-3.amazonaws.com/PHOTO-2021-03-16-10-38-38.jpg'
@@ -35,13 +37,31 @@ export class HomeComponent implements OnInit, OnDestroy {
   restaurants: any[];
   restaurantsLeft: any[];
   restaurantsRight: any[];
+  categories: any[];
   constructor(
-              private route: Router,
               private cityData: CityDataService,
               private restaurantService: RestaurantDashboardService,
               private modal: NgbModal,
-              private elementRef: ElementRef
-              ) { }
+              private elementRef: ElementRef,
+              private adminService: AdminService,
+              private categoryRestaurantService: CategoryRestaurantService,
+              private router: Router,
+              private route: ActivatedRoute
+              ) {
+    this.router.events.subscribe((event) => {
+      setTimeout(() => {
+        this.route.queryParams.subscribe((params) => {
+          if (params && params.anchor) {
+            const el = document.getElementById('app-home-features');
+            if (el) {
+              el.scrollIntoView({behavior: 'smooth', block: 'end', inline: 'nearest'});
+            }
+          }
+        });
+      }, 1000);
+    });
+  }
+
 
   ngOnInit(): void {
     const wWidth = window.innerWidth;
@@ -56,6 +76,12 @@ export class HomeComponent implements OnInit, OnDestroy {
         types: [],
         componentRestrictions: { country: 'FR' }
     };
+
+
+    this.adminService.getCategoryListActive()
+      .subscribe((res) => {
+        this.categories = res.categories;
+      });
     this.restaurantService
       .getAllBusinessesWithOffers()
       .subscribe((res) => {
@@ -101,13 +127,13 @@ export class HomeComponent implements OnInit, OnDestroy {
             };
 
           this.cityData.setCityData(cityDatas1);
-          this.route.navigate(['/restaurants-city']);
+          this.router.navigate(['/restaurants-city']);
       }
   }
 
 
   goToRestaurantBy(id: any) {
-    this.route.navigate([`/restaurant/${id}`]);
+    this.router.navigate([`/restaurant/${id}`]);
   }
 
   onChangeLocation() {
@@ -124,6 +150,21 @@ export class HomeComponent implements OnInit, OnDestroy {
       const el = this.elementRef.nativeElement.querySelector('#ul-carousel-right');
       el.scrollIntoView({behavior: 'smooth', block: 'end', inline: 'nearest'});
     }
+
+  }
+
+  onShowCategory(category: CategoryBusiness) {
+    this.categoryRestaurantService.setCategorySelected(category);
+    this.router.navigate(['category']);
+  }
+
+  onScrollResto(event) {
+    // const el = document.getElementById('app-home-features');
+    setTimeout(() => {
+      const el = document.getElementById('section-resto');
+      console.warn(el);
+      el.scrollIntoView({behavior: 'smooth', block: 'end', inline: 'nearest'});
+    }, 100);
 
   }
 }

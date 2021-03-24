@@ -1,41 +1,5 @@
-<section class="container-fluid pt-2">
-  <div *ngIf="newestRestaurants" class="row">
-    <div
-      *ngFor="let restaurant of newestRestaurants"
-      (click)="goToRestaurantBy(restaurant.id)"
-      class="col-md-3 mb-2 cursor-pointer">
-      <div style=" position: relative" class="wrapper-img-left box-shadow-orange">
-        <div style="position: absolute;top: 8px;color: white;left: 0;font-size: smaller;padding: 2px;background: #c968e1;z-index: 50;border-radius: 0 16px 16px 0;">
-          {{ restaurant.titleOffer | titlecase }}
-          <span class="pl-1"></span>
-        </div>
-        <div
-          class="img-wrapper"
-          [ngStyle]="{background: 'url(' + restaurant.pathFile + ')', 'background-size': 'cover', 'background-position': 'center' }"
-        >
-          <div *ngIf="restaurant.closed == true" class="opaque text-center">
-            <h3 style="color: white;margin-top: 3.2rem;font-size: large;font-weight: 200;font-family: 'Oswald', sans-serif;">Momentanément indisponible en livraison</h3>
-          </div>
-        </div>
-        <div style=" bottom: 0; width: 100%;overflow: hidden;" class="desc-bottom reduce-padding">
-          <h4 style="margin-bottom: 0 !important; font-size: 1rem;text-transform: capitalize; font-weight: 600; font-family: 'Roboto Condensed', sans-serif;">{{ restaurant.name | titlecase }}
-            <span style="float: right;font-size: smaller;font-weight: 100;font-family: 'Roboto', sans-serif;">{{ restaurant.estimatedPreparationTime.replace(',', ' - ') + 'min' }}</span>
-          </h4>
-          <div style="display: flex; width: 100%; justify-content: space-between">
-            <div>
-              <!--<span style="font-size: smaller; font-weight: 200; font-style: italic">{{ restaurant.zipcode }}, {{ restaurant.city | titlecase }}</span>-->
-              <span style="font-size: smaller; font-weight: 200; font-style: italic">{{ restaurant.city | titlecase }}</span>
-            </div>
-            <div *ngIf="restaurant.description && restaurant.description != null">
-              <span style="font-weight: 200; font-size: smaller">{{ restaurant.description | titlecase }}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<section class="d-block container-fluid">
+<app-shimmer-view *ngIf="!restaurants"></app-shimmer-view>
+<section id="section-resto" class="d-block container-fluid">
   <h2 style="font-size: 1.5rem" class="text-left">Quelles  <span style="color: #d800ff">envies</span>, aujourd'hui ?</h2>
   <div *ngIf="restaurants" class="text-left">
     <p class="text-left" *ngIf="onlyAreaRestaurants">
@@ -62,8 +26,6 @@
       (click)="goToRestaurantBy(restaurant.id)"
       class="col-md-3 mb-2 cursor-pointer">
       <div style=" position: relative" class="wrapper-img-left box-shadow-orange">
-        <div style="position:absolute; z-index: 2000; top: 8px">
-        </div>
         <div *ngIf="restaurant.isNew" style="position: absolute;/* top: 8px; */bottom: 4px;color: white;right: 3px;font-size: smaller;padding: 2px;background: #26dc4d;z-index: 50;border-radius: 15px 15px 15px  15px;">
           <span class="pl-1"></span>
           NOUVEAU

@@ -43,6 +43,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatSortModule} from "@angular/material/sort";
 import { TipModalComponent } from '../tip-modal/tip-modal.component';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { ShimmerModule } from '@sreyaj/ng-shimmer';
 
 
 @NgModule({
@@ -90,7 +91,8 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
         MatToolbarModule,
         MatMenuModule,
         MatSidenavModule,
-        MatSortModule
+        MatSortModule,
+        ShimmerModule
     ],
   exports: [
       CommonModule,
@@ -131,7 +133,8 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
       MatMenuModule,
       MatSidenavModule,
       MatSortModule,
-      TipModalComponent
+      TipModalComponent,
+      ShimmerModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [

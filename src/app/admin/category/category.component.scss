@@ -1,0 +1,9 @@
+.category-row  {
+  cursor: pointer;
+  justify-content: space-between;
+  &:hover {
+    background: #ededed;
+  }
+}
+
+

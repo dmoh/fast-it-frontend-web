@@ -1,9 +1,12 @@
-import {Component, HostListener, OnInit} from '@angular/core';
+import {Component, HostListener, Input, OnInit, Optional} from '@angular/core';
 import {Router} from "@angular/router";
 import {RestaurantDashboardService} from "@app/restaurants/restaurant-dashboard/services/restaurant-dashboard.service";
 import {Restaurant} from "@app/_models/restaurant";
 import {CityDataService} from "@app/city-data.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {CategoryBusiness} from "@app/_models/category-business";
+import {CategoryRestaurantService} from "@app/_services/category-restaurant.service";
+import {timer} from "rxjs";
 
 @Component({
   selector: 'app-home-features',
@@ -19,10 +22,12 @@ export class HomeFeaturesComponent implements OnInit {
   newestRestaurants: Restaurant[];
   showAll: boolean;
   onlyAreaRestaurants: boolean;
+  categorySelected: CategoryBusiness;
   constructor(private router: Router,
               private restaurantService: RestaurantDashboardService,
               private cityDatas: CityDataService,
-              private snackBar: MatSnackBar
+              private snackBar: MatSnackBar,
+              private categoryRestaurantService: CategoryRestaurantService
               ) { }
 
   ngOnInit(): void {
@@ -30,34 +35,35 @@ export class HomeFeaturesComponent implements OnInit {
       .getAllbusinesses()
       .subscribe((res) => {
         if (res.ok) {
-          this.restaurants = res.restaurants;
-
-          /*const sortNewestRestaurants = res.restaurants.sort((n1, n2) => n2.id - n1.id);
-          this.newestRestaurants = sortNewestRestaurants.filter((elem, index) => {
-            const forbiddenId = [63, 62];
-            return index < 5 && forbiddenId.indexOf(+(elem.id)) === -1;
-          });*/
-          this.allRestaurants = res.restaurants;
-          this.cityDatas
-            .getCityData()
-            .subscribe((locationDatas) => {
-              this.restaurants = this.allRestaurants;
-              this.restaurants = this.restaurants.filter((resto) => {
-                return resto.zipcode === locationDatas.zipCode
-                  || resto.city.toLowerCase() === locationDatas.city.toLowerCase();
-              });
-              this.onlyAreaRestaurants = true;
-              if (this.restaurants.length === 0 ){
-                this.onlyAreaRestaurants = false;
+          const source = timer(2500);
+          const subscribe = source.subscribe(val => {
+            this.getCurrentCategory();
+            this.restaurants = res.restaurants;
+            this.allRestaurants = res.restaurants;
+            this.cityDatas
+              .getCityData()
+              .subscribe((locationDatas) => {
                 this.restaurants = this.allRestaurants;
-                this.snackBar.open(
-                  'Aucun restaurant dans cette ville. Néanmoins il est possible de vous livrer où que vous soyez.* :)', 'ok', {
-                    duration: 7000,
-                    verticalPosition: 'top',
-                    horizontalPosition: 'center'
-                  });
-              }
-            });
+                this.restaurants = this.restaurants.filter((resto) => {
+                  return resto.zipcode === locationDatas.zipCode
+                    || resto.city.toLowerCase() === locationDatas.city.toLowerCase();
+                });
+                this.onlyAreaRestaurants = true;
+                if (this.restaurants.length === 0 ){
+                  this.onlyAreaRestaurants = false;
+                  this.restaurants = this.allRestaurants;
+                  this.snackBar.open(
+                    'Aucun restaurant dans cette ville. Néanmoins il est possible de vous livrer où que vous soyez.* :)', 'ok', {
+                      duration: 7000,
+                      verticalPosition: 'top',
+                      horizontalPosition: 'center'
+                    });
+                }
+              });
+          });
+          setTimeout(() => {
+            subscribe.unsubscribe();
+          }, 20000);
         }
       });
   }
@@ -66,6 +72,14 @@ export class HomeFeaturesComponent implements OnInit {
     this.router.navigate([`/restaurant/${id}`]);
   }
 
+  private getCurrentCategory() {
+    this.categoryRestaurantService.getCategoryRestaurant()
+      .subscribe((category) => {
+        if (category.id && +category.id > 0) {
+          this.categorySelected = category;
+        }
+      });
+  }
   onShowAllRestaurants() {
     this.restaurants = this.allRestaurants;
     this.onlyAreaRestaurants = false;

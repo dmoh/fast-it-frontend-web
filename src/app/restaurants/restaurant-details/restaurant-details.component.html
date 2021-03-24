@@ -33,11 +33,11 @@
       <div class="col-md-8">
         <div style="display: flex" id="nav-div" class="navbar-restaurant sticky-top">
           <nav class="nav-menu"   style="display: flex;width: 100%;background: white; padding: 1.3rem; position: relative" role="navigation">
-            <div style="position: absolute;/* top: 20px; */right: 0px;height: 100%;"><span style="font-size: large;vertical-align: middle;" class="material-icons">arrow_forward</span></div>
+            <div *ngIf="showRightArrow" style="position: absolute;/* top: 20px; */right: 0;height: 100%;"><span style="font-size: large;vertical-align: middle;" class="material-icons">arrow_forward</span></div>
             <div *ngIf="categories && categories.length >= 5" class="table-responsive">
-              <div id="div-to-modify" style="display: flex; width: 100%; overflow-x: scroll; margin-bottom: 0 !important;"  class="restaurant-detail table-responsive nav-header-menu" >
-                <div class="d-flex">
-                  <div [ngStyle]="{'border': 'none'}" class="nav-header-menu"  style="display: flex" *ngFor="let category of categories ; let index = index" >
+              <div style="display: flex; width: 100%; overflow-x: scroll; margin-bottom: 0 !important;"  class="restaurant-detail table-responsive nav-header-menu" >
+                <div id="div-to-modify"  class="d-flex">
+                  <div [ngStyle]="{'border': 'none'}" id="nav-header-menu" class="nav-header-menu"  style="display: flex" *ngFor="let category of categories ; let index = index" >
                     <div>
                       <a  (click)="scroll( category.category_name )" style="white-space: nowrap !important;font-size: inherit;font-weight: 400;" class="menu-title cursor-pointer">{{ category.category_name | titlecase }}</a>
                     </div>

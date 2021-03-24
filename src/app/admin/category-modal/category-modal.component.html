@@ -1,0 +1,77 @@
+<div class="modal-header">
+  <h1>Categorie: <b>{{ category.name | titlecase }}</b>
+  </h1>
+</div>
+<div class="modal-body">
+  <h2>Modifier la catégorie</h2>
+  <div>
+    <p>
+      <mat-form-field appearance="outline" style="" class="example-full-width width-input">
+        <mat-label style="font-size: large; padding-bottom: 0; margin-bottom:  0">Nom de la Catégorie</mat-label>
+        <input
+          [(ngModel)]="category.name"
+          autocomplete="off"
+          matInput placeholder="Nom de La catégorie" >
+        <mat-icon matSuffix></mat-icon>
+      </mat-form-field>
+    </p>
+    <p>
+      <mat-form-field appearance="outline" style="" class="example-full-width width-input">
+        <mat-label style="font-size: large; padding-bottom: 0; margin-bottom:  0">L'url de l'image</mat-label>
+        <input
+          [(ngModel)]="category.url"
+          autocomplete="off"
+          matInput placeholder="L'url de l'image">
+        <mat-icon matSuffix></mat-icon>
+      </mat-form-field>
+    </p>
+    <mat-checkbox [(ngModel)]="category.isActive">Activé</mat-checkbox>
+    <div>
+      <button (click)="onUpdateCategory()" mat-raised-button color="primary">Modifier</button>
+    </div>
+  </div>
+  <hr>
+  <button (click)="onAddResto()" mat-raised-button color="primary">AJOUTER UN RESTO</button>
+  <div *ngIf="showFormResto" class="pt-1 pb-1 w-100">
+    <p>
+      <mat-form-field appearance="outline" style="" class="example-full-width width-input">
+        <mat-label style="font-size: large; padding-bottom: 0; margin-bottom:  0">Nom du Resto</mat-label>
+        <input
+          [(ngModel)]="restaurantName"
+          autocomplete="off"
+          matInput placeholder="Nom du Resto" >
+        <mat-icon matSuffix></mat-icon>
+      </mat-form-field>
+    </p>
+    <button (click)="onFindResto()" mat-raised-button color="primary">Valider</button>
+  </div>
+  <div *ngIf="restaurants && restaurants.length > 0">
+    <div *ngFor="let restaurant of restaurants" style="cursor:pointer;justify-content: space-between; display: flex; padding: 1rem; border-bottom: 1px solid #ccc">
+      <div>
+        {{ restaurant.id }}
+      </div>
+      <div>
+        {{ restaurant.name | titlecase }}
+      </div>
+      <div>
+        <button (click)="onAddRestoThis(restaurant)" mat-raised-button color="primary"><span class="material-icons">add</span>Ajouter</button>
+      </div>
+    </div>
+    <!--<mat-spinner diameter="20"></mat-spinner>-->
+  </div>
+  <hr>
+  <div *ngIf="businesses && businesses.length > 0">
+    <h2>Restaurant(s) dans cette catégorie</h2>
+    <div style=" padding: .5rem;justify-content: space-between; border-bottom: 1px solid #ccc" class="w-100 d-flex" *ngFor="let business of businesses" >
+      <div>{{ business.id}}</div>
+      <div>{{ business.name | titlecase }}</div>
+      <div style="cursor:pointer;" (click)="onDeleteThisBusiness(business)"><span class="material-icons text-danger">delete</span></div>
+    </div>
+  </div>
+  <div *ngIf="businesses && businesses.length == 0">
+    AUCUN RESTAURANT DANS LA CAT. <b>{{ category.name | titlecase }}</b>
+  </div>
+</div>
+<div class="modal-footer">
+  <button mat-raised-button color="primary" (click)="modalActive.close()">Annuler</button>
+</div>

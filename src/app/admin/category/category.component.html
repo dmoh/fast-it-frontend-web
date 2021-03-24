@@ -1,0 +1,35 @@
+<section  style="padding: 1rem" class="card">
+  <h1>Catégories</h1>
+  <div class="card-body">
+    <button mat-raised-button (click)="onAddCategory()" color="primary">Ajouter une Catégorie</button>
+    <div class="w-100 pt-2 pb-2" *ngIf="addCategory">
+      <p>
+        <mat-form-field appearance="outline" style="" class="w-100 example-full-width width-input">
+          <mat-label style="font-size: large; padding-bottom: 0; margin-bottom:  0">Nom de cette nouvelle catégorie</mat-label>
+          <input
+            [(ngModel)]="newCategory.name"
+            autocomplete="off"
+            matInput placeholder="Nom de cette nouvelle catégorie" >
+          <mat-icon matSuffix></mat-icon>
+        </mat-form-field>
+      </p>
+      <button (click)="onValidateCategory()" [disabled]="!newCategory.name && newCategory.name.length < 2 && newCategory.name.trim() == '' " mat-raised-button color="primary">Valider</button>
+    </div>
+    <hr>
+    <div>
+      <div class="w-100" *ngFor="let category of categories">
+        <div (click)="onShow(category)" style="padding: 1rem; border-bottom: 1px solid #ccc" class="w-100 d-flex category-row">
+          <div>
+            {{ category.id }}
+          </div>
+          <div>
+            {{ category.name }}
+          </div>
+          <div>
+            <span class="material-icons">add</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,30 @@
+<section  class="container-fluid">
+  <div *ngFor="let shimmer of shimmers; let index = index" class="d-block d-md-none d-lg-none d-xl-none row pb-3">
+    <div *ngIf="index < 4" class="col-md-12">
+      <shimmer style="height: 128px !important;" [width]="'100%'" [type]="'line'"  [height]="'128px'"></shimmer>
+      <div class="pt-1"></div>
+      <div class="d-flex" style="justify-content: space-between">
+        <shimmer [type]="'line'"  [width]="'140px'"></shimmer>
+        <shimmer [type]="'line'"  [width]="'70px'"></shimmer>
+      </div>
+      <div class="d-flex" style="justify-content: space-between">
+        <shimmer [type]="'line'"  [width]="'80px'"></shimmer>
+        <shimmer [type]="'line'"  [width]="'60px'"></shimmer>
+      </div>
+    </div>
+  </div>
+  <div class="row pb-3">
+    <div *ngFor="let shimmer of shimmers" class="col-md-3 d-none d-md-block d-lg-block d-xl-block pb-3">
+      <shimmer style="height: 128px !important;" [width]="'100%'" [type]="'line'"  [height]="'128px'"></shimmer>
+      <div class="pt-1"></div>
+      <div class="d-flex" style="justify-content: space-between">
+        <shimmer [type]="'line'"  [width]="'140px'"></shimmer>
+        <shimmer [type]="'line'"  [width]="'70px'"></shimmer>
+      </div>
+      <div class="d-flex" style="justify-content: space-between">
+        <shimmer [type]="'line'"  [width]="'80px'"></shimmer>
+        <shimmer [type]="'line'"  [width]="'60px'"></shimmer>
+      </div>
+    </div>
+  </div>
+</section>

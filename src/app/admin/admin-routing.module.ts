@@ -10,6 +10,7 @@ import {AdminComponent} from "@app/admin/admin.component";
 import {CommerceComponent} from "@app/admin/commerce/commerce.component";
 import {UserComponent} from "@app/admin/user/user.component";
 import {DeliveriesComponent} from "@app/admin/deliveries/deliveries.component";
+import {CategoryComponent} from "@app/admin/category/category.component";
 
 
 const routes: Routes = [
@@ -31,6 +32,10 @@ const routes: Routes = [
       {
         path: 'deliveries',
         component: DeliveriesComponent,
+      },
+      {
+        path: 'category',
+        component: CategoryComponent,
       }
     ]
   }

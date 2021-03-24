@@ -1,28 +1,7 @@
-<div style="padding: 12px 16px;">
-  <div>
-    <div style="display: flex; justify-content: space-between">
-      <div>
-        <div (click)="onChangeLocation()" style="font-weight: 300;
-          font-size: smaller;
-          line-height: normal;">
-          Livrer maintenant
-        </div>
-        <div (click)="onChangeLocation()" style=" display:flex;justify-content: flex-start">
-          <div style="padding-right: 5px" *ngIf="cityDataCurrent && cityDataCurrent.city">{{cityDataCurrent.city | titlecase }}</div>
-          <div style="padding-right: 5px" *ngIf="!cityDataCurrent" >Ville</div>
-          <div class="">
-            <span style="font-size: larger; vertical-align: middle" class="material-icons">expand_more</span>
-          </div>
-        </div>
-      </div>
-      <div>
-        <button class="cursor-pointer" (click)="onChangeLocation()" style="width: 35px;height: 35px;" mat-mini-fab color="primary" aria-label="Example icon button with a home icon">
-          <mat-icon style="color: white !important; font-size: medium">search</mat-icon>
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
+<!--Start Header Search Location-->
+<app-location (closeModale)="onScrollResto($event)"></app-location>
+<!--End Header Search Location-->
+<!--Start Carousel-->
 <section class="d-none d-md-block d-lg-block section-header">
   <div class="container-fluid">
     <div class="row">
@@ -63,40 +42,32 @@
       [hideOverlay]="true"
     ></mat-carousel-slide>
   </mat-carousel>
-</div><!--
-<section class="home-section">
-  <header style="width: 100%; height: 100%; background: rgba(0,0,0, 0.5)" class="container-fluid home">
-    <h1 style="color: white; font-size: xx-large;font-family: 'Raleway', sans-serif;" class="text-center mb-2">Vos restaurants préférés livrés</h1>
-    <div class="wrapper mt-2">
-      <div class="content" style="padding: 0.2rem">
-        <div class="input-group">
-            <mat-form-field style="width: 100%;" appearance="outline">
-              <mat-label>1 rue de la place</mat-label>
-              <input matInput
-                     autocomplete="off"
-                     type="text"
-                     id="locate-me"
-                     ngx-google-places-autocomplete
-                     [options]='options'
-                     #placesRef="ngx-places"
-                     (onAddressChange)="handleAddressChange($event)"
-              >
-              <mat-icon matSuffix></mat-icon>
-            </mat-form-field>
+</div>
+<!--End Carousel-->
+
+<div *ngIf="categories && categories.length > 0" class="pl-3 pt-4 pb-4">
+  <div id="category-wrapper" class="d-flex" style=" scroll-snap-type: x mandatory;align-items: flex-start; overflow-x: scroll">
+<!--
+      <div [ngStyle]="{'width': 'calc(100% - ' + categories.length + ')' }" *ngFor="let category of categories">
+-->
+  <div (click)="onShowCategory(category)" class="padding-category" style=" margin-left: 0; display: block;flex: none; overflow: hidden" *ngFor="let category of categories" >
+        <div class="category-solo" style="position: relative;">
+            <img style="
+            object-fit: cover;
+            border-radius: 50%;
+            height: 100%;
+            width: 100%;
+            left:0;
+            top:0;
+            position:absolute;"
+            src="assets/burger_bg.jpg" alt="">
+        </div>
+        <div style="padding-top: .5rem;font-weight: 500; font-size:  16px; line-height: 20px; text-align: center">
+          {{ category.name | titlecase }}
         </div>
       </div>
-    </div>
-    <div style="text-align: center; width: 100%" class="">
-      <button (click)="goto()"  mat-raised-button color="primary">Rechercher</button>
-    </div>
-  </header>
-</section>-->
-<section class="container-fluid mt-2">
-  <div class="row">
-    <div class="col-md-12">
-    </div>
   </div>
-</section>
+</div>
 <div class="d-none d-md-block d-lg-block" style="padding-left: 20px; padding-top: 1rem" *ngIf="restaurantsLeft && restaurantsLeft.length > 0">
   <div class="d-flex" style="justify-content: space-between; padding-right: 24px">
     <div>
@@ -218,56 +189,10 @@
       </li>
     </ul>
     <div>
-
-      <!--<div
-        (click)="goToRestaurantBy(restaurant.id)"
-        class=" mb-2 cursor-pointer" style="">
-        <div style=" position: relative" class="wrapper-img-left box-shadow-orange">
-          <div style="position:absolute; z-index: 2000; top: 8px">
-          </div>
-          <div>
-            <figure style="height: 128px; margin: 0; overflow: hidden; position: relative">
-              <div style="position: absolute;top: 8px;color: white;left: 0;font-size: smaller;padding: 2px;background: #c968e1;z-index: 50;border-radius: 0 16px 16px 0;">
-                {{ restaurant.title | titlecase }}
-                <span class="pl-1"></span>
-              </div>
-              <div style="top: 0; left: 0; height: 100%; width: 100%; position: absolute">
-                <div style="height: 128px">
-                  <picture>
-                    <img src="{{ restaurant.pathFile }}" alt="{{ restaurant.name }}" style="object-fit: cover; border: none; height: 100%; width: 100%">
-                  </picture>
-                </div>
-              </div>
-            </figure>
-          </div>
-          <div
-            class="img-wrapper"
-          >
-            <div *ngIf="restaurant.closed == true" class="opaque text-center">
-              <h3 style="color: white;margin-top: 3.2rem;font-size: large;font-weight: 200;font-family: 'Oswald';">Momentanément indisponible en livraison</h3>
-            </div>
-          </div>
-          <div style=" bottom: 0; width: 100%;overflow: hidden;" class="desc-bottom reduce-padding">
-            <h4 style="margin-bottom: 0 !important;font-size: 1.02rem;text-transform: capitalize;font-weight: 500;font-style: initial;line-height: .8;font-family: 'Roboto', sans-serif;">
-              {{ restaurant.name | titlecase }}
-              <span style="float: right;font-size: .75rem;font-weight: 100;font-family: 'Roboto', sans-serif;">{{ restaurant.estimatedPreparationTime.replace(',', ' - ') + 'min' }}</span>
-            </h4>
-            <div style="display: flex; width: 100%; justify-content: space-between">
-              <div>
-                <span style="font-size: smaller; font-weight: 200; font-style: italic">{{ restaurant.city | titlecase }}</span>
-              </div>
-              <div *ngIf="restaurant.description && restaurant.description != null">
-                <span style="font-weight: 200; font-size: smaller">{{ restaurant.description | titlecase }}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>-->
     </div>
     <div class="g8"></div>
   </div>
 </div>
-
 <div class="d-block d-md-none d-lg-none" *ngIf="restaurantsLeft && restaurantsLeft.length > 0">
   <h2 style="padding-left:12px;font-size: x-large;margin-bottom: -8px;">Les Promotions du moment</h2>
   <div style="padding: 16px 0;display: flex;overflow-y: hidden;align-items: flex-start; overflow-x: auto">
@@ -321,7 +246,7 @@
     <div class="g8"></div>
   </div>
 </div>
-<app-home-features ></app-home-features>
+<app-home-features id="app-home-features" ></app-home-features>
 <app-footer></app-footer>
 
 

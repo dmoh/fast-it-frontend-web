@@ -1,0 +1,25 @@
+<div style="padding: 12px 16px;">
+  <div>
+    <div style="display: flex; justify-content: space-between">
+      <div>
+        <div (click)="onChangeLocation()" style="font-weight: 300;
+          font-size: smaller;
+          line-height: normal;">
+          Livrer maintenant
+        </div>
+        <div (click)="onChangeLocation()" style=" display:flex;justify-content: flex-start">
+          <div style="padding-right: 5px" *ngIf="cityDataCurrent && cityDataCurrent.city">{{cityDataCurrent.city | titlecase }}</div>
+          <div style="padding-right: 5px" *ngIf="!cityDataCurrent" >Ville</div>
+          <div class="">
+            <span style="font-size: larger; vertical-align: middle" class="material-icons">expand_more</span>
+          </div>
+        </div>
+      </div>
+      <div>
+        <button class="cursor-pointer" (click)="onChangeLocation()" style="width: 35px;height: 35px;" mat-mini-fab color="primary" aria-label="Example icon button with a home icon">
+          <mat-icon style="color: white !important; font-size: medium">search</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

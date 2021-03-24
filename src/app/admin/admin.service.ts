@@ -5,6 +5,7 @@ import {AuthenticationService} from '@app/_services/authentication.service';
 import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {order} from "@app/_util/fasteat-constants";
+import {CategoryBusiness} from "@app/_models/category-business";
 
 @Injectable({
   providedIn: 'root'
@@ -98,6 +99,45 @@ export class AdminService {
   updateRoleUser(dataUser: any): Observable<any> {
     return this.http.post<any>(`${this.urlApi}/user/role/update`,
       { user: dataUser },
+      this.headers);
+  }
+
+
+  getCategoryList(): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}/category/list`,
+      this.headers);
+  }
+
+  getCategoryListActive(): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}/category/active/list`,
+      this.headers);
+  }
+  updateCategoryCurrent(categoryCurrent: CategoryBusiness): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}/category/update`,
+      { category: categoryCurrent },
+      this.headers);
+  }
+
+  getBusinessByCategoryId(categoryId: number): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}/category/business/${categoryId}`,
+      this.headers);
+  }
+
+  getBusinessByName(name: string): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}/business/find/name`,
+      {
+        restaurantName: name },
+      this.headers);
+  }
+
+  addRestoToCategory(restoId: number, categoryId: number): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}/category/resto/add`,
+      { addRestoId: restoId, catId: categoryId },
+      this.headers);
+  }
+  removeRestoToCategoryId(restoId: number, categoryId: number): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}/category/resto/remove`,
+      { deleteRestoId: restoId, catId: categoryId },
       this.headers);
   }
 }

@@ -29,7 +29,6 @@ export class LocationModalComponent implements OnInit {
   handleAddressChange(event) {
     if (!!event.formatted_address) {
       this.selectedAddress = event;
-      console.warn(this.selectedAddress);
     }
   }
 

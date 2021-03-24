@@ -27,6 +27,7 @@
     "@angular/router": "~9.1.9",
     "@ng-bootstrap/ng-bootstrap": "^6.1.0",
     "@ngbmodule/material-carousel": "^0.7.1",
+    "@sreyaj/ng-shimmer": "^1.0.0",
     "agm-direction": "^0.8.6",
     "bootstrap": "^4.4.0",
     "chart.js": "^2.9.3",
@@ -39,7 +40,7 @@
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "~0.901.7",
+    "@angular-devkit/build-angular": "^0.1102.5",
     "@angular/cli": "~9.1.7",
     "@angular/compiler-cli": "~9.1.9",
     "@jefiozie/ngx-aws-deploy": "^2.0.1",

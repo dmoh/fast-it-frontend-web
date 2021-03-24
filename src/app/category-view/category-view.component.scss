@@ -1,0 +1,56 @@
+.wrapper-img-left {
+  position:relative;
+  > img {
+    position: absolute;
+    width: 100%;
+    height: 300px;
+    top: -2rem;
+  }
+}
+
+.zoom {
+  transition: transform .2s;
+  &:hover {
+    transform: scale(1.2);
+  }
+}
+
+.desc-bottom {
+  padding: .2rem;
+  /*border-top: 2px solid #ff6908;*/
+  background: #fff !important;
+}
+
+a {
+  text-decoration: none;
+  color: #0a0a0a;
+}
+p {
+  color: #0b2e13;
+}
+
+.box-shadow-orange {
+  width: 100%;
+  overflow: hidden;
+}
+
+.desc-bottom h4 {
+  font-size: 25px;
+  font-style: italic;
+  font-weight: bold;
+  margin-bottom: .4rem;
+  font-family: 'Raleway', sans-serif;
+}
+
+.img-wrapper {
+  overflow: hidden;
+  position: relative;
+  height: 128px;
+}
+.opaque {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,.5);
+}
+
