@@ -37,14 +37,14 @@ export class DetailDeliveryComponent implements OnInit {
         if (orderById.deliverer?.id !== deliverer.id) {
           this.router.navigate(['/delivery/awaiting-delivery']);
         }
-        let order: Order = new Order();
+        const order: Order = new Order();
         this.order = orderById;
         this.isDelivering = this.order.status >= 3 && this.order.date_delivered == null ;
 
         this.hasDeliveryCode = this.order.deliverCode != null;
 
         this.delivererForm = this.fb.group({
-          code: ["", Validators.required],
+          code: ['', Validators.required],
           notCode: false
         });
       });

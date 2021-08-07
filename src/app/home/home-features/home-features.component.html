@@ -6,7 +6,7 @@
       <mat-slide-toggle (change)="onShowAllRestaurants()">Voir tous les restaurants</mat-slide-toggle>
     </p>
     <p>
-      <mat-form-field style="" class="example-full-width width-input">
+      <mat-form-field style="" class="example-full-width w-100 width-input">
         <mat-label style="font-size: large; padding-bottom: 0; margin-bottom:  0">Trouver un restaurant</mat-label>
         <input
           [(ngModel)]="findRestaurant"
@@ -14,7 +14,7 @@
           (keypress)="onSearchRestaurant()"
           (keyup)="onSearchRestaurant()"
           autocomplete="off"
-          matInput placeholder="Ex. Pizza" >
+          matInput placeholder="Ex. Pizza">
         <mat-icon matSuffix>search</mat-icon>
       </mat-form-field>
     </p>
@@ -26,17 +26,17 @@
       (click)="goToRestaurantBy(restaurant.id)"
       class="col-md-3 mb-2 cursor-pointer">
       <div style=" position: relative" class="wrapper-img-left box-shadow-orange">
-        <div *ngIf="restaurant.isNew" style="position: absolute;/* top: 8px; */bottom: 4px;color: white;right: 3px;font-size: smaller;padding: 2px;background: #26dc4d;z-index: 50;border-radius: 15px 15px 15px  15px;">
-          <span class="pl-1"></span>
-          NOUVEAU
-          <span class="pl-1"></span>
-        </div>
         <div
           class="img-wrapper"
           [ngStyle]="{background: 'url(' + restaurant.pathFile + ')', 'background-size': 'cover', 'background-position': 'center' }"
         >
+          <div *ngIf="restaurant.isNew" style="position: absolute;/* top: 8px; */bottom: 4px;color: white;right: 3px;font-size: smaller;padding: 2px;background: #26dc4d;z-index: 50;border-radius: 15px 15px 15px  15px;">
+            <span class="pl-1"></span>
+            NOUVEAU
+            <span class="pl-1"></span>
+          </div>
           <div *ngIf="restaurant.closed == true" class="opaque text-center">
-            <h3 style="color: white;margin-top: 3.2rem;font-size: large;font-weight: 200;font-family: 'Oswald';">Momentanément indisponible en livraison</h3>
+            <h3 style="color: white;margin-top: 3.2rem;font-size: large;font-weight: 200;font-family: 'Oswald';">Momentanément indisponible</h3>
           </div>
         </div>
         <div style=" bottom: 0; width: 100%;overflow: hidden;" class="desc-bottom reduce-padding">

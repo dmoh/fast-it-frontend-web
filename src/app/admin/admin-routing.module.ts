@@ -11,6 +11,9 @@ import {CommerceComponent} from "@app/admin/commerce/commerce.component";
 import {UserComponent} from "@app/admin/user/user.component";
 import {DeliveriesComponent} from "@app/admin/deliveries/deliveries.component";
 import {CategoryComponent} from "@app/admin/category/category.component";
+import {SectorComponent} from "@app/admin/sector/sector.component";
+import {OrderManagerComponent} from "@app/admin/order-manager/order-manager.component";
+import {PromotionComponent} from "@app/admin/promotion/promotion.component";
 
 
 const routes: Routes = [
@@ -36,6 +39,18 @@ const routes: Routes = [
       {
         path: 'category',
         component: CategoryComponent,
+      },
+      {
+        path: 'sector',
+        component: SectorComponent,
+      },
+      {
+        path: 'order-manager',
+        component: OrderManagerComponent,
+      },
+      {
+        path: 'promotion',
+        component: PromotionComponent,
       }
     ]
   }

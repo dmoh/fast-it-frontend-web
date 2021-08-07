@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve --ssl --ssl-key C:\\certificates\\localhost.key  --ssl-cert C:\\certificates\\localhost.crt",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
@@ -25,6 +25,7 @@
     "@angular/platform-browser": "~9.1.9",
     "@angular/platform-browser-dynamic": "~9.1.9",
     "@angular/router": "~9.1.9",
+    "@lyracom/embedded-form-glue": "^0.3.3",
     "@ng-bootstrap/ng-bootstrap": "^6.1.0",
     "@ngbmodule/material-carousel": "^0.7.1",
     "@sreyaj/ng-shimmer": "^1.0.0",

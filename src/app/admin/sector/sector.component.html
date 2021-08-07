@@ -1,0 +1,33 @@
+<section class="card">
+  <div class="card-body">
+    <div class="w-100 d-flex justify-space-between">
+      <div>
+        <h1>SECTEURS</h1>
+      </div>
+      <div>
+        <button (click)="onAddSector()" mat-raised-button color="primary">AJOUTER</button>
+      </div>
+    </div>
+    <hr>
+    <div class="table-responsive">
+      <table class="w-100 table table-responsive table-hover table-striped">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Nom</th>
+            <th>Actif</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="sectors">
+          <tr  class="cursor-pointer" *ngFor="let sector of sectors">
+            <td (click)="onUpdateSector(sector)">{{ sector.id }}</td>
+            <td (click)="onUpdateSector(sector)">{{ sector.name }}</td>
+            <td>
+              <mat-slide-toggle (change)="onChangeState(sector)" [(ngModel)]="sector.isActive"></mat-slide-toggle>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

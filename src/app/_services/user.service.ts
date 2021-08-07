@@ -37,4 +37,22 @@ export class UserService {
   getRestaurantIdByUsername(username: string): Observable<any> {
     return this.http.post<any>(`${this.urlApi}/user/restaurant`, {email: username},this.headers);
   }
+
+  getUserTokenAliasPayment(): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}/user/alias/token-payment`, this.headers);
+  }
+
+  updateUserTokenAliasPayment(tokenReceived: string): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}/user/alias/update/token-payment`,{
+      token: tokenReceived
+    }, this.headers);
+  }
+
+
+  checkPromotionalCode({promotinalCode, restaurantId}): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}/user/check/code`,{
+      code: promotinalCode,
+      businessId: restaurantId
+    }, this.headers);
+  }
 }

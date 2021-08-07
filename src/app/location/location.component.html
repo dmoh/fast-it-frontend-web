@@ -7,9 +7,9 @@
           line-height: normal;">
           Livrer maintenant
         </div>
-        <div (click)="onChangeLocation()" style=" display:flex;justify-content: flex-start">
+        <div (click)="onChangeLocation()" style="cursor: pointer; display:flex;justify-content: flex-start">
           <div style="padding-right: 5px" *ngIf="cityDataCurrent && cityDataCurrent.city">{{cityDataCurrent.city | titlecase }}</div>
-          <div style="padding-right: 5px" *ngIf="!cityDataCurrent" >Ville</div>
+          <div style="padding-right: 5px" *ngIf="!cityDataCurrent.city">Sélectionnez la ville</div>
           <div class="">
             <span style="font-size: larger; vertical-align: middle" class="material-icons">expand_more</span>
           </div>

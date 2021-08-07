@@ -44,7 +44,7 @@
   transition: all 0.5s ease-in-out;
   border: 1px solid #E2E2E2;
   cursor: pointer;
-  height: 130px;
+  /*height: 130px;*/
   width: 100%;
   box-shadow: -3px 6px 18px rgb(169 169 169 / 6%);
 
@@ -229,12 +229,12 @@
 
   .container-app-cart {
     position: fixed;
-    bottom: -1px;
+    bottom: 1px;
     z-index: 1000;
     padding: 0.3rem;
     left: 0;
     right: 0;
-    height: 100px;
+    height: 115px;
     overflow: auto;
   }
   .logo-wrapper {
@@ -277,6 +277,6 @@
   .menu-title {
     font: 200 x-small Roboto, Helvetica Neue, sans-serif;
     font-size: x-small;
-    padding-top: .8rem;
+    padding-top: 0rem;
   }
 }

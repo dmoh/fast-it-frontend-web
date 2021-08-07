@@ -8,13 +8,13 @@
              {{ cart.products.length }}
            </span>-->
           <span>  VOIR MON PANIER  </span>
-          <span style="background: #a719ca; padding: .3rem; border-radius: 2px; line-height: 2; padding-top: -4px;">{{ cart.total ? ((cart.total).toFixed(2) + '€' ): '' }}</span>
+          <span *ngIf="cart && cart.products && cart.products.length> 0" style="background: #a719ca; padding: .3rem; border-radius: 2px; line-height: 2; padding-top: -4px;">{{ cart.products.length }}</span>
         </button>
     </div>
     <div class="mt-1" *ngIf="cart.products.length > 0">
       <button mat-raised-button color="warn" (click)="onEmptyCart()" >Vider</button>
     </div>
-    <div class="cart-current pt-3">
+    <div class="cart-current pt-1">
         <div *ngIf="cart.products.length == 0">
           <p>VOTRE PANIER EST VIDE</p>
         </div>

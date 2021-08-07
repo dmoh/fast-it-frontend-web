@@ -20,6 +20,7 @@
           <div *ngIf="order.business.city"><b>Ville:</b> {{order.business.city}}</div>
           <div *ngIf="order.business.zipcode"> <b>Code postal:</b> {{order.business.zipcode}}</div>
           <div *ngIf="order.business.phone"><b>Telephone:</b> <a style="text-decoration: none" href="tel:{{order.business.phone}}">{{order.business.phone}}</a></div>
+          <div *ngIf="order.preparationTime"><b>Tps Préparation:</b> <span style="font-size: larger" >{{order.preparationTime }}</span></div>
           <div>
             <h5>Navigation</h5>
             <div *ngIf="order.business.street"><a
@@ -36,6 +37,7 @@
           <div *ngIf="order.customer.addresses"><b>Code postal:</b> {{order.customer.addresses[0].zipCode}}</div>
           <div *ngIf="order.customer.addresses && order.customer.addresses[0].comment"><b>Commentaire:</b> {{order.customer.addresses[0].comment}}</div>
           <div *ngIf="order.customer.phone"><b>Téléphone:</b> <a style="text-decoration: none" href="tel:{{order.customer.phone}}">{{order.customer.phone}}</a></div>
+          <div *ngIf="order.comment"><b>Commentaire:</b> <p>{{ order.comment }}</p></div>
           <div>
             <h5>Navigation</h5>
             <div *ngIf="order.customer.addresses[0].street"><a (click)="linkToAddresses('' + order.customer.addresses[0].street + ', ' + order.customer.addresses[0].zipCode + ' ' + order.customer.addresses[0].city)">{{order.customer.addresses[0].street}}, {{order.customer.addresses[0].zipCode}} {{order.customer.addresses[0].city}}</a></div>

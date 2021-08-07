@@ -1,0 +1,98 @@
+<div class="modal-header">
+  <h1>Edition d'un secteur</h1>
+</div>
+<div class="modal-body">
+  <form [formGroup]="sectorForm"  (ngSubmit)="onSubmit()">
+    <div class="pb-2">
+      <mat-slide-toggle formControlName="isActive">Actif</mat-slide-toggle>
+    </div>
+    <div class="w-100 pb-2">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Nom du Secteur</mat-label>
+        <input style="width: 100%" autocomplete="off" formControlName="name" matInput placeholder="Placeholder">
+        <!--<mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+        <mat-hint>Hint</mat-hint>-->
+      </mat-form-field>
+    </div>
+    <button mat-raised-button color="primary" [disabled]="sectorForm.invalid" type="submit">Valider</button>
+  </form>
+  <hr>
+  <div>
+    <h2>Elément(s) présent(s) dans ce secteur</h2>
+    <h4>RESTAURANTS</h4>
+    <div style="justify-content: space-between; padding-bottom: 1rem; padding-top: 1rem;  border-bottom: 1px solid #ccc; " *ngFor="let business of sector.businesses" class="d-flex w-100">
+      <div>
+        {{ business.id }}
+      </div>
+      <div>
+        {{ business.name }}
+      </div>
+      <div>
+        <span class="material-icons cursor-pointer" (click)="onDelete(business, 'business')" style="color: red">delete</span>
+      </div>
+    </div>
+    <h4>LIVREURS</h4>
+    <div style="justify-content: space-between; padding-bottom: 1rem; padding-top: 1rem;  border-bottom: 1px solid #ccc; " *ngFor="let deliverer of sector.deliverers" class="d-flex w-100">
+      <div>
+        {{ deliverer.id }}
+      </div>
+      <div>
+        {{ deliverer.email }}
+      </div>
+      <div>
+        <span class="material-icons cursor-pointer" (click)="onDelete(deliverer, 'deliverer')" style="color: red">delete</span>
+      </div>
+    </div>
+    <h4>Sous-secteur</h4>
+    <div style="justify-content: space-between; padding-bottom: 1rem; padding-top: 1rem;  border-bottom: 1px solid #ccc; " *ngFor="let sector of sector.subSectors" class="d-flex w-100">
+      <div>
+        {{ sector.id }}
+      </div>
+      <div>
+        {{ sector.name }}
+      </div>
+      <div>
+        <span class="material-icons cursor-pointer" (click)="onDelete(sector, 'sector')" style="color: red">delete</span>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="pb-1 pt-1">
+    <h3 style="padding-bottom: .2rem; margin-bottom: 0">AJOUTER</h3>
+    <div style="justify-content: space-between" class="d-flex w-100">
+      <button mat-raised-button (click)="onAdd('business')" color="primary">Un Restaurant</button>
+      <button mat-raised-button (click)="onAdd('deliverer')" color="primary">Un Livreur</button>
+      <button mat-raised-button (click)="onAdd('sector')" color="primary">Un Sous-secteur</button>
+    </div>
+  </div>
+  <div *ngIf="showSpinner">
+    <mat-spinner diameter="20"></mat-spinner>
+  </div>
+  <div *ngIf="showForm" class="pt-1 pb-1 w-100">
+    <p>
+      <mat-form-field appearance="outline" style="" class="example-full-width width-input">
+        <mat-label style="font-size: large; padding-bottom: 0; margin-bottom:  0">{{ this.addType == 'business' ? 'Nom Resto' : 'Nom ' + this.addType }}</mat-label>
+        <input
+          [(ngModel)]="inputToFind"
+          autocomplete="off"
+          matInput placeholder="">
+        <mat-icon matSuffix></mat-icon>
+      </mat-form-field>
+    </p>
+    <button (click)="onFind()" mat-raised-button color="primary">Valider</button>
+  </div>
+  <div *ngIf="datasFound && datasFound.length > 0 && showForm">
+    <hr>
+    <h4>{{ this.addType | titlecase }}</h4>
+    <div *ngFor="let data of datasFound" style="justify-content: space-between" class="w-100 d-flex">
+      <div style="align-self: center" class="pr-2">{{ data.id }}</div>
+      <div style="align-self: center" *ngIf="data.name" class="pr-2">{{ data.name }}</div>
+      <div style="align-self: center" *ngIf="data.email" class="pr-2">{{ data.email }}</div>
+      <div (click)="addThis(data)">
+        <button mat-raised-button color="primary">AJOUTER</button>
+      </div>
+    </div>
+    <hr>
+  </div>
+</div>
+<div class="modal-footer"></div>

@@ -9,7 +9,9 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { SidenavService } from '@app/sidenav-responsive/sidenav.service';
 import {AdminService} from '@app/admin/admin.service';
-
+import {InfoModalComponent} from "@app/info-modal/info-modal.component";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -19,7 +21,6 @@ export class NavbarComponent implements OnInit {
   user: any;
   cart: Cart;
   isMedia: boolean;
-
   isAdmin: boolean;
   isDeliverer: boolean;
   isSuper: boolean;
@@ -36,7 +37,9 @@ export class NavbarComponent implements OnInit {
     private restaurantDashboardService: RestaurantDashboardService,
     private adminService: AdminService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private infoModal: NgbModal,
+    private location: Location
   ) { }
 
 
@@ -125,5 +128,15 @@ export class NavbarComponent implements OnInit {
       this.modeSide = 'side';
       this.sidenavService.close();
     }
+  }
+
+  onOpenModal() {
+    const modalRef = this.infoModal.open(InfoModalComponent);
+    modalRef.componentInstance.title = 'Modalités pour participer au concours PS5';
+    modalRef.componentInstance.infoCompetition = true;
+  }
+
+  back(): void {
+    this.location.back()
   }
 }

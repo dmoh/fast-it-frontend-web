@@ -37,6 +37,8 @@ import { LocationModalComponent } from './location-modal/location-modal.componen
 import { CategoryViewComponent } from './category-view/category-view.component';
 import { LocationComponent } from './location/location.component';
 import { ShimmerViewComponent } from './shimmer-view/shimmer-view.component';
+import { PaymentModalComponent } from './payment-modal/payment-modal.component';
+import { SystempayDialogComponent } from './systempay-dialog/systempay-dialog.component';
 
 
 @NgModule({
@@ -63,6 +65,8 @@ import { ShimmerViewComponent } from './shimmer-view/shimmer-view.component';
     CategoryViewComponent,
     LocationComponent,
     ShimmerViewComponent,
+    PaymentModalComponent,
+    SystempayDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -100,7 +104,9 @@ import { ShimmerViewComponent } from './shimmer-view/shimmer-view.component';
         LocationModalComponent,
         CategoryViewComponent,
         LocationComponent,
-        ShimmerViewComponent
+        ShimmerViewComponent,
+        PaymentModalComponent,
+        SystempayDialogComponent
     ]
 })
 export class AppModule { }

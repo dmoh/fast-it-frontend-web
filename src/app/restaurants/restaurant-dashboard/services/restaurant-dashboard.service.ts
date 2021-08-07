@@ -220,10 +220,20 @@ export class RestaurantDashboardService {
     return this.http.get<any>(`${this.urlApi}/special-offer/all`, this.headers);
   }
 
+  findAllBusinessesWithOffers(zipcodeCurrent: string): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}/special-offer/all`, {
+      zipcode: zipcodeCurrent
+    }, this.headers);
+  }
   getAllbusinesses(): Observable<any> {
     return this.http.get<any>(`${this.urlApi}/business/all`, this.headers);
   }
 
+  findAllbusinessesByZipcode(zipcodeCurrent: string): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}/business/all`, {
+      zipcode: zipcodeCurrent
+    }, this.headers);
+  }
 
   updateStateProduct(productCurrentId: number, state: boolean): Observable<any> {
     return this.http.post<any>(`${this.urlApi}/product/state/update`, {
@@ -234,6 +244,14 @@ export class RestaurantDashboardService {
         }
       },
       this.headers);
+  }
+
+  initSystemPay(amount: number, paymentMethodToken?: string): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}/systempay/init/payment`,
+        {
+          payment: amount,
+          paymentMethodToken: paymentMethodToken
+        }, this.headers);
   }
 
 

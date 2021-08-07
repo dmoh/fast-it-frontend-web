@@ -82,8 +82,6 @@ export class AddressModalComponent implements OnInit {
     if ('default' === type) {
       this.address.phone = this.phoneCustomer;
       this.address.name = this.nameCustomerCurrent.value;
-      console.warn('Le nouvel address', this.address);
-
       this.modal.close(this.address);
     }
   }

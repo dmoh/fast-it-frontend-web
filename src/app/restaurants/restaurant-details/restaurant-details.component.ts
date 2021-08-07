@@ -40,6 +40,7 @@ export class RestaurantDetailsComponent implements OnInit, AfterViewInit{
   sticky: boolean = false;
   menuPosition: any;
   specialOffer: SpecialOffer;
+  textToDisplay: string = 'Momentanément indisponible';
   showRightArrow: boolean = false;
 
   constructor(private modal: NgbModal,

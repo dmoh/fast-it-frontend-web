@@ -3,21 +3,33 @@
 <!--End Header Search Location-->
 <!--Start Carousel-->
 <section class="d-none d-md-block d-lg-block section-header">
-  <div class="container-fluid">
+  <div style="padding: 1rem" class="container-fluid">
     <div class="row">
       <div style="align-self: center"  class="col-md-6">
-        <div style="color:white;line-height: 1.4;font-size: 45px; font-family: 'Roboto', sans-serif">+ de 45 Restaurants</div>
-        <div style="color:white; font-size: 45px; font-family: 'Roboto', sans-serif"> pour vous combler.</div>
-        <div style="color: white;font-size: 16px;font-family: 'Roboto', sans-serif;line-height: 4.5;">Tout type de restaurant, il y a le choix!</div>
+        <div style="color: white;  line-height: 1;  font-size: xx-large;  font-family: 'Roboto', sans-serif;">Les points Forts de Fast-it</div>
+        <!--<div style="color: white; line-height: 1.5; font-size: 30px; font-family: 'Roboto', sans-serif;">En exclusivité Fast-it!</div>-->
+        <div style="color: white;font-size: 16px;font-family: 'Roboto', sans-serif;line-height: 1.5;">
+          Cliquez, Commandez, Savourez!
+          <i class="em em-muscle" aria-role="presentation" aria-label="FLEXED BICEPS"></i>
+          <i class="em em-muscle" aria-role="presentation" aria-label="FLEXED BICEPS"></i>
+          <i class="em em-muscle" aria-role="presentation" aria-label="FLEXED BICEPS"></i>
+        </div>
       </div>
       <div class="col-md-6">
+<!--
         <img height="230px" width="460px" src="https://mediafastitprod.s3.eu-west-3.amazonaws.com/PHOTO-2021-03-16-10-38-38.jpg" alt="">
+
+        <img style="cursor: pointer; box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.46); border: 1px solid #fff;" (click)="onShowInstruction()" height="230px" width="460px" src="https://mediafastitprod.s3.eu-west-3.amazonaws.com/concours_ps5.jpg" alt="concours ps5">
+        <img style="cursor: pointer; box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.46); border: 1px solid #fff;" (click)="onShowInstruction()" height="230px" width="460px" src="assets/TheChill_coffee_v1.jpg" alt="concours ps5">
+-->
+        <img style="cursor: pointer; box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.46); border: 1px solid #fff;" (click)="onShowInstruction()" height="230px" width="460px" src="https://mediafastitprod.s3.eu-west-3.amazonaws.com/image+1-2.png" alt="concours ps5">
       </div>
     </div>
   </div>
 </section>
 <div class="d-block d-md-none d-lg-none d-xl-none" [style.height]="slideHeight">
   <mat-carousel
+    (click)="onShowInstruction()"
     timings="250ms ease-in"
     [autoplay]="true"
     interval="5000"
@@ -46,7 +58,7 @@
 <!--End Carousel-->
 
 <div *ngIf="categories && categories.length > 0" class="pl-3 pt-4 pb-4">
-  <div id="category-wrapper" class="d-flex" style=" scroll-snap-type: x mandatory;align-items: flex-start; overflow-x: scroll">
+<div id="category-wrapper" class="d-flex" style=" scroll-snap-type: x mandatory;align-items: flex-start; overflow-x: scroll">
 <!--
       <div [ngStyle]="{'width': 'calc(100% - ' + categories.length + ')' }" *ngFor="let category of categories">
 -->
@@ -60,7 +72,7 @@
             left:0;
             top:0;
             position:absolute;"
-            src="assets/burger_bg.jpg" alt="">
+            src="assets/{{ category.url }}" alt="{{ category.name }}">
         </div>
         <div style="padding-top: .5rem;font-weight: 500; font-size:  16px; line-height: 20px; text-align: center">
           {{ category.name | titlecase }}
@@ -68,6 +80,131 @@
       </div>
   </div>
 </div>
+<!--<div class="d-none d-md-block d-lg-block" style="padding-left: 20px; padding-top: 1rem" *ngIf="restaurantsLeftNewest && restaurantsLeftNewest.length > 0">
+  <div class="d-flex" style="justify-content: space-between; padding-right: 24px">
+    <div>
+      <h2 style="font-size: xx-large;margin-bottom: -8px;">Nouveautés et Exclusivités</h2>
+    </div>
+    <div *ngIf="restaurantsRightNewest.length > 0">
+      <button [disabled]="showingLeftPart" (click)="onScroll('left')" color="primary" style="width: 40px; height: 40px" mat-fab>
+        <span class="material-icons">arrow_back</span>
+      </button>
+      <button [disabled]="!showingLeftPart || restaurantsRight.length == 0" color="primary" (click)="onScroll()" style="width: 40px; height: 40px" mat-fab>
+        <span class="material-icons">arrow_forward</span>
+      </button>
+    </div>
+  </div>
+  <div class="carousel-custom"
+       id="carousel-custom-newest"
+       style="scroll-snap-type: x mandatory;padding: 16px 0;display: flex;overflow-y: hidden;align-items: flex-start; overflow-x: scroll">
+    <div class="g8"></div>
+    <ul class="ul-carousel" id="ul-carousel-left-newest"  style="">
+      <li *ngFor="let restaurant of restaurantsLeftNewest" style="
+      margin: 0 6px;
+      width: calc(33.333% - 18px);
+      margin-right: 24px;
+      ">
+        <div
+          (click)="goToRestaurantBy(restaurant.id)"
+          class=" mb-2 cursor-pointer" style="">
+          <div style=" position: relative" class="wrapper-img-left box-shadow-orange">
+            <div style="position:absolute; z-index: 2000; top: 8px">
+            </div>
+            <div>
+              <figure style="height: 180px; margin: 0; overflow: hidden; position: relative">
+                <div style="position: absolute;top: 8px;color: white;left: 0;font-size: smaller;padding: 2px;background: #c968e1;z-index: 50;border-radius: 0 16px 16px 0;">
+                  {{ restaurant.title | titlecase }}
+                  <span class="pl-1"></span>
+                </div>
+                <div style="top: 0; left: 0; height: 100%; width: 100%; position: absolute">
+                  <div style="height: 180px">
+                    <picture>
+                      <img src="{{ restaurant.pathFile }}" alt="{{ restaurant.name }}" style="object-fit: cover; border: none; height: 100%; width: 100%">
+                    </picture>
+                  </div>
+                </div>
+              </figure>
+            </div>
+            <div
+              class="img-wrapper"
+            >
+              <div *ngIf="restaurant.closed == true" class="opaque text-center">
+                <h3 style="color: white;margin-top: 3.2rem;font-size: large;font-weight: 200;font-family: 'Oswald';">Momentanément indisponible</h3>
+              </div>
+            </div>
+            <div style=" bottom: 0; width: 100%;overflow: hidden;" class="desc-bottom reduce-padding">
+              <h4 style="margin-bottom: 0 !important;font-size: 1.02rem;text-transform: capitalize;font-weight: 500;font-style: initial;line-height: .8;font-family: 'Roboto', sans-serif;">
+                {{ restaurant.name | titlecase }}
+                <span style="float: right;font-size: .75rem;font-weight: 100;font-family: 'Roboto', sans-serif;">{{ restaurant.estimatedPreparationTime.replace(',', ' - ') + 'min' }}</span>
+              </h4>
+              <div style="display: flex; width: 100%; justify-content: space-between">
+                <div>
+                  <span style="font-size: smaller; font-weight: 200; font-style: italic">{{ restaurant.city | titlecase }}</span>
+                </div>
+                <div *ngIf="restaurant.description && restaurant.description != null">
+                  <span style="font-weight: 200; font-size: smaller">{{ restaurant.description | titlecase }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <ul class="ul-carousel" id="ul-carousel-right-newest" style="">
+      <li *ngFor="let restaurant of restaurantsRightNewest"  style="margin: 0 6px;
+      width: calc(33.333% - 18px);
+      margin-right: 24px; ">
+        <div
+          (click)="goToRestaurantBy(restaurant.id)"
+          class=" mb-2 cursor-pointer" style="">
+          <div style=" position: relative" class="wrapper-img-left box-shadow-orange">
+            <div style="position:absolute; z-index: 2000; top: 8px">
+            </div>
+            <div>
+              <figure style="height: 180px; margin: 0; overflow: hidden; position: relative">
+                <div style="position: absolute;top: 8px;color: white;left: 0;font-size: smaller;padding: 2px;background: #c968e1;z-index: 50;border-radius: 0 16px 16px 0;">
+                  {{ restaurant.title | titlecase }}
+                  <span class="pl-1"></span>
+                </div>
+                <div style="top: 0; left: 0; height: 100%; width: 100%; position: absolute">
+                  <div style="height: 180px">
+                    <picture>
+                      <img src="{{ restaurant.pathFile }}" alt="{{ restaurant.name }}" style="object-fit: cover; border: none; height: 100%; width: 100%">
+                    </picture>
+                  </div>
+                </div>
+              </figure>
+            </div>
+            <div
+              class="img-wrapper"
+            >
+              <div *ngIf="restaurant.closed == true" class="opaque text-center">
+                <h3 style="color: white;margin-top: 3.2rem;font-size: large;font-weight: 200;font-family: 'Oswald';">Momentanément indisponible</h3>
+              </div>
+            </div>
+            <div style=" bottom: 0; width: 100%;overflow: hidden;" class="desc-bottom reduce-padding">
+              <h4 style="margin-bottom: 0 !important;font-size: 1.02rem;text-transform: capitalize;font-weight: 500;font-style: initial;line-height: .8;font-family: 'Roboto', sans-serif;">
+                {{ restaurant.name | titlecase }}
+                <span style="float: right;font-size: .75rem;font-weight: 100;font-family: 'Roboto', sans-serif;">{{ restaurant.estimatedPreparationTime.replace(',', ' - ') + 'min' }}</span>
+              </h4>
+              <div style="display: flex; width: 100%; justify-content: space-between">
+                <div>
+                  <span style="font-size: smaller; font-weight: 200; font-style: italic">{{ restaurant.city | titlecase }}</span>
+                </div>
+                <div *ngIf="restaurant.description && restaurant.description != null">
+                  <span style="font-weight: 200; font-size: smaller">{{ restaurant.description | titlecase }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <div>
+    </div>
+    <div class="g8"></div>
+  </div>
+</div>-->
 <div class="d-none d-md-block d-lg-block" style="padding-left: 20px; padding-top: 1rem" *ngIf="restaurantsLeft && restaurantsLeft.length > 0">
   <div class="d-flex" style="justify-content: space-between; padding-right: 24px">
     <div>
@@ -82,8 +219,9 @@
       </button>
     </div>
   </div>
-  <div class="carousel-custom"
-       id="carousel-custom"
+  <div
+    class="carousel-custom"
+    id="carousel-custom"
     style="scroll-snap-type: x mandatory;padding: 16px 0;display: flex;overflow-y: hidden;align-items: flex-start; overflow-x: scroll">
     <div class="g8"></div>
     <ul class="ul-carousel" id="ul-carousel-left"  style="">
@@ -117,7 +255,7 @@
               class="img-wrapper"
             >
               <div *ngIf="restaurant.closed == true" class="opaque text-center">
-                <h3 style="color: white;margin-top: 3.2rem;font-size: large;font-weight: 200;font-family: 'Oswald';">Momentanément indisponible en livraison</h3>
+                <h3 style="color: white;margin-top: 3.2rem;font-size: large;font-weight: 200;font-family: 'Oswald';">Momentanément indisponible</h3>
               </div>
             </div>
             <div style=" bottom: 0; width: 100%;overflow: hidden;" class="desc-bottom reduce-padding">
@@ -167,7 +305,7 @@
               class="img-wrapper"
             >
               <div *ngIf="restaurant.closed == true" class="opaque text-center">
-                <h3 style="color: white;margin-top: 3.2rem;font-size: large;font-weight: 200;font-family: 'Oswald';">Momentanément indisponible en livraison</h3>
+                <h3 style="color: white;margin-top: 3.2rem;font-size: large;font-weight: 200;font-family: 'Oswald';">Momentanément indisponible</h3>
               </div>
             </div>
             <div style=" bottom: 0; width: 100%;overflow: hidden;" class="desc-bottom reduce-padding">
@@ -223,7 +361,7 @@
             class="img-wrapper"
           >
             <div *ngIf="restaurant.closed == true" class="opaque text-center">
-              <h3 style="color: white;margin-top: 3.2rem;font-size: large;font-weight: 200;font-family: 'Oswald';">Momentanément indisponible en livraison</h3>
+              <h3 style="color: white;margin-top: 3.2rem;font-size: large;font-weight: 200;font-family: 'Oswald';">Momentanément indisponible</h3>
             </div>
           </div>
           <div style=" bottom: 0; width: 100%;overflow: hidden;" class="desc-bottom reduce-padding">
@@ -246,7 +384,7 @@
     <div class="g8"></div>
   </div>
 </div>
-<app-home-features id="app-home-features" ></app-home-features>
+<app-home-features id="app-home-features"></app-home-features>
 <app-footer></app-footer>
 
 

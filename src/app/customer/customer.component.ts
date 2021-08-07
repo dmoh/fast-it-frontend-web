@@ -50,16 +50,8 @@ export class CustomerComponent implements OnInit, AfterViewInit {
             this.notifications = notif;
           });
       });
-      this.isMedia = this.mediaQueryService.getMobile();
-  }
-
-  /*@HostListener('window:resize', [])
-  onResize() {
     this.isMedia = this.mediaQueryService.getMobile();
-    if (!this.isMedia) {
-      this.sidenav.open();
-    }
-  }*/
+  }
 
   onReadNotifications() {
     setTimeout(() => {
@@ -85,23 +77,8 @@ export class CustomerComponent implements OnInit, AfterViewInit {
   }
 
   openSnackBar() {
-    /*this.snackBar.open('Cannonball!!', 'End now', {
-      duration: 5000,
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
-    });
-
-
-    /*const bottomSheetRef = this.bottomSheet.open(NotificationsComponent,{
-      data: { notifications: this.customer.notifications }
-    });
-    bottomSheetRef.afterDismissed().subscribe(() => {
-      this.customerService.sendNotificationsRead(this.customer.notifications, {user: this.customer.id})
-        .subscribe((res) => {
-          this.notifications = [];
-        });
-    });*/
   }
+
 
 
 }

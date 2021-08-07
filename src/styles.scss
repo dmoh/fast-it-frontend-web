@@ -204,8 +204,17 @@ table .restaurant-detail .table th, table .restaurant-detail .table td {
   line-height: 24px;
 }
 
+.justify-space-between {
+  justify-content: space-between !important;
+}
+
 /*
 div.shimmer-loader {
   height: 128px !important;
 }
 */
+
+
+.modal-content{
+  border: none !important;
+}

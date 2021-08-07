@@ -36,7 +36,7 @@
                   <div *ngFor="let sup of product.supplementProducts">
                     <span style="font-size: smaller; color: #ccc;">
                         {{ sup.name | titlecase }} {{ sup.amount != null && +(sup.amount) > 0 ? (+(sup.amount) / 100).toFixed(2) + '€' : ''}}
-                      </span>
+                    </span>
                   </div>
                 </div>
                 <div
@@ -91,26 +91,183 @@
     <div class="col-md-12">
       <h4>Adresse de livraison</h4>
       <div *ngIf="addressChose" style="line-height: 3">
-        <div>
-          Nom: <b><em>{{ addressChose.name | titlecase }}</em></b>
-        </div>
-        <div>
-          Rue: <b>{{ addressChose.street }}</b>
-        <div>
-          Ville: <b>{{ addressChose.city }}</b>
-        </div>
-        <div>
-          Code postale: <b>{{ addressChose.zipcode }}</b>
-        </div>
-         <div>
-           Tél: <b style="font-size: x-large;">{{ addressChose.phone }}</b>
-         </div>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Nom</mat-label>
+          <input type="text"
+                 matInput
+                 [disabled]="true"
+                 [value]="addressChose.name | titlecase"
+                 style="color: #118d48;font-weight: 500;"
+          >
+          <mat-icon style="color: #27b666" matSuffix>verified</mat-icon>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Rue, Avenue...</mat-label>
+          <input type="text"
+                 matInput
+                 [disabled]="true"
+                 [value]="addressChose.street"
+                 style="color: #118d48;font-weight: 500;"
+          >
+          <mat-icon style="color: #27b666" matSuffix>verified</mat-icon>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Ville</mat-label>
+          <input type="text"
+                 matInput
+                 [disabled]="true"
+                 [value]="addressChose.city | titlecase"
+                 style="color: #118d48;font-weight: 500;"
+          >
+          <mat-icon style="color: #27b666" matSuffix>verified</mat-icon>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Code Postale</mat-label>
+          <input type="text"
+                 matInput
+                 [disabled]="true"
+                 [value]="addressChose.zipcode"
+                 style="color: #118d48;font-weight: 500;"
+          >
+          <mat-icon style="color: #27b666" matSuffix>verified</mat-icon>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Téléphone</mat-label>
+          <input type="text"
+                 matInput
+                 [disabled]="true"
+                 [value]="addressChose.phone"
+                 style="
+                 color: #118d48;
+                 font-size: x-large"
+          >
+          <mat-icon style="color: #27b666" matSuffix>verified</mat-icon>
+        </mat-form-field>
         <button mat-raised-button color="primary" (click)="onUpdateAddress()">Modifier l'adresse</button>
       </div>
     </div>
+  </div>
+  <hr>
+  <div class="row">
+    <div class="col-md-6">
+    </div>
+    <div class="col-md-6">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Commentaire (facultatif)</mat-label>
+        <textarea
+          [(ngModel)]="cartCurrent.comment"
+          matInput>
+        </textarea>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6"></div>
+    <!--<div class="col-md-6 pt-1 pb-2">
+        <label>Code promotionnel (facultatif)</label>
+        <input
+                [formControl]="promotionalCode"
+                [ngClass]="{
+                  'is-invalid': errorPromotionalCode.message.trim().length > 0
+                  && !promotionalCodeIsValid
+                  && promotionalCode.value.trim().length > 7,
+                  'is-valid': promotionalCodeIsValid,
+                  'not-allowed': cartCurrent.restaurant.specialOffer
+                  && cartCurrent.restaurant.specialOffer.title
+                  && cartCurrent.restaurant.specialOffer.title.trim().length > 0
+                  && +(cartCurrent.restaurant.specialOffer.minimumAmountForOffer)
+                  <= +(cartCurrent.totalAmountProduct)
+                  ,
+                  'allowed' : !cartCurrent.restaurant.specialOffer
+                  && !cartCurrent.restaurant.specialOffer.title
+                 }"
+                autocomplete="off"
+                class="form-control" placeholder="">
+        <mat-spinner *ngIf="promotionalCode.value
+              && promotionalCode.value.trim().length > 0
+              && !promotionalCodeIsValid
+              && errorPromotionalCode.message.trim().length == 0" [diameter]="20" style="width: 20px;height: 20px;position: absolute;top: 41px;right: 21px;" color="primary" ></mat-spinner>
+
+        <mat-hint style="color: red;padding-top: .5rem" *ngIf="!promotionalCodeIsValid" >{{ errorPromotionalCode.message }}</mat-hint>
+        <mat-hint style="color: green;padding-top: .5rem" *ngIf="promotionalCodeIsValid">code valide</mat-hint>
+        <mat-hint style="color: red;padding-top: .5rem" *ngIf="cartCurrent.restaurant.specialOffer
+          && cartCurrent.restaurant.specialOffer.title
+          && promotionalCode
+          && promotionalCode.value
+          && promotionalCode.value.trim().length > 0
+        ">
+          Code inutilisable. Offres non cumulables.
+        </mat-hint>
+          <button
+                  style="float: right"
+                  mat-raised-button
+                  (click)="onCheckPromotionalCode()"
+                  [disabled]="!promotionalCode.value"
+                  color="accent"
+                  class="mt-2 text-right"
+          >Vérifier</button>
+    </div>-->
+  </div>
+  <div *ngIf="promotionalCodeIsValid" class="row">
+    <div class="col-md-6">
+    </div>
+    <div style="display: flex;padding: .8rem;background: greenyellow;" class="col-md-6">
+      <div style="flex: 1">
+        <span style="font-size: x-large; color: green">Réduction</span>
+        <div>
+          <span style="font-size: smaller; font-style: italic;color: black">(Hors frais de livraison et de service)</span>
+        </div>
+      </div>
+      <div>
+        <div *ngIf="cartCurrent.promotionalCode.percentage">
+          <span style="font-size: x-large; color: green" >{{ cartCurrent.promotionalCode.percentage }}%
+            </span>
+        </div>
+      </div>
     </div>
   </div>
   <hr>
+  <div  class="row">
+    <div class="col-md-6">
+    </div>
+    <div style="display: flex;padding: .8rem;" class="col-md-6">
+      <div style="flex: 1">
+        <span style=""><strong>Sous-total</strong></span>
+      </div>
+      <div>
+        <div *ngIf="promotionalCodeIsValid && cartCurrent.promotionalCode.percentage">
+          <span style="font-size: large; text-decoration: line-through; color: red;padding-right: .6rem" >{{ cartCurrent.promotionalCode.totalAmountProduct.toFixed(2) }}€
+            </span>
+          <span style="font-size: large;  color: green">{{ cartCurrent.promotionalCode.totalAmountProductWithPromotion.toFixed(2) }}€
+            </span>
+        </div>
+        <div *ngIf="!promotionalCodeIsValid">
+          <span style="font-size: large;  color: green; font-weight: bold" >{{ cartCurrent.totalAmountProduct.toFixed(2) }}€
+            </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+    </div>
+    <div style="display: flex" class="col-md-6">
+      <div style="flex: 1">
+        Distance
+        <p style="font-size: x-small"><em>(depuis votre position jusqu'au commerce)</em></p>
+      </div>
+      <div>
+        <div *ngIf="!responseDistanceGoogle">
+          <div style="font-size: small">
+            <mat-spinner diameter="20"></mat-spinner>
+          </div>
+        </div>
+        <div *ngIf="responseDistanceGoogle && responseDistanceGoogle.distance">
+          {{ distanceText }}
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="row">
     <div class="col-md-6">
     </div>
@@ -125,8 +282,8 @@
             <mat-spinner diameter="20"></mat-spinner>
           </div>
         </div>
-        <div *ngIf="cartCurrent.deliveryCost">
-          {{ cartCurrent.deliveryCost }} €
+        <div *ngIf="cartCurrent.deliveryCost && !showLoaderCost">
+          {{ cartCurrent.deliveryCost.toFixed(2) }} €
         </div>
       </div>
     </div>
@@ -138,6 +295,15 @@
     <div style="display: flex" class="col-md-6">
       <div style="flex: 1">Frais de service</div>
       <div *ngIf="cartCurrent.stripeFee"> {{ cartCurrent.stripeFee.toFixed(2) }}€</div>
+    </div>
+  </div>
+  <div *ngIf="cartCurrent.tipDelivererAmount" class="row">
+    <div class="col-md-6">
+    </div>
+    <hr>
+    <div style="display: flex" class="col-md-6">
+      <div style="flex: 1">Pourboire</div>
+      <div *ngIf="cartCurrent.tipDelivererAmount"> {{ cartCurrent.tipDelivererAmount.toFixed(2) }}€</div>
       <!--<div> 0.80€</div>-->
     </div>
   </div>
@@ -168,7 +334,7 @@
     </div>
     <hr>
     <div style="display: flex" class="col-md-6">
-      <div style="flex: 1">TOTAL</div>
+      <div style="flex: 1; font-weight: bold; font-size: x-large">TOTAL</div>
       <div>
         <span style="text-decoration: line-through; color: red; padding-right: .5rem" *ngIf="
         cartCurrent.amountWithoutSpecialOffer
@@ -180,7 +346,9 @@
       ">
           {{ (cartCurrent.amountWithoutSpecialOffer.toFixed(2)).replace('.', ',') }} €
         </span>
-        {{ (cartCurrent.total.toFixed(2)).replace('.', ',') }} €</div>
+        <span style="font-weight: bold; font-size: x-large">{{ (cartCurrent.total.toFixed(2)).replace('.', ',') }} €
+      </span>
+      </div>
     </div>
   </div>
   <hr>
@@ -188,7 +356,7 @@
     <div class="col-md-2"></div>
     <div class="col-md-8">
       <mat-slide-toggle [(ngModel)]="hasAboveEighteen">J'atteste avoir plus de 18 ans (obligatoire)</mat-slide-toggle>
-      <mat-slide-toggle [(ngModel)]="infoOk">J'atteste de  l'exactitude des informations saisies (téléphone, adresse de livraison, email)(obligatoire)</mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="infoOk">J'atteste de l'exactitude des informations saisies (téléphone, adresse de livraison, email)(obligatoire)</mat-slide-toggle>
       <mat-slide-toggle [(ngModel)]="agreeWithLegacy">J'ai lu et J'accepte <a (click)="onShowTerms()" style="text-decoration: underline; color: dodgerblue">les conditions générales de vente</a></mat-slide-toggle>
     </div>
   </div>
@@ -206,7 +374,12 @@
     <div class="col-md-6">
     </div>
       <div style="display: flex;text-align: right;justify-content: flex-end;margin-top: 2rem;" class="col-md-6">
-      <button mat-raised-button color="primary" [disabled]="paymentValidation == true || infoOk == false || agreeWithLegacy == false || hasAboveEighteen == false" (click)="onProceedCheckout($event)" style="align-self: flex-end">VALIDER LE PAIEMENT</button>
+        <hr>
+        <button mat-raised-button color="primary"
+              [disabled]="paymentValidation == true
+              || infoOk == false
+              || agreeWithLegacy == false
+              || hasAboveEighteen == false" (click)="onProceedCheckout($event)" style="align-self: flex-end">VALIDER</button>
     </div>
   </div>
 

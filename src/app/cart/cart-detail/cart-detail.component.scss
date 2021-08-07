@@ -185,7 +185,14 @@ input[id$="-number"].ui-inputtext:enabled:hover:not(.ui-state-error){
   font-size: large !important;
 }
 
-
+.not-allowed {
+  cursor: not-allowed;
+  background: #e6e6e6ba;
+}
+.allowed {
+  background: inherit;
+  cursor: pointer;
+}
 
 /* Safari */
 @-webkit-keyframes spin {

@@ -16,6 +16,12 @@ import {environment} from '../../../environments/environment';
 import {TipModalComponent} from '@app/tip-modal/tip-modal.component';
 import { timer } from 'rxjs';
 import {TermsModalComponent} from '@app/terms-modal/terms-modal.component';
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {RestaurantDashboardService} from "@app/restaurants/restaurant-dashboard/services/restaurant-dashboard.service";
+import {map, shareReplay, take} from "rxjs/operators";
+import {FormControl} from "@angular/forms";
+import {MatDialog} from "@angular/material/dialog";
+import {SystempayDialogComponent} from "@app/systempay-dialog/systempay-dialog.component";
 
 @Component({
   selector: 'app-cart-detail',
@@ -44,6 +50,18 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
   infoOk: boolean = false;
   agreeWithLegacy: boolean = false;
   showLoaderCost: boolean = false;
+  endpoint = 'https://api.systempay.fr';
+  headers: HttpHeaders;
+  publicKey = environment.publicKeySystempay;
+  formToken: string;
+  promotionalCode = new FormControl();
+  errorPromotionalCode = {message: ''};
+  promotionalCodeIsValid: boolean = false;
+  amountTotal: null|string|number;
+  get distanceText() {
+    return (this.responseDistanceGoogle) ? this.responseDistanceGoogle.distance?.text?.replace(',','.'): '' ;
+  }
+  private paymentMethodToken: string;
   constructor(
     private cartService: CartService,
     private userService: UserService,
@@ -54,6 +72,9 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
     private authenticationService: AuthenticationService,
     private router: Router,
     private toastService: ToastService,
+    private http: HttpClient,
+    private restaurantDashboardService: RestaurantDashboardService,
+    public dialog: MatDialog
   ) {
     this.paymentValidation = false;
     this.showLoader = true;
@@ -61,6 +82,7 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.cartService.initCartPayment();
     this.onUpdateAddress();
   }
 
@@ -79,6 +101,7 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
       this.showLoaderCost = true;
       this.phoneCustomer = result.data[0].phone;
       this.userAddresses = result.data[0].addresses;
+      this.paymentMethodToken = result.data[0].paymentMethodToken;
       this.addressChose = null;
       const modalRef = this.addressConfirmationModal.open(AddressModalComponent, {
         backdrop: 'static',
@@ -107,41 +130,74 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
         // save phone user number
         this.userService.savePhoneNumber(res.phone)
           .subscribe((responseServer) => {
-          });
-        this.addressChose = Object.assign({}, res);
-        const addressChoosen = `${res.street}, ${res.city}, ${res.zipcode}`;
-        // send result google for calculate backend side
-        const directionsService = new google.maps.DistanceMatrixService();
-        directionsService.getDistanceMatrix({
-          origins: [origin],
-          destinations: [addressChoosen],
-          travelMode: google.maps.TravelMode.DRIVING,
-        }, (response, status) => {
-
-          if (response.rows === null) {
-            this.showModalErrorAddress();
-          }
-          else if (response.rows[0].elements[0].status === 'OK') {
-            const responseDistance = response.rows[0].elements[0];
-            this.responseDistanceGoogle = responseDistance;
-            this.cartService.getCostDelivery(responseDistance)
-              .subscribe((resp) => {
-                this.cartCurrent.deliveryCost = resp.deliveryInfos;
-                this.cartService.setDeliveryCost(resp.deliveryInfos);
-                this.hasAddressSelected = true;
-                this.cartService.generateTotalCart(true);
-                this.cartService.cartUpdated.subscribe((cartUpdated: Cart) => {
-                  this.cartCurrent = cartUpdated;
-                });
+            if (responseServer.error) {
+              this.showModalError('phone');
+            } else {
+              this.addressChose = Object.assign({}, res);
+              const addressChoosen = `${res.street}, ${res.city}, ${res.zipcode}`;
+              // send result google for calculate backend side
+              const directionsService = new google.maps.DistanceMatrixService();
+              directionsService.getDistanceMatrix({
+                origins: [origin],
+                destinations: [addressChoosen],
+                travelMode: google.maps.TravelMode.DRIVING,
+              }, (response, status) => {
+                if (response.rows === null) {
+                  this.showModalError();
+                }
+                else if (response.rows[0].elements[0].status === 'OK') {
+                  const responseDistance = response.rows[0].elements[0];
+                  this.responseDistanceGoogle = responseDistance;
+                  this.cartService.getCostDelivery(responseDistance)
+                      .subscribe((resp) => {
+                        this.cartCurrent.deliveryCost = resp.deliveryInfos;
+                        this.cartService.setDeliveryCost(resp.deliveryInfos);
+                        this.hasAddressSelected = true;
+                        this.cartService.generateTotalCart(true);
+                        this.cartService.cartUpdated.subscribe((cartUpdated: Cart) => {
+                          this.cartCurrent = cartUpdated;
+                        });
+                      });
+                } else {
+                  this.showModalError();
+                }
               });
-          } else {
-            this.showModalErrorAddress();
-          }
-        });
+            }
+          });
       });
     });
   }
 
+  onCheckPromotionalCode() {
+    const valuePromotion = this.promotionalCode.value;
+    if (this.cartCurrent.restaurant.specialOffer
+        && this.cartCurrent.restaurant.specialOffer.title
+        && +this.cartCurrent.total >= +this.cartCurrent.restaurant.specialOffer.minimumAmountForOffer
+    ) {
+      return;
+    }
+    if (valuePromotion && valuePromotion.trim().length > 7 && valuePromotion.trim().length < 16) {
+      const subscribePromo = this.userService.checkPromotionalCode({promotinalCode: valuePromotion.trim(), restaurantId: this.cartCurrent.restaurant.id})
+          .pipe(
+              shareReplay()
+          )
+          .subscribe((res) => {
+            if (res.error) {
+              this.errorPromotionalCode.message = res.error;
+              this.cartService.setPromotionalCode(null);
+              this.promotionalCodeIsValid = false;
+            } else {
+              this.promotionalCodeIsValid = true;
+              this.cartService.setPromotionalCode(res.promotion[0]);
+              // applique pourcentage garder id promo
+            }
+            subscribePromo.unsubscribe();
+          });
+    } else {
+      this.cartService.setPromotionalCode(null);
+      this.promotionalCodeIsValid = false;
+    }
+  }
   ngAfterViewInit() {
     this.loadStripe();
   }
@@ -150,14 +206,26 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
     this.loadStripeElements();
   }
 
-  private showModalErrorAddress() {
+  private showModalError(errorType?: string) {
     const modalError = this.infoModal.open(InfoModalComponent, {
       backdrop: 'static',
       keyboard: false
     });
     modalError.componentInstance.title = 'Erreur';
-    modalError.componentInstance.message = 'Cette adresse est introuvable.';
+    let msg = 'Cette adresse est introuvable.';
+    if (errorType === 'phone') {
+      msg = 'Numéro de téléphone manquant';
+    }
+    if (errorType === 'formToken') {
+      msg = 'Une erreur est sruvenue lors de l\'initiation du paiement';
+    }
+    modalError.componentInstance.message = msg;
     modalError.componentInstance.isCartError = true;
+    if (errorType) {
+      modalError.result.then(() => {
+        this.ngOnInit();
+      });
+    }
   }
 
 
@@ -198,127 +266,149 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
 
 
   onProceedCheckout(event: Event): void {
-    const tipModalRef = this.infoModal.open(TipModalComponent, {
-      backdrop: 'static',
-      keyboard: false
-    });
-    tipModalRef.result.then(() => {
-      this.showLoader = true;
-      this.paymentValidation = true;
-      event.preventDefault();
-      this.cartService.getTokenPaymentIntent(
-        +(this.cartCurrent.total) * 100,
-        this.cartCurrent.restaurant.id,
-        this.cartCurrent.deliveryCost,
-        this.cartCurrent.stripeFee
-      ).subscribe((token: any ) => {
-          if (token.errorClosed) {
-            this.showLoader = false;
-            const modalRef = this.infoModal.open(InfoModalComponent, {
-              backdrop: 'static',
-              keyboard: false
-            });
-            modalRef.componentInstance.title = 'Erreur';
-            modalRef.componentInstance.message = token.errorClosed;
-            modalRef.result.then(() => {
-              this.cartService.UpdateCart('empty-cart');
-              this.cartService.cartUpdated.subscribe((cartUpdated: Cart) => {
-                this.cartCurrent = cartUpdated;
-                setTimeout(() => {
-                  window.location.href = `${window.location.origin}/home`;
-                }, 100);
-                // this.router.navigate(['customer/notification']);
-              });
-            });
-          } else if (token.errorDelivery) {
-            this.showLoader = false;
-            const modalRef = this.infoModal.open(InfoModalComponent, {
-              backdrop: 'static',
-              keyboard: false
-            });
-            modalRef.componentInstance.title = 'Erreur';
-            modalRef.componentInstance.message = token.errorDelivery;
-            modalRef.result.then(() => {
-              setTimeout(() => {
-                window.location.href = `${window.location.origin}/cart-detail`;
-              }, 100);
-            });
-          } else {
-            this.clientSecret = token.client_secret;
-            this.stripe.confirmCardPayment(this.clientSecret, {
-              payment_method: {
-                card: this.card,
-                billing_details: {
-                  name: 'Customer' // TODO ADD REAL NAME
-                }
+    /*if (this.cartCurrent.hasShownTipModal){
+      this.openDialog();
+    } else {*/
+      const tipModalRef = this.infoModal.open(TipModalComponent, {
+        backdrop: 'static',
+        keyboard: false
+      });
+      tipModalRef.result.then(() => {
+        event.preventDefault();
+        this.cartCurrent.hasShownTipModal = true;
+        this.showLoader = true;
+        this.paymentValidation = true;
+        this.amountTotal = CartDetailComponent.up(this.cartCurrent.total, 2);
+        this.amountTotal = +this.amountTotal * 100;
+        if (/(,|.)/.test(this.amountTotal.toString().trim())) {
+          this.amountTotal = Math.round(this.amountTotal);
+        }
+        /*this.openDialog();
+        this.restaurantDashboardService
+            .initSystemPay(
+               this.amountTotal
+            )
+            .subscribe((res)=> {
+              this.cartCurrent.total = +this.amountTotal;
+              if (res.formToken){
+              } else {
+                this.showModalError('formToken');
               }
-            }).then((result) => {
-              if (result.error) {
+            });*/
+        //return;
+        this.cartService.getTokenPaymentIntent(
+            +(this.cartCurrent.total) * 100,
+            this.cartCurrent.restaurant.id,
+            this.cartCurrent.deliveryCost,
+            this.cartCurrent.stripeFee
+        ).subscribe((token: any) => {
+              if (token.errorClosed) {
                 this.showLoader = false;
                 const modalRef = this.infoModal.open(InfoModalComponent, {
                   backdrop: 'static',
                   keyboard: false
                 });
                 modalRef.componentInstance.title = 'Erreur';
-                modalRef.componentInstance.message = result.error.message;
-                modalRef.result.then(() => this.ngOnInit());
+                modalRef.componentInstance.message = token.errorClosed;
+                modalRef.result.then(() => {
+                  this.cartService.UpdateCart('empty-cart');
+                  this.cartService.cartUpdated.subscribe((cartUpdated: Cart) => {
+                    this.cartCurrent = cartUpdated;
+                    setTimeout(() => {
+                      window.location.href = `${window.location.origin}/home`;
+                    }, 100);
+                    // this.router.navigate(['customer/notification']);
+                  });
+                });
+              } else if (token.errorDelivery) {
+                this.showLoader = false;
+                const modalRef = this.infoModal.open(InfoModalComponent, {
+                  backdrop: 'static',
+                  keyboard: false
+                });
+                modalRef.componentInstance.title = 'Erreur';
+                modalRef.componentInstance.message = token.errorDelivery;
+                modalRef.result.then(() => {
+                  setTimeout(() => {
+                    window.location.href = `${window.location.origin}/cart-detail`;
+                  }, 100);
+                });
               } else {
-                // The payment has been processed!
-                const responsePayment = result.paymentIntent;
-                if (responsePayment.status === 'succeeded') {
-                  this.paymentValidation = true;
-                  this.showLoader = false;
-                  // save order payment succeeded
-                  this.cartService.saveOrder({
-                    stripeResponse: responsePayment,
-                    cartDetail: this.cartCurrent,
-                    distanceInfos: this.responseDistanceGoogle
-                  }).subscribe((confCode) => {
-                    const codeModal = this.codeConfirmationModal.open(ConfirmationCodePaymentModalComponent,
-                      { backdrop: 'static', keyboard: false, size: 'lg' });
-                    codeModal.componentInstance.infos = confCode;
-                    codeModal.result.then((response) => {
-                      this.cartService.emptyCart();
-                      if (response) {
-                        // send code to db
-                        this.cartService.saveCodeCustomerToDeliver({ responseCustomer: response})
-                          .subscribe((responseServer) => {
-                            if (responseServer.ok) {
-                              this.cartService.UpdateCart('empty-cart');
-                              this.cartService.cartUpdated.subscribe((cartUpdated: Cart) => {
-                                this.cartCurrent = cartUpdated;
-                                setTimeout(() => {
-                                  window.location.href = `${window.location.origin}/customer/order`;
-                                }, 5);
-                                // this.router.navigate(['customer/notification']);
-                              });
-                            }
-                          });
-                      }
+                this.clientSecret = token.client_secret;
+                this.stripe.confirmCardPayment(this.clientSecret, {
+                  payment_method: {
+                    card: this.card,
+                    billing_details: {
+                      name: 'Customer' // TODO ADD REAL NAME
+                    }
+                  }
+                }).then((result) => {
+                  if (result.error) {
+                    this.showLoader = false;
+                    const modalRef = this.infoModal.open(InfoModalComponent, {
+                      backdrop: 'static',
+                      keyboard: false
                     });
-                  });
-                } else {
-                  this.showLoader = false;
-                  this.paymentValidation = false;
-                  const modalRef = this.infoModal.open(InfoModalComponent, {
-                    backdrop: 'static',
-                    keyboard: false
-                  });
-                  modalRef.componentInstance.title = 'Information';
-                  modalRef.componentInstance.message = 'Le paiement n\'a pas aboutit :( ';
-                }
+                    modalRef.componentInstance.title = 'Erreur';
+                    modalRef.componentInstance.message = result.error.message;
+                    modalRef.result.then(() => this.ngOnInit());
+                  } else {
+                    // The payment has been processed!
+                    const responsePayment = result.paymentIntent;
+                    if (responsePayment.status === 'succeeded') {
+                      this.paymentValidation = true;
+                      this.showLoader = false;
+                      // save order payment succeeded
+                      this.cartService.saveOrder({
+                        stripeResponse: responsePayment,
+                        cartDetail: this.cartCurrent,
+                        distanceInfos: this.responseDistanceGoogle
+                      }).subscribe((confCode) => {
+                        const codeModal = this.codeConfirmationModal.open(ConfirmationCodePaymentModalComponent,
+                            {backdrop: 'static', keyboard: false, size: 'lg'});
+                        codeModal.componentInstance.infos = confCode;
+                        codeModal.result.then((response) => {
+                          this.cartService.emptyCart();
+                          if (response) {
+                            // send code to db
+                            this.cartService.saveCodeCustomerToDeliver({responseCustomer: response})
+                                .subscribe((responseServer) => {
+                                  if (responseServer.ok) {
+                                    this.cartService.UpdateCart('empty-cart');
+                                    this.cartService.cartUpdated.subscribe((cartUpdated: Cart) => {
+                                      this.cartCurrent = cartUpdated;
+                                      setTimeout(() => {
+                                        window.location.href = `${window.location.origin}/customer/order`;
+                                      }, 5);
+                                      // this.router.navigate(['customer/notification']);
+                                    });
+                                  }
+                                });
+                          }
+                        });
+                      });
+                    } else {
+                      this.showLoader = false;
+                      this.paymentValidation = false;
+                      const modalRef = this.infoModal.open(InfoModalComponent, {
+                        backdrop: 'static',
+                        keyboard: false
+                      });
+                      modalRef.componentInstance.title = 'Information';
+                      modalRef.componentInstance.message = 'Le paiement n\'a pas aboutit :( ';
+                    }
+                  }
+                });
               }
-            });
-          }
-        }, (error) => {
-          if (/Expired JWT/.test(error)) {
-            this.route.navigate(['/login']);
-          }
-        }
-      );
-    });
+            }, (error) => {
+              if (/Expired JWT/.test(error)) {
+                this.route.navigate(['/login']);
+              }
+            }
+        );
+      });
 
-
+   // }
   }
 
 
@@ -359,6 +449,31 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
 
   onShowTerms() {
     this.infoModal.open(TermsModalComponent, {size: 'lg'});
+  }
+
+  openDialog(): void {
+    let data = {total: this.amountTotal, paymentMethodToken: null};
+    if (this.paymentMethodToken) {
+      data.paymentMethodToken = this.paymentMethodToken;
+    }
+    const dialogRef = this.dialog.open(SystempayDialogComponent, {
+      data: data,
+      hasBackdrop: true,
+      disableClose: true,
+      autoFocus: false
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result && result === 'cancel') {
+        this.showLoader = false;
+        this.paymentValidation = false;
+        //this.cartCurrent.total = this.cartCurrent.total / 100;
+      }
+    });
+  }
+
+
+  static up(v, n) {
+    return Math.ceil(v * Math.pow(10, n)) / Math.pow(10, n);
   }
 
 

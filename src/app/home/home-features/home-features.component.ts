@@ -1,12 +1,12 @@
-import {Component, HostListener, Input, OnInit, Optional} from '@angular/core';
-import {Router} from "@angular/router";
-import {RestaurantDashboardService} from "@app/restaurants/restaurant-dashboard/services/restaurant-dashboard.service";
-import {Restaurant} from "@app/_models/restaurant";
-import {CityDataService} from "@app/city-data.service";
-import {MatSnackBar} from "@angular/material/snack-bar";
-import {CategoryBusiness} from "@app/_models/category-business";
-import {CategoryRestaurantService} from "@app/_services/category-restaurant.service";
-import {timer} from "rxjs";
+import {Component, HostListener, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {RestaurantDashboardService} from '@app/restaurants/restaurant-dashboard/services/restaurant-dashboard.service';
+import {Restaurant} from '@app/_models/restaurant';
+import {CityDataService} from '@app/city-data.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {CategoryBusiness} from '@app/_models/category-business';
+import {CategoryRestaurantService} from '@app/_services/category-restaurant.service';
+import {timer} from 'rxjs';
 
 @Component({
   selector: 'app-home-features',
@@ -35,7 +35,7 @@ export class HomeFeaturesComponent implements OnInit {
       .getAllbusinesses()
       .subscribe((res) => {
         if (res.ok) {
-          const source = timer(2500);
+          const source = timer(2000);
           const subscribe = source.subscribe(val => {
             this.getCurrentCategory();
             this.restaurants = res.restaurants;
@@ -43,6 +43,9 @@ export class HomeFeaturesComponent implements OnInit {
             this.cityDatas
               .getCityData()
               .subscribe((locationDatas) => {
+                if (!locationDatas.city && !locationDatas.zipCode) {
+                  return;
+                }
                 this.restaurants = this.allRestaurants;
                 this.restaurants = this.restaurants.filter((resto) => {
                   return resto.zipcode === locationDatas.zipCode
@@ -51,13 +54,23 @@ export class HomeFeaturesComponent implements OnInit {
                 this.onlyAreaRestaurants = true;
                 if (this.restaurants.length === 0 ){
                   this.onlyAreaRestaurants = false;
-                  this.restaurants = this.allRestaurants;
-                  this.snackBar.open(
-                    'Aucun restaurant dans cette ville. Néanmoins il est possible de vous livrer où que vous soyez.* :)', 'ok', {
-                      duration: 7000,
-                      verticalPosition: 'top',
-                      horizontalPosition: 'center'
-                    });
+                  this.restaurants = this.restaurants.filter((resto) => {
+                    return resto.zipcode.substr(0, 2) === locationDatas.zipCode.substr(0, 2)
+                    || resto.city.toLowerCase().trim() === locationDatas.city.toLowerCase().trim()
+                    ;
+                  });
+                  if (this.restaurants.length === 0) {
+                    /**/setTimeout(() => {
+                      this.snackBar.open(
+                        'Aucun restaurant dans cette ville, pour le moment. Vous pouvez néanmoins commander dans d\'autre(s) restaurant(s)', 'ok', {
+                          duration: 10000,
+                          verticalPosition: 'top',
+                          horizontalPosition: 'center'
+                        });
+                    }, 100);
+                    this.restaurants = this.allRestaurants;
+
+                  }
                 }
               });
           });
@@ -106,7 +119,6 @@ export class HomeFeaturesComponent implements OnInit {
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    console.warn(event.target.innerWidth);
   }
 
 }

@@ -1,0 +1,84 @@
+<section class="card p-2">
+    <h1>PROMOTIONS</h1>
+    <button mat-raised-button color="primary" (click)="onAddPromotion(promotions)">
+        AJOUTER
+    </button>
+    <hr>
+    <div class="table-responsive w-100">
+        <table class="w-100 table table-striped table-hover">
+            <thead>
+                <tr>
+                    <td>id</td>
+                    <td>Code</td>
+                    <td>Pourcentage</td>
+                    <td>Actif</td>
+                    <td>Appliqué à</td>
+                    <td>Date début</td>
+                    <td>Date de fin</td>
+                    <td>Utilisé pour</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let promotion of promotions" style="cursor: pointer" (click)="onUpdatePromotion(promotions, promotion)">
+                    <td>{{ promotion.id }}</td>
+                    <td>{{ promotion.code }}</td>
+                    <td>{{ promotion.percentage }}%</td>
+                    <td>
+                        <span *ngIf="promotion.enable" class="material-icons text-success">
+                            check_circle
+                        </span>
+                        <span *ngIf="!promotion.enable" class="material-icons text-danger">
+                            close
+                        </span>
+                    </td>
+                    <td>
+                        <span *ngIf="promotion.applicatedTo == promotionApplicatedTo.FAST_IT">Fast-it</span>
+                        <span *ngIf="promotion.applicatedTo == promotionApplicatedTo.BUSINESS">Commerce</span>
+                        <span *ngIf="promotion.applicatedTo == promotionApplicatedTo.BOTH">Fast-it & Commerce</span>
+                    </td>
+                    <td>
+                        {{ promotion.dateBegin.date | date: "dd/MM/yyyy"}}
+                    </td>
+                    <td>
+                        {{ promotion.dateEnd.date | date: "dd/MM/yyyy"}}
+                    </td>
+                    <td>
+                        <div *ngIf="promotion.restaurants && promotion.restaurants.length > 0">
+                            <div>
+                                Restaurant(s)
+                                <ul>
+                                    <li *ngFor="let restaurant of promotion.restaurants">
+                                        {{ restaurant.name }}
+                                    </li>
+                                </ul>
+                            </div>
+                            <hr>
+                        </div>
+                        <div *ngIf="promotion.sectors && promotion.sectors.length > 0">
+                            <div>
+                                Secteur(s)
+                                <ul>
+                                    <li *ngFor="let sector of promotion.sectors">
+                                        {{ sector.name }}
+                                    </li>
+                                </ul>
+                            </div>
+                            <hr>
+                        </div>
+
+                        <div *ngIf="promotion.clients && promotion.clients.length > 0">
+                            <div>
+                                Secteur(s)
+                                <ul>
+                                    <li *ngFor="let client of promotion.clients">
+                                        {{ client.email }}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>

@@ -9,8 +9,9 @@ import {Router} from "@angular/router";
 })
 export class InfoModalComponent implements OnInit {
   @Input() title: string;
-  @Input() message: string;
+  @Optional() message: string;
   @Optional() isCartError: boolean;
+  @Optional() infoCompetition: boolean;
   constructor(
     public modalActive: NgbActiveModal,
     private router: Router

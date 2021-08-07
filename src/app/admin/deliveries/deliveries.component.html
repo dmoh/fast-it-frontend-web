@@ -103,6 +103,13 @@
                 </a>
               </span>
               <span>{{ orderDelivery.customerCity | titlecase }}</span>
+              <hr>
+              <div>
+                <button mat-raised-button color="primary" (click)="onAssignedDeliverer(orderDelivery)" class="text-uppercase" [disabled]="orderDelivery.status == 0">Infos</button>
+              </div>
+              <div>
+                <button mat-raised-button color="warn" (click)="onValidateRejectionMessage(orderDelivery)" class="text-uppercase pt-3" [disabled]="orderDelivery.status == 0">REFUSé</button>
+              </div>
             </div>
           </div>
         </div>
@@ -113,7 +120,7 @@
           transition: 'all 2s',
           'background-color':second >= 50 ? 'red' : 'white',
           color: second >= 50 ? 'white' : 'inherit'
-          }" (click)="onAssignedDeliverer(orderDelivery)" class="card card-order">
+          }" class="card card-order">
             <div style="display: flex; flex-direction: column; justify-content: space-between">
               <div>
                 <h5 style="font-size: larger">
@@ -158,6 +165,13 @@
                 Tps affiché au client <b>{{ orderDelivery.timeDisplayedToCustomer }}</b>
               </span>
               <span>{{ orderDelivery.customerCity | titlecase }}</span>
+              <hr>
+              <div>
+                <button mat-raised-button color="primary" (click)="onAssignedDeliverer(orderDelivery)" class="text-uppercase" [disabled]="orderDelivery.status == 0">Infos</button>
+              </div>
+              <div>
+                <button mat-raised-button color="warn" (click)="onValidateRejectionMessage(orderDelivery)" class="text-uppercase pt-3" [disabled]="orderDelivery.status == 0">REFUSé</button>
+              </div>
             </div>
           </div>
         </div>
@@ -169,7 +183,7 @@
           'background-color':second >= 50 ? 'red' : 'white',
           color: second >= 50 ? 'white' : 'inherit'
           }"
-               (click)="onAssignedDeliverer(orderDelivery)" class="card card-order">
+               class="card card-order">
             <div style="display: flex; flex-direction: column; justify-content: space-between">
               <div>
                 <h5 style="font-size: larger">
@@ -228,6 +242,13 @@
                 Tps affiché au client <b>{{ orderDelivery.timeDisplayedToCustomer }}</b>
               </span>
               <span>{{ orderDelivery.customerCity | titlecase }}</span>
+              <hr>
+              <div>
+                <button mat-raised-button color="primary" (click)="onAssignedDeliverer(orderDelivery)" class="text-uppercase" [disabled]="orderDelivery.status == 0">Infos</button>
+              </div>
+              <div>
+                <button mat-raised-button color="warn" (click)="onValidateRejectionMessage(orderDelivery)" class="text-uppercase pt-3" [disabled]="orderDelivery.status == 0">REFUSé</button>
+              </div>
             </div>
           </div>
         </div>
@@ -239,7 +260,7 @@
           'background-color':second >= 50 ? 'red' : 'white',
           color: second >= 50 ? 'white' : 'inherit'
           }"
-               (click)="onAssignedDeliverer(orderDelivery)" class="card card-order">
+                class="card card-order">
             <div style="display: flex; flex-direction: column; justify-content: space-between">
               <div>
                 <h5 style="font-size: larger">
@@ -300,6 +321,13 @@
               <span>{{ orderDelivery.customerCity | titlecase }}</span>
               <div style="font-size: small; display: block !important;">
                 Livrée à <b><em>{{ orderDelivery.date_delivered.date | date: "HH:mm:ss" }}</em></b>
+              </div>
+              <hr>
+              <div>
+                <button mat-raised-button color="primary" (click)="onAssignedDeliverer(orderDelivery)" class="text-uppercase" [disabled]="orderDelivery.status == 0">Infos</button>
+              </div>
+              <div>
+                <button mat-raised-button color="warn" (click)="onValidateRejectionMessage(orderDelivery)" class="text-uppercase pt-3" [disabled]="orderDelivery.status == 0">REFUSé</button>
               </div>
             </div>
           </div>

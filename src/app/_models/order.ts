@@ -18,5 +18,6 @@ export class Order {
   preparationTime: string;
   // tslint:disable-next-line:variable-name
   delivery_cost: number;
+  comment?: string;
 }
 

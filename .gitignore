@@ -47,3 +47,8 @@ Thumbs.db
 
 # Config Perso
 /src/config-perso
+/src/environments
+.htaccess
+appVersion.json
+/e2e/
+/oldVersion05082021

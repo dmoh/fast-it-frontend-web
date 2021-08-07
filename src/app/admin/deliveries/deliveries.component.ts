@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { timer } from 'rxjs';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Subscription, timer} from 'rxjs';
 import {AdminService} from '@app/admin/admin.service';
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {AssignedDeliveryModalComponent} from "@app/admin/assigned-delivery-modal/assigned-delivery-modal.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {RestaurantDashboardService} from "@app/restaurants/restaurant-dashboard/services/restaurant-dashboard.service";
 
 
 @Component({
@@ -11,7 +12,7 @@ import {MatSnackBar} from "@angular/material/snack-bar";
   templateUrl: './deliveries.component.html',
   styleUrls: ['./deliveries.component.scss']
 })
-export class DeliveriesComponent implements OnInit {
+export class DeliveriesComponent implements OnInit, OnDestroy {
   second: number;
   deliveriesDay: string = '10/01/2021';
   deliveriesAttemptingByRestaurant: any[] = [];
@@ -19,28 +20,33 @@ export class DeliveriesComponent implements OnInit {
   deliveriesTakenByDeliverer: any[] = [];
   deliveriesEnded: any[] = [];
   deliveriesRefused: any[] = [];
+  timerSubscription: Subscription;
 
   constructor(
     private adminService: AdminService,
     private modal: NgbModal,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private restaurantService:  RestaurantDashboardService
               ) {
   }
 
   ngOnInit(): void {
     this.getDeliveriesDb();
     const source = timer(4000, 7000);
-    const subscribe = source.subscribe(val => {
+    this.timerSubscription = source.subscribe(val => {
       this.second = val;
       this.getDeliveriesDb();
     });
     setTimeout(() => {
-      subscribe.unsubscribe();
+      this.timerSubscription.unsubscribe();
     }, 1000000);
   }
 
 
-  private getDeliveriesDb() {
+  ngOnDestroy() {
+      this.timerSubscription.unsubscribe();
+  }
+    private getDeliveriesDb() {
     this.adminService.getDeliveries()
       .subscribe((response) => {
         this.deliveriesAttemptingByRestaurant = [];
@@ -79,4 +85,19 @@ export class DeliveriesComponent implements OnInit {
      }
    });
   }
+
+    onValidateRejectionMessage(order) {
+      if (confirm('Souhaitez-vous réellement refusé cette commande ?')) {
+          const dataOrder: any = {
+              order_id: order.order_id,
+              order_accepted_by_merchant: false,
+              business_id: order.businessId,
+              status: 0,
+              rejection_message: 'Nous vous prions de nous excuser. Cette commande ne peut être aboutie.',
+          };
+          this.restaurantService.refuseOrder(dataOrder).subscribe(_ => {
+              this.snackBar.open(`Cette commande #${order.order_id} a bien été Refusé`, 'ok');
+          });
+      }
+    }
 }

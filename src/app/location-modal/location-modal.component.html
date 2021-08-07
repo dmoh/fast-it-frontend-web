@@ -12,8 +12,13 @@
         <div *ngIf="cityDatas" style="align-self: center;">
           {{ cityDatas.city }}
         </div>
+        <div *ngIf="!cityDatas.city" style="align-self: center;">
+          Aucune ville sélectionner
+        </div>
         <div>
-          <button mat-raised-button (click)="onShowInput()" style="color: black; cursor: pointer">modifier</button>
+          <button mat-raised-button (click)="onShowInput()" color="primary" style="color: white; cursor: pointer">
+            modifier
+          </button>
         </div>
       </div>
     </div>

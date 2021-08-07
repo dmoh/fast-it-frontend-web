@@ -6,6 +6,8 @@ import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {order} from "@app/_util/fasteat-constants";
 import {CategoryBusiness} from "@app/_models/category-business";
+import {Sector} from "@app/_models/sector";
+import {Promotion} from "@app/_models/promotion";
 
 @Injectable({
   providedIn: 'root'
@@ -139,5 +141,66 @@ export class AdminService {
     return this.http.post<any>(`${this.urlApi}/category/resto/remove`,
       { deleteRestoId: restoId, catId: categoryId },
       this.headers);
+  }
+
+
+  getSectorList(): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}/sector/list`,
+      this.headers);
+  }
+
+  getSector(id: number): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}/sector/${id}`,
+      this.headers);
+  }
+
+  updateSector(sectorCurrent: Sector): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}/sector/update`,
+      {
+        sector: sectorCurrent
+      },
+      this.headers);
+  }
+
+  findByNameCurrent(nameCurrent: string, typeCurrent: string): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}/sector/find/name`,
+      {
+        type: typeCurrent,
+        name: nameCurrent
+      },
+      this.headers);
+  }
+
+
+  updateElementSector(sectorId: number, idCurrent: number, typeCurrent: string): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}/sector/${sectorId}/update/element`,
+      {
+        type: typeCurrent,
+        id: idCurrent
+      },
+      this.headers);
+  }
+
+  deleteElementSector(sectorId: number, idCurrent: number, typeCurrent: string): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}/sector/${sectorId}/delete/element`,
+      {
+        type: typeCurrent,
+        id: idCurrent
+      },
+      this.headers);
+  }
+
+  getPromotions(): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}/promotion/list`,
+        this.headers);
+  }
+
+
+  updatePromotion(promotion: Promotion): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}/promotion/update`,
+        {
+          promotion: promotion
+        },
+        this.headers);
   }
 }

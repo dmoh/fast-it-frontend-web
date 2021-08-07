@@ -6,7 +6,7 @@
   </div>
   <div style="" [class.is-closed]="restaurant && restaurant.closed == true">
     <div *ngIf="restaurant.closed == true"  class="mt-5 position-fixed w-100" >
-      <h2 style="font-size: 3rem; color: white; line-height: 2; text-transform: uppercase" class="text-center">Indisponible en livraison</h2>
+      <h2 style="font-size: 3rem; color: white; line-height: 2; text-transform: uppercase" class="text-center">{{ textToDisplay }}</h2>
     </div>
   </div>
   <div *ngIf="urlBackgroundRestaurant && urlLogoRestaurant"
@@ -31,7 +31,7 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-8">
-        <div style="display: flex" id="nav-div" class="navbar-restaurant sticky-top">
+        <div style="display: flex; z-index: 9" id="nav-div" class="navbar-restaurant sticky-top">
           <nav class="nav-menu"   style="display: flex;width: 100%;background: white; padding: 1.3rem; position: relative" role="navigation">
             <div *ngIf="showRightArrow" style="position: absolute;/* top: 20px; */right: 0;height: 100%;"><span style="font-size: large;vertical-align: middle;" class="material-icons">arrow_forward</span></div>
             <div *ngIf="categories && categories.length >= 5" class="table-responsive">
@@ -63,15 +63,6 @@
             *Chacun de nos burgers comporte une portion de frite   <i class="em em-blush" aria-role="presentation" aria-label="SMILING FACE WITH SMILING EYES"></i>
           </div>
         </div>
-        <!--<div *ngIf="restaurant.id == 22" style="padding: 0.3rem; box-shadow: 2px 5px 10px rgba(0,0,0,0.03)" class="w-100">
-          <div style="padding: .5rem">
-            <div style="padding: 1.4rem; line-height: 1; font-size: xx-large; text-align: center; text-transform: uppercase;"
-                 class="alert alert-success text-center" role="alert"
-            >
-              TOUS LES MIDIS, à partir de 20€ D'ACHAT 1 CHEESEBURGER OFFERT
-            </div>
-          </div>
-        </div>-->
         <div *ngIf="
         this.specialOffer
         && this.specialOffer.title
@@ -88,7 +79,7 @@
                 <h4 class="mt-2 mb-0" style="font-size: large; color: #d840ff; text-transform: uppercase"><b>{{ category.category_name }}</b></h4>
                 <div class="row">
                   <div *ngFor="let product of category.category_products" class="col-md-6 card-menu">
-                    <div [class.not-allowed]="product.is_available == false" (click)="openModal(product)" class="wrapper-menu">
+                    <div [class.not-allowed]="product.is_available == false" (click)="openModal(product)" [ngStyle]="{'height' : product.url_photo !== null && product.url_photo !== '' ? '130px' : 'auto' }"  class="wrapper-menu">
                       <div style="display: flex; flex-direction: row;" class="infos-menu">
                         <div style="justify-content: space-between;position: relative;flex-grow: 1;display: flex; flex-direction: column;">
                           <div>

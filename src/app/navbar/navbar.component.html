@@ -1,22 +1,26 @@
 <nav style="
     border-bottom: 1px solid #eec3f9;" class="navbar navbar-expand navbar-light bg-light">
   <div class="container">
+    <!--<span style="
+    cursor: pointer;
+    padding-right: .5rem;
+    margin-left: -.5rem;
+    color: #c823f1;
+    font-size: 1.5rem;" class="material-icons" (click)="back()">arrow_back</span>-->
     <button *ngIf="isMedia || showMenu" mat-icon-button color="white" (click)="onToggleSideNav()">
       <mat-icon style="color: #c823f1">menu</mat-icon>
     </button>
-    <a class="navbar-brand" routerLink="/home" style="font-style: italic; font-weight: bold; color: #c145e1"> <!--<img src="logo_png.png"/>--> Fast-it</a>
+    <a class="navbar-brand" routerLink="/home" style="font-style: italic; font-size: large;font-weight: bold; color: #c145e1"> <!--<img src="logo_png.png"/>--> Fast-it</a>
     <div class="collapse navbar-collapse">
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <a style="display: flex; flex-direction: row"  *ngIf="cart.total > 0" [ngClass]="{'not-allowed': cart.total == 0}" class="nav-link btn btn-sm" routerLink="/cart-detail">
-            <div style="color: #c145e1; font-size: large;padding-right: .4rem;" class="material-icons">shopping_basket</div><div *ngIf="cart.total > 0" style="color: white; font-size: small">{{ cart.products.length }}</div>
-          </a>
-        </li>
         <li >
-          <button *ngIf="user.token" mat-button [matMenuTriggerFor]="menu">
-            <div style="color: #c145e1;font-size: large;padding-right: .4rem; cursor: pointer" class="material-icons">home</div>
+          <button style="text-align: right;padding-right: .5rem" mat-button [matMenuTriggerFor]="menu">
+            <div style="color: #c145e1;font-size: 1.2rem;padding-right: 0; padding-top: .2rem; cursor: pointer" class="material-icons">home</div>
           </button>
           <mat-menu #menu="matMenu">
+            <button mat-menu-item>
+              <a style="text-decoration: none; color: #0a0a0a" routerLink="/home">Accueil</a>
+            </button>
             <button *ngIf="user.token"  mat-menu-item>
               <a style="text-decoration: none; color: #0a0a0a" routerLink="customer">Profil</a>
             </button>
@@ -34,10 +38,15 @@
         <li class="nav-item">
           <div style="display: flex">
             <a *ngIf="user.token" class="nav-link" title="Se déconnecter" (click)="onLogout()" style="color: white">
-              <div style="color: #c145e1;font-size: large;padding-right: .4rem; cursor: pointer" class="material-icons">power_settings_new</div>
+              <div style="color: #c145e1; font-size: 1.2rem;padding-top: .2rem;padding-right: .5rem; cursor: pointer" class="material-icons">power_settings_new</div>
             </a>
           </div>
           <a *ngIf="!user.token" class="nav-link" routerLink="/login" style="color: white"><div style="color: #c146e1;font-size: x-large;padding-right: .4rem; cursor: pointer" class="material-icons">account_circle</div></a>
+        </li>
+        <li class="nav-item">
+          <a style="display: flex;background:  #c145e1; flex-direction: row; border: 1px solid  #c145e1;"  *ngIf="cart.total > 0" [ngClass]="{'not-allowed': cart.total == 0}" class="nav-link btn btn-sm" routerLink="/cart-detail">
+            <div style="color: #fff; font-size: large;padding-right: .4rem;" class="material-icons">shopping_basket</div><div *ngIf="cart.total > 0" style="color: #fff;font-weight: 600;">{{ cart.products.length }}</div>
+          </a>
         </li>
       </ul>
     </div>
@@ -57,7 +66,6 @@
     <div style="margin-left: 0;padding-left: 0; padding-right: 0;" class="col-md-12">
       <div style="margin-bottom: 0 !important; font-size: x-small" class="alert alert-warning text-center" role="alert">
         {{ alertMessage | uppercase }}
-
       </div>
     </div>
   </div>
@@ -75,8 +83,19 @@
   <div class="row">
     <div style="padding-left: 0; padding-right: 0" class="col-md-12">
       <div style="margin-bottom: 0 !important; font-size: x-small" class="alert alert-success text-center" role="alert">
-        La 5000<sup>éme</sup> commande offerte! Livraison comprise! (Indice: la commande 4970 est passée) <i class="em em-blush" aria-role="presentation" aria-label="SMILING FACE WITH SMILING EYES"></i>
+        La 7000<sup>éme</sup> commande offerte! Livraison comprise! (Indice: la commande 6966 est passée) <i class="em em-blush" aria-role="presentation" aria-label="SMILING FACE WITH SMILING EYES"></i>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div style="padding-left: 0; padding-right: 0" class="col-md-12">
+      <div style="margin-bottom: 0 !important; cursor:pointer; color: white; font-size: smaller; background-color: #d543f4; border-color: #ffffff;" class="alert alert-success text-center" role="alert">
+        <a (click)="onOpenModal()">Gagnez une console PS5 en mangeant ? C'est possible avec Fast-it cliquez-ici!</a>
       </div>
     </div>
   </div>
 </div>-->
+

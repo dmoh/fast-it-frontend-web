@@ -16,16 +16,21 @@ import { AlertManagerComponent } from './first-page/alert-manager/alert-manager.
 import { ModalUserComponent } from './modal-user/modal-user.component';
 import { CategoryComponent } from './category/category.component';
 import { CategoryModalComponent } from './category-modal/category-modal.component';
+import { SectorComponent } from './sector/sector.component';
+import { SectorModalComponent } from './sector-modal/sector-modal.component';
+import { OrderManagerComponent } from './order-manager/order-manager.component';
+import { PromotionComponent } from './promotion/promotion.component';
+import { UpdatePromotionModalComponent } from './promotion/update-promotion-modal/update-promotion-modal.component';
 
 
 @NgModule({
-  declarations: [AdminComponent, CommerceComponent, UserComponent, EditCommerceComponent, DeliveriesComponent, AssignDeliverisComponent, AssignedDeliveryModalComponent, FirstPageComponent, AlertManagerComponent, ModalUserComponent, CategoryComponent, CategoryModalComponent],
+  declarations: [AdminComponent, CommerceComponent, UserComponent, EditCommerceComponent, DeliveriesComponent, AssignDeliverisComponent, AssignedDeliveryModalComponent, FirstPageComponent, AlertManagerComponent, ModalUserComponent, CategoryComponent, CategoryModalComponent, SectorComponent, SectorModalComponent, OrderManagerComponent, PromotionComponent, UpdatePromotionModalComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,
     CoreModule,
     MatMenuModule,
   ],
-  exports: [AdminComponent, EditCommerceComponent, DeliveriesComponent, AssignDeliverisComponent, AssignedDeliveryModalComponent, FirstPageComponent, AlertManagerComponent, ModalUserComponent, CategoryComponent, CategoryModalComponent]
+  exports: [AdminComponent, EditCommerceComponent, DeliveriesComponent, AssignDeliverisComponent, AssignedDeliveryModalComponent, FirstPageComponent, AlertManagerComponent, ModalUserComponent, CategoryComponent, CategoryModalComponent, SectorComponent, SectorModalComponent, OrderManagerComponent, PromotionComponent, UpdatePromotionModalComponent]
 })
 export class AdminModule { }

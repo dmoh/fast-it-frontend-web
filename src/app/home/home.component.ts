@@ -24,11 +24,17 @@ export class HomeComponent implements OnInit, OnDestroy {
   showingLeftPart: boolean = true;
   @Input() closeModal;
   slides: any[] = [
-    {
-      image: 'https://mediafastitprod.s3.eu-west-3.amazonaws.com/PHOTO-2021-03-16-10-38-38.jpg'
+    /*{
+      image: 'https://mediafastitprod.s3.eu-west-3.amazonaws.com/concours_ps5.jpg'
     },
     {
-      image: 'https://mediafastitprod.s3.eu-west-3.amazonaws.com/PHOTO-2021-03-16-10-39-53.jpg'
+      image: 'https://mediafastitprod.s3.eu-west-3.amazonaws.com/PHOTO-2021-03-16-10-38-38.jpg'
+    },*/
+    {
+      image: 'https://mediafastitprod.s3.eu-west-3.amazonaws.com/image+1-2.png'
+    },
+    {
+      image: 'https://mediafastitprod.s3.eu-west-3.amazonaws.com/image+2.png'
     }/*,
     {
       image: 'https://mediafastitprod.s3.eu-west-3.amazonaws.com/PHOTO-2021-03-14-21-59-12+(1).jpg'
@@ -36,7 +42,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   ];
   restaurants: any[];
   restaurantsLeft: any[];
+  restaurantsLeftNewest: any[];
   restaurantsRight: any[];
+  restaurantsRightNewest: any[];
   categories: any[];
   constructor(
               private cityData: CityDataService,
@@ -46,7 +54,8 @@ export class HomeComponent implements OnInit, OnDestroy {
               private adminService: AdminService,
               private categoryRestaurantService: CategoryRestaurantService,
               private router: Router,
-              private route: ActivatedRoute
+              private route: ActivatedRoute,
+              private infoModal: NgbModal
               ) {
     this.router.events.subscribe((event) => {
       setTimeout(() => {
@@ -76,26 +85,40 @@ export class HomeComponent implements OnInit, OnDestroy {
         types: [],
         componentRestrictions: { country: 'FR' }
     };
-
-
     this.adminService.getCategoryListActive()
       .subscribe((res) => {
         this.categories = res.categories;
       });
+    if (this.cityDataCurrent.zipcode && this.cityDataCurrent.zipcode.trim().length === 5) {
+      this.getOffersByZipCode();
+    }else {
+      this.restaurantService.getAllBusinessesWithOffers()
+        .subscribe((res) => {
+          if (res.specialOffers && res.specialOffers.length  > 0) {
+            this.restaurantsLeft = res.specialOffers.filter((elem, index) => index <= 2);
+            this.restaurantsRight = res.specialOffers.filter((elem, index) => index > 2);
+            if (window.innerWidth < 1200) {
+              this.restaurantsLeft = res.specialOffers;
+            }
+          }
+        });
+    }
+  }
+
+
+  private getOffersByZipCode() {
     this.restaurantService
-      .getAllBusinessesWithOffers()
+      .findAllBusinessesWithOffers(this.cityDataCurrent.zipCode)
       .subscribe((res) => {
         if (res.specialOffers && res.specialOffers.length  > 0) {
           this.restaurantsLeft = res.specialOffers.filter((elem, index) => index <= 2);
           this.restaurantsRight = res.specialOffers.filter((elem, index) => index > 2);
-          if (wWidth < 1200) {
+          if (window.innerWidth < 1200) {
             this.restaurantsLeft = res.specialOffers;
           }
         }
       });
-
   }
-
   ngOnDestroy(): void {
 
   }
@@ -124,7 +147,8 @@ export class HomeComponent implements OnInit, OnDestroy {
             name: this.selectedAddress.name,
             city: this.selectedAddress.vicinity,
             zipCode: zipcode
-            };
+            }
+          ;
 
           this.cityData.setCityData(cityDatas1);
           this.router.navigate(['/restaurants-city']);
@@ -141,7 +165,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   onScroll(left?: string) {
-    if (left) {
+    if (left && left === 'left') {
       const el = this.elementRef.nativeElement.querySelector('#ul-carousel-left');
       this.showingLeftPart = true;
       el.scrollIntoView({behavior: 'smooth', block: 'end', inline: 'nearest'});
@@ -150,7 +174,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       const el = this.elementRef.nativeElement.querySelector('#ul-carousel-right');
       el.scrollIntoView({behavior: 'smooth', block: 'end', inline: 'nearest'});
     }
-
   }
 
   onShowCategory(category: CategoryBusiness) {
@@ -162,9 +185,15 @@ export class HomeComponent implements OnInit, OnDestroy {
     // const el = document.getElementById('app-home-features');
     setTimeout(() => {
       const el = document.getElementById('section-resto');
-      console.warn(el);
       el.scrollIntoView({behavior: 'smooth', block: 'end', inline: 'nearest'});
     }, 100);
 
+  }
+
+  onShowInstruction() {
+    /*const modalRef = this.infoModal.open(InfoModalComponent);
+    modalRef.componentInstance.title = 'Modalités pour participer au concours PS5';
+    modalRef.componentInstance.infoCompetition = true;*/
+   // this.goToRestaurantBy(73);
   }
 }

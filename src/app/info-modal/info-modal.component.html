@@ -3,7 +3,20 @@
     <h1>{{ title }}</h1>
   </div>
   <div class="modal-body">
-    <p style="font-size: large">{{ message }}</p>
+    <p *ngIf="message" style="font-size: large">{{ message }}</p>
+    <div *ngIf="infoCompetition">
+      <p>Pour participer au concours, il faut: </p>
+      <ul style="list-style: decimal">
+        <li class="pb-1">Passer une commande d'un montant minimum de 25€ en indiquant en commentaire de cette commande @votreInstagram</li>
+        <li class="pb-1">Aimer et partager notre publication en story en taguant 2 amis minimum</li>
+        <li class="pb-1">S'abonner à notre page instagram</li>
+      </ul>
+      <p style="font-size: x-small">Ps: Plus on commande, plus on a de chance de gagner (il faut nécessairement spécifier @votreInstagram à chacune des commandes).
+        <br>
+        Le tirage sera effectué en direct, le lundi 12 avril sur instagram à partir de 21h
+      </p>
+    </div>
+
   </div>
   <div class="modal-footer text-right">
     <button (click)="onValidate()" mat-raised-button color="primary">

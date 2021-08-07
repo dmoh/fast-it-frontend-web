@@ -1,0 +1,24 @@
+<section>
+    <div class="d-flex" style="justify-content: space-between">
+        <div>
+            <h1 class="text-center">Paiement</h1>
+        </div>
+        <div>
+            <button mat-raised-button (click)="onCancelPayment()">Retour</button>
+        </div>
+    </div>
+    <hr>
+    <div *ngIf="paymentMethodToken"></div>
+    <div *ngIf="error">
+        <div class="text-center text-danger">
+            {{ this.error }}
+        </div>
+        <button
+                mat-raised-button
+                (click)="onRetry()"
+                color="accent">
+            Réessayer
+        </button>
+    </div>
+    <div id="myPaymentFormSystemPay"></div>
+</section>

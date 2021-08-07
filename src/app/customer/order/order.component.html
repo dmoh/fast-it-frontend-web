@@ -1,14 +1,14 @@
 <div class="table-responsive">
   <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Id</th>
+    <thead class="">
+    <tr class="sticky-top">
+        <th>Num</th>
         <!--<th>Date</th>
         <th>Heure</th>-->
         <th>Prix</th>
+        <th class="">Status</th>
         <th>Voir commande</th>
         <th>Donner le code</th>
-        <th class="text-right">Status</th>
       </tr>
     </thead>
     <tbody *ngIf="customer">
@@ -17,6 +17,25 @@
         <!--<td>{{ order.date.date | date: 'dd/MM/yyyy' }}</td>
         <td>{{ order.date.date | date: 'hh:mm' }}</td>-->
         <td>{{ (+(order.amount)).toFixed(2) }}€</td>
+        <td class="text-left">
+          <div [ngSwitch]="order.status">
+            <span *ngSwitchCase="fastEatConst.status.WAITING_RESPONSE_BUSINESS" class="badge badge-warning">
+              Attente réponse Restaurant
+            </span>
+            <span *ngSwitchCase="fastEatConst.status.WAITING_TAKING_BY_DELIVER" class="badge badge-info">
+              Commande en préparation
+            </span>
+            <span *ngSwitchCase="fastEatConst.status.ORDER_ROUTING" class="badge badge-info">
+              Livreur en chemin
+            </span>
+            <span *ngSwitchCase="fastEatConst.status.ORDER_CLOSED_WITH_SUCCESS" class="badge badge-success">
+              Livré
+            </span>
+            <span *ngSwitchCase="fastEatConst.status.ORDER_REFUSED" class="badge badge-danger">
+              Refusé
+            </span>
+          </div>
+        </td>
         <td>
           <button mat-raised-button color="primary" (click)="onShowOrder(order)">
             <span *ngIf="!order.isClicked">Voir commande</span>
@@ -34,22 +53,6 @@
           <span class="material-icons text-danger" *ngIf="order.customer_code_agree != true">
             unpublished
           </span>
-        </td>
-        <td class="text-right">
-          <div [ngSwitch]="order.status">
-            <span *ngSwitchCase="fastEatConst.status.WAITING_RESPONSE_BUSINESS" class="badge badge-warning">
-              Attente réponse Restaurant
-            </span>
-            <span *ngSwitchCase="fastEatConst.status.WAITING_TAKING_BY_DELIVER" class="badge badge-info">
-              Commande en préparation
-            </span>
-            <span *ngSwitchCase="fastEatConst.status.ORDER_ROUTING" class="badge badge-info">
-              Livreur en chemin
-            </span>
-            <span *ngSwitchCase="fastEatConst.status.ORDER_CLOSED_WITH_SUCCESS" class="badge badge-success">
-              Livré
-            </span>
-          </div>
         </td>
       </tr>
     </tbody>

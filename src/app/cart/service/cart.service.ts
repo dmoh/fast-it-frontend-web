@@ -7,6 +7,7 @@ import {AuthenticationService} from '@app/_services/authentication.service';
 import {Router} from '@angular/router';
 import {environment} from '../../../environments/environment';
 import {isNumeric} from "tslint";
+import {RestaurantDashboardService} from "@app/restaurants/restaurant-dashboard/services/restaurant-dashboard.service";
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,11 @@ export class CartService {
   urlApi: string = environment.apiUrl + '/';
 
 
-  constructor(private http: HttpClient, private authenticate: AuthenticationService, private router: Router) {
+  constructor(private http: HttpClient,
+              private authenticate: AuthenticationService,
+              private router: Router,
+              private restaurantDashboardService: RestaurantDashboardService
+  ) {
     this.headers = new HttpHeaders({'Content-Type': 'application/json; charset=utf-8'});
     if (localStorage.getItem('cart_fast_eat')) {
       this.setCart(JSON.parse(localStorage.getItem('cart_fast_eat')));
@@ -51,7 +56,6 @@ export class CartService {
             return typeof prod !== 'undefined' && prod !== null ? prod : '';
           });
         }
-
         this.cartCurrent.products = [...this.cartCurrent.products, product];
         this.cartCurrent.restaurant = restaurant;
         this.generateTotalCart();
@@ -117,8 +121,27 @@ export class CartService {
         this.cartCurrent.total += +(prod.quantity * prod.amount) / 100;
         this.cartCurrent.totalAmountProduct += +(prod.quantity * prod.amount) / 100;
         this.cartCurrent.amountWithoutSpecialOffer += +(prod.quantity * prod.amount) / 100;
+        if(this.cartCurrent.promotionalCode
+            && this.cartCurrent.promotionalCode.percentage
+            && this.cartCurrent.promotionalCode.percentage > 0) {
+          this.cartCurrent.promotionalCode.totalAmountProduct = this.cartCurrent.totalAmountProduct;
+        }
       }
     });
+
+    if (this.cartCurrent.promotionalCode
+        && this.cartCurrent.promotionalCode.percentage
+        && this.cartCurrent.promotionalCode.percentage > 0
+    ){
+      this.cartCurrent.promotionalCode.totalAmountProductWithPromotion
+          = this.cartCurrent.promotionalCode.totalAmountProduct
+          - (this.cartCurrent.promotionalCode.percentage/100*this.cartCurrent.promotionalCode.totalAmountProduct)
+      ;
+      this.cartCurrent.total = this.cartCurrent.total - (this.cartCurrent.promotionalCode.percentage/100*this.cartCurrent.total);
+      this.cartCurrent.totalAmountProduct = this.cartCurrent.promotionalCode.totalAmountProductWithPromotion;
+      this.cartCurrent.amountWithoutSpecialOffer = this.cartCurrent.promotionalCode.totalAmountProductWithPromotion;
+    }
+
     if (typeof this.cartCurrent.restaurant.specialOffer !== 'undefined') {
       if (
         +(this.cartCurrent.restaurant.specialOffer.minimumAmountForOffer) <=
@@ -130,13 +153,16 @@ export class CartService {
     if (typeof this.cartCurrent.tipDelivererAmount !== 'undefined'
       && +this.cartCurrent.tipDelivererAmount > 0
     ) {
-      this.cartCurrent.total += +this.cartCurrent.tipDelivererAmount;
-      this.cartCurrent.amountWithoutSpecialOffer += +this.cartCurrent.tipDelivererAmount;
+      const tip = (this.cartCurrent.tipDelivererAmount).toFixed(2);
+      this.cartCurrent.total += parseFloat(tip);
+      this.cartCurrent.amountWithoutSpecialOffer += parseFloat(tip);
     }
     // this.cartCurrent.total += 0.80;
     // this.cartCurrent.amountWithoutSpecialOffer += 0.80;
     this.cartCurrent.total += +(this.cartCurrent.deliveryCost);
     this.cartCurrent.amountWithoutSpecialOffer += +(this.cartCurrent.deliveryCost);
+
+
     this.cartCurrent.stripeFee = (this.cartCurrent.total - (this.cartCurrent.total * 0.986)) + 0.35;
     const fee = (this.cartCurrent.stripeFee).toFixed(2);
     this.cartCurrent.total += parseFloat(fee);
@@ -144,7 +170,12 @@ export class CartService {
     this.emitCartSubject();
   }
 
-  getTokenPaymentIntent(amountCart: number, restId: number, delivery: number, stripe?: number, currencyCart: string = 'EUR'): Observable<any> {
+  getTokenPaymentIntent(
+    amountCart: number,
+    restId: number,
+    delivery: number,
+    stripe?: number,
+    currencyCart: string = 'EUR'): Observable<any> {
     return this.http.post<any>(`${this.urlApi}payment/token-payment`,
       {
         amount: amountCart,
@@ -153,6 +184,24 @@ export class CartService {
         deliveryCost: delivery,
         stripeFee: stripe
       }, this.headers);
+  }
+
+
+  getFormTokenPaymentSystemPay(
+      amountCart: number,
+      restId: number,
+      delivery: number,
+      stripe?: number,
+      currencyCart: string = 'EUR'): Observable<any> {
+
+    return this.http.post<any>(`${this.urlApi}payment/token-payment`,
+        {
+          amount: amountCart,
+          currency: currencyCart,
+          restaurantId: restId,
+          deliveryCost: delivery,
+          stripeFee: stripe
+        }, this.headers);
   }
 
 
@@ -193,5 +242,16 @@ export class CartService {
     this.cartCurrent.tipDelivererAmount = tipAmount;
     this.generateTotalCart();
     this.emitCartSubject();
+  }
+
+  setPromotionalCode(promotionalCode?: {id, applicatedTo, percentage}) {
+    this.cartCurrent.promotionalCode = promotionalCode;
+    this.generateTotalCart();
+  }
+
+
+  initCartPayment() {
+    this.cartCurrent.tipDelivererAmount = 0.0;
+    this.cartCurrent.promotionalCode = null;
   }
 }

@@ -8,3 +8,8 @@ export const status = {
 export const order = {
   SERVICE_CHARGE: 80
 };
+export const promotionApplicationTo = {
+    FAST_IT: 1,
+    BUSINESS: 2,
+    BOTH: 3
+}

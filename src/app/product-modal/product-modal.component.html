@@ -31,8 +31,9 @@
         <mat-selection-list (selectionChange)="onChangeSupplement($event)">
           <mat-list-option
             *ngFor="let sup of supplementProducts; let index = index "
+            [disabled]="!sup.isAvailable"
             [value]="sup">
-            {{sup.name | titlecase}} {{ sup.amount != null && +(sup.amount) > 0 ? (+(sup.amount) / 100).toFixed(2) + '€' : ''}}
+            {{sup.name | titlecase}} <em *ngIf="!sup.isAvailable" style="font-size: smaller; font-weight: 200">(indisponible)</em> {{ sup.amount != null && +(sup.amount) > 0 ? (+(sup.amount) / 100).toFixed(2) + '€' : ''}}
           </mat-list-option>
         </mat-selection-list>
       </mat-expansion-panel>
