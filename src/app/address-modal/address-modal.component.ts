@@ -15,7 +15,7 @@ export class AddressModalComponent implements OnInit {
   @Optional() nameCustomer: string;
   addressForm: FormGroup;
   place: any;
-  options;
+  options: {} = {};
   selectedAddress: any;
   addressByDefault: boolean;
   addressName: string = '';
@@ -45,10 +45,7 @@ export class AddressModalComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private modal: NgbActiveModal,
               private customerService: CustomerService
-  ) {
-
-
-  }
+  ) {}
 
   ngOnInit(): void {
     this.phoneCustomerCurrent = new FormControl(this.phoneCustomer, [
@@ -64,11 +61,12 @@ export class AddressModalComponent implements OnInit {
     if (!this.address) {
       this.isDefaultAddress = true;
       this.addressByDefault = false;
-      this.isDefaultAddress = true;
       this.addressForm = this.fb.group({
         name: ['', [Validators.required, Validators.minLength(5)]],
         address: ['', [Validators.required, Validators.minLength(2)]]
       });
+    } else {
+      this.addressByDefault = true;
     }
   }
   toggle() {
@@ -90,8 +88,13 @@ export class AddressModalComponent implements OnInit {
 
   handleAddressChange(event) {
     if (!!event.formatted_address) {
-      this.selectedAddress = event.formatted_address;
-      this.street = event.formatted_address;
+      const streetNumber = event?.address_components?.find(x => x.types.includes("street_number"));
+      const street = event?.address_components?.find(x => x.types.includes("route"));
+      this.street = (streetNumber && street ) ? streetNumber?.short_name + " " + street?.long_name : null;
+      const city = event?.address_components?.find(x => x.types.includes("locality"));
+      this.city = city?.long_name;
+      const zipcode = event?.address_components?.find(x => x.types.includes("postal_code"));
+      this.zipcode = zipcode?.long_name;
     }
   }
 

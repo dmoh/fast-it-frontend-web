@@ -1,5 +1,5 @@
 <nav style="
-    border-bottom: 1px solid #eec3f9;" class="navbar navbar-expand navbar-light bg-light">
+    border-bottom: 1px solid #eec3f9;" class="navbar navbar-expand navbar-light bg-light ">
   <div class="container">
     <!--<span style="
     cursor: pointer;
@@ -7,6 +7,9 @@
     margin-left: -.5rem;
     color: #c823f1;
     font-size: 1.5rem;" class="material-icons" (click)="back()">arrow_back</span>-->
+    <span *ngIf="showBackButton" style="font-size: inherit; padding-right: .4rem" appBackButton class="material-icons">
+      arrow_back_ios
+    </span>
     <button *ngIf="isMedia || showMenu" mat-icon-button color="white" (click)="onToggleSideNav()">
       <mat-icon style="color: #c823f1">menu</mat-icon>
     </button>
@@ -14,8 +17,8 @@
     <div class="collapse navbar-collapse">
       <ul class="navbar-nav ml-auto">
         <li >
-          <button style="text-align: right;padding-right: .5rem" mat-button [matMenuTriggerFor]="menu">
-            <div style="color: #c145e1;font-size: 1.2rem;padding-right: 0; padding-top: .2rem; cursor: pointer" class="material-icons">home</div>
+          <button style="text-align: center;" mat-button [matMenuTriggerFor]="menu">
+            <div style="color: #c145e1;font-size: 1.4rem;cursor: pointer;padding-top: .5rem;" class="material-icons">home</div>
           </button>
           <mat-menu #menu="matMenu">
             <button mat-menu-item>
@@ -33,14 +36,10 @@
             <button *ngIf="isSuper" mat-menu-item>
               <a style="text-decoration: none; color: #0a0a0a" routerLink="admin/commerce">Dashboard</a>
             </button>
+            <button *ngIf="user.token" mat-raised-button color="primary" (click)="onLogout()"></button>
           </mat-menu>
         </li>
         <li class="nav-item">
-          <div style="display: flex">
-            <a *ngIf="user.token" class="nav-link" title="Se déconnecter" (click)="onLogout()" style="color: white">
-              <div style="color: #c145e1; font-size: 1.2rem;padding-top: .2rem;padding-right: .5rem; cursor: pointer" class="material-icons">power_settings_new</div>
-            </a>
-          </div>
           <a *ngIf="!user.token" class="nav-link" routerLink="/login" style="color: white"><div style="color: #c146e1;font-size: x-large;padding-right: .4rem; cursor: pointer" class="material-icons">account_circle</div></a>
         </li>
         <li class="nav-item">

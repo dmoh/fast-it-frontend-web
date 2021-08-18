@@ -49,7 +49,14 @@ export class LoginComponent implements OnInit {
     });
     // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
+    this.loginForm.get('password').valueChanges.subscribe((val) => {
+      if (val && val.trim().length > 3) {
+        const valuePass = val + ' ';
+        this.loginForm.get('password').setValue(valuePass.trim());
+      }
+    });
   }
+
 
   toggle() {
     this.showPass = !this.showPass;

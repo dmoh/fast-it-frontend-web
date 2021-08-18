@@ -30,7 +30,6 @@ speed-measure-plugin*.json
 !.vscode/launch.json
 !.vscode/extensions.json
 .history/*
-/src/index.html
 # misc
 /.sass-cache
 /connect.lock
@@ -52,3 +51,4 @@ Thumbs.db
 appVersion.json
 /e2e/
 /oldVersion05082021
+/src/environments/environment.prod.ts

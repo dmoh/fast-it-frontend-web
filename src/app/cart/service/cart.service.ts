@@ -8,6 +8,7 @@ import {Router} from '@angular/router';
 import {environment} from '../../../environments/environment';
 import {isNumeric} from "tslint";
 import {RestaurantDashboardService} from "@app/restaurants/restaurant-dashboard/services/restaurant-dashboard.service";
+import {CartDetailComponent} from "@app/cart/cart-detail/cart-detail.component";
 
 @Injectable({
   providedIn: 'root'
@@ -162,12 +163,29 @@ export class CartService {
     this.cartCurrent.total += +(this.cartCurrent.deliveryCost);
     this.cartCurrent.amountWithoutSpecialOffer += +(this.cartCurrent.deliveryCost);
 
-
-    this.cartCurrent.stripeFee = (this.cartCurrent.total - (this.cartCurrent.total * 0.986)) + 0.35;
-    const fee = (this.cartCurrent.stripeFee).toFixed(2);
-    this.cartCurrent.total += parseFloat(fee);
-    this.cartCurrent.amountWithoutSpecialOffer += parseFloat(fee);
+    if (isCheckout) {
+      this.cartCurrent.stripeFee = (this.cartCurrent.total - (this.cartCurrent.total * 0.986)) + 2.85 ;
+      const fee = (this.cartCurrent.stripeFee).toFixed(2);
+      this.cartCurrent.total += parseFloat(fee);
+      this.cartCurrent.amountWithoutSpecialOffer += parseFloat(fee);
+    }
+    this.cartCurrent.total = +this.cartCurrent.total.toFixed(2);
     this.emitCartSubject();
+  }
+
+  getFloatTotalAmount(): number {
+    this.generateTotalCart(true);
+    console.warn('totalFloat', this.cartCurrent.total);
+    return this.cartCurrent.total;
+  }
+
+  getIntTotalAmount() {
+    this.generateTotalCart(true);
+    if (this.cartCurrent.total && this.cartCurrent.total > 0) {
+      const amount = this.cartCurrent.total.toFixed(2);
+      return (+amount * 100);
+    }
+    return 0;
   }
 
   getTokenPaymentIntent(
@@ -240,13 +258,13 @@ export class CartService {
 
   setTipDelivererAmount(tipAmount: number) {
     this.cartCurrent.tipDelivererAmount = tipAmount;
-    this.generateTotalCart();
+    this.generateTotalCart(true);
     this.emitCartSubject();
   }
 
   setPromotionalCode(promotionalCode?: {id, applicatedTo, percentage}) {
     this.cartCurrent.promotionalCode = promotionalCode;
-    this.generateTotalCart();
+    this.generateTotalCart(true);
   }
 
 

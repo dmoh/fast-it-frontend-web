@@ -39,6 +39,7 @@ import { LocationComponent } from './location/location.component';
 import { ShimmerViewComponent } from './shimmer-view/shimmer-view.component';
 import { PaymentModalComponent } from './payment-modal/payment-modal.component';
 import { SystempayDialogComponent } from './systempay-dialog/systempay-dialog.component';
+import {PullToRefreshModule} from '@piumaz/pull-to-refresh';
 
 
 @NgModule({
@@ -79,7 +80,8 @@ import { SystempayDialogComponent } from './systempay-dialog/systempay-dialog.co
     CustomerModule,
     DeliveryModule,
     AdminModule,
-    MatCarouselModule.forRoot()
+    MatCarouselModule.forRoot(),
+    PullToRefreshModule
   ],
   providers: [
     CityDataService,

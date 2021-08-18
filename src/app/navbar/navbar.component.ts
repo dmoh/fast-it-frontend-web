@@ -26,6 +26,7 @@ export class NavbarComponent implements OnInit {
   isSuper: boolean;
   showMenu: boolean;
   modeSide: string;
+  showBackButton: boolean;
   alertMessage: string;
   classAlertMessage: string;
   constructor(
@@ -40,7 +41,11 @@ export class NavbarComponent implements OnInit {
     private route: ActivatedRoute,
     private infoModal: NgbModal,
     private location: Location
-  ) { }
+  ) {
+    this.router.events.subscribe((data) => {
+      this.showBackButton = !/(^\/home$)|(^\/$)/i.test(this.location.path());
+    })
+  }
 
 
   ngOnInit(): void {

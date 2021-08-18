@@ -26,7 +26,7 @@ export class UpdatePromotionModalComponent implements OnInit {
   @Input() codesAlreadyExist: any[] = [];
   restaurantsSelected = new FormControl();
   clientsSelected = new FormControl();
-    errorAlreadyExist: {ok, message} = {ok: false, message: 'Ce code existe déjà'};
+  errorAlreadyExist: {ok, message} = {ok: false, message: 'Ce code existe déjà'};
   constructor(
       private fb: FormBuilder,
       private adminService: AdminService,

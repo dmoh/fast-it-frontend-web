@@ -17,4 +17,5 @@ export class Cart {
     comment: string = '';
     promotionalCode?;
     hasShownTipModal?: boolean = false;
+    sectorId?: number;
 }

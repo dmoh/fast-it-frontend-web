@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {UserService} from '@app/_services/user.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-password',
@@ -14,7 +15,8 @@ export class PasswordComponent implements OnInit {
   info: string;
   constructor(
     private userService: UserService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private router: Router
   ) {
     this.submitted = false;
   }
@@ -35,10 +37,15 @@ export class PasswordComponent implements OnInit {
     this.userService.passwordForgot(JSON.stringify(this.loginForm.value))
       .subscribe((res) => {
         if (res.ok) {
-          this.info = 'Votre mot de passe a bien été modifié';
+          this.info = 'Votre mot de passe a bien été modifié et envoyé dans votre boite mail.';
         } else if (res.error) {
+          this.info = null;
           this.error = res.error;
         }
       });
+  }
+
+  onGotoLogin() {
+    this.router.navigate(['/login']);
   }
 }

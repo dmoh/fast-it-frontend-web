@@ -11,6 +11,7 @@ import {User} from '@app/_models/user';
 import { MediaQueryService } from '@app/_services/media-query.service';
 import { MatSidenav } from '@angular/material/sidenav';
 import { SidenavService } from '@app/sidenav-responsive/sidenav.service';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-customer',
@@ -36,6 +37,7 @@ export class CustomerComponent implements OnInit, AfterViewInit {
     private bottomSheet: MatBottomSheet,
     private mediaQueryService: MediaQueryService,
     private sidenavService: SidenavService,
+    private router: Router
   ) { }
 
   @Output() sidenavChange = new EventEmitter<MatSidenav>();
@@ -80,5 +82,7 @@ export class CustomerComponent implements OnInit, AfterViewInit {
   }
 
 
-
+  onGoToProfil() {
+    this.router.navigate(['/customer/profil']);
+  }
 }

@@ -22,7 +22,7 @@
         <img style="cursor: pointer; box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.46); border: 1px solid #fff;" (click)="onShowInstruction()" height="230px" width="460px" src="https://mediafastitprod.s3.eu-west-3.amazonaws.com/concours_ps5.jpg" alt="concours ps5">
         <img style="cursor: pointer; box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.46); border: 1px solid #fff;" (click)="onShowInstruction()" height="230px" width="460px" src="assets/TheChill_coffee_v1.jpg" alt="concours ps5">
 -->
-        <img style="cursor: pointer; box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.46); border: 1px solid #fff;" (click)="onShowInstruction()" height="230px" width="460px" src="https://mediafastitprod.s3.eu-west-3.amazonaws.com/image+1-2.png" alt="concours ps5">
+        <img style="cursor: pointer; box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.46); border: 1px solid #fff;" (click)="onShowInstruction()" class="img-header-top" src="https://mediafastitprod.s3.eu-west-3.amazonaws.com/image+1-2.png" alt="concours ps5">
       </div>
     </div>
   </div>
@@ -384,7 +384,7 @@
     <div class="g8"></div>
   </div>
 </div>
-<app-home-features id="app-home-features"></app-home-features>
+<app-home-features [renewYourPart]="eventsSubject.asObservable()" id="app-home-features"></app-home-features>
 <app-footer></app-footer>
 
 

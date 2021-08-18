@@ -9,28 +9,28 @@
         </div>
         <div style="width: 100%; display: flex; flex-direction: column;justify-content: center" class="nav">
           <div class="wrapper-link-sidebar">
-            <a routerLink="/customer">
+            <a routerLink="/customer" (click)="sidenav.close()">
               <div>
                 Vue globale
               </div>
             </a>
           </div>
           <div class="wrapper-link-sidebar">
-            <a routerLink="/customer/order">
+            <a routerLink="/customer/order" (click)="sidenav.close()">
               <div>
                 Mes commandes
               </div>
             </a>
           </div>
           <div class="wrapper-link-sidebar">
-            <a routerLink="/customer/profil">
+            <a routerLink="/customer/profil" (click)="sidenav.close()">
               <div>
                 Mon profil
               </div>
             </a>
           </div>
           <div class="wrapper-link-sidebar">
-            <a routerLink="/customer/notification">
+            <a routerLink="/customer/notification" (click)="sidenav.close()">
               <div>
                 Notifications
               </div>
@@ -64,7 +64,7 @@
   </mat-sidenav>
   <mat-sidenav-content>
     <div id="main-content-customer">
-      <section style="margin-top: 1rem" class="container-fluid">
+      <section class="container-fluid">
         <div class="row">
           <div class="col-md-12">
             <h3 *ngIf="customer" class="">{{ customer.firstname | titlecase }}</h3>
@@ -79,7 +79,7 @@
               >
               notifications</span>
               </button>
-              <span class="float-right mr-3 material-icons">person</span>
+              <span (click)="onGoToProfil()" class="float-right mr-3 material-icons">person</span>
             </h3>
           </div>
         </div>

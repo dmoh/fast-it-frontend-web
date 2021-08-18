@@ -51,11 +51,13 @@ export class RestaurantDetailsComponent implements OnInit, AfterViewInit{
               private el: ElementRef,
               private securityRestaurantService: SecurityRestaurantService
               ) {
+    document.addEventListener('pull-to-refresh', () => {
+      this.ngOnInit();
+    });
 
   }
 
   ngOnInit(): void {
-
     this.starsRestaurant = [1, 3, 4, 5, 4];
     this.route.params.subscribe((params => {
       this.restaurantId = +params.id;
@@ -162,7 +164,8 @@ export class RestaurantDetailsComponent implements OnInit, AfterViewInit{
         modalInfo.componentInstance.message = 'Il est impossible de commander dans deux restaurants pour une seule livraison';
     } else {
       if (product.is_available === true || product.is_available === null) {
-        const modal = this.modal.open(ProductModalComponent);
+        const modal = this.modal.open(ProductModalComponent, {
+        });
         modal.componentInstance.product = product;
         if (this.specialOffer) {
           modal.componentInstance.specialOffer = this.specialOffer;

@@ -46,6 +46,7 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { ShimmerModule } from '@sreyaj/ng-shimmer';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {FocusRemoverDirective} from "@app/_directives/focus-remover.directive";
+import { BackButtonDirective } from '@app/_directives/back-button.directive';
 
 
 @NgModule({
@@ -58,7 +59,9 @@ import {FocusRemoverDirective} from "@app/_directives/focus-remover.directive";
     ToastComponent,
     HeaderSpecificComponent,
     TipModalComponent,
-    FocusRemoverDirective
+    FocusRemoverDirective,
+    BackButtonDirective,
+
   ],
     imports: [
         CommonModule,
@@ -96,7 +99,7 @@ import {FocusRemoverDirective} from "@app/_directives/focus-remover.directive";
         MatSidenavModule,
         MatSortModule,
         ShimmerModule,
-        MatDatepickerModule
+        MatDatepickerModule,
     ],
     exports: [
         CommonModule,
@@ -140,7 +143,8 @@ import {FocusRemoverDirective} from "@app/_directives/focus-remover.directive";
         TipModalComponent,
         ShimmerModule,
         MatDatepickerModule,
-        FocusRemoverDirective
+        FocusRemoverDirective,
+        BackButtonDirective
     ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [

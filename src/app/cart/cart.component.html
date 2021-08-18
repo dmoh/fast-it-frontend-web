@@ -73,9 +73,9 @@
           </div>
           <div *ngIf="cart.products.length > 0">
             <div style="width: 100%; display: flex; justify-content: space-between">
-              <div style="font-size: smaller; color: #9f9f9f;">Frais de service</div>
-              <div style="font-size: smaller; color: #9f9f9f;">{{ cart.stripeFee.toFixed(2) }}€</div>
-              <!--<div style="font-size: smaller; color: #9f9f9f;">0.80€</div>-->
+                <!--<div style="font-size: smaller; color: #9f9f9f;">Frais de service</div>
+                <div style="font-size: smaller; color: #9f9f9f;">{{ cart.stripeFee.toFixed(2) }}€</div>
+                <div style="font-size: smaller; color: #9f9f9f;">0.80€</div>-->
             </div>
           </div>
             <div style="color: #27b666; font-weight: bold" class="mt-2">TOTAL {{ cart.total ? (cart.total).toFixed(2) : '' }}€</div>

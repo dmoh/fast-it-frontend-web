@@ -49,10 +49,11 @@ export class UserService {
   }
 
 
-  checkPromotionalCode({promotinalCode, restaurantId}): Observable<any> {
+  checkPromotionalCode({promotinalCode, restaurantId, sectorId}): Observable<any> {
     return this.http.post<any>(`${this.urlApi}/user/check/code`,{
       code: promotinalCode,
-      businessId: restaurantId
+      businessId: restaurantId,
+      sectorId: sectorId
     }, this.headers);
   }
 }

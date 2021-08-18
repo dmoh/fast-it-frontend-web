@@ -97,7 +97,7 @@
                  matInput
                  [disabled]="true"
                  [value]="addressChose.name | titlecase"
-                 style="color: #118d48;font-weight: 500;"
+                 style="color: #0a793b;font-weight: 500;"
           >
           <mat-icon style="color: #27b666" matSuffix>verified</mat-icon>
         </mat-form-field>
@@ -107,7 +107,7 @@
                  matInput
                  [disabled]="true"
                  [value]="addressChose.street"
-                 style="color: #118d48;font-weight: 500;"
+                 style="color: #0a793b;font-weight: 500;"
           >
           <mat-icon style="color: #27b666" matSuffix>verified</mat-icon>
         </mat-form-field>
@@ -117,7 +117,7 @@
                  matInput
                  [disabled]="true"
                  [value]="addressChose.city | titlecase"
-                 style="color: #118d48;font-weight: 500;"
+                 style="color: #0a793b;font-weight: 500;"
           >
           <mat-icon style="color: #27b666" matSuffix>verified</mat-icon>
         </mat-form-field>
@@ -127,7 +127,7 @@
                  matInput
                  [disabled]="true"
                  [value]="addressChose.zipcode"
-                 style="color: #118d48;font-weight: 500;"
+                 style="color: #0a793b;font-weight: 500;"
           >
           <mat-icon style="color: #27b666" matSuffix>verified</mat-icon>
         </mat-form-field>
@@ -138,7 +138,7 @@
                  [disabled]="true"
                  [value]="addressChose.phone"
                  style="
-                 color: #118d48;
+                 color: #0a793b;
                  font-size: x-large"
           >
           <mat-icon style="color: #27b666" matSuffix>verified</mat-icon>
@@ -152,18 +152,16 @@
     <div class="col-md-6">
     </div>
     <div class="col-md-6">
-      <mat-form-field class="w-100" appearance="outline">
-        <mat-label>Commentaire (facultatif)</mat-label>
-        <textarea
-          [(ngModel)]="cartCurrent.comment"
-          matInput>
-        </textarea>
-      </mat-form-field>
+      <label>Commentaire (facultatif)</label>
+      <textarea
+        [(ngModel)]="cartCurrent.comment"
+        class="form-control">
+      </textarea>
     </div>
   </div>
   <div class="row">
     <div class="col-md-6"></div>
-    <!--<div class="col-md-6 pt-1 pb-2">
+    <div class="col-md-6 pt-1 pb-2">
         <label>Code promotionnel (facultatif)</label>
         <input
                 [formControl]="promotionalCode"
@@ -206,7 +204,7 @@
                   color="accent"
                   class="mt-2 text-right"
           >Vérifier</button>
-    </div>-->
+    </div>
   </div>
   <div *ngIf="promotionalCodeIsValid" class="row">
     <div class="col-md-6">
@@ -230,7 +228,7 @@
   <div  class="row">
     <div class="col-md-6">
     </div>
-    <div style="display: flex;padding: .8rem;" class="col-md-6">
+    <div style="display: flex;padding: .8rem; padding-bottom: 0" class="col-md-6">
       <div style="flex: 1">
         <span style=""><strong>Sous-total</strong></span>
       </div>
@@ -248,53 +246,11 @@
       </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-md-6">
-    </div>
-    <div style="display: flex" class="col-md-6">
-      <div style="flex: 1">
-        Distance
-        <p style="font-size: x-small"><em>(depuis votre position jusqu'au commerce)</em></p>
-      </div>
-      <div>
-        <div *ngIf="!responseDistanceGoogle">
-          <div style="font-size: small">
-            <mat-spinner diameter="20"></mat-spinner>
-          </div>
-        </div>
-        <div *ngIf="responseDistanceGoogle && responseDistanceGoogle.distance">
-          {{ distanceText }}
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6">
-    </div>
-    <div style="display: flex" class="col-md-6">
-      <div style="flex: 1">
-        Frais de livraison
-        <p style="font-size: x-small"><em>(entièrement reversé au livreur)</em></p>
-      </div>
-      <div>
-        <div *ngIf="showLoaderCost == true">
-          <div style="font-size: small">
-            <mat-spinner diameter="20"></mat-spinner>
-          </div>
-        </div>
-        <div *ngIf="cartCurrent.deliveryCost && !showLoaderCost">
-          {{ cartCurrent.deliveryCost.toFixed(2) }} €
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6">
-    </div>
+  <div class="row" style="margin-bottom: 0">
     <hr>
     <div style="display: flex" class="col-md-6">
-      <div style="flex: 1">Frais de service</div>
-      <div *ngIf="cartCurrent.stripeFee"> {{ cartCurrent.stripeFee.toFixed(2) }}€</div>
+      <div style="flex: 1;align-self: center;">Frais de service</div>
+      <div style="align-self: center;" *ngIf="cartCurrent.stripeFee"> {{ cartCurrent.stripeFee.toFixed(2) }}€</div>
     </div>
   </div>
   <div *ngIf="cartCurrent.tipDelivererAmount" class="row">
@@ -332,6 +288,45 @@
   <div class="row">
     <div class="col-md-6">
     </div>
+    <div style="display: flex;align-items: center" class="col-md-6">
+      <div style="flex: 1">
+        Distance
+        <p style="font-size: x-small; margin-bottom: 0"><em>(depuis votre position jusqu'au commerce)</em></p>
+      </div>
+      <div>
+        <div style="align-self: center" *ngIf="!responseDistanceGoogle">
+          <div style="font-size: small">
+            <mat-spinner diameter="20"></mat-spinner>
+          </div>
+        </div>
+        <div style="align-self: center; font-size: medium" *ngIf="responseDistanceGoogle && responseDistanceGoogle.distance">
+          {{ distanceText }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" style="margin-bottom: 0; margin-top: 1.2rem">
+    <div class="col-md-6">
+    </div>
+    <div style="display: flex" class="col-md-6">
+      <div style="flex: 1; font-weight: bold">
+        Frais de livraison
+        <p style="font-size: x-small; font-weight: lighter; margin-bottom: 0"><em>(entièrement reversé au livreur)</em></p>
+      </div>
+      <div>
+        <div *ngIf="showLoaderCost == true">
+          <div style="font-size: small">
+            <mat-spinner diameter="20"></mat-spinner>
+          </div>
+        </div>
+        <div style="font-weight: bold; font-size: large" *ngIf="cartCurrent.deliveryCost && !showLoaderCost">
+          {{ cartCurrent.deliveryCost.toFixed(2) }} €
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr style="margin-top: 0; padding-top: 0">
+  <div class="row" style="align-items: center">
     <hr>
     <div style="display: flex" class="col-md-6">
       <div style="flex: 1; font-weight: bold; font-size: x-large">TOTAL</div>
@@ -343,6 +338,7 @@
         cartCurrent.restaurant.specialOffer
         && +(cartCurrent.restaurant.specialOffer.minimumAmountForOffer)
         <= +(cartCurrent.totalAmountProduct)
+        && cartCurrent.deliveryCost
       ">
           {{ (cartCurrent.amountWithoutSpecialOffer.toFixed(2)).replace('.', ',') }} €
         </span>
@@ -361,15 +357,11 @@
     </div>
   </div>
   <div class="row">
-      <div style="display: flex; justify-content: center" class="col-md-12">
-
-      </div>
+    <div style="display: flex; justify-content: center" class="col-md-12">
+    </div>
     <div style="display: flex;margin-top: -.5rem;" class="col-md-12">
-
     </div>
   </div>
-
-
   <div class="row mb-5">
     <div class="col-md-6">
     </div>

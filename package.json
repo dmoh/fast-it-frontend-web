@@ -28,6 +28,7 @@
     "@lyracom/embedded-form-glue": "^0.3.3",
     "@ng-bootstrap/ng-bootstrap": "^6.1.0",
     "@ngbmodule/material-carousel": "^0.7.1",
+    "@piumaz/pull-to-refresh": "^2.1.0",
     "@sreyaj/ng-shimmer": "^1.0.0",
     "agm-direction": "^0.8.6",
     "bootstrap": "^4.4.0",

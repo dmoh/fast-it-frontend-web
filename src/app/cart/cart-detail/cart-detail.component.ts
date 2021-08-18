@@ -177,7 +177,10 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
       return;
     }
     if (valuePromotion && valuePromotion.trim().length > 7 && valuePromotion.trim().length < 16) {
-      const subscribePromo = this.userService.checkPromotionalCode({promotinalCode: valuePromotion.trim(), restaurantId: this.cartCurrent.restaurant.id})
+      const subscribePromo = this.userService.checkPromotionalCode(
+          {promotinalCode: valuePromotion.trim(),
+            restaurantId: this.cartCurrent.restaurant.id,
+            sectorId: this.cartCurrent.sectorId && +this.cartCurrent.sectorId > 0 ? this.cartCurrent.sectorId : null})
           .pipe(
               shareReplay()
           )
@@ -269,21 +272,23 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
     /*if (this.cartCurrent.hasShownTipModal){
       this.openDialog();
     } else {*/
+
       const tipModalRef = this.infoModal.open(TipModalComponent, {
         backdrop: 'static',
         keyboard: false
       });
       tipModalRef.result.then(() => {
         event.preventDefault();
+        console.warn('cart', this.cartCurrent);
         this.cartCurrent.hasShownTipModal = true;
         this.showLoader = true;
         this.paymentValidation = true;
-        this.amountTotal = CartDetailComponent.up(this.cartCurrent.total, 2);
+        /*this.amountTotal = CartDetailComponent.up(this.cartCurrent.total, 2);
         this.amountTotal = +this.amountTotal * 100;
         if (/(,|.)/.test(this.amountTotal.toString().trim())) {
           this.amountTotal = Math.round(this.amountTotal);
         }
-        /*this.openDialog();
+        this.openDialog();
         this.restaurantDashboardService
             .initSystemPay(
                this.amountTotal
@@ -297,7 +302,7 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
             });*/
         //return;
         this.cartService.getTokenPaymentIntent(
-            +(this.cartCurrent.total) * 100,
+            this.cartService.getIntTotalAmount(),
             this.cartCurrent.restaurant.id,
             this.cartCurrent.deliveryCost,
             this.cartCurrent.stripeFee

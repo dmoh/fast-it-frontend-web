@@ -7,6 +7,7 @@ import {LocationModalComponent} from '@app/location-modal/location-modal.compone
 import {AdminService} from '@app/admin/admin.service';
 import {CategoryBusiness} from '@app/_models/category-business';
 import {CategoryRestaurantService} from '@app/_services/category-restaurant.service';
+import {BehaviorSubject} from "rxjs";
 
 
 @Component({
@@ -23,6 +24,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   maintainAspectRatio: boolean = false;
   showingLeftPart: boolean = true;
   @Input() closeModal;
+  @Output() reloadChild = new EventEmitter<boolean>();
   slides: any[] = [
     /*{
       image: 'https://mediafastitprod.s3.eu-west-3.amazonaws.com/concours_ps5.jpg'
@@ -46,6 +48,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   restaurantsRight: any[];
   restaurantsRightNewest: any[];
   categories: any[];
+  reloadPart: boolean;
+  eventsSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
   constructor(
               private cityData: CityDataService,
               private restaurantService: RestaurantDashboardService,
@@ -57,6 +62,11 @@ export class HomeComponent implements OnInit, OnDestroy {
               private route: ActivatedRoute,
               private infoModal: NgbModal
               ) {
+    document.addEventListener('pull-to-refresh', () => {
+      this.reloadPart = true
+      this.ngOnInit();
+      this.eventsSubject.next(true);
+    });
     this.router.events.subscribe((event) => {
       setTimeout(() => {
         this.route.queryParams.subscribe((params) => {
@@ -71,6 +81,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     });
   }
 
+  emitEventToChild() {
+    this.eventsSubject.next(true);
+  }
 
   ngOnInit(): void {
     const wWidth = window.innerWidth;
@@ -104,6 +117,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         });
     }
   }
+
 
 
   private getOffersByZipCode() {
