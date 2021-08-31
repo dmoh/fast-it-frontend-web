@@ -15,11 +15,12 @@
                     <td>Appliqué à</td>
                     <td>Date début</td>
                     <td>Date de fin</td>
+                    <td>Modifier/Supprimer</td>
                     <td>Utilisé pour</td>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let promotion of promotions" style="cursor: pointer" (click)="onUpdatePromotion(promotions, promotion)">
+                <tr *ngFor="let promotion of promotions" style="cursor: pointer" >
                     <td>{{ promotion.id }}</td>
                     <td>{{ promotion.code }}</td>
                     <td>{{ promotion.percentage }}%</td>
@@ -41,6 +42,27 @@
                     </td>
                     <td>
                         {{ promotion.dateEnd.date | date: "dd/MM/yyyy"}}
+                    </td>
+                    <td>
+                        <button
+                                mat-raised-button
+                                color="primary"
+                                class="mr-2"
+                                (click)="onUpdatePromotion(promotions, promotion)"
+                        >
+                            <span class="material-icons">
+                                mode_edit
+                            </span>
+                        </button>
+                        <button
+                            mat-raised-button
+                            color="warn"
+                            (click)="onArchivePromotion(promotion.id)"
+                        >
+                            <span class="material-icons">
+                                delete
+                            </span>
+                        </button>
                     </td>
                     <td>
                         <div *ngIf="promotion.restaurants && promotion.restaurants.length > 0">
@@ -68,7 +90,7 @@
 
                         <div *ngIf="promotion.clients && promotion.clients.length > 0">
                             <div>
-                                Secteur(s)
+                                Client(s)
                                 <ul>
                                     <li *ngFor="let client of promotion.clients">
                                         {{ client.email }}

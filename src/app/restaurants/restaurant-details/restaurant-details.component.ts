@@ -52,6 +52,8 @@ export class RestaurantDetailsComponent implements OnInit, AfterViewInit{
               private securityRestaurantService: SecurityRestaurantService
               ) {
     document.addEventListener('pull-to-refresh', () => {
+      this.products = [];
+      this.categories = [];
       this.ngOnInit();
     });
 

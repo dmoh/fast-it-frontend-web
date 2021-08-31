@@ -15,30 +15,47 @@ export class SystempayDialogComponent implements OnInit {
     endpoint = 'https://api.systempay.fr';
     paymentMethodToken: string;
     error: any;
+    paymentSuccessful: boolean = false;
+    submitted: boolean = false;
+    pan: string;
+    dataPayment: {}|false;
+    showButtonCard: boolean = false;
+    showCancelButton: boolean = true;
 
     constructor(
         private restaurantDashboardService: RestaurantDashboardService,
         public dialogRef: MatDialogRef<SystempayDialogComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: { total, paymentMethodToken },
+        @Inject(MAT_DIALOG_DATA) public data: { total, paymentMethodToken, pan },
     ) {
     }
 
     ngOnInit(): void {
         if (this.data.paymentMethodToken) {
-            this.paymentMethodToken = this.data.paymentMethodToken;
+           this.paymentMethodToken = this.data.paymentMethodToken;
+           this.showButtonCard = true;
+           this.pan = this.data.pan;
+        } else {
+            this.getFormToken();
         }
-        this.getFormToken();
     }
 
 
-    private getFormToken() {
+    private getFormToken(useDefaultCard?: boolean) {
+        this.paymentMethodToken = null;
+        let _this = this;
+        if (useDefaultCard) {
+            if (this.data.paymentMethodToken) {
+                this.paymentMethodToken = this.data.paymentMethodToken;
+            }
+        }
         this.restaurantDashboardService
-            .initSystemPay(this.data.total, this.paymentMethodToken ? this.paymentMethodToken : null)
+            .initSystemPay(this.data.total, this.paymentMethodToken)
             .subscribe((res) => {
                     if (res.error || res.formToken === null) {
                         this.error = res.error;
                         return;
                     }
+                    const dialog = this.dialogRef;
                     KRGlue.loadLibrary(this.endpoint, this.publicKey) /* Load the remote library */
                         .then(({KR}) =>
                             KR.setFormConfig({
@@ -48,32 +65,42 @@ export class SystempayDialogComponent implements OnInit {
                         )
                         .then(({KR}) =>
                             KR.addForm("#myPaymentFormSystemPay")
-                        ) /* add a payment form  to myPaymentForm div*/
-                        .then(({KR, result}) =>
-                            KR.showForm(result.formId)
-                                .then(({KR, res}) => {
-                                    KR.onSubmit(this.onPaid(res));
-                                }
-                            )
                         )
+                        .then(({KR, result}) => {
+                            KR.showForm(result.formId);
+
+                            KR.onSubmit(onPaid)
+                                .then(() => {
+                                    this.showCancelButton = false;
+                                    setTimeout(() => {},0);
+                                });
+
+                            function onPaid(event) {
+                                setTimeout(() => {},0);
+                                if (event.clientAnswer.orderStatus === "PAID") {
+                                    // Remove the payment form
+                                    dialog.close({
+                                        dataPayment: event.clientAnswer
+                                    });
+                                    KR.removeForms();
+                                    // return event.clientAnswer;
+                                } else {
+                                    // Show error message to the user
+                                    document.getElementById("paymentFailed").style.display = "block";
+                                    document.getElementById("paymentSuccessful").style.display = "none";
+                                    document.getElementById("cancel-button").style.display = "none";
+                                    //return false;
+                                }
+
+                            }
+                        })
                     ; /* show the payment form */
                 }
             );
 
     }
 
-    onPaid(event) {
-        console.warn('event submission pay', event);
-        if (event.clientAnswer.orderStatus === "PAID") {
-            // Remove the payment form
 
-            // Show success message
-            document.getElementById("paymentSuccessful").style.display = "block";
-        } else {
-            // Show error message to the user
-            alert("Payment failed !");
-        }
-    }
 
     onCancelPayment() {
         this.dialogRef.close('cancel');
@@ -82,5 +109,20 @@ export class SystempayDialogComponent implements OnInit {
     onRetry() {
         this.error = null;
         this.getFormToken();
+    }
+
+    onUseDefaultCard(response: string) {
+        this.showButtonCard = false;
+        if (response === 'ok') {
+            this.getFormToken(true);
+        } else {
+            this.getFormToken();
+        }
+    }
+
+    onPaymentSuccess(dataPayment: {}) {
+        this.dialogRef.close({
+            dataPayment: dataPayment
+        });
     }
 }

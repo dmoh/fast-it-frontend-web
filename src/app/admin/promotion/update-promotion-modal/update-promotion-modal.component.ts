@@ -70,7 +70,6 @@ export class UpdatePromotionModalComponent implements OnInit {
   }
 
   get f() {
-    console.warn('fsds', this.promotionForm.controls);
     return this.promotionForm.controls;
   }
   onSubmit() {
@@ -80,6 +79,8 @@ export class UpdatePromotionModalComponent implements OnInit {
         this.promotion.sectors = this.sectors.value;
         this.promotion.restaurants = this.restaurantsSelected.value;
         this.promotion.clients = this.clientsSelected.value;
+        this.promotion.dateBegin = this.promotionForm.value.dateBegin.toLocaleDateString();
+        this.promotion.dateEnd = this.promotionForm.value.dateEnd.toLocaleDateString();
         this.adminService
             .updatePromotion(this.promotion)
             .subscribe((response) => {

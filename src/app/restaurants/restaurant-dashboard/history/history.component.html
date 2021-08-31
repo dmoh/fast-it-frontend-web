@@ -66,8 +66,9 @@
       </div>
       <div *ngIf="response" style="padding: 1rem; display: flex; justify-content: space-between">
         <div>
-          <h4 style="font-size: large; font-weight: 200">Total Part Commerce: <b>{{response.amount}}</b> </h4>
-          <h4 style="font-size: large; font-weight: 200">Total montant commande: <b>{{response.total_amount}}</b> </h4>
+          <h4 style="font-size: large; font-weight: 200">Total Part Commerce: <b>{{response.amount.toFixed(2)}}€</b> </h4>
+          <h4 style="font-size: large; font-weight: 200">Total Part Fast-it: <b>{{response.total_amount_margin_fastit.toFixed(2)}}€</b> </h4>
+          <h4 style="font-size: large; font-weight: 200">Total montant commande: <b>{{response.total_amount.toFixed(2)}}€</b> </h4>
           <h4 style="font-size: large; font-weight: 200">Nombre de commande: <b>{{response.delivery_count}}</b> </h4>
         </div>
       </div>

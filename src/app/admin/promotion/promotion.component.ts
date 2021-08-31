@@ -38,6 +38,18 @@ export class PromotionComponent implements OnInit {
     this.openModalPromotion(promotions, promotion);
   }
 
+  onArchivePromotion(promotionId: number) {
+    if (confirm('Souhaitez-vous réellement supprimé cette promotion ?')) {
+      this.adminService
+          .archivePromotion(promotionId)
+          .subscribe((res) => {
+            if (res.ok){
+              this.getPromotions();
+            }
+        });
+    }
+  }
+
   openModalPromotion(promotions, promotion?) {
     if (!promotion) {
       promotion = new Promotion();

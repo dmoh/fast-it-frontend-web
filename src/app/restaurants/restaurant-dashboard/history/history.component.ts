@@ -34,7 +34,6 @@ export class HistoryComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.securityRestaurantService.getRestaurant()
       .subscribe((res) => {
-        console.warn(res.id);
         this.restaurantId = res.id;
         this.onExtractPeriod();
       });

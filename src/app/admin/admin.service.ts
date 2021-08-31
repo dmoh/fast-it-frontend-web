@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {environment} from '../../environments/environment';
+import {environment} from '@environments/environment';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {AuthenticationService} from '@app/_services/authentication.service';
 import {Router} from '@angular/router';
@@ -195,6 +195,11 @@ export class AdminService {
         this.headers);
   }
 
+
+  archivePromotion(promotionId: number): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}/promotion/archive/${promotionId}`,
+        this.headers);
+  }
 
   updatePromotion(promotion: Promotion): Observable<any> {
     return this.http.post<any>(`${this.urlApi}/promotion/update`,

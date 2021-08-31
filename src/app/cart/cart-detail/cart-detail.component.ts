@@ -12,7 +12,7 @@ import {ToastService} from '@app/_services/toast.service';
 import {OrderModalComponent} from '@app/restaurants/order-modal/order-modal.component';
 import {Product} from '@app/models/product';
 import {InfoModalComponent} from '@app/info-modal/info-modal.component';
-import {environment} from '../../../environments/environment';
+import {environment} from '@environments/environment';
 import {TipModalComponent} from '@app/tip-modal/tip-modal.component';
 import { timer } from 'rxjs';
 import {TermsModalComponent} from '@app/terms-modal/terms-modal.component';
@@ -58,6 +58,7 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
   errorPromotionalCode = {message: ''};
   promotionalCodeIsValid: boolean = false;
   amountTotal: null|string|number;
+  pan: string
   get distanceText() {
     return (this.responseDistanceGoogle) ? this.responseDistanceGoogle.distance?.text?.replace(',','.'): '' ;
   }
@@ -102,6 +103,8 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
       this.phoneCustomer = result.data[0].phone;
       this.userAddresses = result.data[0].addresses;
       this.paymentMethodToken = result.data[0].paymentMethodToken;
+      this.pan = result.data[0].pan;
+      console.log('retour adress', result);
       this.addressChose = null;
       const modalRef = this.addressConfirmationModal.open(AddressModalComponent, {
         backdrop: 'static',
@@ -202,11 +205,11 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
     }
   }
   ngAfterViewInit() {
-    this.loadStripe();
+   // this.loadStripe();
   }
 
   private loadStripe(): void {
-    this.loadStripeElements();
+    // this.loadStripeElements();
   }
 
   private showModalError(errorType?: string) {
@@ -220,7 +223,7 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
       msg = 'Numéro de téléphone manquant';
     }
     if (errorType === 'formToken') {
-      msg = 'Une erreur est sruvenue lors de l\'initiation du paiement';
+      msg = 'Une erreur est survenue lors de l\'initiation du paiement';
     }
     modalError.componentInstance.message = msg;
     modalError.componentInstance.isCartError = true;
@@ -269,38 +272,39 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
 
 
   onProceedCheckout(event: Event): void {
-    /*if (this.cartCurrent.hasShownTipModal){
+    if (this.cartCurrent.hasShownTipModal){
       this.openDialog();
-    } else {*/
-
+    } else {
       const tipModalRef = this.infoModal.open(TipModalComponent, {
         backdrop: 'static',
         keyboard: false
       });
       tipModalRef.result.then(() => {
         event.preventDefault();
-        console.warn('cart', this.cartCurrent);
         this.cartCurrent.hasShownTipModal = true;
         this.showLoader = true;
         this.paymentValidation = true;
+        this.openDialog();
+
         /*this.amountTotal = CartDetailComponent.up(this.cartCurrent.total, 2);
         this.amountTotal = +this.amountTotal * 100;
         if (/(,|.)/.test(this.amountTotal.toString().trim())) {
           this.amountTotal = Math.round(this.amountTotal);
         }
-        this.openDialog();
         this.restaurantDashboardService
             .initSystemPay(
-               this.amountTotal
+               this.cartService.getIntTotalAmount(),
+                this.paymentMethodToken ?? null
             )
             .subscribe((res)=> {
               this.cartCurrent.total = +this.amountTotal;
               if (res.formToken){
+                this.formToken = res.formToken;
               } else {
                 this.showModalError('formToken');
               }
             });*/
-        //return;
+        return;
         this.cartService.getTokenPaymentIntent(
             this.cartService.getIntTotalAmount(),
             this.cartCurrent.restaurant.id,
@@ -384,7 +388,7 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
                                       this.cartCurrent = cartUpdated;
                                       setTimeout(() => {
                                         window.location.href = `${window.location.origin}/customer/order`;
-                                      }, 5);
+                                      }, 2);
                                       // this.router.navigate(['customer/notification']);
                                     });
                                   }
@@ -412,8 +416,7 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
             }
         );
       });
-
-   // }
+     }
   }
 
 
@@ -457,9 +460,12 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
   }
 
   openDialog(): void {
-    let data = {total: this.amountTotal, paymentMethodToken: null};
+    let data = {total: this.cartService.getIntTotalAmount(), paymentMethodToken: null, pan: null};
     if (this.paymentMethodToken) {
       data.paymentMethodToken = this.paymentMethodToken;
+    }
+    if (this.pan) {
+      data.pan = this.pan;
     }
     const dialogRef = this.dialog.open(SystempayDialogComponent, {
       data: data,
@@ -469,9 +475,45 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result && result === 'cancel') {
+        this.cartService.getFloatTotalAmount();
+        //this.cartCurrent.total = this.cartCurrent.total / 100;
         this.showLoader = false;
         this.paymentValidation = false;
-        //this.cartCurrent.total = this.cartCurrent.total / 100;
+        console.warn('cart after close', this.cartCurrent);
+      } else if (result.dataPayment) {
+        this.paymentValidation = true;
+        this.showLoader = false;
+        // save order payment succeeded
+        this.cartService.saveOrder({
+          stripeResponse: null,
+          cartDetail: this.cartCurrent,
+          distanceInfos: this.responseDistanceGoogle,
+          systemPayResponse: result.dataPayment
+        }).subscribe((confCode) => {
+          const codeModal = this.codeConfirmationModal.open(ConfirmationCodePaymentModalComponent,
+              {backdrop: 'static', keyboard: false, size: 'lg'});
+          codeModal.componentInstance.infos = confCode;
+          codeModal.result.then((response) => {
+            this.cartService.emptyCart();
+            if (response) {
+              // send code to db
+              this.cartService.saveCodeCustomerToDeliver({responseCustomer: response})
+                  .subscribe((responseServer) => {
+                    if (responseServer.ok) {
+                      this.cartService.UpdateCart('empty-cart');
+                      this.cartService.cartUpdated.subscribe((cartUpdated: Cart) => {
+                        this.cartCurrent = cartUpdated;
+                        setTimeout(() => {
+                          window.location.href = `${window.location.origin}/customer/order`;
+                        }, 2);
+                        // this.router.navigate(['customer/notification']);
+                      });
+                    }
+                  });
+            }
+          });
+        });
+
       }
     });
   }

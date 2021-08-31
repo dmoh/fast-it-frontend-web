@@ -9,7 +9,7 @@
   </div>
   <hr>
   <div *ngIf="cartCurrent" class="row">
-    <div *ngIf="cartCurrent.products"  class="col-md-8">
+    <div *ngIf="cartCurrent.products"  class="col-md-12">
       <div *ngFor="let product of cartCurrent.products">
         <div style="display: flex; flex-direction: column" class="wrapper-card-product">
           <div style="display: flex; flex-direction: row; ">
@@ -65,7 +65,7 @@
         </div>
       </div>
     </div>
-    <div class="col-md-4">
+    <!--<div class="col-md-4">
       <div style="width: 100%; border-radius: 4px; background: linear-gradient(74deg, #0d43a0, transparent); color: white;padding: 1.4rem;" class="checkout-stripe-form">
         <div style="width: 100%;display: flex; justify-content: space-between; padding: 0">
           <div>
@@ -84,7 +84,7 @@
           <div id="card-errors" role="alert"></div>
         </div>
       </div>
-    </div>
+    </div>-->
   </div>
   <hr>
   <div class="row">
@@ -233,7 +233,7 @@
         <span style=""><strong>Sous-total</strong></span>
       </div>
       <div>
-        <div *ngIf="promotionalCodeIsValid && cartCurrent.promotionalCode.percentage">
+        <div *ngIf="promotionalCodeIsValid && cartCurrent.promotionalCode?.percentage">
           <span style="font-size: large; text-decoration: line-through; color: red;padding-right: .6rem" >{{ cartCurrent.promotionalCode.totalAmountProduct.toFixed(2) }}€
             </span>
           <span style="font-size: large;  color: green">{{ cartCurrent.promotionalCode.totalAmountProductWithPromotion.toFixed(2) }}€

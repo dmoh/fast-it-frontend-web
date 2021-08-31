@@ -1,14 +1,23 @@
+<link rel="stylesheet" href="https://api.systempay.fr/static/js/krypton-client/V4.0/ext/classic-reset.css">
 <section>
     <div class="d-flex" style="justify-content: space-between">
         <div>
             <h1 class="text-center">Paiement</h1>
         </div>
-        <div>
+        <div id="cancel-button" *ngIf="showCancelButton">
             <button mat-raised-button (click)="onCancelPayment()">Retour</button>
         </div>
     </div>
     <hr>
-    <div *ngIf="paymentMethodToken"></div>
+    <div class="w-100" *ngIf="paymentMethodToken && showButtonCard">
+       <div class="w-100 text-center">
+           Utiliser ma carte par défaut: <b>{{ pan }}</b>
+       </div>
+       <div>
+          <button mat-raised-button class="mr-2" color="primary" (click)="onUseDefaultCard('ok')">Oui</button>
+          <button mat-raised-button color="warn" (click)="onUseDefaultCard('refuse')">Non</button>
+       </div>
+    </div>
     <div *ngIf="error">
         <div class="text-center text-danger">
             {{ this.error }}
@@ -21,4 +30,12 @@
         </button>
     </div>
     <div id="myPaymentFormSystemPay"></div>
+    <div style="" *ngIf="paymentSuccessful" class="w-100 text-center d-flex justify-space-between" id="paymentSuccessful">
+        <div style=" padding: .5rem; text-align: center; color: white; width: 100%;">
+            Paiement accepté
+        </div>
+    </div>
+    <div style="background: red; font-size: x-large" id="paymentFailed">
+        Paiement refusé
+    </div>
 </section>
