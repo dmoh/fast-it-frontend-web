@@ -1,4 +1,13 @@
-<link rel="stylesheet" href="https://api.systempay.fr/static/js/krypton-client/V4.0/ext/classic-reset.css">
+<link
+        rel="stylesheet"
+        href="https://api.systempay.fr/static/js/krypton-client/V4.0/ext/classic-reset.css"
+/>
+<script src="https://api.systempay.fr/static/js/krypton-client/V4.0/ext/classic.js"></script>
+<style type="text/css">
+    button.kr-payment-button {
+        text-align: center !important;
+    }
+</style>
 <section>
     <div class="d-flex" style="justify-content: space-between">
         <div>
@@ -29,7 +38,12 @@
             Réessayer
         </button>
     </div>
-    <div id="myPaymentFormSystemPay"></div>
+    <div id="myPaymentFormSystemPay">
+
+    </div>
+    <div  #paymentFull (click)="onPaymentSuccess()" id="payment-full">
+       <p>Paiement Accepté, Cliquez ici.</p>
+    </div>
     <div style="" *ngIf="paymentSuccessful" class="w-100 text-center d-flex justify-space-between" id="paymentSuccessful">
         <div style=" padding: .5rem; text-align: center; color: white; width: 100%;">
             Paiement accepté

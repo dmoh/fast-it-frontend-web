@@ -7,9 +7,10 @@ import {CoreModule} from '@app/core/core.module';
 import { NotificationCustomerComponent } from '../notification-customer/notification-customer.component';
 import { CommentComponent } from './comment/comment.component';
 import { OrderModalComponent } from './order/order-modal/order-modal.component';
+import { OverviewComponent } from './overview/overview.component';
 
 @NgModule({
-  declarations: [CustomerComponent, OrderComponent, ProfilComponent, NotificationCustomerComponent, CommentComponent, OrderModalComponent],
+  declarations: [CustomerComponent, OrderComponent, ProfilComponent, NotificationCustomerComponent, CommentComponent, OrderModalComponent, OverviewComponent],
     imports: [
       CoreModule,
       CustomerRoutingModule,
@@ -21,7 +22,8 @@ import { OrderModalComponent } from './order/order-modal/order-modal.component';
     CoreModule,
     NotificationCustomerComponent,
     CommentComponent,
-    OrderModalComponent
+    OrderModalComponent,
+    OverviewComponent
   ]
 })
 export class CustomerModule { }

@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Inject, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import KRGlue from "@lyracom/embedded-form-glue";
 import {environment} from "@environments/environment";
@@ -10,7 +10,7 @@ import {RestaurantDashboardService} from "@app/restaurants/restaurant-dashboard/
     templateUrl: './systempay-dialog.component.html',
     styleUrls: ['./systempay-dialog.component.scss']
 })
-export class SystempayDialogComponent implements OnInit {
+export class SystempayDialogComponent implements OnInit, AfterViewInit {
     publicKey = environment.publicKeySystempay;
     endpoint = 'https://api.systempay.fr';
     paymentMethodToken: string;
@@ -18,11 +18,14 @@ export class SystempayDialogComponent implements OnInit {
     paymentSuccessful: boolean = false;
     submitted: boolean = false;
     pan: string;
-    dataPayment: {}|false;
+    dataPayment: {};
     showButtonCard: boolean = false;
     showCancelButton: boolean = true;
-
+    showPaymentValidateButton: boolean = false;
+    @ViewChild('btnPaymentClose') btnPaymentClose;
+    @ViewChild('paymentFull', {static: false}) paymentFull: any;
     constructor(
+        private renderer2: Renderer2,
         private restaurantDashboardService: RestaurantDashboardService,
         public dialogRef: MatDialogRef<SystempayDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: { total, paymentMethodToken, pan },
@@ -39,6 +42,9 @@ export class SystempayDialogComponent implements OnInit {
         }
     }
 
+    ngAfterViewInit() {
+        this.paymentFull.nativeElement.display = 'none';
+    }
 
     private getFormToken(useDefaultCard?: boolean) {
         this.paymentMethodToken = null;
@@ -68,21 +74,33 @@ export class SystempayDialogComponent implements OnInit {
                         )
                         .then(({KR, result}) => {
                             KR.showForm(result.formId);
-
-                            KR.onSubmit(onPaid)
-                                .then(() => {
-                                    this.showCancelButton = false;
-                                    setTimeout(() => {},0);
-                                });
+                            KR.onSubmit( (event) => {
+                                if (event.clientAnswer.orderStatus === "PAID") {
+                                    setTimeout(() => {
+                                        this.paymentFull.nativeElement.style.display = "block";
+                                        this.dataPayment = event.clientAnswer;
+                                        this.dialogRef.close({
+                                            dataPayment: event.clientAnswer
+                                        });
+                                    }, 50);
+                                    KR.removeForms();
+                                } else {}
+                            }).then((val) => {
+                                this.showCancelButton = false;
+                                setTimeout(() => {},0);
+                            });
 
                             function onPaid(event) {
                                 setTimeout(() => {},0);
                                 if (event.clientAnswer.orderStatus === "PAID") {
+
                                     // Remove the payment form
-                                    dialog.close({
-                                        dataPayment: event.clientAnswer
-                                    });
-                                    KR.removeForms();
+                                    KR.removeForms()
+                                        .then(() => {
+                                            dialog.close({
+                                                dataPayment: event.clientAnswer
+                                            });
+                                        });
                                     // return event.clientAnswer;
                                 } else {
                                     // Show error message to the user
@@ -120,9 +138,9 @@ export class SystempayDialogComponent implements OnInit {
         }
     }
 
-    onPaymentSuccess(dataPayment: {}) {
+    onPaymentSuccess() {
         this.dialogRef.close({
-            dataPayment: dataPayment
+            dataPayment: this.dataPayment
         });
     }
 }

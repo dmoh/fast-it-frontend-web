@@ -6,6 +6,7 @@ import {ProfilComponent} from "@app/customer/profil/profil.component";
 import {AuthGuard} from "@app/_helpers/auth.guard";
 import {NotificationCustomerComponent} from "@app/notification-customer/notification-customer.component";
 import {CommentComponent} from "@app/customer/comment/comment.component";
+import {OverviewComponent} from "@app/customer/overview/overview.component";
 
 
 
@@ -13,6 +14,10 @@ const routes: Routes = [
   {
     path: 'customer', component: CustomerComponent, canActivate: [AuthGuard],
     children: [
+      {
+        path: 'overview',
+        component: OverviewComponent,
+      },
       {
         path: 'order',
         component: OrderComponent,

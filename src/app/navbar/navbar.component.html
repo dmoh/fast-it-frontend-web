@@ -25,7 +25,7 @@
               <a style="text-decoration: none; color: #0a0a0a" routerLink="/home">Accueil</a>
             </button>
             <button *ngIf="user.token"  mat-menu-item>
-              <a style="text-decoration: none; color: #0a0a0a" routerLink="customer">Profil</a>
+              <a style="text-decoration: none; color: #0a0a0a" routerLink="customer/overview">Profil</a>
             </button>
             <button *ngIf="isDeliverer"  mat-menu-item>
               <a style="text-decoration: none; color: #0a0a0a" routerLink="delivery/overview">Livreur</a>
