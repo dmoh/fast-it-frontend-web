@@ -8,6 +8,7 @@ import {order} from "@app/_util/fasteat-constants";
 import {CategoryBusiness} from "@app/_models/category-business";
 import {Sector} from "@app/_models/sector";
 import {Promotion} from "@app/_models/promotion";
+import {Track} from "@app/_models/track";
 
 @Injectable({
   providedIn: 'root'
@@ -205,6 +206,19 @@ export class AdminService {
     return this.http.post<any>(`${this.urlApi}/promotion/update`,
         {
           promotion: promotion
+        },
+        this.headers);
+  }
+
+  getTracks(): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}/user/tracking`,
+        this.headers);
+  }
+
+  postTracking(track: Track): Observable<any> {
+    return this.http.post<any>(`${this.urlApi}/user/post/tracking`,
+        {
+          track: track
         },
         this.headers);
   }

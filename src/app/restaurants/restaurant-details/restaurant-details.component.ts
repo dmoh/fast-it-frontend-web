@@ -3,7 +3,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
-  HostListener,
+  HostListener, OnDestroy,
   OnInit,
   Renderer2,
   ViewChild
@@ -19,13 +19,17 @@ import {SecurityRestaurantService} from '@app/_services/security-restaurant.serv
 import {InfoModalComponent} from '@app/info-modal/info-modal.component';
 import {SpecialOffer} from "@app/_models/special-offer";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import {AdminService} from "@app/admin/admin.service";
+import {Track} from "@app/_models/track";
+import { codeCurrentPage } from "@app/_util/fasteat-constants";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-restaurant-details',
   templateUrl: './restaurant-details.component.html',
   styleUrls: ['./restaurant-details.component.scss']
 })
-export class RestaurantDetailsComponent implements OnInit, AfterViewInit{
+export class RestaurantDetailsComponent implements OnInit, AfterViewInit, OnDestroy{
 
   cartCurrent: Cart;
   starsRestaurant: any[] = [];
@@ -42,12 +46,14 @@ export class RestaurantDetailsComponent implements OnInit, AfterViewInit{
   specialOffer: SpecialOffer;
   textToDisplay: string = 'Momentanément indisponible';
   showRightArrow: boolean = false;
+  trackSubscription: Subscription;
 
   constructor(private modal: NgbModal,
               private cartService: CartService,
               private restaurantService: RestaurantDashboardService,
               private route: ActivatedRoute,
               private snackBar: MatSnackBar,
+              private adminService: AdminService,
               private el: ElementRef,
               private securityRestaurantService: SecurityRestaurantService
               ) {
@@ -59,7 +65,12 @@ export class RestaurantDetailsComponent implements OnInit, AfterViewInit{
 
   }
 
+  ngOnDestroy() {
+    this.trackSubscription.unsubscribe();
+  }
+
   ngOnInit(): void {
+
     this.starsRestaurant = [1, 3, 4, 5, 4];
     this.route.params.subscribe((params => {
       this.restaurantId = +params.id;
@@ -84,10 +95,20 @@ export class RestaurantDetailsComponent implements OnInit, AfterViewInit{
       this.restaurantService.getRestaurantProductsDatas(this.restaurantId)
         .subscribe((result) => {
           this.restaurantDatas = result;
+
           if (this.restaurantDatas.length > 0 ) {
+            let firstTime = false;
             this.restaurantDatas.forEach((restau) => {
               if (restau.product.business) {
                 this.restaurant = restau.product.business;
+                if (!firstTime) {
+                  const track = new Track();
+                  track.currentPage = codeCurrentPage.RESTAURANT;
+                  track.businessName = this.restaurant.name;
+                  track.cityBusiness = this.restaurant.city;
+                  this.trackSubscription = this.adminService.postTracking(track).subscribe();
+                  firstTime = true;
+                }
                 if (restau.product.tags) {
                   this.restaurant.tags = restau.product.tags;
                 }

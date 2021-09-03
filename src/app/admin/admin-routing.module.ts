@@ -14,6 +14,7 @@ import {CategoryComponent} from "@app/admin/category/category.component";
 import {SectorComponent} from "@app/admin/sector/sector.component";
 import {OrderManagerComponent} from "@app/admin/order-manager/order-manager.component";
 import {PromotionComponent} from "@app/admin/promotion/promotion.component";
+import {TrackingComponent} from "@app/admin/tracking/tracking.component";
 
 
 const routes: Routes = [
@@ -51,6 +52,10 @@ const routes: Routes = [
       {
         path: 'promotion',
         component: PromotionComponent,
+      },
+      {
+        path: 'tracking',
+        component: TrackingComponent,
       }
     ]
   }

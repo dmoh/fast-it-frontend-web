@@ -7,7 +7,9 @@ import {LocationModalComponent} from '@app/location-modal/location-modal.compone
 import {AdminService} from '@app/admin/admin.service';
 import {CategoryBusiness} from '@app/_models/category-business';
 import {CategoryRestaurantService} from '@app/_services/category-restaurant.service';
-import {BehaviorSubject} from "rxjs";
+import {BehaviorSubject, Subscription} from "rxjs";
+import {CartService} from "@app/cart/service/cart.service";
+import {Track} from "@app/_models/track";
 
 
 @Component({
@@ -23,6 +25,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   slideHeight: string = '200px';
   maintainAspectRatio: boolean = false;
   showingLeftPart: boolean = true;
+  trackSubscription: Subscription;
   @Input() closeModal;
   @Output() reloadChild = new EventEmitter<boolean>();
   slides: any[] = [
@@ -86,6 +89,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.postTracking();
     const wWidth = window.innerWidth;
     if (wWidth > 1200) {
       this.slideHeight = '480px';
@@ -134,7 +138,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       });
   }
   ngOnDestroy(): void {
-
+    this.trackSubscription.unsubscribe();
   }
 
   handleAddressChange(event) {
@@ -163,7 +167,6 @@ export class HomeComponent implements OnInit, OnDestroy {
             zipCode: zipcode
             }
           ;
-
           this.cityData.setCityData(cityDatas1);
           this.router.navigate(['/restaurants-city']);
       }
@@ -202,6 +205,13 @@ export class HomeComponent implements OnInit, OnDestroy {
       el.scrollIntoView({behavior: 'smooth', block: 'end', inline: 'nearest'});
     }, 100);
 
+  }
+
+  private postTracking() {
+    const track = new Track();
+    track.currentPage = 1;
+    this.trackSubscription = this.adminService.postTracking(track)
+        .subscribe();
   }
 
   onShowInstruction() {

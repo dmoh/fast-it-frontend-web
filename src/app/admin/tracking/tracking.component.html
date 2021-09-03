@@ -1,0 +1,55 @@
+<section>
+    <div class="card">
+        <h1>Suivi Navigation Client</h1>
+        <hr>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="w-100 table ">
+                    <thead>
+                        <tr>
+                            <th>Client</th>
+                            <th>Page</th>
+                            <th>Commerce, ville</th>
+                            <th>ville destination</th>
+                            <th>Montant Panier</th>
+                            <th>heure</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let user of tracks; let i = index;"
+                            [ngClass]="
+                            {
+                                'alert': user.currentPage,
+                                'alert-nav-danger': user.currentPage == codeCurrentPage.CART_PAYMENT,
+                                'text-white': user.currentPage == codeCurrentPage.CART_PAYMENT,
+                                'alert-nav-warning': user.currentPage == codeCurrentPage.RESTAURANT,
+                                'alert-info': user.currentPage == codeCurrentPage.HOME
+                            }">
+                            <td>{{ user.email }}</td>
+                            <td>
+                                <span *ngIf="user.currentPage == codeCurrentPage.CART_PAYMENT" class="material-icons">
+                                    shopping_cart
+                                </span>
+                                <span *ngIf="user.currentPage == codeCurrentPage.HOME" class="material-icons">
+                                    home
+                                </span>
+                                <span *ngIf="user.currentPage == codeCurrentPage.RESTAURANT" class="material-icons">
+                                    business
+                                </span>
+                            </td>
+                            <td>{{ user.businessName }}, <b><em>{{ user.businessCity }}</em></b></td>
+                            <td>{{ user.cityDestination }}</td>
+                            <td>{{ (+(user.amountCart / 100)).toFixed(2) }}€</td>
+                            <td>{{ user.hour }}</td>
+                        </tr>
+                        <tr *ngIf="tracks && tracks.length == 0">
+                            <td colspan="6" style="text-align: center; font-size: x-large">
+                                AUCUN UTILISATEUR
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>

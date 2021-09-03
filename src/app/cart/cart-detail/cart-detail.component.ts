@@ -22,6 +22,9 @@ import {map, shareReplay, take} from "rxjs/operators";
 import {FormControl} from "@angular/forms";
 import {MatDialog} from "@angular/material/dialog";
 import {SystempayDialogComponent} from "@app/systempay-dialog/systempay-dialog.component";
+import {Track} from "@app/_models/track";
+import {codeCurrentPage} from "@app/_util/fasteat-constants";
+import {AdminService} from "@app/admin/admin.service";
 
 @Component({
   selector: 'app-cart-detail',
@@ -75,6 +78,7 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
     private toastService: ToastService,
     private http: HttpClient,
     private restaurantDashboardService: RestaurantDashboardService,
+    private adminService: AdminService,
     public dialog: MatDialog
   ) {
     this.paymentValidation = false;
@@ -151,6 +155,13 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
                 else if (response.rows[0].elements[0].status === 'OK') {
                   const responseDistance = response.rows[0].elements[0];
                   this.responseDistanceGoogle = responseDistance;
+                  const track = new Track();
+                  track.currentPage = codeCurrentPage.CART_PAYMENT;
+                  track.amountCart = +this.cartService.getIntTotalAmount();
+                  track.businessName = this.cartCurrent.restaurant.name;
+                  track.cityBusiness = this.cartCurrent.restaurant.city;
+                  track.cityDestination = this.addressChose.city;
+                  this.adminService.postTracking(track).subscribe();
                   this.cartService.getCostDelivery(responseDistance)
                       .subscribe((resp) => {
                         this.cartCurrent.deliveryCost = resp.deliveryInfos;

@@ -13,3 +13,9 @@ export const promotionApplicationTo = {
     BUSINESS: 2,
     BOTH: 3
 }
+
+export const codeCurrentPage = {
+    HOME: 1,
+    RESTAURANT: 2,
+    CART_PAYMENT: 3
+}
