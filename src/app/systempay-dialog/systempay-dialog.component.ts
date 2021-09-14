@@ -24,6 +24,7 @@ export class SystempayDialogComponent implements OnInit, AfterViewInit {
     showPaymentValidateButton: boolean = false;
     @ViewChild('btnPaymentClose') btnPaymentClose;
     @ViewChild('paymentFull', {static: false}) paymentFull: any;
+    @ViewChild('paymentFormSystemPay', {static: false}) paymentFormSystemPay: any;
     constructor(
         private renderer2: Renderer2,
         private restaurantDashboardService: RestaurantDashboardService,
@@ -78,6 +79,7 @@ export class SystempayDialogComponent implements OnInit, AfterViewInit {
                                 if (event.clientAnswer.orderStatus === "PAID") {
                                     setTimeout(() => {
                                         this.paymentFull.nativeElement.style.display = "block";
+                                        this.paymentFormSystemPay.nativeElement.style.display = "none";
                                         this.dataPayment = event.clientAnswer;
                                         this.dialogRef.close({
                                             dataPayment: event.clientAnswer
@@ -89,28 +91,6 @@ export class SystempayDialogComponent implements OnInit, AfterViewInit {
                                 this.showCancelButton = false;
                                 setTimeout(() => {},0);
                             });
-
-                            function onPaid(event) {
-                                setTimeout(() => {},0);
-                                if (event.clientAnswer.orderStatus === "PAID") {
-
-                                    // Remove the payment form
-                                    KR.removeForms()
-                                        .then(() => {
-                                            dialog.close({
-                                                dataPayment: event.clientAnswer
-                                            });
-                                        });
-                                    // return event.clientAnswer;
-                                } else {
-                                    // Show error message to the user
-                                    document.getElementById("paymentFailed").style.display = "block";
-                                    document.getElementById("paymentSuccessful").style.display = "none";
-                                    document.getElementById("cancel-button").style.display = "none";
-                                    //return false;
-                                }
-
-                            }
                         })
                     ; /* show the payment form */
                 }

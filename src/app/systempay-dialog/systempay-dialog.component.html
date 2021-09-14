@@ -38,11 +38,11 @@
             Réessayer
         </button>
     </div>
-    <div id="myPaymentFormSystemPay">
+    <div #paymentFormSystemPay id="myPaymentFormSystemPay">
 
     </div>
     <div  #paymentFull (click)="onPaymentSuccess()" id="payment-full">
-       <p>Paiement Accepté, Cliquez ici.</p>
+       <p>Cliquez ici pour valider votre commande</p>
     </div>
     <div style="" *ngIf="paymentSuccessful" class="w-100 text-center d-flex justify-space-between" id="paymentSuccessful">
         <div style=" padding: .5rem; text-align: center; color: white; width: 100%;">

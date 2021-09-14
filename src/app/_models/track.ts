@@ -7,5 +7,6 @@ export class Track {
     cityBusiness: string = '';
     cityDestination: string = '';
     amountCart: number = 0;
+    phoneUser: string = '';
     readonly hourNav: string = '';
 }

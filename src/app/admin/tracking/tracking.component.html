@@ -1,17 +1,20 @@
 <section>
-    <div class="card">
+    <div style="padding: 1rem"  class="card">
         <h1>Suivi Navigation Client</h1>
+        <span *ngIf="nbUsers">Nb Utilisateurs: <b>{{ nbUsers }}</b></span>
         <hr>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="w-100 table ">
+                <table class="w-100 table">
                     <thead>
                         <tr>
                             <th>Client</th>
+                            <th>Tel Client</th>
                             <th>Page</th>
                             <th>Commerce, ville</th>
                             <th>ville destination</th>
                             <th>Montant Panier</th>
+                            <th>Commande payée</th>
                             <th>heure</th>
                         </tr>
                     </thead>
@@ -27,6 +30,11 @@
                             }">
                             <td>{{ user.email }}</td>
                             <td>
+                                <a style="color: white; text-decoration: none" *ngIf="user.phoneUser && user.phoneUser.length > 8" href="tel:{{ user.phoneUser }}">
+                                    {{ user.phoneUser }}
+                                </a>
+                            </td>
+                            <td>
                                 <span *ngIf="user.currentPage == codeCurrentPage.CART_PAYMENT" class="material-icons">
                                     shopping_cart
                                 </span>
@@ -38,8 +46,13 @@
                                 </span>
                             </td>
                             <td>{{ user.businessName }}, <b><em>{{ user.businessCity }}</em></b></td>
-                            <td>{{ user.cityDestination }}</td>
+                            <td><b><em>{{ user.cityDestination }}</em></b></td>
                             <td>{{ (+(user.amountCart / 100)).toFixed(2) }}€</td>
+                            <td>
+                                <span *ngIf="user.nbOrderDay && +user.nbOrderDay > 0" class="badge badge-success">
+                                    Validée
+                                </span>
+                            </td>
                             <td>{{ user.hour }}</td>
                         </tr>
                         <tr *ngIf="tracks && tracks.length == 0">

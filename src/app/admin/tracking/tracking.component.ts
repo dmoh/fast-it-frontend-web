@@ -12,7 +12,7 @@ export class TrackingComponent implements OnInit, OnDestroy {
 
   codeCurrentPage = codeCurrentPage;
   timerSubscription: Subscription;
-
+  nbUsers: number;
   tracks: any[] = [/*
     {
       email: 'mdfd@fdf.fr',
@@ -59,6 +59,9 @@ export class TrackingComponent implements OnInit, OnDestroy {
         .subscribe((datas) => {
           if (datas.ok) {
             this.tracks = datas.tracks;
+            if (datas.nbUsers) {
+              this.nbUsers = datas.nbUsers;
+            }
           } else {
             this.tracks = [];
           }
