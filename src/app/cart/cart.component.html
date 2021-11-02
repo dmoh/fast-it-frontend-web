@@ -65,10 +65,17 @@
           cart.restaurant.specialOffer
           && +(cart.restaurant.specialOffer.minimumAmountForOffer)
           <= +(cart.totalAmountProduct)
+          && !hasPercentPromotionSubscription
           ">
             <div style="width: 100%;display: flex;justify-content: space-between;background: #dffadf;padding: .5rem;">
               <div style="font-size: smaller; color: #0fb24f;">OFFRE</div>
               <div style="font-size: smaller; color: #0fb24f;">-{{ cart.restaurant.specialOffer.specialOfferAmount }}€</div>
+            </div>
+          </div>
+          <div *ngIf="hasPercentPromotionSubscription">
+            <div style="width: 100%;display: flex;justify-content: space-between;background: #dffadf;padding: .3rem;">
+                <div style="font-size: smaller; color: #0fb24f;">Remise abonné <b style="color: blueviolet" *ngIf="subName">{{ subName | uppercase }}</b></div>
+                <div style="font-size: smaller; color: #0fb24f;">-{{ percentPromotionSubscription }}%</div>
             </div>
           </div>
           <div *ngIf="cart.products.length > 0">
@@ -78,7 +85,15 @@
                 <div style="font-size: smaller; color: #9f9f9f;">0.80€</div>-->
             </div>
           </div>
-            <div style="color: #27b666; font-weight: bold" class="mt-2">TOTAL {{ cart.total ? (cart.total).toFixed(2) : '' }}€</div>
+            <div style="color: #27b666; font-weight: bold" class="mt-2">
+                TOTAL
+                <span
+                    *ngIf="
+                    hasPercentPromotionSubscription
+                    && cart.promotionalCode
+                    && cart.promotionalCode.totalAmountProduct
+                    && +cart.promotionalCode.totalAmountProduct > 0
+                    " class="pl-1 pr-1"><s style="color: red">{{ cart.promotionalCode.totalAmountProduct.toFixed(2) }}€</s></span> {{ cart.total ? (cart.total).toFixed(2) : '' }}€</div>
         </div>
     </div>
 </section>

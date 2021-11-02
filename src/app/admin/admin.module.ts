@@ -23,6 +23,7 @@ import { PromotionComponent } from './promotion/promotion.component';
 import { UpdatePromotionModalComponent } from './promotion/update-promotion-modal/update-promotion-modal.component';
 import { TrackingComponent } from './tracking/tracking.component';
 import { SubscriptionStatsComponent } from './stats/subscription-stats/subscription-stats.component';
+import {RoundProgressModule} from 'angular-svg-round-progressbar';
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import { SubscriptionStatsComponent } from './stats/subscription-stats/subscript
     AdminRoutingModule,
     CoreModule,
     MatMenuModule,
+    RoundProgressModule
   ],
   exports: [AdminComponent, EditCommerceComponent, DeliveriesComponent, AssignDeliverisComponent, AssignedDeliveryModalComponent, FirstPageComponent, AlertManagerComponent, ModalUserComponent, CategoryComponent, CategoryModalComponent, SectorComponent, SectorModalComponent, OrderManagerComponent, PromotionComponent, UpdatePromotionModalComponent, TrackingComponent, SubscriptionStatsComponent]
 })

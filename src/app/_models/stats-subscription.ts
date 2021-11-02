@@ -5,6 +5,7 @@ export class StatsSubscription {
     name: string;
     counterSubscription: number;
     artistName: string;
+    nbTargetSubscription: number;
     artist: {};
     nbSubBasic: number;
     nbSubMedium: number;

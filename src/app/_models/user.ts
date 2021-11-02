@@ -1,3 +1,5 @@
+import {Subscription} from "@app/_models/subscription";
+
 export class User {
   id: number;
   username: string;
@@ -14,5 +16,14 @@ export class User {
   addresses: any[];
   phone: string = '';
   roles?: string[] = [];
-
+  data?: {
+    subscription?: Subscription;
+    percent: number,
+    isFreeShippingCost: boolean,
+    title: string
+  } = {
+    percent: 0,
+    isFreeShippingCost: false,
+    title: ''
+  };
 }

@@ -23,7 +23,7 @@ import {FormControl} from "@angular/forms";
 import {MatDialog} from "@angular/material/dialog";
 import {SystempayDialogComponent} from "@app/systempay-dialog/systempay-dialog.component";
 import {Track} from "@app/_models/track";
-import {codeCurrentPage} from "@app/_util/fasteat-constants";
+import {codeCurrentPage, limitDistanceSubscription} from "@app/_util/fasteat-constants";
 import {AdminService} from "@app/admin/admin.service";
 
 @Component({
@@ -61,7 +61,8 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
   errorPromotionalCode = {message: ''};
   promotionalCodeIsValid: boolean = false;
   amountTotal: null|string|number;
-  pan: string
+  pan: string;
+  limitSub = limitDistanceSubscription;
   get distanceText() {
     return (this.responseDistanceGoogle) ? this.responseDistanceGoogle.distance?.text?.replace(',','.'): '' ;
   }
@@ -155,6 +156,11 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
                 else if (response.rows[0].elements[0].status === 'OK') {
                   const responseDistance = response.rows[0].elements[0];
                   this.responseDistanceGoogle = responseDistance;
+                  if (this.responseDistanceGoogle
+                      && this.responseDistanceGoogle.distance
+                      && +this.responseDistanceGoogle.distance.value > 0) {
+                    this.cartService.setDistanceCart(+this.responseDistanceGoogle.distance.value);
+                  }
                   const track = new Track();
                   track.currentPage = codeCurrentPage.CART_PAYMENT;
                   track.amountCart = +this.cartService.getIntTotalAmount();

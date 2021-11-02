@@ -86,13 +86,13 @@
                             <h6 style="margin-bottom: .1rem"><b style="font-size: medium; font-weight: 500">{{ product.name | titlecase }}</b></h6>
                           </div>
                           <p class="info-ingredient"
-                             *ngIf="product && product.description.length <= 70"
+                             *ngIf="product && product.description && product.description.length <= 70"
                           >{{ product.description | titlecase }}</p>
                          <!-- <p class="info-ingredient"
                              *ngIf="product && product.description.length > 40 && product.name.length > 23 "
                           >{{ product.description | titlecase }}</p>-->
                           <p class="info-ingredient"
-                             *ngIf="product && product.description.length > 70 && product.name.length < 23">{{ (product.description.substr(0, 70)) + '...' | titlecase }}</p>
+                             *ngIf="product && product.description && product.description.length > 70 && product.name.length < 23">{{ (product.description.substr(0, 70)) + '...' | titlecase }}</p>
                           <div class="bottom-info-menu">
                             <span style="font-size: small">{{ (+(product.amount)/ 100).toFixed(2)  }}€</span>
                           </div>

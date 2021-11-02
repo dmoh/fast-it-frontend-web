@@ -3,6 +3,7 @@ import {Product} from '../models/product';
 import {Cart} from './model/cart';
 import {CartService} from './service/cart.service';
 import { Router} from '@angular/router';
+import {AuthenticationService} from "@app/_services/authentication.service";
 
 @Component({
   selector: 'app-cart',
@@ -13,12 +14,34 @@ export class CartComponent implements OnInit {
   qMax: number[];
   cart: Cart;
   @Optional() products: Product[];
+  user;
   hasProduct: boolean;
+  hasPercentPromotionSubscription: boolean = false;
+  percentPromotionSubscription: number;
+  subName: string = '';
   constructor(private cartService: CartService,
-              private route: Router
+              private route: Router,
+              private authentication: AuthenticationService
   ) { }
 
   ngOnInit(): void {
+
+    this.authentication
+        .currentUser
+        .subscribe((user) => {
+          this.user = user;
+          if (this.user
+              && this.user.data
+              && this.user.data.subscription
+              && this.user.data.subscription.percent
+              && +this.user.data.subscription.percent > 0
+          ) {
+            this.hasPercentPromotionSubscription = true;
+            this.percentPromotionSubscription = this.user.data.subscription.percent;
+            this.subName = this.user.data.subscription.title;
+          }
+        })
+    ;
     this.cartService.cartUpdated.subscribe((cartSub) => this.cart = cartSub);
     if (!this.products) {
       this.hasProduct = false;

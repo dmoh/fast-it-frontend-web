@@ -9,6 +9,7 @@ import {environment} from '../../../environments/environment';
 import {isNumeric} from "tslint";
 import {RestaurantDashboardService} from "@app/restaurants/restaurant-dashboard/services/restaurant-dashboard.service";
 import {CartDetailComponent} from "@app/cart/cart-detail/cart-detail.component";
+import {limitDistanceSubscription} from "@app/_util/fasteat-constants";
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,8 @@ export class CartService {
   protected tokenUserCurrent: string;
   headers: any;
   urlApi: string = environment.apiUrl + '/';
-
+  user: any;
+  limitDistance = limitDistanceSubscription
 
   constructor(private http: HttpClient,
               private authenticate: AuthenticationService,
@@ -38,6 +40,18 @@ export class CartService {
     if (this.authenticate.tokenUserCurrent) {
      this.headers.append(`Authorization: Bearer ${this.authenticate.tokenUserCurrent}`) ;
     }
+
+    this.authenticate.currentUser
+        .subscribe((user) => {
+          if (user) {
+            this.user = user;
+            if (user.data && user.data.subscription) {
+              this.cartCurrent.subscription = user.data.subscription;
+            }
+          }
+        });
+
+
   }
 
 
@@ -122,9 +136,17 @@ export class CartService {
         this.cartCurrent.total += +(prod.quantity * prod.amount) / 100;
         this.cartCurrent.totalAmountProduct += +(prod.quantity * prod.amount) / 100;
         this.cartCurrent.amountWithoutSpecialOffer += +(prod.quantity * prod.amount) / 100;
+
         if(this.cartCurrent.promotionalCode
             && this.cartCurrent.promotionalCode.percentage
-            && this.cartCurrent.promotionalCode.percentage > 0) {
+            && this.cartCurrent.promotionalCode.percentage > 0
+            || this.hasPercentPromotionSubscription()
+        ) {
+           this.cartCurrent['promotionalCode'] = {
+            percentage: 0,
+            totalAmountProductWithPromotion: 0,
+            totalAmountProduct: 0
+           };
           this.cartCurrent.promotionalCode.totalAmountProduct = this.cartCurrent.totalAmountProduct;
         }
       }
@@ -133,7 +155,12 @@ export class CartService {
     if (this.cartCurrent.promotionalCode
         && this.cartCurrent.promotionalCode.percentage
         && this.cartCurrent.promotionalCode.percentage > 0
+        || this.hasPercentPromotionSubscription()
     ){
+      if(this.hasPercentPromotionSubscription()) {
+        this.cartCurrent.promotionalCode.percentage = this.user.data.subscription.percent;
+      }
+      this.cartCurrent.promotionalCode.totalAmountProductWithPromotion = 0;
       this.cartCurrent.promotionalCode.totalAmountProductWithPromotion
           = this.cartCurrent.promotionalCode.totalAmountProduct
           - (this.cartCurrent.promotionalCode.percentage/100*this.cartCurrent.promotionalCode.totalAmountProduct)
@@ -143,7 +170,11 @@ export class CartService {
       this.cartCurrent.amountWithoutSpecialOffer = this.cartCurrent.promotionalCode.totalAmountProductWithPromotion;
     }
 
-    if (typeof this.cartCurrent.restaurant.specialOffer !== 'undefined') {
+    // check if merchant as already promotion
+    if (
+        typeof this.cartCurrent.restaurant.specialOffer !== 'undefined'
+        && !this.hasPercentPromotionSubscription()
+    ) {
       if (
         +(this.cartCurrent.restaurant.specialOffer.minimumAmountForOffer) <=
         +(this.cartCurrent.total)
@@ -160,7 +191,7 @@ export class CartService {
     }
     // this.cartCurrent.total += 0.80;
     // this.cartCurrent.amountWithoutSpecialOffer += 0.80;
-    this.cartCurrent.total += +(this.cartCurrent.deliveryCost);
+    this.cartCurrent.total += this.isFreeShippingCost() ? 0 : +(this.cartCurrent.deliveryCost);
     this.cartCurrent.amountWithoutSpecialOffer += +(this.cartCurrent.deliveryCost);
 
     if (isCheckout) {
@@ -175,7 +206,6 @@ export class CartService {
 
   getFloatTotalAmount(): number {
     this.generateTotalCart(true);
-    console.warn('totalFloat', this.cartCurrent.total);
     return this.cartCurrent.total;
   }
 
@@ -183,7 +213,7 @@ export class CartService {
     this.generateTotalCart(true);
     if (this.cartCurrent.total && this.cartCurrent.total > 0) {
       const amount = this.cartCurrent.total.toFixed(2);
-      return (+amount * 100);
+      return Math.round(+amount * 100);
     }
     return 0;
   }
@@ -271,5 +301,22 @@ export class CartService {
   initCartPayment() {
     this.cartCurrent.tipDelivererAmount = 0.0;
     this.cartCurrent.promotionalCode = null;
+  }
+
+
+  hasPercentPromotionSubscription(): boolean {
+    return this.user && this.user.data && this.user.data.subscription.percent && +this.user.data.subscription.percent > 0;
+  }
+
+
+
+  isFreeShippingCost(): boolean {
+    return this.cartCurrent.subscription.isFreeShippingCost && (this.cartCurrent.distance && +this.cartCurrent.distance < this.limitDistance.DISTANCE_MAX);
+  }
+
+  setDistanceCart(distance: number) {
+    this.cartCurrent.distance = distance;
+    this.generateTotalCart();
+    this.emitCartSubject();
   }
 }

@@ -174,6 +174,9 @@
                   && cartCurrent.restaurant.specialOffer.title.trim().length > 0
                   && +(cartCurrent.restaurant.specialOffer.minimumAmountForOffer)
                   <= +(cartCurrent.totalAmountProduct)
+                  || (cartCurrent.promotionalCode
+                  && cartCurrent.promotionalCode.percentage
+                  && cartCurrent.promotionalCode.percentage > 0)
                   ,
                   'allowed' : !cartCurrent.restaurant.specialOffer
                   && !cartCurrent.restaurant.specialOffer.title
@@ -192,6 +195,9 @@
           && promotionalCode
           && promotionalCode.value
           && promotionalCode.value.trim().length > 0
+          || (cartCurrent.promotionalCode
+                  && cartCurrent.promotionalCode.percentage
+                  && cartCurrent.promotionalCode.percentage > 0)
         ">
           Code inutilisable. Offres non cumulables.
         </mat-hint>
@@ -199,24 +205,33 @@
                   style="float: right"
                   mat-raised-button
                   (click)="onCheckPromotionalCode()"
-                  [disabled]="!promotionalCode.value"
+                  [disabled]="!promotionalCode.value
+                  || (cartCurrent.promotionalCode
+                  && cartCurrent.promotionalCode.percentage
+                  && cartCurrent.promotionalCode.percentage > 0)"
                   color="accent"
                   class="mt-2 text-right"
           >Utiliser</button>
     </div>
   </div>
-  <div *ngIf="promotionalCodeIsValid" class="row">
+  <div *ngIf="promotionalCodeIsValid|| (cartCurrent.promotionalCode
+                  && cartCurrent.promotionalCode.percentage
+                  && cartCurrent.promotionalCode.percentage > 0)" class="row">
     <div class="col-md-6">
     </div>
     <div style="display: flex;padding: .8rem;background: greenyellow;" class="col-md-6">
       <div style="flex: 1">
         <span style="font-size: x-large; color: green">Réduction</span>
+        <span *ngIf="cartCurrent.subscription
+            && cartCurrent.subscription.percent && +cartCurrent.subscription.percent > 0  "> abonnement <b style="color: blueviolet">{{ cartCurrent.subscription.title | uppercase }}</b></span>
         <div>
           <span style="font-size: smaller; font-style: italic;color: black">(Hors frais de livraison et de service)</span>
         </div>
       </div>
       <div>
-        <div *ngIf="cartCurrent.promotionalCode.percentage">
+        <div *ngIf="cartCurrent.promotionalCode.percentage || (cartCurrent.promotionalCode
+                  && cartCurrent.promotionalCode.percentage
+                  && cartCurrent.promotionalCode.percentage > 0)">
           <span style="font-size: x-large; color: green" >{{ cartCurrent.promotionalCode.percentage }}%
             </span>
         </div>
@@ -232,10 +247,18 @@
         <span style=""><strong>Sous-total</strong></span>
       </div>
       <div>
-        <div *ngIf="promotionalCodeIsValid && cartCurrent.promotionalCode?.percentage">
-          <span style="font-size: large; text-decoration: line-through; color: red;padding-right: .6rem" >{{ cartCurrent.promotionalCode.totalAmountProduct.toFixed(2) }}€
+        <div
+                *ngIf="promotionalCodeIsValid
+                && cartCurrent.promotionalCode?.percentage
+                || (cartCurrent.promotionalCode
+                  && cartCurrent.promotionalCode.percentage
+                  && cartCurrent.promotionalCode.percentage > 0)
+              ">
+         <span style="font-size: large; text-decoration: line-through; color: red;padding-right: .6rem" >{{ cartCurrent.promotionalCode.totalAmountProduct.toFixed(2) }}€
             </span>
-          <span style="font-size: large;  color: green">{{ cartCurrent.promotionalCode.totalAmountProductWithPromotion.toFixed(2) }}€
+          <span *ngIf="!(cartCurrent.promotionalCode
+                  && cartCurrent.promotionalCode.percentage
+                  && cartCurrent.promotionalCode.percentage > 0)" style="font-size: large;  color: green">{{ cartCurrent.promotionalCode.totalAmountProductWithPromotion.toFixed(2) }}€
             </span>
         </div>
         <div *ngIf="!promotionalCodeIsValid">
@@ -310,6 +333,11 @@
     <div style="display: flex" class="col-md-6">
       <div style="flex: 1; font-weight: bold">
         Frais de livraison
+        <span
+            *ngIf="cartCurrent.subscription
+            && cartCurrent.subscription.isFreeShippingCost
+            && cartCurrent.distance && cartCurrent.distance < limitSub.DISTANCE_MAX
+            ">gratuit, abonné <b style="color: blueviolet;">{{ cartCurrent.subscription.title | uppercase }}</b> </span>
         <p style="font-size: x-small; font-weight: lighter; margin-bottom: 0"><em>(entièrement reversé au livreur)</em></p>
       </div>
       <div>
@@ -318,8 +346,14 @@
             <mat-spinner diameter="20"></mat-spinner>
           </div>
         </div>
-        <div style="font-weight: bold; font-size: large" *ngIf="cartCurrent.deliveryCost && !showLoaderCost">
+        <div style="font-weight: bold; font-size: large" *ngIf="(cartCurrent.deliveryCost && !showLoaderCost) &&
+        (cartCurrent.subscription
+        && !cartCurrent.subscription.isFreeShippingCost
+        || (cartCurrent.distance && +cartCurrent.distance > limitSub.DISTANCE_MAX)
+        )">
           {{ cartCurrent.deliveryCost.toFixed(2) }} €
+        </div>
+        <div style="font-weight: bold; color: #0d9e3d; font-size: larger" *ngIf="cartCurrent.subscription && cartCurrent.subscription.isFreeShippingCost && (cartCurrent.distance && cartCurrent.distance > 0 && cartCurrent.distance < limitSub.DISTANCE_MAX)">0€
         </div>
       </div>
     </div>

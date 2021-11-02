@@ -31,6 +31,7 @@
     "@piumaz/pull-to-refresh": "^2.1.0",
     "@sreyaj/ng-shimmer": "^1.0.0",
     "agm-direction": "^0.8.6",
+    "angular-svg-round-progressbar": "^7.0.0",
     "bootstrap": "^4.4.0",
     "chart.js": "^2.9.3",
     "jwt-decode": "^3.1.1",

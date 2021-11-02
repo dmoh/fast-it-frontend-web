@@ -9,7 +9,8 @@ import {StatsSubscription} from "@app/_models/stats-subscription";
 })
 export class SubscriptionStatsComponent implements OnInit {
   stats: StatsSubscription[] = [];
-
+  valueInProgress: number = 0;
+  current: number = 555;
   constructor(private adminService: AdminService) { }
 
   ngOnInit(): void {
@@ -22,4 +23,10 @@ export class SubscriptionStatsComponent implements OnInit {
         });
   }
 
+    handleCurrentValue($event: any) {
+      console.warn($event);
+
+      this.valueInProgress = $event;
+
+    }
 }

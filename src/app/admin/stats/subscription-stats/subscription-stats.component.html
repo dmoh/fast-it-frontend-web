@@ -1,24 +1,44 @@
 <section class="w-100">
     <div class="container-fluid">
         <div class="card">
-            <div class="card-header">
-                <h2>Stats. Abonnés</h2>
+            <div style="border-radius: 0; background: #ce5fea;" class="card-header">
+                <h2 class="text-white" >Stats. Abonnés</h2>
             </div>
-            <div class="card-body">
-                <ul style="padding-left: 0">
-                    <li *ngFor="let stat of stats">
-                        <div class="w-100 d-flex flex-row">
-                            <div>
-                                <img src="assets/user.png" width="50" height="50" class="rounded-circle" alt="">
+            <div class="card-body container">
+                <ul style="padding-left: 0" class="row">
+                    <li style="height: 250px" *ngFor="let stat of stats" class=" w-100 col-md-6">
+                        <div class="d-flex p-2" style="border: 1px solid #cd69e6;align-items: center;justify-content: space-between">
+                            <div class="d-flex" style="align-items: center" >
+                                <div class="mr-2">
+                                    <img src="assets/user.png" width="50" height="50" class="border rounded-circle" alt="">
+                                </div>
+                                <div>
+                                    <h4 class="font-weight-bold mb-0">{{ stat.artistName | uppercase }}</h4>
+                                </div>
                             </div>
-                            <div>
-                                <h3>{{ stat.artistName | uppercase }}</h3>
-                            </div>
-                            <div>
-                                Abonnés : {{ stat.counterSubscription }}
+                            <div class="progress-wrapper position-relative" style="height: 120px; width: 120px">
+                                <div style="color: #666;font-size: x-small;position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);margin: 0 auto;" class="current">
+                                    {{ stat.counterSubscription }} / {{ stat.nbTargetSubscription }}
+                                </div>
+                                <round-progress
+                                        style="height: 120px; width: 120px"
+                                        [current]="stat.counterSubscription"
+                                        [max]="stat.nbTargetSubscription"
+                                        [color]="'#cd69e6'"
+                                        [background]="'#eaeaea'"
+                                        [radius]="125"
+                                        [stroke]="20"
+                                        [semicircle]="false"
+                                        [rounded]="true"
+                                        [clockwise]="true"
+                                        [responsive]="false"
+                                        [duration]="800"
+                                        [animation]="'easeInOutQuart'"
+                                        [animationDelay]="0"
+                                >
+                                </round-progress>
                             </div>
                         </div>
-
                     </li>
                 </ul>
             </div>

@@ -31,3 +31,7 @@ export const subscriptionName = {
     MEDIUM: 'medium',
     PREMIUM: 'premium',
 }
+
+export const limitDistanceSubscription = {
+    DISTANCE_MAX: 5000
+}

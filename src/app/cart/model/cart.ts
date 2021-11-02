@@ -1,5 +1,6 @@
 import {Product} from '@app/models/product';
 import {Restaurant} from '@app/_models/restaurant';
+import {Subscription} from "@app/_models/subscription";
 
 export class Cart {
     products: Product[] = [];
@@ -15,7 +16,18 @@ export class Cart {
     stripeFee?: number = 0;
     amountWithoutSpecialOffer: number = 0;
     comment: string = '';
-    promotionalCode?;
+    promotionalCode?: {
+        percentage?: number,
+        totalAmountProductWithPromotion?: number,
+        totalAmountProduct?: number,
+        id?: number, applicatedTo?:number
+    } = {
+        percentage: 0,
+        totalAmountProductWithPromotion: 0,
+        totalAmountProduct: 0
+    };
     hasShownTipModal?: boolean = false;
     sectorId?: number;
+    subscription?: Subscription = new Subscription();
+    distance?: number = 0;
 }
