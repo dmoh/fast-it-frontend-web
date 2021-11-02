@@ -22,6 +22,7 @@ export class NavbarComponent implements OnInit {
   cart: Cart;
   isMedia: boolean;
   isAdmin: boolean;
+  isArtist: boolean;
   isDeliverer: boolean;
   isSuper: boolean;
   showMenu: boolean;
@@ -74,6 +75,9 @@ export class NavbarComponent implements OnInit {
           }
           if (res.indexOf('ROLE_DELIVERER') > -1) {
             this.isDeliverer = true;
+          }
+          if (res.indexOf('ROLE_ARTIST') > -1) {
+            this.isArtist = true;
           }
         }
       });

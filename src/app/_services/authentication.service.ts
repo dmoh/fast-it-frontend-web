@@ -47,20 +47,22 @@ export class AuthenticationService {
     };
     return this.http.post<any>(`${environment.apiUrl}/api/login_check`, { email, password }, optionRequete)
       .pipe(map(user => {
-        console.warn('user', user);
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         localStorage.setItem('currentUser', JSON.stringify(user));
         this.currentUserSubject.next(user);
         const jwtDecode = jwt_decode(user.token);
+
         // @ts-ignore
         if (jwtDecode.roles) {
           // @ts-ignore
-          const roles = jwtDecode.roles;
+          let roles = jwtDecode.roles;
+          console.warn(user.data.subscription);
           if (
             roles.indexOf('ROLE_ADMIN') !== -1
             || roles.indexOf('ROLE_SUPER_ADMIN') !== -1
             || roles.indexOf('ROLE_DELIVERER') !== -1
             || roles.indexOf('ROLE_MANAGER') !== -1
+            || roles.indexOf('ROLE_ARTIST') !== -1
           ) {
             // add icon and restaurant
             localStorage.setItem('roles', JSON.stringify(roles));
@@ -71,13 +73,12 @@ export class AuthenticationService {
       }));
   }
 
-  logout() {
+  logout(redirectUrl?: string) {
     localStorage.removeItem('currentUser');
     localStorage.removeItem('roles');
     localStorage.removeItem('restaurant');
     this.currentUserSubject.next(null);
     this.currentRolesSubject.next(null);
-    this.router.navigate(['home']);
   }
 
   public checkIsAdmin() {

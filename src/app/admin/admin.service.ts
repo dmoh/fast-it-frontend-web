@@ -222,4 +222,9 @@ export class AdminService {
         },
         this.headers);
   }
+
+  getStatsSubscription(): Observable<any> {
+    return this.http.get<any>(`${this.urlApi}/admin/stats/subscription`,
+        this.headers);
+  }
 }

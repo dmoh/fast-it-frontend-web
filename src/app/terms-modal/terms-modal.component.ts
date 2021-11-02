@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
+import { MatDialogRef} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-terms-modal',
@@ -8,7 +8,7 @@ import {NgbActiveModal} from "@ng-bootstrap/ng-bootstrap";
 })
 export class TermsModalComponent implements OnInit {
 
-  constructor(public modal: NgbActiveModal) { }
+  constructor(public dialog: MatDialogRef<any>) { }
 
   ngOnInit(): void {
   }

@@ -1,0 +1,144 @@
+<section class="w-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="text-center">Pass Fast-it</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 mt-2">
+                <div style="border-radius: 0; border: 2px solid #c823f1" class="card">
+                    <div class="card-header subscription-card-header">
+                        <div style="margin-bottom: 0; border-radius: 0" class="card-title text-center">
+                            BASIC
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="">
+                            <ul style="margin-left: 0; padding-left: 0">
+                                <li style="display: flex;align-items: center;  font-weight: lighter" class="pb-2">
+                                    <span style="font-size: large; padding-right: 5px; color: #0d9e3d" class="material-icons">
+                                        done
+                                    </span>
+                                    <span>Frais de livraison à 0€ </span>
+                                </li>
+                                <li style="display: flex;align-items: center;  font-weight: lighter">
+                                    <span style="font-size: large; padding-right: 5px; color: red" class="material-icons">
+                                        close
+                                    </span>
+                                    <span>Toutes les commandes à -15%</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="text-center">
+                            <h3 style="font-size: 2rem; font-weight: 100; padding-bottom: 0 !important;; margin-bottom: 0 !important;" class="text-center">4.99€</h3>
+                            <span style="font-size: smaller; font-weight: lighter" class="text-center font-small">par mois</span>
+                        </div>
+                        <div class="text-center " *ngIf="user && user.data && +(user.data.subscription.subType) >= 1 else showBtnBasic">
+                            <div class="p-2">
+                                <span style="display: block;color: #63ae1b;" class="material-icons">
+                                    verified
+                                </span>
+                                <span>Vous êtes abonné.e</span> <span class="d-block" style="font-size: 1.2rem;color: #d840ff;font-weight: 600;">{{ user.data.subscription.title | uppercase }}</span>
+                            </div>
+                        </div>
+                        <ng-template #showBtnBasic>
+                            <div class="text-center pt-2">
+                                <button mat-raised-button color="primary" (click)="onOpenSubscriptionModal(this.codeSub.BASIC, this.nameSub.BASIC, BASIC_AMOUNT)">J'en profite!</button>
+                            </div>
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mt-2">
+                <div style="border-radius: 0; border: 2px solid #c823f1" class="card">
+                    <div class="card-header subscription-card-header">
+                        <div style="margin-bottom: 0; border-radius: 0" class="card-title text-center">
+                            MEDIUM
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="">
+                            <ul style="margin-left: 0; padding-left: 0">
+                                <li style="display: flex;align-items: center;  font-weight: lighter" class="pb-2">
+                                    <span style="font-size: large; padding-right: 5px; color: #0d9e3d" class="material-icons">
+                                        done
+                                    </span>
+                                    <span>Toutes les commandes à -15%</span>
+                                </li>
+                                <li style="display: flex;align-items: center;  font-weight: lighter">
+                                    <span style="font-size: large; padding-right: 5px; color: red" class="material-icons">
+                                        close
+                                    </span>
+                                    <span>Frais de livraison à 0€ </span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="text-center">
+                            <h3 style="font-size: 2rem; font-weight: 100; padding-bottom: 0 !important;; margin-bottom: 0 !important;" class="text-center">5.99€</h3>
+                            <span style="font-size: smaller; font-weight: lighter" class="text-center font-small">par mois</span>
+                        </div>
+                        <div class="text-center " *ngIf="user && user.data && +(user.data.subscription.subType) == 2 else showBtnMedium" >
+                            <div class="p-2">
+                                <span style="display: block;color: #63ae1b;" class="material-icons">
+                                    verified
+                                </span>
+                                <span>Vous êtes abonné.e</span> <span class="d-block" style="font-size: 1.2rem;color: #d840ff;font-weight: 600;">{{ user.data.subscription.title | uppercase }}</span>
+                            </div>
+                        </div>
+                        <ng-template #showBtnMedium>
+                            <div  class="text-center pt-2">
+                                <button mat-raised-button color="primary" (click)="onOpenSubscriptionModal(this.codeSub.MEDIUM, this.nameSub.MEDIUM, MEDIUM_AMOUNT)">J'en profite!</button>
+                            </div>
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mt-2">
+                <div style="border-radius: 0; border: 2px solid #c823f1" class="card">
+                    <div class="card-header subscription-card-header">
+                        <div style="margin-bottom: 0; border-radius: 0" class="card-title text-center">
+                            PREMIUM
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="">
+                            <ul style="margin-left: 0; padding-left: 0">
+                                <li style="display: flex;align-items: center;  font-weight: lighter" class="pb-2">
+                                    <span style="font-size: large; padding-right: 5px; color: #0d9e3d" class="material-icons">
+                                        done
+                                    </span>
+                                    <span>Toutes les commandes à -15%</span>
+                                </li>
+                                <li style="display: flex;align-items: center;  font-weight: lighter">
+                                    <span style="font-size: large; padding-right: 5px; color: #0d9e3d" class="material-icons">
+                                        done
+                                    </span>
+                                    <span>Frais de livraison à 0€ </span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="text-center">
+                            <h3 style="font-size: 2rem; font-weight: 100; padding-bottom: 0 !important; margin-bottom: 0 !important;" class="text-center">8.99€</h3>
+                            <span style="font-size: smaller; font-weight: lighter" class="text-center font-small">par mois</span>
+                        </div>
+                        <div class="text-center " *ngIf="user && user.data && +(user.data.subscription.subType) == 3 else showBtnPremium" >
+                            <div class="p-2">
+                                <span style="display: block;color: #63ae1b;" class="material-icons">
+                                    verified
+                                </span>
+                                <span>Vous êtes abonné.e</span> <span class="d-block" style="font-size: 1.2rem;color: #d840ff;font-weight: 600;">{{ user.data.subscription.title | uppercase }}</span>
+                            </div>
+                        </div>
+                        <ng-template #showBtnPremium >
+                            <div class="text-center pt-2">
+                                <button mat-raised-button color="primary" (click)="onOpenSubscriptionModal(this.codeSub.PREMIUM, this.nameSub.PREMIUM,PREMIUM_AMOUNT)">J'en profite!</button>
+                            </div>
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<app-footer></app-footer>

@@ -21,8 +21,17 @@
             <div style="color: #c145e1;font-size: 1.4rem;cursor: pointer;padding-top: .5rem;" class="material-icons">home</div>
           </button>
           <mat-menu #menu="matMenu">
+            <h2
+              style="padding: .5rem;background: #bb22e2;color: white;"
+              class="text-center"
+              *ngIf="user && user.data && user.data.subscription">
+              <span style="font-size: small !important;font-weight: lighter;display: block;text-align: center;">Abonné</span> {{ user.data.subscription.title | uppercase }}
+            </h2>
             <button mat-menu-item>
               <a style="text-decoration: none; color: #0a0a0a" routerLink="/home">Accueil</a>
+            </button>
+            <button mat-menu-item>
+              <a style="text-decoration: none; color: #0a0a0a" routerLink="/subscription">Abonnement</a>
             </button>
             <button *ngIf="user.token"  mat-menu-item>
               <a style="text-decoration: none; color: #0a0a0a" routerLink="customer/overview">Profil</a>
@@ -33,10 +42,13 @@
             <button *ngIf="isAdmin" mat-menu-item>
               <a (click)="goTo()">Restaurant</a>
             </button>
+            <button *ngIf="isArtist || isSuper" mat-menu-item>
+              <a style="text-decoration: none; color: #0a0a0a" routerLink="admin/stats/subscription">Stats Abo.</a>
+            </button>
             <button *ngIf="isSuper" mat-menu-item>
               <a style="text-decoration: none; color: #0a0a0a" routerLink="admin/commerce">Dashboard</a>
             </button>
-            <button *ngIf="user.token" mat-raised-button color="primary" (click)="onLogout()">
+            <button class="m-2" *ngIf="user.token" mat-raised-button color="primary" (click)="onLogout()">
               <span class="material-icons"></span>Se déconnecter
             </button>
           </mat-menu>
@@ -89,14 +101,14 @@
     </div>
   </div>
 </div>
--->
+
 <div class="container-fluid">
   <div class="row">
     <div style="padding-left: 0; padding-right: 0" class="col-md-12">
       <div style="margin-bottom: 0 !important; cursor:pointer; color: white; font-size: smaller; background-color: #15c74c; border-radius: 0; border-color: transparent;" class="alert alert-success text-center" role="alert">
-        <a>Encore une offre exceptionnelle! -15% sur votre commande avec le code FASTIT15</a>
+        <a>Offre vacances! -15% sur votre commande avec le code VACANCES15</a>
       </div>
     </div>
   </div>
-</div>
+</div>-->
 

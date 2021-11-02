@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {NgbActiveModal, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { HomeComponent } from './home/home.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { HomeFeaturesComponent } from './home/home-features/home-features.component';
@@ -40,6 +40,9 @@ import { ShimmerViewComponent } from './shimmer-view/shimmer-view.component';
 import { PaymentModalComponent } from './payment-modal/payment-modal.component';
 import { SystempayDialogComponent } from './systempay-dialog/systempay-dialog.component';
 import {PullToRefreshModule} from '@piumaz/pull-to-refresh';
+import { SubscriptionComponent } from './subscription/subscription.component';
+import { SubscriptionModalComponent } from './subscription/subscription-modal/subscription-modal.component';
+import {RouterStateSnapshot} from "@angular/router";
 
 
 @NgModule({
@@ -68,6 +71,8 @@ import {PullToRefreshModule} from '@piumaz/pull-to-refresh';
     ShimmerViewComponent,
     PaymentModalComponent,
     SystempayDialogComponent,
+    SubscriptionComponent,
+    SubscriptionModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -87,7 +92,7 @@ import {PullToRefreshModule} from '@piumaz/pull-to-refresh';
     CityDataService,
     RestaurantDashboardService,
     SecurityRestaurantService,
-    SidenavService,
+    SidenavService
   ],
   bootstrap: [AppComponent],
     exports: [
@@ -108,7 +113,9 @@ import {PullToRefreshModule} from '@piumaz/pull-to-refresh';
         LocationComponent,
         ShimmerViewComponent,
         PaymentModalComponent,
-        SystempayDialogComponent
+        SystempayDialogComponent,
+        SubscriptionComponent,
+        SubscriptionModalComponent
     ]
 })
 export class AppModule { }

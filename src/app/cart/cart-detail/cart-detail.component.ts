@@ -108,7 +108,6 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
       this.userAddresses = result.data[0].addresses;
       this.paymentMethodToken = result.data[0].paymentMethodToken;
       this.pan = result.data[0].pan;
-      console.log('retour adress', result);
       this.addressChose = null;
       const modalRef = this.addressConfirmationModal.open(AddressModalComponent, {
         backdrop: 'static',
@@ -150,8 +149,6 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
                 destinations: [addressChoosen],
                 travelMode: google.maps.TravelMode.DRIVING,
               }, (response, status) => {
-                console.warn('responsGoogle', response);
-                console.warn('status', status);
                 if (response.rows === null) {
                   this.showModalError();
                 }
@@ -471,7 +468,9 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
 
 
   onShowTerms() {
-    this.infoModal.open(TermsModalComponent, {size: 'lg'});
+    this.dialog.open(TermsModalComponent, {
+      autoFocus: false
+    })
   }
 
   openDialog(): void {

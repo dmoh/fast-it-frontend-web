@@ -19,3 +19,15 @@ export const codeCurrentPage = {
     RESTAURANT: 2,
     CART_PAYMENT: 3
 }
+
+export const subscription = {
+    BASIC: 1,
+    MEDIUM: 2,
+    PREMIUM: 3,
+}
+
+export const subscriptionName = {
+    BASIC: 'basic',
+    MEDIUM: 'medium',
+    PREMIUM: 'premium',
+}

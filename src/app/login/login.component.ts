@@ -1,4 +1,4 @@
-﻿﻿import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import {UserService} from '@app/_services/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -48,6 +48,7 @@ export class LoginComponent implements OnInit {
       confirmPassword: ['', Validators.required]
     });
     // get return url from route parameters or default to '/'
+
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
     this.loginForm.get('password').valueChanges.subscribe((val) => {
       if (val && val.trim().length > 3) {

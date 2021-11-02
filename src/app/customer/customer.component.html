@@ -7,6 +7,16 @@
             <img style="border: 2px solid #c823f1" class="rounded-circle" src="assets/user.png" width="65px" alt="">
           </div>
         </div>
+        <div style="border: 1px solid violet" class="text-center"
+             *ngIf="user && user.data && user.data.subscription.subType">
+          <div class="p-2">
+            <span style="display: block;color: #63ae1b;" class="material-icons">
+                verified
+            </span>
+            <span>Vous êtes abonné.e</span>
+            <span class="d-block" style="font-size: 1.2rem;color: #d840ff;font-weight: 600;">{{ user.data.subscription.title | uppercase }}</span>
+          </div>
+        </div>
         <div style="width: 100%; display: flex; flex-direction: column;justify-content: center" class="nav">
           <div class="wrapper-link-sidebar">
             <a routerLink="/customer/overview" (click)="sidenav.close()">

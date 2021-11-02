@@ -12,6 +12,7 @@ import { MediaQueryService } from '@app/_services/media-query.service';
 import { MatSidenav } from '@angular/material/sidenav';
 import { SidenavService } from '@app/sidenav-responsive/sidenav.service';
 import {Router} from "@angular/router";
+import {AuthenticationService} from "@app/_services/authentication.service";
 
 @Component({
   selector: 'app-customer',
@@ -27,7 +28,7 @@ export class CustomerComponent implements OnInit, AfterViewInit {
   isMedia: boolean;
   mobile: boolean;
   sideMode: string;
-
+  user: any;
   @ViewChild('sidebarLeft')
   public sidenav: MatSidenav;
 
@@ -37,6 +38,7 @@ export class CustomerComponent implements OnInit, AfterViewInit {
     private bottomSheet: MatBottomSheet,
     private mediaQueryService: MediaQueryService,
     private sidenavService: SidenavService,
+    private authentication: AuthenticationService,
     private router: Router
   ) { }
 
@@ -44,6 +46,9 @@ export class CustomerComponent implements OnInit, AfterViewInit {
 
 
   ngOnInit(): void {
+    this.authentication.currentUser.subscribe((res) => {
+      this.user = !res ? new User() : res;
+    });
     this.customerService.getInfosCustomer()
       .subscribe((response) => {
         this.customer = response;

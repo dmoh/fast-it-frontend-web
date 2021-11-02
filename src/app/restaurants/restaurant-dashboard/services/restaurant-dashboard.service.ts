@@ -246,11 +246,14 @@ export class RestaurantDashboardService {
       this.headers);
   }
 
-  initSystemPay(amount: number, paymentMethodToken?: string): Observable<any> {
+  initSystemPay(amount: number,
+                paymentMethodToken?: string,
+                isSubscription?:boolean): Observable<any> {
     return this.http.post<any>(`${this.urlApi}/systempay/init/payment`,
         {
           payment: amount,
-          paymentMethodToken: paymentMethodToken
+          paymentMethodToken: paymentMethodToken,
+          isSubscription: isSubscription ?? null
         }, this.headers);
   }
 

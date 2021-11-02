@@ -8,16 +8,19 @@ import {Router} from '@angular/router';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  constructor(private authenticationService: AuthenticationService, private router: Router) { }
+  constructor(private authenticationService: AuthenticationService,
+              private router: Router
+  ) { }
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(catchError(err => {
 
-      if (err.status === 401) {
+      if (err.status === 404) {
+        this.router.navigate(['/404']);
+      }
+      if (err.status === 401 || err.status === 403) {
         // auto logout if 401 response returned from api
-        this.authenticationService.logout();
-        this.router.navigateByUrl('/login', { skipLocationChange: true }).then(() => {
-          this.router.navigate(['/login']);
-        });
+        this.authenticationService.logout('redirect');
+        this.router.navigate(['/login'], { queryParams: { returnUrl: this.router.routerState.snapshot.url} });
         // location.reload(true);
       }
       const error = err.error.message || err.statusText;

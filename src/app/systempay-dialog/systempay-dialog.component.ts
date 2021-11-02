@@ -29,7 +29,7 @@ export class SystempayDialogComponent implements OnInit, AfterViewInit {
         private renderer2: Renderer2,
         private restaurantDashboardService: RestaurantDashboardService,
         public dialogRef: MatDialogRef<SystempayDialogComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: { total, paymentMethodToken, pan },
+        @Inject(MAT_DIALOG_DATA) public data: { total, paymentMethodToken, pan, isSubscription? },
     ) {
     }
 
@@ -56,10 +56,11 @@ export class SystempayDialogComponent implements OnInit, AfterViewInit {
             }
         }
         this.restaurantDashboardService
-            .initSystemPay(this.data.total, this.paymentMethodToken)
+            .initSystemPay(this.data.total, this.paymentMethodToken, this.data.isSubscription)
             .subscribe((res) => {
                     if (res.error || res.formToken === null) {
                         this.error = res.error;
+                        console.warn('errorForm', this.error);
                         return;
                     }
                     const dialog = this.dialogRef;
