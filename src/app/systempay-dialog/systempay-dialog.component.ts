@@ -77,6 +77,7 @@ export class SystempayDialogComponent implements OnInit, AfterViewInit {
                         .then(({KR, result}) => {
                             KR.showForm(result.formId);
                             KR.onSubmit( (event) => {
+                                this.showCancelButton = false;
                                 if (event.clientAnswer.orderStatus === "PAID") {
                                     setTimeout(() => {
                                         this.paymentFull.nativeElement.style.display = "block";
@@ -89,7 +90,6 @@ export class SystempayDialogComponent implements OnInit, AfterViewInit {
                                     KR.removeForms();
                                 } else {}
                             }).then((val) => {
-                                this.showCancelButton = false;
                                 setTimeout(() => {},0);
                             });
                         })

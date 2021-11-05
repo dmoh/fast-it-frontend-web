@@ -4,4 +4,8 @@ export class Subscription {
     amount: number;
     percent: number;
     isFreeShippingCost: boolean;
+    subscriptionCapacityId?: number;
+    isActive?: boolean;
+    isCancel?: boolean;
+    isLocked?: boolean;
 }

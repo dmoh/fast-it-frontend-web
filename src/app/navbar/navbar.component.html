@@ -54,7 +54,7 @@
           </mat-menu>
         </li>
         <li class="nav-item">
-          <a *ngIf="!user.token" class="nav-link" routerLink="/login" style="color: white"><div style="color: #c146e1;font-size: x-large;padding-right: .4rem; cursor: pointer" class="material-icons">account_circle</div></a>
+          <a *ngIf="!user.token" class="nav-link" routerLink="/login" style="color: white"><div style="color: #c146e1;font-size: x-large;padding-right: .4rem; cursor: pointer; padding-top: 0.1rem" class="material-icons">account_circle</div></a>
         </li>
         <li class="nav-item">
           <a style="display: flex;background:  #c145e1; flex-direction: row; border: 1px solid  #c145e1;"  *ngIf="cart.total > 0" [ngClass]="{'not-allowed': cart.total == 0}" class="nav-link btn btn-sm" routerLink="/cart-detail">

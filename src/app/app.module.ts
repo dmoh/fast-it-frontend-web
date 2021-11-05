@@ -42,7 +42,6 @@ import { SystempayDialogComponent } from './systempay-dialog/systempay-dialog.co
 import {PullToRefreshModule} from '@piumaz/pull-to-refresh';
 import { SubscriptionComponent } from './subscription/subscription.component';
 import { SubscriptionModalComponent } from './subscription/subscription-modal/subscription-modal.component';
-import {RouterStateSnapshot} from "@angular/router";
 
 
 @NgModule({

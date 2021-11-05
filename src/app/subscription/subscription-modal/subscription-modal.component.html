@@ -1,7 +1,7 @@
 <section class="w-100">
     <h2 class="text-center">Abonnement <b style="color: #d346f6">{{ data.nameSub | uppercase }}</b></h2>
     <div class="w-100">
-        <span class="text-center">Serait-il possible de savoir comment avez-eu connaissance de cette abonnement ?</span>
+        <span class="text-center">Serait-il possible de savoir comment avez-vous eu connaissance de cette abonnement ?</span>
         <form [formGroup]="formGroup" >
             <ul class="pl-0 mt-3">
                 <li class="mb-3">
@@ -21,9 +21,9 @@
                 </li>
             </ul>
             <div class="mb-2">Merci pour l'information</div>
-            <mat-slide-toggle>J'ai lu et J'accepte <a (click)="onShowTerms()" style="text-decoration: underline; color: dodgerblue">les conditions générales de vente</a></mat-slide-toggle>
+            <mat-slide-toggle formControlName="acceptTerms">J'ai lu et J'accepte <a (click)="onShowTerms()" style="text-decoration: underline; color: dodgerblue">les conditions générales de vente</a></mat-slide-toggle>
             <div *ngIf="showValidationButton" class="w-100 d-flex justify-content-center mt-2">
-                <button [disabled]="formGroup.invalid" (click)="onValidate()" mat-raised-button color="primary" class="text-center">
+                <button [disabled]="formGroup.invalid || denyTerms" (click)="onValidate()" mat-raised-button color="primary" class="text-center">
                     Valider
                 </button>
             </div>

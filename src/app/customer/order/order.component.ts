@@ -22,8 +22,7 @@ export class OrderComponent implements OnInit, OnDestroy {
   constructor(
     private customerService: CustomerService,
     private orderModal: NgbModal,
-    private restaurantDashboardService: RestaurantDashboardService,
-
+    private restaurantDashboardService: RestaurantDashboardService
   ) { }
 
   ngOnInit(): void {

@@ -119,6 +119,7 @@ export class CartService {
 
   public generateTotalCart(isCheckout?: boolean): void {
     this.cartCurrent.total = 0;
+    this.cartCurrent.totalWithoutDiscount = 0;
     this.cartCurrent.totalAmountProduct = 0;
     this.cartCurrent.amountWithoutSpecialOffer = 0;
     this.cartCurrent.products.forEach((prod: Product) => {
@@ -134,6 +135,7 @@ export class CartService {
            });*/
         }
         this.cartCurrent.total += +(prod.quantity * prod.amount) / 100;
+        this.cartCurrent.totalWithoutDiscount += +(prod.quantity * prod.amount) / 100;
         this.cartCurrent.totalAmountProduct += +(prod.quantity * prod.amount) / 100;
         this.cartCurrent.amountWithoutSpecialOffer += +(prod.quantity * prod.amount) / 100;
 
@@ -187,17 +189,20 @@ export class CartService {
     ) {
       const tip = (this.cartCurrent.tipDelivererAmount).toFixed(2);
       this.cartCurrent.total += parseFloat(tip);
+      this.cartCurrent.totalWithoutDiscount += parseFloat(tip);
       this.cartCurrent.amountWithoutSpecialOffer += parseFloat(tip);
     }
     // this.cartCurrent.total += 0.80;
     // this.cartCurrent.amountWithoutSpecialOffer += 0.80;
     this.cartCurrent.total += this.isFreeShippingCost() ? 0 : +(this.cartCurrent.deliveryCost);
-    this.cartCurrent.amountWithoutSpecialOffer += +(this.cartCurrent.deliveryCost);
+    this.cartCurrent.totalWithoutDiscount += +(this.cartCurrent.deliveryCost);
+    this.cartCurrent.amountWithoutSpecialOffer += this.isFreeShippingCost() ? 0 : +(this.cartCurrent.deliveryCost);
 
     if (isCheckout) {
       this.cartCurrent.stripeFee = (this.cartCurrent.total - (this.cartCurrent.total * 0.986)) + 2.85 ;
       const fee = (this.cartCurrent.stripeFee).toFixed(2);
       this.cartCurrent.total += parseFloat(fee);
+      this.cartCurrent.totalWithoutDiscount += parseFloat(fee);
       this.cartCurrent.amountWithoutSpecialOffer += parseFloat(fee);
     }
     this.cartCurrent.total = +this.cartCurrent.total.toFixed(2);
@@ -305,7 +310,7 @@ export class CartService {
 
 
   hasPercentPromotionSubscription(): boolean {
-    return this.user && this.user.data && this.user.data.subscription.percent && +this.user.data.subscription.percent > 0;
+    return this.user && this.user.data && this.user.data.subscription && this.user.data.subscription.percent && +this.user.data.subscription.percent > 0;
   }
 
 

@@ -16,6 +16,7 @@ export class Cart {
     stripeFee?: number = 0;
     amountWithoutSpecialOffer: number = 0;
     comment: string = '';
+    totalWithoutDiscount: number = 0;
     promotionalCode?: {
         percentage?: number,
         totalAmountProductWithPromotion?: number,

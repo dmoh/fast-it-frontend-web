@@ -36,6 +36,18 @@ export class AuthenticationService {
   }
 
 
+  public addSubscriptionDataUser(subscription): void {
+    if (localStorage.getItem('currentUser')) {
+      const user = JSON.parse(localStorage.getItem('currentUser'));
+      if (user.data) {
+        user.data.subscription = subscription;
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        this.currentUserSubject.next(user);
+      }
+    }
+  }
+
+
   public get tokenUserCurrent(): string {
     return; // this.currentUserSubject.value.token;
   }
@@ -56,7 +68,6 @@ export class AuthenticationService {
         if (jwtDecode.roles) {
           // @ts-ignore
           let roles = jwtDecode.roles;
-          console.warn(user.data.subscription);
           if (
             roles.indexOf('ROLE_ADMIN') !== -1
             || roles.indexOf('ROLE_SUPER_ADMIN') !== -1

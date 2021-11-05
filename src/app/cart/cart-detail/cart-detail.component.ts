@@ -161,6 +161,7 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
                       && +this.responseDistanceGoogle.distance.value > 0) {
                     this.cartService.setDistanceCart(+this.responseDistanceGoogle.distance.value);
                   }
+                  console.warn('detail cart', this.cartCurrent);
                   const track = new Track();
                   track.currentPage = codeCurrentPage.CART_PAYMENT;
                   track.amountCart = +this.cartService.getIntTotalAmount();
@@ -290,6 +291,7 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
 
 
   onProceedCheckout(event: Event): void {
+    console.warn('cart', this.cartCurrent);
     if (this.cartCurrent.hasShownTipModal){
       this.openDialog();
     } else {
