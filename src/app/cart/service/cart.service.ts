@@ -10,6 +10,8 @@ import {isNumeric} from "tslint";
 import {RestaurantDashboardService} from "@app/restaurants/restaurant-dashboard/services/restaurant-dashboard.service";
 import {CartDetailComponent} from "@app/cart/cart-detail/cart-detail.component";
 import {limitDistanceSubscription} from "@app/_util/fasteat-constants";
+import {PromotionalCode} from "@app/_models/promotional-code";
+import {Promotion} from "@app/_models/promotion";
 
 @Injectable({
   providedIn: 'root'
@@ -139,24 +141,22 @@ export class CartService {
         this.cartCurrent.totalAmountProduct += +(prod.quantity * prod.amount) / 100;
         this.cartCurrent.amountWithoutSpecialOffer += +(prod.quantity * prod.amount) / 100;
 
-        if(this.cartCurrent.promotionalCode
+        if((this.cartCurrent.promotionalCode
             && this.cartCurrent.promotionalCode.percentage
-            && this.cartCurrent.promotionalCode.percentage > 0
+            && +this.cartCurrent.promotionalCode.percentage > 0)
             || this.hasPercentPromotionSubscription()
         ) {
-           this.cartCurrent['promotionalCode'] = {
-            percentage: 0,
-            totalAmountProductWithPromotion: 0,
-            totalAmountProduct: 0
-           };
+          if (this.hasPercentPromotionSubscription()) {
+            this.cartCurrent.promotionalCode = new Promotion();
+          }
           this.cartCurrent.promotionalCode.totalAmountProduct = this.cartCurrent.totalAmountProduct;
         }
       }
     });
 
-    if (this.cartCurrent.promotionalCode
+    if ((this.cartCurrent.promotionalCode
         && this.cartCurrent.promotionalCode.percentage
-        && this.cartCurrent.promotionalCode.percentage > 0
+        && +this.cartCurrent.promotionalCode.percentage > 0)
         || this.hasPercentPromotionSubscription()
     ){
       if(this.hasPercentPromotionSubscription()) {
@@ -297,8 +297,14 @@ export class CartService {
     this.emitCartSubject();
   }
 
-  setPromotionalCode(promotionalCode?: {id, applicatedTo, percentage}) {
+  setPromotionalCode(promotionalCode: any) {
+    console.warn('methid promo code', promotionalCode);
+    console.warn('cartCurrent', [this.cartCurrent, this.cartCurrent.promotionalCode]);
+    this.cartCurrent.promotionalCode = new Promotion();
+
     this.cartCurrent.promotionalCode = promotionalCode;
+    console.warn('after init ', [this.cartCurrent, this.cartCurrent.promotionalCode]);
+
     this.generateTotalCart(true);
   }
 

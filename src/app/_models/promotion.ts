@@ -5,6 +5,8 @@ export class Promotion {
     percentage: number = 0.0;
     code: string = '';
     enable: boolean = true;
+    totalAmountProduct = 0;
+    totalAmountProductWithPromotion= 0;
     dateBegin: {date};
     dateEnd: {date};
     applicatedTo: number = promotionApplicationTo.FAST_IT;

@@ -231,7 +231,7 @@
       <div>
         <div *ngIf="cartCurrent.promotionalCode.percentage || (cartCurrent.promotionalCode
                   && cartCurrent.promotionalCode.percentage
-                  && cartCurrent.promotionalCode.percentage > 0)">
+                  && +cartCurrent.promotionalCode.percentage > 0)">
           <span style="font-size: x-large; color: green" >{{ cartCurrent.promotionalCode.percentage }}%
             </span>
         </div>
@@ -252,13 +252,15 @@
                 && cartCurrent.promotionalCode?.percentage
                 || (cartCurrent.promotionalCode
                   && cartCurrent.promotionalCode.percentage
-                  && cartCurrent.promotionalCode.percentage > 0)
+                  && +cartCurrent.promotionalCode.percentage > 0)
               ">
-         <!--<span style="font-size: large; text-decoration: line-through; color: red;padding-right: .6rem" >{{ cartCurrent.promotionalCode.totalAmountProduct.toFixed(2) }}€
-            </span>-->
-          <span *ngIf="!(cartCurrent.promotionalCode
+         <span style="font-size: large; text-decoration: line-through; color: red;padding-right: .6rem" >
+           {{ cartCurrent.promotionalCode.totalAmountProduct.toFixed(2) }}€
+            </span>
+          <span *ngIf="(cartCurrent.promotionalCode
                   && cartCurrent.promotionalCode.percentage
-                  && cartCurrent.promotionalCode.percentage > 0)" style="font-size: large;  color: green">{{ cartCurrent.promotionalCode.totalAmountProductWithPromotion.toFixed(2) }}€
+                  && cartCurrent.promotionalCode.percentage > 0)" style="font-size: large;  color: green">
+            {{ cartCurrent.promotionalCode.totalAmountProductWithPromotion.toFixed(2) }}€
             </span>
         </div>
         <div *ngIf="!promotionalCodeIsValid">
@@ -372,7 +374,13 @@
     <div style="display: flex" class="col-md-6">
       <div style="flex: 1; font-weight: bold; font-size: x-large">TOTAL</div>
       <div>
-        <span *ngIf="cartCurrent.totalWithoutDiscount && cartCurrent.total && +cartCurrent.totalWithoutDiscount > +cartCurrent.total" style="font-weight: bold; text-decoration: line-through; color: red; font-size: x-large; padding-right: .5rem " >
+        <span *ngIf="
+              cartCurrent.totalWithoutDiscount
+              && cartCurrent.total
+              && +cartCurrent.totalWithoutDiscount > +cartCurrent.total
+              && (promotionalCodeIsValid || hasPercentPromotionSubscription)
+              "
+              style="font-weight: bold; text-decoration: line-through; color: red; font-size: x-large; padding-right: .5rem " >
           {{ cartCurrent.totalWithoutDiscount.toFixed(2).replace('.', ',')  }}€
         </span>
         <!--<span style="text-decoration: line-through; color: red; padding-right: .5rem" *ngIf="

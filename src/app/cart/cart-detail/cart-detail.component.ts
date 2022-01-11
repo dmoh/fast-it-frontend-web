@@ -63,6 +63,7 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
   amountTotal: null|string|number;
   pan: string;
   limitSub = limitDistanceSubscription;
+  hasPercentPromotionSubscription: boolean = false;
   get distanceText() {
     return (this.responseDistanceGoogle) ? this.responseDistanceGoogle.distance?.text?.replace(',','.'): '' ;
   }
@@ -161,7 +162,6 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
                       && +this.responseDistanceGoogle.distance.value > 0) {
                     this.cartService.setDistanceCart(+this.responseDistanceGoogle.distance.value);
                   }
-                  console.warn('detail cart', this.cartCurrent);
                   const track = new Track();
                   track.currentPage = codeCurrentPage.CART_PAYMENT;
                   track.amountCart = +this.cartService.getIntTotalAmount();
@@ -176,6 +176,7 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
                         this.cartService.setDeliveryCost(resp.deliveryInfos);
                         this.hasAddressSelected = true;
                         this.cartService.generateTotalCart(true);
+                        this.hasPercentPromotionSubscription = this.cartService.hasPercentPromotionSubscription();
                         this.cartService.cartUpdated.subscribe((cartUpdated: Cart) => {
                           this.cartCurrent = cartUpdated;
                         });
@@ -200,7 +201,8 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
     }
     if (valuePromotion && valuePromotion.trim().length > 7 && valuePromotion.trim().length < 16) {
       const subscribePromo = this.userService.checkPromotionalCode(
-          {promotinalCode: valuePromotion.trim(),
+          {
+            promotinalCode: valuePromotion.trim(),
             restaurantId: this.cartCurrent.restaurant.id,
             sectorId: this.cartCurrent.sectorId && +this.cartCurrent.sectorId > 0 ? this.cartCurrent.sectorId : null})
           .pipe(
@@ -214,6 +216,9 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
             } else {
               this.promotionalCodeIsValid = true;
               this.cartService.setPromotionalCode(res.promotion[0]);
+              this.cartService.cartUpdated.subscribe((cartUpdated: Cart) => {
+                this.cartCurrent = cartUpdated;
+              });
               // applique pourcentage garder id promo
             }
             subscribePromo.unsubscribe();
