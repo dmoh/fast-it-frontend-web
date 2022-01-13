@@ -115,11 +115,60 @@ export class ProductModalComponent implements OnInit {
      elem.id === list.id);
    this.listSelected = Object.assign({}, list);
 
+
    if (indexListAlreadyExists === -1) {
      this.listSelected.supplementProducts = [sup];
      this.product.listSupplements = [...this.product.listSupplements, this.listSelected];
-     console.warn('aj list', this.product.listSupplements);
+       if (list.sumOfSup && sup.amount && +(sup.amount) > 0) {
+           this.product.amount += sup.amount;
+       }
+
    } else if (indexListAlreadyExists !== -1) {
+       //add sup
+       if (this.product
+           .listSupplements[indexListAlreadyExists]
+           .supplementProducts.length > 0) {
+           const indexSup = this.product
+               .listSupplements[indexListAlreadyExists]
+               .supplementProducts.findIndex(elem => +elem.id === +sup.id);
+
+           if (indexSup === -1) {
+               this.product
+                   .listSupplements[indexListAlreadyExists]
+                   .supplementProducts.forEach((elem) => {
+                   if (list.sumOfSup) {
+                       if (
+                           elem.amount
+                           && +(elem.amount) > 0) {
+                           this.product.amount -= elem.amount;
+                       }
+                   }
+               });
+
+               if (list.sumOfSup && sup.amount && +(sup.amount) > 0) {
+                   this.product.amount += sup.amount
+               }
+
+               this.product
+                   .listSupplements[indexListAlreadyExists]
+                   .supplementProducts =
+                   [sup, ...this.product
+                       .listSupplements[indexListAlreadyExists]
+                       .supplementProducts];
+               this.product
+                   .listSupplements[indexListAlreadyExists]
+                   .supplementProducts = this.product
+                   .listSupplements[indexListAlreadyExists]
+                   .supplementProducts.filter((elem) => +elem.id === +sup.id)
+
+           }
+
+       }
+
+       console.warn(this.product.listSupplements[indexListAlreadyExists]);
+
+
+
      this.product
        .listSupplements[indexListAlreadyExists]
        .supplementProducts = this.product

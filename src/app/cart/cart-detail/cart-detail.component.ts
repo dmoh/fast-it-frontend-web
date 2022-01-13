@@ -156,6 +156,7 @@ export class CartDetailComponent implements OnInit, AfterViewInit {
                 }
                 else if (response.rows[0].elements[0].status === 'OK') {
                   const responseDistance = response.rows[0].elements[0];
+                  responseDistance['zipcode'] =  this.cartCurrent.restaurant.zipcode;
                   this.responseDistanceGoogle = responseDistance;
                   if (this.responseDistanceGoogle
                       && this.responseDistanceGoogle.distance

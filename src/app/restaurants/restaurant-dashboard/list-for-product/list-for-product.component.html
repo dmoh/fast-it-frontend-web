@@ -9,6 +9,7 @@
   <mat-checkbox [(ngModel)]="listSupplement.isForMenu" (click)="onChangeState()" class="list-for-menu">Liste pour menu</mat-checkbox>
   <mat-checkbox [(ngModel)]="listSupplement.multipleChoice" class="pl-2 list-for-menu">Choix multiple</mat-checkbox>
   <mat-checkbox [(ngModel)]="listSupplement.isRequired" class="pl-2 list-for-menu">Obligatoire</mat-checkbox>
+  <mat-checkbox [(ngModel)]="listSupplement.sumOfSup" class="pl-2 list-for-menu">Spéciale*</mat-checkbox>
   <mat-form-field *ngIf="listSupplement.multipleChoice" appearance="outline" class="w-100">
     <mat-label>Choix Max.</mat-label>
     <input type="number" (focus)="onFocus()" [(ngModel)]="listSupplement.maxChoice" matInput>
@@ -73,6 +74,9 @@
   </mat-form-field>
 
 
+  <span style="font-size: small" class="d-block font-italic">
+    Liste spéciale: Attention les suppléments payants intégrés dans cette liste seront eux aussi ajoutés au montant total du produit
+  </span>
 </div>
 <div class="modal-footer">
   <div *ngIf="error" style="display: block !important; width: 100%; margin-bottom: .5rem" class="alert alert-danger mt-3 mb-0">{{error}}</div>

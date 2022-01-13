@@ -7,6 +7,7 @@ export class ListSupplements {
   multipleChoice: boolean;
   isAvailable: boolean;
   amount: number;
+  sumOfSup: boolean = false;
   maxChoice: number;
   isForMenu: boolean;
   isRequired: boolean;

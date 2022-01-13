@@ -33,7 +33,8 @@
             *ngFor="let sup of supplementProducts; let index = index "
             [disabled]="!sup.isAvailable"
             [value]="sup">
-            {{sup.name | titlecase}} <em *ngIf="!sup.isAvailable" style="font-size: smaller; font-weight: 200">(indisponible)</em> {{ sup.amount != null && +(sup.amount) > 0 ? (+(sup.amount) / 100).toFixed(2) + '€' : ''}}
+            {{sup.name | titlecase}} <em *ngIf="!sup.isAvailable" style="font-size: smaller; font-weight: 200">(indisponible)</em>
+            {{ sup.amount != null && +(sup.amount) > 0 ? (+(sup.amount) / 100).toFixed(2) + '€' : ''}}
           </mat-list-option>
         </mat-selection-list>
       </mat-expansion-panel>
@@ -78,6 +79,9 @@
         </mat-list-option><!--&& product.listSupplements[1].supplementProducts.length == +list.maxChoice -->
         <input type="hidden" value="{{ listSdf.selectedOptions.selected.length }}" [(ngModel)]="listSeee">
       </mat-selection-list>
+<!--
+     start list Radio Button required 1 choice
+-->
       <mat-radio-group
         style="display: flex;
         flex-direction: column"
@@ -91,7 +95,19 @@
         <mat-radio-button
           *ngFor="let sup of list.supplementProducts;
           let index = index"
-          [value]="sup">{{ sup.name | titlecase }}</mat-radio-button>
+          [value]="sup">
+          <div class="d-flex justify-space-between">
+            <div *ngIf="list.sumOfSup">
+              <span *ngIf="sup.amount != null && +(sup.amount) > 0" class="pr-2 font-weight-bold">
+                +{{ sup.amount != null && +(sup.amount) > 0 ? (+(sup.amount) / 100).toFixed(2) + '€' : ''}}
+              </span>
+            </div>
+            <div>
+              {{ sup.name | titlecase }}
+            </div>
+          </div>
+        </mat-radio-button>
+
       </mat-radio-group>
     </mat-expansion-panel>
     </mat-accordion>

@@ -50,6 +50,9 @@ export class ProductComponent implements OnInit {
     // Check if has role Super Admin
     if (localStorage.getItem('roles')){
       const roles = JSON.parse(localStorage.getItem('roles'));
+      if (roles.indexOf('ROLE_ADMIN') !== -1) {
+        this.hasRoleSuperAdmin = true;
+      }
       if (roles.indexOf('ROLE_SUPER_ADMIN') !== -1) {
         this.hasRoleSuperAdmin = true;
       }
