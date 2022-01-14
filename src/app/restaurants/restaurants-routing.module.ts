@@ -1,11 +1,10 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {RestaurantDetailsComponent} from './restaurant-details/restaurant-details.component';
-import {ShowOrderComponent} from '@app/restaurants/show-order/show-order.component';
-
+import { AuthGuard } from '@app/_helpers/auth.guard';
 
 const routes: Routes = [
-    { path: 'restaurant/:id', component: RestaurantDetailsComponent }
+    { path: 'restaurant/:id', component: RestaurantDetailsComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({

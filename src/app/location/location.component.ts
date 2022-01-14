@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Router} from '@angular/router';
 import {CityDataService} from '@app/city-data.service';
 import {RestaurantDashboardService} from '@app/restaurants/restaurant-dashboard/services/restaurant-dashboard.service';
@@ -12,6 +12,7 @@ import {LocationModalComponent} from '@app/location-modal/location-modal.compone
 })
 export class LocationComponent implements OnInit {
 
+  @Input() isLoginPage = true;
   options: {} = {};
   cityDataCurrent: any;
   selectedAddress: any;

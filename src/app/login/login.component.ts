@@ -133,4 +133,13 @@ export class LoginComponent implements OnInit {
         break;
     }
   }
+
+  onScrollResto(event) {
+    // const el = document.getElementById('app-home-features');
+    setTimeout(() => {
+      const el = document.getElementById('section-resto');
+      el.scrollIntoView({behavior: 'smooth', block: 'end', inline: 'nearest'});
+    }, 100);
+
+  }
 }

@@ -16,15 +16,15 @@ import {SubscriptionComponent} from "@app/subscription/subscription.component";
 
 
 const routes: Routes = [
-    {path: 'home', component: HomeComponent},
-    {path: 'restaurants-city', component: RestaurantsCityComponent},
-    {path: 'login', component: LoginComponent},
+    {path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+    {path: 'restaurants-city', component: RestaurantsCityComponent, canActivate: [AuthGuard] },
+    {path: 'login', component: LoginComponent },
     {path: 'password', component: PasswordComponent},
-    { path: 'admin', component: AdminComponent, canActivate: [AuthGuard]  },
-    { path: 'legacy', component: LegacyComponent  },
-    { path: 'show-order/:orderId/:token', component: ShowOrderComponent },
-    { path: 'category', component: CategoryViewComponent },
-    { path: 'subscription', component: SubscriptionComponent },
+    { path: 'admin', component: AdminComponent, canActivate: [AuthGuard] },
+    { path: 'legacy', component: LegacyComponent },
+    { path: 'show-order/:orderId/:token', component: ShowOrderComponent, canActivate: [AuthGuard] },
+    { path: 'category', component: CategoryViewComponent, canActivate: [AuthGuard] },
+    { path: 'subscription', component: SubscriptionComponent, canActivate: [AuthGuard] },
     { path: '404', component: Page404Component },
     {path: '', redirectTo: '/home', pathMatch: 'full'}
 ];

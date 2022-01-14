@@ -5,7 +5,6 @@ import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {CategoryProduct} from '@app/_models/category-product';
 import {environment} from '../../../../environments/environment';
-import {Restaurant} from '@app/_models/restaurant';
 import {ListSupplements} from "@app/_models/list-supplements";
 import {Supplement} from "@app/_models/supplement";
 import {SpecialOffer} from "@app/_models/special-offer";

@@ -98,17 +98,15 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-
   onToggleSideNav() {
     // lesten subscribe into sideNavToggleSubject
     this.sidenavService.toggle();
   }
 
-
-
   onLogout(){
     this.cartService.emptyCart();
     this.authentication.logout();
+    this.router.navigate(['/login'], { queryParams: { returnUrl: this.router.routerState.snapshot.url} });
   }
 
   goTo() {
