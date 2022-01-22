@@ -4,38 +4,46 @@
     <table class="table table-striped">
       <thead>
       <tr>
-        <th style="font-size: x-small">Référence</th>
+        <!-- <th style="font-size: x-small">Référence</th> -->
         <th style="font-size: x-small">Date</th>
         <th style="font-size: x-small">Heure</th>
-        <th style="font-size: x-small">Montant Total</th>
+        <!-- <th style="font-size: x-small">Montant Total</th> -->
         <th style="font-size: x-small">Part Commerce</th>
-        <th style="font-size: x-small">Part Fastit</th>
-        <th style="font-size: x-small">Montant Total</th>
+        <th style="font-size: x-small">Voir commande</th>
+        <!-- <th style="font-size: x-small">Part Fastit</th> -->
+        <!-- <th style="font-size: x-small">Montant Total</th> -->
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let order of orders " >
-        <td style="font-size: x-small">{{ order.idReference }}</td>
+      <tr *ngFor="let order of orders ">
+        <!-- <td style="font-size: x-small">{{ order.idReference }}</td> -->
         <td style="font-size: x-small">{{ order.payedAt.date | date: "dd/MM/yyyy" }}</td>
         <td style="font-size: x-small">{{ order.payedAt.date | date: "HH:mm:ss" }}</td>
-        <td style="font-size: x-small">{{ (+(order.amount) / 100).toFixed(2) + '€' }}</td>
+        <!-- <td style="font-size: x-small">{{ (+(order.amount) / 100).toFixed(2) + '€' }}</td> -->
         <td>
           <div class="">
-            <span style="font-size: x-small">{{ ((+(order.amount) - +(order.delivery_cost) - (order.stripe) - +(order.margin_fastit * 100))  / 100).toFixed(2) + '€' }}</span>
+            <span style="font-size: x-small">{{ ((+(order.amount) - +(order.delivery_cost) - +(order.margin_fastit * 100))  / 100).toFixed(2) + '€' }}</span>
           </div>
         </td>
-        <td>
+        <!-- <td>
           <div class="">
             <span  style="font-size: x-small">{{ (order.margin_fastit).toFixed(2) + '€' }}</span>
           </div>
-        </td>
-        <td>
+        </td> -->
+        <!-- <td>
           <div class="">
             <span  style="font-size: x-small">{{ ((+(order.amount) - (order.stripeFee * 100))  / 100 ).toFixed(2) + '€' }}</span>
           </div>
-        </td>
+        </td> -->
         <!--<td>{{ ((order.amount/ 100) - ((+(order.amount) / 100) * 0.23)).toFixed(2) + '€' }}</td>
         <td>{{ (((+(order.amount) / 100) * 0.23)).toFixed(2) + '€' }}</td>-->
+        <td>
+          <button style="padding: 0 8px !important" mat-raised-button color="primary" (click)="onShowOrder(order)">
+            <span style="font-size: 10px" *ngIf="!order.isClicked">Voir commande</span>
+          </button>
+          <span *ngIf="order.isClicked" class="loader" style="display: inline-flex; top: -1rem; left: 0rem">
+          </span>
+        </td>
       </tr>
       </tbody>
     </table>
