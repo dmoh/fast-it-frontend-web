@@ -33,20 +33,20 @@
             <!--<button mat-menu-item>
               <a style="text-decoration: none; color: #0a0a0a" routerLink="/subscription">Abonnement</a>
             </button>-->
-            <button *ngIf="user.token"  mat-menu-item>
-              <a style="text-decoration: none; color: #0a0a0a" routerLink="customer/overview">Profil</a>
+            <button *ngIf="user.token" routerLink="customer/overview" mat-menu-item>
+              <a style="text-decoration: none; color: #0a0a0a">Profil</a>
             </button>
-            <button *ngIf="isDeliverer"  mat-menu-item>
-              <a style="text-decoration: none; color: #0a0a0a" routerLink="delivery/overview">Livreur</a>
+            <button *ngIf="isDeliverer" routerLink="delivery/overview" mat-menu-item>
+              <a style="text-decoration: none; color: #0a0a0a">Livreur</a>
             </button>
-            <button *ngIf="isAdmin" mat-menu-item>
-              <a (click)="goTo()">Restaurant</a>
+            <button *ngIf="isAdmin" (click)="goTo()" mat-menu-item>
+              <a style="text-decoration: none; color: #0a0a0a">Restaurant</a>
             </button>
-            <button *ngIf="isArtist || isSuper" mat-menu-item>
-              <a style="text-decoration: none; color: #0a0a0a" routerLink="admin/stats/subscription">Stats Abo.</a>
+            <button *ngIf="isArtist || isSuper" routerLink="admin/stats/subscription" mat-menu-item>
+              <a style="text-decoration: none; color: #0a0a0a">Stats Abo.</a>
             </button>
-            <button *ngIf="isSuper" mat-menu-item>
-              <a style="text-decoration: none; color: #0a0a0a" routerLink="admin/commerce">Dashboard</a>
+            <button *ngIf="isSuper" routerLink="admin/commerce" mat-menu-item>
+              <a style="text-decoration: none; color: #0a0a0a">Dashboard</a>
             </button>
             <button class="m-2" *ngIf="user.token" mat-raised-button color="primary" (click)="onLogout()">
               <span class="material-icons"></span>Se déconnecter
