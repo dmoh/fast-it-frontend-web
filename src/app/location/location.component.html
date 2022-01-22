@@ -1,13 +1,13 @@
 <div style="padding: 12px 16px;">
   <div>
-    <div [class] ="isLoginPage ? '' : 'div-center div-center-container'" style="display: flex; justify-content: space-between">
+    <div [class] ="!isLoginPage ? '' : 'div-center div-center-container'" style="display: flex; justify-content: space-between">
       <div>
-        <div (click)="onChangeLocation()" style="font-weight: 300;
+        <div [class] ="!isLoginPage ? '' : 'text-large-size'" (click)="onChangeLocation()" style="font-weight: 300;
           font-size: smaller;
           line-height: normal;">
-          Livrer maintenant
+          {{!isLoginPage ? 'Livrer maintenant' : 'Adresse de livraison'}} 
         </div>
-        <div [class] ="isLoginPage ? '' : 'div-center'" (click)="onChangeLocation()" style="cursor: pointer; display:flex;justify-content: flex-start">
+        <div [class] ="!isLoginPage ? '' : 'div-center'" (click)="onChangeLocation()" style="cursor: pointer; display:flex;justify-content: flex-start">
           <div style="padding-right: 5px" *ngIf="cityDataCurrent && cityDataCurrent.city">{{cityDataCurrent.city | titlecase }}</div>
           <div style="padding-right: 5px" *ngIf="!cityDataCurrent.city">Sélectionnez la ville</div>
           <div class="">
@@ -15,7 +15,7 @@
           </div>
         </div>
       </div>
-      <div *ngIf="isLoginPage">
+      <div *ngIf="!isLoginPage">
         <button class="cursor-pointer" (click)="onChangeLocation()" style="width: 35px;height: 35px;" mat-mini-fab color="primary" aria-label="Example icon button with a home icon">
           <mat-icon style="color: white !important; font-size: medium">search</mat-icon>
         </button>

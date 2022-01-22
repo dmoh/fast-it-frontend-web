@@ -12,7 +12,7 @@ import {LocationModalComponent} from '@app/location-modal/location-modal.compone
 })
 export class LocationComponent implements OnInit {
 
-  @Input() isLoginPage = true;
+  @Input() isLoginPage = false;
   options: {} = {};
   cityDataCurrent: any;
   selectedAddress: any;
