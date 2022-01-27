@@ -110,6 +110,7 @@ export class OverviewComponent implements OnInit {
             });
           });
         this.restaurantService.getOrdersDatas(restId).subscribe((res) => {
+          console.log("res", res);
           this.orders = RestaurantDashboardComponent.extractRestaurantData('order', res);
           this.restaurantService.getOpinionByBusinessId(restId)
             .subscribe((re) => {

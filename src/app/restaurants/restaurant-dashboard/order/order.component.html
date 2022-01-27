@@ -22,7 +22,8 @@
         <!-- <td style="font-size: x-small">{{ (+(order.amount) / 100).toFixed(2) + '€' }}</td> -->
         <td>
           <div class="">
-            <span style="font-size: x-small">{{ ((+(order.amount) - +(order.delivery_cost) - +(order.margin_fastit * 100))  / 100).toFixed(2) + '€' }}</span>
+            <!-- <span style="font-size: x-small">{{ ((+(order.amount) - +(order.delivery_cost) - +(order.margin_fastit * 100))  / 100).toFixed(2) + '€' }}</span> --> 
+            <span style="font-size: x-small">{{ ( ( +(order.amount / 100) - +(order.delivery_cost / 100) - +(order.stripeFee / 100) * 100 ) / (order.business.margin_fastit + 1 ) ).toFixed(2) + '€' }}</span>
           </div>
         </td>
         <!-- <td>
