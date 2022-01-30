@@ -83,6 +83,62 @@ export class UserComponent implements OnInit, AfterViewInit {
     {
       value: '12/2021',
       label: '12/2021'
+    },
+    {
+      value: '01/2022',
+      label: '01/2022'
+    },
+    {
+      value: '02/2022',
+      label: '02/2022'
+    },
+    {
+      value: '03/2022',
+      label: '03/2022'
+    },
+    {
+      value: '04/2022',
+      label: '04/2022'
+    }
+    ,
+    {
+      value: '05/2022',
+      label: '05/2022'
+    }
+    ,
+    {
+      value: '06/2022',
+      label: '06/2022'
+    }
+    ,
+    {
+      value: '07/2022',
+      label: '07/2022'
+    }
+    ,
+    {
+      value: '08/2022',
+      label: '08/2022'
+    }
+    ,
+    {
+      value: '09/2022',
+      label: '09/2022'
+    }
+    ,
+    {
+      value: '10/2022',
+      label: '10/2022'
+    }
+    ,
+    {
+      value: '11/2022',
+      label: '11/2022'
+    }
+    ,
+    {
+      value: '12/2022',
+      label: '12/2022'
     }
 
   ];
