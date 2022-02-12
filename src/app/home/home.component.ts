@@ -34,17 +34,27 @@ export class HomeComponent implements OnInit, OnDestroy {
     },
     {
       image: 'https://mediafastitprod.s3.eu-west-3.amazonaws.com/PHOTO-2021-03-16-10-38-38.jpg'
-    },*/
+    },
     {
       image: 'https://mediafastitprod.s3.eu-west-3.amazonaws.com/image+1-2.png'
     },
     {
       image: 'https://mediafastitprod.s3.eu-west-3.amazonaws.com/image+2.png'
-    }/*,
+    },
     {
       image: 'https://mediafastitprod.s3.eu-west-3.amazonaws.com/PHOTO-2021-03-14-21-59-12+(1).jpg'
     },*/
+    {
+      image: 'https://mediafastitprod.s3.eu-west-3.amazonaws.com/header-fastit-1.jpeg'
+    },
+    {
+      image: 'https://mediafastitprod.s3.eu-west-3.amazonaws.com/header-fastit-2.jpeg'
+    },
+    {
+      image: 'https://mediafastitprod.s3.eu-west-3.amazonaws.com/header-fastit-3.jpeg'
+    }
   ];
+  
   restaurants: any[];
   restaurantsLeft: any[];
   restaurantsLeftNewest: any[];

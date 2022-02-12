@@ -5,8 +5,9 @@
 <section class="d-none d-md-block d-lg-block section-header">
   <div style="padding: 1rem" class="container-fluid">
     <div class="row">
-      <div style="align-self: center"  class="col-md-6">
-        <div style="color: white;  line-height: 1;  font-size: xx-large;  font-family: 'Roboto', sans-serif;">Les points Forts de Fast-it</div>
+      <div style="align-self: center" class="col-md-6">
+        <div style="color: white;  line-height: 1;  font-size: xx-large;  font-family: 'Roboto', sans-serif;">Les points
+          Forts de Fast-it</div>
         <!--<div style="color: white; line-height: 1.5; font-size: 30px; font-family: 'Roboto', sans-serif;">En exclusivité Fast-it!</div>-->
         <div style="color: white;font-size: 16px;font-family: 'Roboto', sans-serif;line-height: 1.5;">
           Cliquez, Commandez, Savourez!
@@ -16,43 +17,28 @@
         </div>
       </div>
       <div class="col-md-6">
-<!--
+      <!--
         <img height="230px" width="460px" src="https://mediafastitprod.s3.eu-west-3.amazonaws.com/PHOTO-2021-03-16-10-38-38.jpg" alt="">
 
         <img style="cursor: pointer; box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.46); border: 1px solid #fff;" (click)="onShowInstruction()" height="230px" width="460px" src="https://mediafastitprod.s3.eu-west-3.amazonaws.com/concours_ps5.jpg" alt="concours ps5">
         <img style="cursor: pointer; box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.46); border: 1px solid #fff;" (click)="onShowInstruction()" height="230px" width="460px" src="assets/TheChill_coffee_v1.jpg" alt="concours ps5">
--->
         <img style="cursor: pointer; box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.46); border: 1px solid #fff;" (click)="onShowInstruction()" class="img-header-top" src="https://mediafastitprod.s3.eu-west-3.amazonaws.com/image+1-2.png" alt="concours ps5">
+      -->
+        <img style="cursor: pointer; box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.46); border: 1px solid #fff;"
+          (click)="onShowInstruction()" class="img-header-top"
+          src="https://mediafastitprod.s3.eu-west-3.amazonaws.com/header-fastit-2.jpeg" alt="entete">
+        
       </div>
     </div>
   </div>
 </section>
 <div class="d-block d-md-none d-lg-none d-xl-none" [style.height]="slideHeight">
-  <mat-carousel
-    (click)="onShowInstruction()"
-    timings="250ms ease-in"
-    [autoplay]="true"
-    interval="5000"
-    color="accent"
-    maxWidth="auto"
-    proportion="25"
-    slides="2"
-    [maintainAspectRatio]="maintainAspectRatio"
-    [slideHeight]="slideHeight"
-    [loop]="true"
-    [hideArrows]="true"
-    [hideIndicators]="false"
-    [useKeyboard]="true"
-    [useMouseWheel]="false"
-    orientation="ltr"
-  >
-    <mat-carousel-slide
-      #matCarouselSlide
-      *ngFor="let slide of slides; let i = index"
-      [image]="slide.image"
-      overlayColor="#00000040"
-      [hideOverlay]="true"
-    ></mat-carousel-slide>
+  <mat-carousel (click)="onShowInstruction()" timings="250ms ease-in" [autoplay]="true" interval="4000" color="accent"
+    maxWidth="auto" proportion="25" [slides]="slides.length" [maintainAspectRatio]="maintainAspectRatio" [slideHeight]="slideHeight"
+    [loop]="true" [hideArrows]="true" [hideIndicators]="false" [useKeyboard]="true" [useMouseWheel]="false"
+    orientation="ltr">
+    <mat-carousel-slide #matCarouselSlide *ngFor="let slide of slides; let i = index" [image]="slide.image"
+      overlayColor="#00000040" [hideOverlay]="true"></mat-carousel-slide>
   </mat-carousel>
 </div>
 <!--End Carousel-->
@@ -383,6 +369,3 @@
 </div>-->
 <app-home-features [renewYourPart]="eventsSubject.asObservable()" id="app-home-features"></app-home-features>
 <app-footer></app-footer>
-
-
-
