@@ -201,7 +201,7 @@ export class ProductComponent implements OnInit {
           formData.append('product', JSON.stringify(result));
           if (result.photo) {
             formData.append('photo', result.photo);
-            delete result.photo;
+           // delete result.photo;
           }
           this.uploadService.upload(formData, 0, true)
             .subscribe((resp) => {
