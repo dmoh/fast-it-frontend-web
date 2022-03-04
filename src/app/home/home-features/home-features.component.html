@@ -1,8 +1,8 @@
 <app-shimmer-view *ngIf="!restaurants"></app-shimmer-view>
 <section id="section-resto" class="d-block container-fluid">
-  <h2 style="font-size: 1.5rem" class="text-left">Quelles  <span style="color: #d800ff">envies</span>, aujourd'hui ?</h2>
+  <h2 style="font-size: 1.5rem; margin-bottom: 0 !important; margin-top: .5rem !important;" class="text-center">Quelles  <span style="color: #d800ff">envies</span>, aujourd'hui ?</h2>
   <div *ngIf="restaurants" class="text-left">
-    <p class="text-left" *ngIf="onlyAreaRestaurants">
+    <p class="text-center" style="margin-bottom: 0 !important; margin-top: 0 !important;" *ngIf="onlyAreaRestaurants">
       <mat-slide-toggle (change)="onShowAllRestaurants()">Voir tous les restaurants</mat-slide-toggle>
     </p>
     <p>
@@ -20,7 +20,7 @@
     </p>
   </div>
 
-  <div style="margin-top: 3rem" *ngIf="restaurants" class="row">
+  <div style="margin-top: 0" *ngIf="restaurants" class="row">
     <div
       *ngFor="let restaurant of restaurants"
       (click)="goToRestaurantBy(restaurant.id)"

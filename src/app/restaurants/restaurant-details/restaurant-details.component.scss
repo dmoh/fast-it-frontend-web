@@ -38,16 +38,13 @@
 
 }
 .wrapper-menu {
-  margin-top: .5rem;
+  margin-top: 0.5rem;
   padding: 0.4rem;
-  background: #ffffff;
-  transition: all 0.5s ease-in-out;
-  border: 1px solid #E2E2E2;
+  transition: all .5s ease-in-out;
+  border: 1px solid #e2e2e27d;
+  width: 100% !important;
   cursor: pointer;
-  /*height: 130px;*/
-  width: 100%;
-  box-shadow: -3px 6px 18px rgb(169 169 169 / 6%);
-
+  box-shadow: 0px -4px 20px hsl(0deg 0% 66% / 2%);
   &:hover {
     box-shadow: 0 22px 24px 0 rgba(200, 35, 241, 0.09);
     border: 2px solid #ab3de4;
