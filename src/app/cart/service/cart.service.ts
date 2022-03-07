@@ -199,9 +199,7 @@ export class CartService {
     this.cartCurrent.amountWithoutSpecialOffer += this.isFreeShippingCost() ? 0 : +(this.cartCurrent.deliveryCost);
 
     if (isCheckout) {
-      alert(this.cartCurrent.totalAmountProduct);
       const fastItFee = this.getFastItFee( this.cartCurrent?.promotionalCode?.totalAmountProduct ?? this.cartCurrent.totalAmountProduct);
-      alert(fastItFee)
       this.cartCurrent.stripeFee = (this.cartCurrent.total - (this.cartCurrent.total * 0.986)) + 0.35 + 2.50 - fastItFee;
       const fee = (this.cartCurrent.stripeFee).toFixed(2);
       this.cartCurrent.total += parseFloat(fee);
