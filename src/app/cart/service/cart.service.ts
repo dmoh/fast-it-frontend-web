@@ -335,7 +335,7 @@ export class CartService {
   getFastItFee(totalCount: number) {
     if (totalCount < 7) {
       return 0;
-    } else if (totalCount >= 7) {
+    } else if (totalCount >= 7 && totalCount < 10) {
       return 0.50;
     } else if (totalCount >= 10 && totalCount < 15) {
       return 1.00;
