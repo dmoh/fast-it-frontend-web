@@ -341,9 +341,9 @@ export class CartService {
       return 1.00;
     } else if (totalCount >= 15 && totalCount < 20) {
       return 1.50;
-    } else if (totalCount == 20) {
+    } else if (totalCount >= 20 && totalCount < 25) {
       return 2.00;
-    } else if (totalCount > 20) {
+    } else if (totalCount > 25) {
       return 2.50;
     }
   }
