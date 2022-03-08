@@ -273,12 +273,12 @@
   </div>
   <div class="row" style="margin-bottom: 0">
     <hr>
-    <div style="display: flex" class="col-md-6 mb-2">
-      <div style="flex: 1;align-self: center;">
+    <div style="display: flex" class="col-md-6 mt-2 mb-2">
+      <div style="flex: 1;align-self: flex-start;">
         Frais de service
-        <p *ngIf="cartCurrent.totalAmountProduct < 10" class="small-size"><em>(+ frais petite commande)</em></p>
+        <p *ngIf="cartCurrent.totalAmountProduct < 10" class="small-size"><em>(+ frais de petite commande)</em></p>
       </div>
-      <div style="align-self: center;" *ngIf="cartCurrent.stripeFee"> {{ cartCurrent.stripeFee.toFixed(2) }}€</div>
+      <div style="align-self: flex-start;" *ngIf="cartCurrent.stripeFee"> {{ cartCurrent.stripeFee.toFixed(2) }}€</div>
     </div>
   </div>
   <div *ngIf="cartCurrent.tipDelivererAmount" class="row">
@@ -316,7 +316,7 @@
   <div class="row">
     <div class="col-md-6">
     </div>
-    <div style="display: flex;align-items: center" class="col-md-6">
+    <div style="display: flex;align-items: flex-start" class="col-md-6">
       <div style="flex: 1">
         Distance
         <p style="font-size: x-small; margin-bottom: 0"><em>(depuis votre position jusqu'au commerce)</em></p>
@@ -327,7 +327,7 @@
             <mat-spinner diameter="20"></mat-spinner>
           </div>
         </div>
-        <div style="align-self: center; font-size: medium" *ngIf="responseDistanceGoogle && responseDistanceGoogle.distance">
+        <div style="align-self: flex-start; font-size: medium" *ngIf="responseDistanceGoogle && responseDistanceGoogle.distance">
           {{ distanceText }}
         </div>
       </div>
@@ -347,7 +347,7 @@
         <p style="font-size: x-small; font-weight: lighter; margin-bottom: 0"><em>(entièrement reversé au livreur)</em></p>
       </div>
       <div>
-        <div *ngIf="showLoaderCost == true">
+        <div style="align-self: center" *ngIf="showLoaderCost == true">
           <div style="font-size: small">
             <mat-spinner diameter="20"></mat-spinner>
           </div>
@@ -373,7 +373,7 @@
     </div>
   </div>
   <hr style="margin-top: 0; padding-top: 0">
-  <div class="row" style="align-items: center">
+  <div class="row" style="align-items: flex-start">
     <hr>
     <div style="display: flex" class="col-md-6">
       <div style="flex: 1; font-weight: bold; font-size: x-large">TOTAL</div>
