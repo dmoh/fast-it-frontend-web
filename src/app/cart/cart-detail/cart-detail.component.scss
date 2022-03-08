@@ -204,3 +204,8 @@ input[id$="-number"].ui-inputtext:enabled:hover:not(.ui-state-error){
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+.small-size {
+  font-size: x-small !important; 
+  margin-bottom: 0 !important;
+}

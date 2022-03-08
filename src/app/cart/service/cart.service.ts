@@ -40,7 +40,7 @@ export class CartService {
       // this.router.navigate(['/login']);
     }
     if (this.authenticate.tokenUserCurrent) {
-      this.headers.append(`Authorization: Bearer {this.authenticate.tokenUserCurrent}`);
+      this.headers.append(`Authorization: Bearer ${this.authenticate.tokenUserCurrent}`);
     }
 
     this.authenticate.currentUser
@@ -230,7 +230,7 @@ export class CartService {
     delivery: number,
     stripe?: number,
     currencyCart: string = 'EUR'): Observable<any> {
-    return this.http.post<any>(`{this.urlApi}payment/token-payment`,
+    return this.http.post<any>(`${this.urlApi}payment/token-payment`,
       {
         amount: amountCart,
         currency: currencyCart,
@@ -248,7 +248,7 @@ export class CartService {
     stripe?: number,
     currencyCart: string = 'EUR'): Observable<any> {
 
-    return this.http.post<any>(`{this.urlApi}payment/token-payment`,
+    return this.http.post<any>(`${this.urlApi}payment/token-payment`,
       {
         amount: amountCart,
         currency: currencyCart,
@@ -266,22 +266,22 @@ export class CartService {
 
   // saveOrder()
   saveOrder(cartOrder: {}): Observable<any> {
-    return this.http.post<any>(`{this.urlApi}order/save`,
+    return this.http.post<any>(`${this.urlApi}order/save`,
       JSON.stringify(cartOrder), this.headers);
   }
 
   getCostDelivery(dataDistance: any): Observable<any> {
-    return this.http.post<any>(`{this.urlApi}delivery/cost`,
+    return this.http.post<any>(`${this.urlApi}delivery/cost`,
       JSON.stringify(dataDistance), this.headers);
   }
   saveCodeCustomerToDeliver(responseCustomer): Observable<any> {
-    return this.http.post<any>(`{this.urlApi}order/save/delivery-code`,
+    return this.http.post<any>(`${this.urlApi}order/save/delivery-code`,
       responseCustomer, this.headers);
   }
 
 
   getStateRestaurant(restaurantId: number): Observable<any> {
-    return this.http.get<any>(`{this.urlApi}business/state/{restaurantId}`, this.headers);
+    return this.http.get<any>(`${this.urlApi}business/state/{restaurantId}`, this.headers);
   }
 
   getProducts() {
