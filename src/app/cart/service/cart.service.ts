@@ -40,7 +40,7 @@ export class CartService {
       // this.router.navigate(['/login']);
     }
     if (this.authenticate.tokenUserCurrent) {
-      this.headers.append(`Authorization: Bearer ${this.authenticate.tokenUserCurrent}`);
+      this.headers.append(`Authorization: Bearer {this.authenticate.tokenUserCurrent}`);
     }
 
     this.authenticate.currentUser
@@ -199,7 +199,7 @@ export class CartService {
     this.cartCurrent.amountWithoutSpecialOffer += this.isFreeShippingCost() ? 0 : +(this.cartCurrent.deliveryCost);
 
     if (isCheckout) {
-      const fastItFee = this.getFastItFee( this.cartCurrent?.promotionalCode?.totalAmountProduct ?? this.cartCurrent.totalAmountProduct);
+      const fastItFee = this.getFastItFee(this.cartCurrent?.promotionalCode?.totalAmountProduct ?? this.cartCurrent.totalAmountProduct);
       this.cartCurrent.stripeFee = (this.cartCurrent.total - (this.cartCurrent.total * 0.986)) + 0.35 + 2.50 - fastItFee;
       const fee = (this.cartCurrent.stripeFee).toFixed(2);
       this.cartCurrent.total += parseFloat(fee);
@@ -230,7 +230,7 @@ export class CartService {
     delivery: number,
     stripe?: number,
     currencyCart: string = 'EUR'): Observable<any> {
-    return this.http.post<any>(`${this.urlApi}payment/token-payment`,
+    return this.http.post<any>(`{this.urlApi}payment/token-payment`,
       {
         amount: amountCart,
         currency: currencyCart,
@@ -248,7 +248,7 @@ export class CartService {
     stripe?: number,
     currencyCart: string = 'EUR'): Observable<any> {
 
-    return this.http.post<any>(`${this.urlApi}payment/token-payment`,
+    return this.http.post<any>(`{this.urlApi}payment/token-payment`,
       {
         amount: amountCart,
         currency: currencyCart,
@@ -266,22 +266,22 @@ export class CartService {
 
   // saveOrder()
   saveOrder(cartOrder: {}): Observable<any> {
-    return this.http.post<any>(`${this.urlApi}order/save`,
+    return this.http.post<any>(`{this.urlApi}order/save`,
       JSON.stringify(cartOrder), this.headers);
   }
 
   getCostDelivery(dataDistance: any): Observable<any> {
-    return this.http.post<any>(`${this.urlApi}delivery/cost`,
+    return this.http.post<any>(`{this.urlApi}delivery/cost`,
       JSON.stringify(dataDistance), this.headers);
   }
   saveCodeCustomerToDeliver(responseCustomer): Observable<any> {
-    return this.http.post<any>(`${this.urlApi}order/save/delivery-code`,
+    return this.http.post<any>(`{this.urlApi}order/save/delivery-code`,
       responseCustomer, this.headers);
   }
 
 
   getStateRestaurant(restaurantId: number): Observable<any> {
-    return this.http.get<any>(`${this.urlApi}business/state/${restaurantId}`, this.headers);
+    return this.http.get<any>(`{this.urlApi}business/state/{restaurantId}`, this.headers);
   }
 
   getProducts() {
@@ -333,16 +333,19 @@ export class CartService {
   }
 
   getFastItFee(totalCount: number) {
-    if (totalCount <= 7) {
+    if (totalCount < 7) {
+      return 0;
+    } else if (totalCount >= 7) {
       return 0.50;
-    } else if (totalCount <= 10) {
+    } else if (totalCount >= 10 && totalCount < 15) {
       return 1.00;
-    } else if (totalCount <= 15) {
+    } else if (totalCount >= 15 && totalCount < 20) {
       return 1.50;
-    } else if (totalCount <= 20) {
+    } else if (totalCount == 20) {
       return 2.00;
     } else if (totalCount > 20) {
       return 2.50;
     }
   }
+
 }
