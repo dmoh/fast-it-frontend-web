@@ -276,4 +276,11 @@
     font-size: x-small;
     padding-top: 0rem;
   }
+
+}
+
+.background-logo {
+  z-index: 1;
+  background-size: cover !important;
+  background-attachment: fixed !important;
 }
