@@ -12,9 +12,9 @@
   background: #d564f1d1;
   width: 40%;
   border-radius: 5px;
-  margin-bottom: .3rem;
-
+  margin-bottom: 0.3rem;
 }
+
 .content {
   padding: 1rem;
 }
@@ -49,7 +49,7 @@
 }
 
 .wrapper-img-left {
-  position:relative;
+  position: relative;
   > img {
     position: absolute;
     width: 100%;
@@ -59,7 +59,7 @@
 }
 
 .zoom {
-  transition: transform .2s;
+  transition: transform 0.2s;
   &:hover {
     transform: scale(1.2);
   }
@@ -91,8 +91,8 @@ p {
   font-size: 25px;
   font-style: italic;
   font-weight: bold;
-  margin-bottom: .4rem;
-  font-family: 'Raleway', sans-serif;
+  margin-bottom: 0.4rem;
+  font-family: "Raleway", sans-serif;
 }
 
 .img-wrapper {
@@ -103,7 +103,7 @@ p {
   position: absolute;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,.5);
+  background: rgba(0, 0, 0, 0.5);
 }
 
 .img-baker {
@@ -111,16 +111,14 @@ p {
   height: auto;
 }
 .separator {
-
-  margin-top: .1rem;
+  margin-top: 0.1rem;
   width: 43px;
   background: #da2be2;
   margin-bottom: 1rem;
   height: 4px;
 
-
   &:after {
-    content: '';
+    content: "";
     height: 3px;
     width: 40px;
     background: #ccc;
@@ -130,7 +128,7 @@ p {
   font-size: 2.2rem;
 }
 .reduce-padding {
-  padding: .4rem !important;
+  padding: 0.4rem !important;
 }
 
 ::ng-deep .mat-focused .mat-form-field-label {
@@ -145,7 +143,7 @@ p {
 
 ::ng-deep.mat-form-field-ripple {
   /*change color of underline when focused*/
-  background-color: #ad2bec !important;;
+  background-color: #ad2bec !important;
 }
 
 .ul-carousel {
@@ -162,26 +160,29 @@ p {
 }
 
 .carousel-custom::-webkit-scrollbar {
-    display: none;
-  }
+  display: none;
+}
 
-  /* Hide scrollbar for IE, Edge and Firefox */
-.carousel-custom, #category-wrapper {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+/* Hide scrollbar for IE, Edge and Firefox */
+.carousel-custom,
+#category-wrapper {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 .mat-fab .mat-button-wrapper {
-   padding: 0 0 !important;
+  padding: 0 0 !important;
   display: inline-block;
 }
 
 .category-solo {
-  width: 170px; height: 170px;
+  width: 170px;
+  height: 170px;
 }
 .padding-category {
   cursor: pointer;
-  padding-top: .5rem;
-  padding-left: 32px; padding-right: 32px;
+  padding-top: 0.5rem;
+  padding-left: 32px;
+  padding-right: 32px;
   transition: all 1s ease;
   background: inherit;
   &:hover {
@@ -192,11 +193,31 @@ p {
 
 .section-header {
   width: 100%;
-  padding: 14px 40px;
-  /* background: #7e3a9c;
+
+  /* 
+   background: #7e3a9c;
    background: #a56829;
-   background: #d840ff;*/
-  background: #bb22e2;
+   background: #d840ff;
+   background: #bb22e2;
+  */
+
+  display: block;
+  background: url(/assets/spencer-davis-vJsj-hgOEG0-unsplash.jpg) no-repeat top left;
+  background-size: cover;
+  background-attachment: fixed;
+  left: 0;
+  right: 0;
+}
+
+.header-background {
+  z-index: 2;
+  background: rgba(200, 35, 241, 0.9) !important;
+  background-size: cover;
+  padding: 14px 40px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 .img-header-top {
@@ -204,7 +225,7 @@ p {
   width: 460px;
 }
 
-#category-wrapper::-webkit-scrollbar  {
+#category-wrapper::-webkit-scrollbar {
   display: none;
 }
 @media (max-width: 768px) {
@@ -213,7 +234,8 @@ p {
     margin-bottom: 1rem;
   }
   .category-solo {
-    width: 100px; height: 100px;
+    width: 100px;
+    height: 100px;
     margin: 0 auto;
   }
   .padding-category {
@@ -235,13 +257,9 @@ p {
   }
 }
 
-
 @media (min-width: 767px) and (max-width: 991px) {
   .img-header-top {
     height: auto;
     width: 100%;
   }
 }
-
-
-
